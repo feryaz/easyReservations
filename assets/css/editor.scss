@@ -1,0 +1,15 @@
+.easyreservations-block-list {
+  width: 100%;
+  padding: 0 0 16px;
+  text-align: left;
+
+  .easyreservations-block-list-element {
+    margin: 16px 0;
+    padding: 16px 0 0;
+    border-top: 1px solid #e2e4e7;
+
+    .components-base-control + .components-base-control {
+      margin-bottom: 0;
+    }
+  }
+}
