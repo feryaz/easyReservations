@@ -511,7 +511,7 @@ function er_form_generate_checkout_field( $line, $form_hash, $order = false ) {
 function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash, $reservation = false ) {
     $tag               = shortcode_parse_atts( $line );
     $value             = isset( $tag['value'] ) ? $tag['value'] : '';
-    $title             = isset( $tag['title'] ) ? $tag['title'] : '';
+    $title             = isset( $tag['title'] ) ? esc_attr( $tag['title'] ) : '';
     $custom_attributes = array();
 
     if ( isset( $tag['disabled'] ) ) {
@@ -567,7 +567,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
             $custom_attributes .= isset( $tag["min"] ) ? ' data-min="' . esc_attr( $tag["min"] ) . '"' : '';
             $custom_attributes .= isset( $tag["max"] ) ? ' data-max="' . esc_attr( $tag["max"] ) . '"' : '';
 
-            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'arrival" type="text" data-target="' . esc_attr( $input_id_prefix ) . 'departure" name="arrival" value="' . $value . '" class="er-datepicker" ' . $custom_attributes . ' title="' . $title . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
+            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'arrival" type="text" data-target="' . esc_attr( $input_id_prefix ) . 'departure" name="arrival" value="' . esc_attr( $value ) . '" class="er-datepicker" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
             break;
 
         case "departure":
@@ -586,7 +586,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
             $custom_attributes .= isset( $tag["days"] ) ? ' data-days="' . esc_attr( $tag["days"] ) . '"' : '';
             $custom_attributes .= isset( $tag["min"] ) ? ' data-min="' . esc_attr( $tag["min"] ) . '"' : '';
             $custom_attributes .= isset( $tag["max"] ) ? ' data-max="' . esc_attr( $tag["max"] ) . '"' : '';
-            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'departure" type="text" name="departure" value="' . $value . '" ' . $custom_attributes . ' title="' . $title . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
+            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'departure" type="text" name="departure" value="' . esc_attr( $value ) . '" class="er-datepicker" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
             break;
 
         case "arrival-time":
@@ -611,7 +611,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
             break;
 
@@ -634,7 +634,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
 
             break;
@@ -655,7 +655,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'id'          => $tag[0],
                 'type'        => 'select',
                 'title'       => $title,
-                'class'       => 'together validate',
+                'class'       => 'together validate default-disabled',
                 'options'     => er_form_number_options( "00", 59, isset( $tag["increment"] ) ? $tag["increment"] : 1 ),
                 'value'       => $value ? $value : isset( $_POST[$tag[0]] ) ? sanitize_key( $_POST[$tag[0]] ) : '',
                 'attributes'  => $custom_attributes,
@@ -683,7 +683,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
 
             if ( isset( $tag['interval'] ) ) {
@@ -712,7 +712,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
             break;
 
@@ -734,7 +734,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
             break;
 
@@ -807,7 +807,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
                 'attributes'  => $custom_attributes,
                 'css'         => isset( $tag['style'] ) ? $tag['style'] : '',
                 'placeholder' => isset( $tag['placeholder'] ) ? $tag['placeholder'] : '',
-                'class'       => 'validate'
+                'class'       => 'validate default-disabled'
             );
             break;
 

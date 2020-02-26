@@ -4,7 +4,7 @@ Tags: booking, reservations, hotel, reservation form, calendar, reservation, res
 Requires at least: 4.9
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 6.0-alpha.4
+Stable tag: 5.0.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -53,6 +53,12 @@ Automatic updates should work smoothly and does not delete any data, but we stil
 If you encounter issues with the catalog/category pages after an update, flush the permalinks by going to WordPress > Settings > Permalinks and hitting “Save.” That should return things to normal.
 
 == Changelog ==
+
+= 6.0-alpha.5 - 2020-02-26 =
+* Fix - Departure field in form and shortcode has no datepicker
+* Fix - AIT Themes removing all select fields in forms
+* Fix - Cannot delete global availability filters
+* Fix - Edit reservation cannot not set children to 0
 
 = 6.0-alpha.4 - 2020-02-23 =
 * Fix - Adding new reservation as admin

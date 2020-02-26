@@ -21,7 +21,7 @@ class ER_Custom_Select extends ER_Custom_Options {
         $input = '<select ';
         $input .= 'id="er-custom-' . esc_attr( $id ) . '" ';
         $input .= 'name="er-custom-' . esc_attr( $id ) . '" ';
-        $input .= 'class="' . esc_attr( $class ) . '" ';
+        $input .= 'class="' . esc_attr( $class ) . ' default-disabled" ';
         $input .= '>';
 
         if ( isset( $field['options'] ) ) {

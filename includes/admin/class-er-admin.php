@@ -338,7 +338,7 @@ class ER_Admin {
             wp_enqueue_style( 'er-admin-style' );
         }
 
-        if( $screen_id === 'edit-easy_reservation' ){
+        if( $screen_id === 'edit-easy_reservation' ){/*
             wp_register_script( 'er-overview', ER()->plugin_url() . '/assets/js/admin/er-overview' . $suffix . '.js', array( 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-overview',
@@ -350,9 +350,9 @@ class ER_Admin {
                     'default_cells' => 45,
                     'default_interval' => 86400,
                 )
-            );
+            );*/
 
-            wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui', 'er-overview' ), RESERVATIONS_VERSION );
+            //wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui', 'er-overview' ), RESERVATIONS_VERSION );
             wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-reservations',

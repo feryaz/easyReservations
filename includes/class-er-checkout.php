@@ -67,7 +67,6 @@ class ER_Checkout extends ER_Form {
             return $fieldset ? $this->fields[$fieldset] : $this->fields;
         }
 
-        // Fields are based on billing/shipping country. Grab those values but ensure they are valid for the store before using.
         $country           = $this->get_value( 'country' );
         $country           = empty( $country ) ? er_get_default_country() : $country;
         $allowed_countries = ER()->countries->get_countries();
