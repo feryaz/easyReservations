@@ -55,10 +55,10 @@ If you encounter issues with the catalog/category pages after an update, flush t
 == Changelog ==
 
 = 6.0-alpha.5 - 2020-02-26 =
-* Fix - Departure field in form and shortcode has no datepicker
+* Fix - Departure field in form and search shortcode has no datepicker
 * Fix - AIT Themes removing all select fields in forms
 * Fix - Cannot delete global availability filters
-* Fix - Edit reservation cannot not set children to 0
+* Fix - Edit reservation cannot set children to 0
 
 = 6.0-alpha.4 - 2020-02-23 =
 * Fix - Adding new reservation as admin

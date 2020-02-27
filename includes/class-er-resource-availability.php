@@ -41,7 +41,7 @@ class ER_Resource_Availability {
 
         $this->date_pattern = er_date_format();
         if ( $this->interval < 3601 ) {
-            $this->date_pattern = er_date_format() . ' H:00';
+            $this->date_pattern .= ' H:00';
         }
 
         $block_before = get_option( 'reservations_block_before', 0 ) * 60;
@@ -424,7 +424,7 @@ class ER_Resource_Availability {
                     if ( !$started ) {
                         $string  .= $date->format( $this->date_pattern ) . ' -';
                         $started = true;
-                    } elseif ( !isset( $error[$key + 1] ) || $error[$key + 1] !== er_date_add_seconds( $date, $this->interval ) ) {
+                    } elseif ( !isset( $error[$key + 1] ) || $error[$key + 1]->getTimestamp() !== er_date_add_seconds( $date, $this->interval )->getTimestamp() ) {
                         $string  .= ' ' . $date->format( $this->date_pattern ) . ', ';
                         $started = false;
                     }
@@ -526,20 +526,15 @@ class ER_Resource_Availability {
                 );
             }
             $case         = $wpdb->prepare(
-                "Case When DATE({$this->departure}) = DATE(%s) %s AND HOUR({$this->departure}) <= %s Then 0 Else 1 End",
+                "Case When DATE({$this->departure}) = DATE(%s) {$departure_query} AND HOUR({$this->departure}) <= %s THEN 0 ELSE 1 END",
                 $date_to_check,
-                $departure_query,
                 $this->arrival_possible_until
             );
             $case_happens = $wpdb->prepare(
-                "Case When DATE({$this->departure}) = DATE(%s) %s AND DATE({$this->departure}) != DATE({$this->arrival}) %s THEN 1 " .
-                "When DATE({$this->arrival}) = DATE(%s) %s AND DATE({$this->departure}) != DATE({$this->arrival}) %s THEN 1 ELSE 0 END",
+                "Case When DATE({$this->departure}) = DATE(%s) {$departure_query} AND DATE({$this->departure}) != DATE({$this->arrival}) {$hour_query} THEN 1 " .
+                "When DATE({$this->arrival}) = DATE(%s) {$arrival_query} AND DATE({$this->departure}) != DATE({$this->arrival}) {$hour_query} THEN 1 ELSE 0 END",
                 $date_to_check,
-                $departure_query,
-                $hour_query,
-                $date_to_check,
-                $arrival_query,
-                $hour_query
+                $date_to_check
             );
             $case_shorts  = $wpdb->prepare(
                 "DATE({$this->departure}) = DATE({$this->arrival}) AND TIMESTAMPDIFF(SECOND, {$this->arrival}, {$this->departure}) < %d ",
@@ -547,14 +542,8 @@ class ER_Resource_Availability {
             );
 
             $count = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT sum(%s) as count, sum(%s) as happens, sum(%s) as shorts " .
-                    "FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s",
-                    $case,
-                    $case_happens,
-                    $case_shorts,
-                    $query
-                ),
+                "SELECT sum(Case When 1=1 THEN 1 ELSE 0 END) as das, sum({$case}) as count, sum({$case_happens}) as happens, sum({$case_shorts}) as shorts " .
+                "FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} {$query}",
                 ARRAY_A
             );
 

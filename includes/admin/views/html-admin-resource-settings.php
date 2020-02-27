@@ -130,7 +130,7 @@ $time_options = er_form_time_options();
         ),
         array(
             'title'    => __( 'Availability per', 'easyReservations' ),
-            'desc_tip' => '<b>Per object</b><br>The quantity defines how often the resource can get reserved at the same time regardless of the amount of persons. Each space can have a label.<br><br><b>Per person/adult/children</b><br>The quantity defines how many persons/adults/children can reserve at the same time regardless of the amount of reservations. The resource will be summarized in one row in the overview',
+            'desc_tip' => '<b>Per object</b><br>The quantity defines how often the resource can get reserved at the same time regardless of the amount of persons. Each space can have a label.<br><br><b>Per person/adult/children</b><br>The quantity defines how many persons/adults/children can reserve at the same time regardless of the amount of reservations. The resource will be summarized in one row in the timeline',
             'id'       => 'availability_by',
             'type'     => 'select',
             'class' => 'er-enhanced-select',

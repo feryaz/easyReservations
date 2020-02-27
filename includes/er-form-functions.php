@@ -567,7 +567,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
             $custom_attributes .= isset( $tag["min"] ) ? ' data-min="' . esc_attr( $tag["min"] ) . '"' : '';
             $custom_attributes .= isset( $tag["max"] ) ? ' data-max="' . esc_attr( $tag["max"] ) . '"' : '';
 
-            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'arrival" type="text" data-target="' . esc_attr( $input_id_prefix ) . 'departure" name="arrival" value="' . esc_attr( $value ) . '" class="er-datepicker" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
+            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'arrival" type="text" data-target="' . esc_attr( $input_id_prefix ) . 'departure" name="arrival" value="' . esc_attr( $value ) . '" class="er-datepicker validate validate-required" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
             break;
 
         case "departure":
@@ -586,7 +586,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
             $custom_attributes .= isset( $tag["days"] ) ? ' data-days="' . esc_attr( $tag["days"] ) . '"' : '';
             $custom_attributes .= isset( $tag["min"] ) ? ' data-min="' . esc_attr( $tag["min"] ) . '"' : '';
             $custom_attributes .= isset( $tag["max"] ) ? ' data-max="' . esc_attr( $tag["max"] ) . '"' : '';
-            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'departure" type="text" name="departure" value="' . esc_attr( $value ) . '" class="er-datepicker" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
+            return '<span class="input-wrapper"><input id="' . esc_attr( $input_id_prefix ) . 'departure" type="text" name="departure" value="' . esc_attr( $value ) . '" class="er-datepicker validate" ' . $custom_attributes . ' title="' . esc_attr( $title ) . '" autocomplete="off"><span class="input-box clickable"><span class="dashicons dashicons-calendar-alt"></span></span></span>';
             break;
 
         case "arrival-time":

@@ -30,7 +30,7 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
         add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
         add_filter( 'views_edit-easy_reservation', array( $this, 'views' ), 10, 2 );
 
-        add_action( 'all_admin_notices', array( $this, 'output_overview' ) );
+        add_action( 'all_admin_notices', array( $this, 'output_timeline' ) );
         add_action( 'admin_notices', array( $this, 'bulk_admin_notices' ) );
         add_action( 'admin_footer', array( $this, 'reservation_preview_template' ) );
         add_action( 'parse_query', array( $this, 'search_custom_fields' ) );
@@ -38,8 +38,8 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
         remove_action( 'admin_notices', array( 'WP_Privacy_Policy_Content', 'notice' ) );
     }
 
-    public function output_overview() {
-        include "html-overview.php";
+    public function output_timeline() {
+        include "html-timeline.php";
     }
 
     /**

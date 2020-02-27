@@ -338,22 +338,21 @@ class ER_Admin {
             wp_enqueue_style( 'er-admin-style' );
         }
 
-        if( $screen_id === 'edit-easy_reservation' ){/*
-            wp_register_script( 'er-overview', ER()->plugin_url() . '/assets/js/admin/er-overview' . $suffix . '.js', array( 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
+        if( $screen_id === 'edit-easy_reservation' ){
+            wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
             wp_localize_script(
-                'er-overview',
-                'er_overview_params',
+                'er-timeline',
+                'er_timeline_params',
                 array(
                     'ajax_url' => admin_url( 'admin-ajax.php' ),
-                    'nonce'    => wp_create_nonce( 'easyreservations-overview' ),
+                    'nonce'    => wp_create_nonce( 'easyreservations-timeline' ),
                     'resources' => er_list_pluck( ER()->resources()->get(), 'get_data' ),
                     'default_cells' => 45,
                     'default_interval' => 86400,
                 )
-            );*/
+            );
 
-            //wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui', 'er-overview' ), RESERVATIONS_VERSION );
-            wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui' ), RESERVATIONS_VERSION );
+            wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui', 'er-timeline' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-reservations',
                 'er_reservations_params',

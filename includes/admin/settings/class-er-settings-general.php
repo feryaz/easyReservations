@@ -78,7 +78,7 @@ class ER_Settings_General extends ER_Settings_Page {
                 array(
                     'title' => __( 'General options', 'easyReservations' ),
                     'type'  => 'title',
-                    'desc'  => 'This is an alpha version. Please report any problems you may encounter. <a href="http://easyreservations.org/easyreservations-6-0-alpha/" target="_blank">Read more</a>',
+                    'desc'  => 'This is an alpha version. Please report any problems you may encounter. <a href="http://easyreservations.org/easyreservations-6-0-alpha/" target="_blank">Read more and download premium</a>.',
                     'id'    => 'general_options',
                 ),
 

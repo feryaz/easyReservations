@@ -3140,9 +3140,9 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 
 /**
-  * Overview
+  * Timeline
   */
-.er-overview-tooltip {
+.er-timeline-tooltip {
   z-index: 999;
   border: 1px solid #000;
   color: #444;
@@ -3154,7 +3154,7 @@ table.er_emails .er-email-settings-table-status .tips {
   display: none;
 }
 
-.er-overview {
+.er-timeline {
   position: relative;
   border: 1px solid #ccd0d4;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
@@ -3170,7 +3170,7 @@ table.er_emails .er-email-settings-table-status .tips {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
 }
-.er-overview > .header {
+.er-timeline div.header {
   height: 32px;
   text-align: center;
   padding: 8px 6px 8px 6px;
@@ -3180,85 +3180,92 @@ table.er_emails .er-email-settings-table-status .tips {
   cursor: pointer;
   vertical-align: middle;
 }
-.er-overview > .header .er-datepicker {
+.er-timeline div.header .er-datepicker {
   z-index: 3;
   position: relative;
   display: none;
 }
-.er-overview .container {
+.er-timeline .container {
   display: flex;
 }
-.er-overview .container .labels {
+.er-timeline .container .resources {
   height: 100%;
   word-wrap: break-word;
   white-space: nowrap;
 }
-.er-overview .container .labels ul {
+.er-timeline .container .resources table {
   margin: 0;
+  border-spacing: 0;
 }
-.er-overview .container .labels ul li {
-  padding: 4px 6px 4px 15px;
+.er-timeline .container .resources table thead th {
+  height: 36px;
+  padding: 4px;
+  border-bottom: 1px solid #e4e8f1;
 }
-.er-overview .container .labels ul:last-of-type li:last-of-type {
-  border-bottom: 0;
-}
-.er-overview .container .labels .resource, .er-overview .container .labels li {
+.er-timeline .container .resources table tbody td {
+  padding: 3px 6px 3px 15px;
   font-size: 12px;
   border-bottom: 1px solid #e4e8f1;
-  height: 20px;
+  height: 21px;
   margin: 0;
 }
-.er-overview .container .labels .resource {
+.er-timeline .container .resources table tbody td.resource {
   padding: 1px 5px;
+  height: 20px;
 }
-.er-overview .container .labels .resource a {
+.er-timeline .container .resources table tbody td.resource a {
   font-size: 12px;
   text-decoration: none;
 }
-.er-overview .container .overview {
+.er-timeline .container .resources table tbody tr:last-of-type td {
+  border-bottom: 0;
+}
+.er-timeline .container .overview {
   position: relative;
   overflow: hidden;
 }
-.er-overview .container .overview .prev,
-.er-overview .container .overview .next {
+.er-timeline .container .overview .prev,
+.er-timeline .container .overview .next {
+  z-index: 3;
   display: block;
   font-family: "Dashicons";
   position: absolute;
   top: 0;
   font-size: 18px;
-  height: 38px;
+  height: 44px;
   width: 30px;
-  z-index: 2;
   cursor: pointer;
   color: #999;
 }
-.er-overview .container .overview .prev:hover,
-.er-overview .container .overview .next:hover {
+.er-timeline .container .overview .prev:hover,
+.er-timeline .container .overview .next:hover {
   color: #6d6d6d;
 }
-.er-overview .container .overview .prev:active,
-.er-overview .container .overview .next:active {
+.er-timeline .container .overview .prev:active,
+.er-timeline .container .overview .next:active {
   color: #444444;
 }
-.er-overview .container .overview .prev {
-  background: linear-gradient(90deg, white 10%, rgba(255, 255, 255, 0.09) 100%);
+.er-timeline .container .overview .prev {
+  background: linear-gradient(90deg, white 20%, transparent 100%);
 }
-.er-overview .container .overview .prev:after {
+.er-timeline .container .overview .prev:after {
   display: block;
-  margin-top: 8px;
+  margin-top: 12px;
+  margin-left: -6px;
   content: "";
 }
-.er-overview .container .overview .next {
+.er-timeline .container .overview .next {
   text-align: right;
   right: 0;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.09) 10%, white 100%);
+  background: linear-gradient(270deg, white 20%, transparent 100%);
 }
-.er-overview .container .overview .next:after {
+.er-timeline .container .overview .next:after {
   display: block;
-  margin-top: 8px;
+  margin-top: 12px;
+  margin-left: 14px;
   content: "";
 }
-.er-overview .container .shadow {
+.er-timeline .container .shadow {
   box-shadow: inset 2px 1px 4px -2px grey;
   position: absolute;
   top: 45px;
@@ -3266,39 +3273,39 @@ table.er_emails .er-email-settings-table-status .tips {
   height: 100%;
   pointer-events: none;
 }
-.er-overview .container .timeline {
+.er-timeline .container .timeline {
   overflow: hidden;
+  position: relative;
 }
-.er-overview .container .timeline table {
+.er-timeline .container .timeline table {
   box-sizing: border-box;
-  table-layout: fixed;
-  overflow: hidden;
-  width: 100%;
+  border-collapse: collapse;
   border-spacing: 0;
+  table-layout: fixed;
+  width: 100%;
 }
-.er-overview .container .timeline table thead {
+.er-timeline .container .timeline table thead {
   cursor: grab;
 }
-.er-overview .container .timeline table thead th {
+.er-timeline .container .timeline table thead th {
   width: 95px;
-  padding: 4px 0px;
+  padding: 4px 0;
   border-left: 1px solid transparent;
-  border-bottom: 1px solid #e4e8f1;
   font-weight: bold;
   position: relative;
   font-size: 13px;
 }
-.er-overview .container .timeline table thead th .date {
+.er-timeline .container .timeline table thead th .date {
   position: relative;
   pointer-events: none;
   z-index: 2;
 }
-.er-overview .container .timeline table thead th .date span {
+.er-timeline .container .timeline table thead th .date span {
   font-size: 12px;
   font-weight: normal;
 }
-.er-overview .container .timeline table thead th div.first-of-month {
-  z-index: 1;
+.er-timeline .container .timeline table thead th div.first-of-month {
+  z-index: 2;
   left: -1px;
   position: absolute;
   height: 1000px;
@@ -3306,15 +3313,15 @@ table.er_emails .er-email-settings-table-status .tips {
   top: -20px;
   pointer-events: none;
 }
-.er-overview .container .timeline table thead th div.today {
-  z-index: 1;
+.er-timeline .container .timeline table thead th div.today {
+  z-index: 2;
   position: absolute;
   height: 1000px;
   border-left: 2px dashed #008cff;
   top: -20px;
   pointer-events: none;
 }
-.er-overview .container .timeline table thead th div.overlay {
+.er-timeline .container .timeline table thead th div.overlay {
   z-index: 1;
   position: absolute;
   margin-left: -100000px;
@@ -3325,7 +3332,7 @@ table.er_emails .er-email-settings-table-status .tips {
   top: -20px;
   pointer-events: none;
 }
-.er-overview .container .timeline table thead th.past:after {
+.er-timeline .container .timeline table thead th.past:after {
   z-index: 1;
   content: "";
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
@@ -3340,35 +3347,35 @@ table.er_emails .er-email-settings-table-status .tips {
   position: absolute;
   pointer-events: none;
 }
-.er-overview .container .timeline table tbody tr:last-of-type td {
+.er-timeline .container .timeline table tbody tr:last-of-type td {
   border-bottom: 0;
 }
-.er-overview .container .timeline table tbody tr td {
+.er-timeline .container .timeline table tbody tr td {
   width: 87px;
   padding: 0;
   border-left: 1px solid #e4e8f1;
   border-bottom: 1px solid #e4e8f1;
   position: relative;
 }
-.er-overview .container .timeline table tbody tr td.weekend {
+.er-timeline .container .timeline table tbody tr td.weekend {
   background: #ffffda;
 }
-.er-overview .container .timeline table tbody tr td.unavailable {
+.er-timeline .container .timeline table tbody tr td.unavailable {
   background-color: #fff6f6;
 }
-.er-overview .container .timeline table tbody tr td.current {
+.er-timeline .container .timeline table tbody tr td.current {
   background-color: #f7f8f9;
 }
-.er-overview .container .timeline table tbody tr td .spacer {
+.er-timeline .container .timeline table tbody tr td .spacer {
   pointer-events: none;
 }
-.er-overview .container .timeline table tbody tr td .reservation {
+.er-timeline .container .timeline table tbody tr td .reservation {
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 1;
-  position: absolute;
-  padding: 4px 0;
-  overflow: hidden;
+  padding: 0;
+  margin: 0;
   white-space: nowrap;
   background: #62a7fb;
   border: 1px solid #4a7cbc;
@@ -3377,16 +3384,26 @@ table.er_emails .er-email-settings-table-status .tips {
   font-weight: 400;
   cursor: pointer;
 }
-.er-overview .container .timeline table tbody tr td .reservation span {
+.er-timeline .container .timeline table tbody tr td .reservation .wrapper {
+  flex-grow: 1;
+  width: 100%;
+  display: block;
   padding: 4px;
 }
-.er-overview .container .timeline table tbody tr td .reservation.ui-draggable-dragging {
+.er-timeline .container .timeline table tbody tr td .reservation .wrapper span {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.er-timeline .container .timeline table tbody tr td .reservation.ui-draggable-dragging {
   opacity: 80%;
 }
-.er-overview .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
+.er-timeline .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
   opacity: 80%;
 }
-.er-overview .container .timeline table tbody .header td {
+.er-timeline .container .timeline table tbody tr.resource td {
   z-index: 1;
   text-align: center;
   padding: 1px 5px;
@@ -3396,8 +3413,11 @@ table.er_emails .er-email-settings-table-status .tips {
   border-left: 1px solid transparent;
   color: #888888;
 }
-.er-overview .container .timeline table tbody .header td.unavailable {
+.er-timeline .container .timeline table tbody tr.resource td.unavailable {
   color: #ff9f9e;
+}
+.er-timeline .container .timeline table tbody tr.resource:first-of-type td {
+  border-top: 1px solid #e4e8f1;
 }
 
 /**

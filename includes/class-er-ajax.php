@@ -99,7 +99,7 @@ class ER_AJAX {
             'apply_coupon'                  => true,
             'update_order_review'           => true,
             'remove_coupon'                 => true,
-            'overview_data'                 => false,
+            'timeline_data'                 => false,
             'json_search_order'             => false,
             'mark_order_status'             => false,
             'mark_reservation_status'       => false,
@@ -1564,12 +1564,12 @@ class ER_AJAX {
     }
 
     /**
-     * Data for overview column
+     * Data for timeline column
      */
-    public static function overview_data() {
+    public static function timeline_data() {
         global $wpdb;
 
-        check_ajax_referer( 'easyreservations-overview', 'security' );
+        check_ajax_referer( 'easyreservations-timeline', 'security' );
 
         $start         = new ER_DateTime( sanitize_text_field( $_POST['start'] ) );
         $end           = new ER_DateTime( sanitize_text_field( $_POST['end'] ) );
