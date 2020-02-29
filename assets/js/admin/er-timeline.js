@@ -15,10 +15,10 @@
 		end                     = false,
 		drag_start_position     = false,
 		drag_start_offset       = false,
-		drag_start_time       = false,
 		changed_any_reservation = false,
 		mouse_pos_x             = 0,
 		mouse_pos_y             = 0,
+		snapping_enabled		= true,
 		snap_top                = false,
 		scroll_start            = false,
 		scroll_timeout          = false,
@@ -70,15 +70,16 @@
 
 			if ( last_hover !== e.target ) {
 				last_hover = e.target;
-				if ( e.target.getAttribute( "data-date" ) ) {
+				console.log( last_hover);
+				if ( last_hover.getAttribute( "data-date" ) ) {
 					er_timeline.highlight_current( new Date( parseInt( e.target.getAttribute( "data-date" ), 10 ) ) );
 				}
 
 				//if( e.target.getAttribute( "data-space" ) )console.log($(e.target).data('reservations'));
-				if ( e.target.getAttribute( "data-space" ) ) {
-					snap_top = $( e.target ).offset().top;
-				} else if( e.target.getAttribute( "data-id" ) ) {
-					snap_top = $( e.target ).parent().offset().top;
+				if ( last_hover.getAttribute( "data-space" ) ) {
+					snap_top = $( last_hover ).offset().top;
+				} else if( last_hover.getAttribute( "data-id" ) ) {
+					snap_top = $( last_hover ).parent().offset().top;
 				}
 			}
 		} )
@@ -336,6 +337,7 @@
 
 		recursively_remove_reservations: function ( cell, depths, id ) {
 			var cell_reservations = cell.data( 'reservations' ),
+				new_cell_reservation = [],
 				found_start       = false,
 				max_depths        = 0;
 
@@ -350,15 +352,15 @@
 
 							changed_any_reservation = true;
 							reservations[ reservation_id ].changed = true;
-							cell_reservations.splice( index, 1 );
 						} else {
+							new_cell_reservation.push( reservation_id );
 							max_depths = Math.max( max_depths, reservations[ reservation_id ].depths );
 						}
 					}
 				} );
 			}
 
-			cell.data( 'reservations', cell_reservations );
+			cell.data( 'reservations', new_cell_reservation );
 			cell.height( cell_dimensions.height + cell_dimensions.height * max_depths );
 
 			if ( found_start !== false ) {
@@ -397,18 +399,16 @@
 				if ( cell && cell.length > 0 ) {
 					var cell_reservations = cell.data( 'reservations' );
 
-
 					if ( cell_reservations.length > 0 ) {
 						$.each( cell_reservations, function ( index, reservation_id ) {
 							if ( reservation_id && reservation_id !== id ) {
-								if ( reservations[ reservation_id ].arrival > reservation.arrival && reservations[ reservation_id ].departure > reservation.arrival ) {
-									console.log( 'recursively_remove_reservations ' );
+								if ( reservations[ reservation_id ].arrival > reservation.arrival && reservations[ reservation_id ].arrival < reservation.departure && reservations[ reservation_id ].departure > reservation.arrival ) {
 									er_timeline.recursively_remove_reservations( cell, depths, reservation_id );
-								} else if ( reservations[ reservation_id ].departure <= reservation.arrival ) {
-									console.log( 'could go in ' + reservations[ reservation_id ].depths + ' because of ' + reservation_id );
+								} else if ( reservations[ reservation_id ].departure <= reservation.arrival || reservations[ reservation_id ].arrival >= reservation.departure ) {
+									//console.log( 'could go in ' + reservations[ reservation_id ].depths + ' because of ' + reservation_id );
 								} else {
 									depths_taken[ reservations[ reservation_id ].depths ] = 1;
-									console.log( id + ' cannot go in ' + reservations[ reservation_id ].depths + ' because of ' + reservation_id );
+									//console.log( id + ' cannot go in ' + reservations[ reservation_id ].depths + ' because of ' + reservation_id );
 								}
 							}
 						} );
@@ -440,18 +440,18 @@
 					element
 						.html( '<span class="wrapper"><span>#' + id + ' ' + reservation.title + '</span></span>' )
 						.draggable( {
+							snap: snapping_enabled ? false : 'td.cell,.reservation',
 							snapTolerance: 3,
+							grid: snapping_enabled ? [ 96, 28 ] : false,
 							containment:   tbody,
 							revert:        'invalid',
 							stack:         '.reservation',
 							scope:         'reservations',
-							snap:          'td.cell,.reservation',
-							start:         function ( event, ui ) {
+							start: function ( event, ui ) {
 								drag_start_position = ui.originalPosition;
 								drag_start_offset = ui.offset;
-								drag_start_time = ui.originalPosition.left;
 							},
-							drag:          function ( event, ui ) {
+							drag: function ( event, ui ) {
 								var id          = parseInt( ui.helper.attr( 'data-id' ), 10 ),
 									reservation = reservations[ id ],
 									difference  = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
@@ -470,11 +470,9 @@
 									ui.position.top = snap_top - drag_start_offset.top + drag_start_position.top;
 								}
 
-
 								if( mouse_position < 10 || timeline.width() - mouse_position < 10 ){
 									timeline.scrollLeft( timeline.scrollLeft() + ( mouse_position < 10 ? cell_dimensions.width * -1 : cell_dimensions.width ) );
 									//ui.position.left = ui.position.left + scroll_left - timeline.scrollLeft();
-									drag_start_time += timeline.scrollLeft() - scroll_left;
 
 									if ( scroll_timeout === false ) {
 										//er_timeline.scroll();
@@ -482,68 +480,134 @@
 								}
 								//console.log( new Date( parseInt( ui.helper.attr('data-arrival' ), 10 ) + difference * 1000 ) );
 							},
-							stop:          function () {
+							stop: function () {
 								tooltip.hide();
 							}
 						} )
 						.resizable( {
-							containment: tbody,
-							handles:     'e',
+							handles:     'e, w',
+							grid: 		snapping_enabled ? [96, 28] : false,
 							maxWidth:    cell_dimensions.width * 50,
+							minHeight: 0,
 							minWidth:    4,
 							start:       function ( event, ui ) {
 								var id       = parseInt( ui.originalElement.attr( 'data-id' ), 10 ),
 									original = $( this ),
-									cell     = ui.originalElement.parent();
+									cell     = ui.originalElement.parent(),
+									direction_west = $( last_hover ).hasClass( 'ui-resizable-w' );
 
-								while ( cell.length > 0 ) {
-									var reservations_in_cell = cell.find( '.reservation' );
-									cell = cell.next();
+								if( er_both_params.resources[ reservations[ id ] .resource ].availability_by === 'unit' ){
+									var reservations_in_first_cell = cell.data( 'reservations' ),
+										reservations_in_cell = [],
+										found_reservation;
 
-									if ( reservations_in_cell.length > 0 ) {
-										$.each( reservations_in_cell, function ( _, element ) {
-											var reservation_id = parseInt( $( element ).attr( 'data-id' ) );
+									if ( direction_west && reservations_in_first_cell.length > 0 ) {
+										reservations_in_first_cell.reverse();
+									}
 
-											if ( reservation_id !== id ) {
-												original.resizable( "option", "maxWidth", ( reservations[ reservation_id ].arrival - reservations[ id ].departure ) / ( interval * 1000 ) * cell_dimensions.width + ui.originalSize.width + 1 );
+									$.each( reservations_in_first_cell, function ( _, reservation_id ) {
+										if( found_reservation || reservation_id === id ){
+											found_reservation = true;
+											reservations_in_cell.push( reservation_id );
+										}
+									} );
 
-												cell = { length: 0 };
-												return false;
+									while ( cell.length > 0 ) {
+										if ( reservations_in_cell.length > 0 ) {
+											$.each( reservations_in_cell, function ( _, reservation_id ) {
+												if ( reservation_id !== id ) {
+													if( direction_west ){
+														//original.resizable( "option", "maxWidth", ( reservations[ id ].arrival - reservations[ reservation_id ].departure ) / ( interval * 1000 ) * cell_dimensions.width + ui.originalSize.width );
+													} else {
+														//original.resizable( "option", "maxWidth", ( reservations[ reservation_id ].arrival - reservations[ id ].departure ) / ( interval * 1000 ) * cell_dimensions.width + ui.originalSize.width );
+													}
+
+													cell = { length: 0 };
+													return false;
+												}
+											} );
+										}
+
+										if( cell.length > 0 ){
+											if ( direction_west ) {
+												cell = cell.prev();
+											} else {
+												cell = cell.next();
 											}
-										} );
+
+											reservations_in_cell = cell.data( 'reservations' );
+										}
 									}
 								}
 
-								ui.helper.attr( 'style', 'left: ' + ui.helper.css( 'left' ) );
+								ui.helper.attr( 'style', 'left: ' + ui.helper.css( 'left' ) + ';width: ' + ui.helper.css( 'width' ) );
 							},
 							resize:      function ( event, ui ) {
 								var id          = parseInt( ui.element.attr( 'data-id' ), 10 ),
 									reservation = reservations[ id ],
-									difference  = interval / cell_dimensions.width * ( ui.size.width + 1 );
+									arrival_difference   = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
+									departure_difference = interval / cell_dimensions.width * ( ui.size.width + 2 ),
+									message = '';
+
+								if( ui.position.left - ui.originalPosition.left !== 0 ){
+									message = easyFormatTime( new Date( reservation.arrival + ( arrival_difference * 1000 ) ) );
+								} else if( ui.size.width - ui.originalSize.width !== 0) {
+									message = easyFormatTime( new Date( reservation.arrival + ( departure_difference * 1000 ) ) );
+								} else {
+									message = easyFormatTime( new Date( reservation.arrival + ( arrival_difference * 1000 ) ) );
+									message += ' - ';
+									message += easyFormatTime( new Date( reservation.arrival + ( departure_difference * 1000 ) ) );
+								}
 
 								tooltip
-									.html( easyFormatTime( new Date( reservation.arrival + ( difference * 1000 ) ) ) )
+									.html( message )
 									.css( {
 										'top': mouse_pos_y,
-										'left': Math.min( mouse_pos_x - 130, $( window ).width() )
+										'left': Math.min( mouse_pos_x - 130, timeline.width() )
 									} )
 									.show();
 
 							},
 							stop:        function ( event, ui ) {
 								var id          = parseInt( ui.element.attr( 'data-id' ), 10 ),
-									reservation = reservations[ id ],
-									difference  = interval / cell_dimensions.width * ( ui.size.width + 1 );
+									arrival_difference = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
+									departure_difference  = interval / cell_dimensions.width * ( ui.size.width + 2 ),
+									reservation = {
+										id:        id,
+										arrival:   reservations[ id ].arrival + ( arrival_difference * 1000 ),
+										departure: reservations[ id ].arrival + ( arrival_difference * 1000 ) + ( departure_difference * 1000 ),
+										resource: 	reservations[ id ].resource,
+										space: reservations[ id ].space
+									};
 
-								reservation.departure = reservation.arrival + ( difference * 1000 );
 
-								er_timeline.draw_reservation( reservation );
+								if ( er_both_params.resources[ reservations[ id ].resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
+									er_timeline.recursively_remove_reservation( reservations[ id ] );
+
+									reservations[ id ].arrival = reservation.arrival;
+									reservations[ id ].departure = reservation.departure;
+									reservations[ id ].changed = true;
+
+
+									er_timeline.draw_reservations();
+								} else {
+									ui.originalElement.animate(
+										{
+											width: ui.originalSize.width,
+											left: ui.originalPosition.left
+										},
+										500,
+										function () {
+										}
+									);
+								}
 
 								tooltip.hide();
 							}
 						} )
 						.css( 'min-width', width_px + 'px' )
 						.css( 'max-width', width_px + 'px' )
+						.css( 'top', '0px' )
 						.css( 'position', 'absolute' )
 						.attr( 'data-tip', reservation.id )
 						.attr( 'data-id', reservation.id );
@@ -556,9 +620,9 @@
 
 					if ( depths > 0 ) {
 						if ( did_add.height() < cell_dimensions.height + cell_dimensions.height * depths ) {
-							did_add.height( cell_dimensions.height + cell_dimensions.height * depths );
+							did_add.height( cell_dimensions.height + cell_dimensions.height * depths + 1 );
 						}
-						element.css( 'top', cell_dimensions.height * depths + 'px' );
+						element.css( 'top', (cell_dimensions.height + 1) * depths + 'px' );
 					}
 
 					reservation.depths = depths;
@@ -598,6 +662,8 @@
 				if ( reservation && reservation.resource === to_check.resource && reservation.space === to_check.space && reservation.id !== id && (
 					to_check.arrival < reservation.departure && to_check.departure > reservation.arrival
 				) ) {
+					console.log( 'checkAvailabilty false because of' );
+					console.log( reservation );
 					is_available = false;
 					return false;
 				}
@@ -687,7 +753,7 @@
 				}
 
 				for ( i = 1; i <= ( resource.availability_by === 'unit' ? resource.quantity : 1 ); i++ ) {
-					var cell = $( '<td class="cell" style="height:' + cell_dimensions.height + 'px"></td>' )
+					var cell = $( '<td class="cell"></td>' )
 						.addClass( header_class )
 						.attr( 'data-resource', resource_id )
 						.data( 'reservations', [] )
@@ -706,18 +772,25 @@
 						.droppable( {
 							scope: "reservations",
 							drop:  function ( event, ui ) {
+								var cell = $( this );
+
+								if( last_hover.getAttribute( "data-space" ) ){
+									cell = $( last_hover );
+								}
+
 								var id          = parseInt( ui.draggable.attr( 'data-id' ), 10 ),
 									difference  = interval / cell_dimensions.width * ( ui.position.left - drag_start_position.left ),
 									reservation = {
 										id:        id,
 										arrival:   reservations[ id ].arrival + ( difference * 1000 ),
 										departure: reservations[ id ].departure + ( difference * 1000 ),
-										resource:  parseInt( $( this ).attr( 'data-resource' ), 10 ),
-										space:     parseInt( $( this ).attr( 'data-space' ), 10 )
+										resource:  parseInt( cell.attr( 'data-resource' ), 10 ),
+										space:     parseInt( cell.attr( 'data-space' ), 10 )
 									};
 
 								if ( er_both_params.resources[ reservation.resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
 									er_timeline.recursively_remove_reservation( reservations[ id ] );
+
 									reservations[ id ].arrival = reservation.arrival;
 									reservations[ id ].departure = reservation.departure;
 									reservations[ id ].resource = reservation.resource;
@@ -729,7 +802,10 @@
 									er_timeline.draw_reservations();
 								} else {
 									ui.draggable.animate(
-										drag_start_position,
+										{
+											top:  drag_start_position.top - 1,
+											left: drag_start_position.left
+										},
 										500,
 										function () {
 										}
@@ -739,6 +815,7 @@
 
 							},
 							over:  function ( event, ui ) {
+								console.log( 123 );
 							}
 						} );
 				}

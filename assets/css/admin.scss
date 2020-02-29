@@ -3070,7 +3070,7 @@ table.er_emails {
   -ms-user-select: none; /* Internet Explorer/Edge */
 
   div.header {
-    height: 32px;
+    height: 28px;
     text-align: center;
     padding: 8px 6px 8px 6px;
     line-height: 20px;
@@ -3202,7 +3202,7 @@ table.er_emails {
       position: relative;
 
       table {
-        box-sizing: border-box;
+        box-sizing: content-box;
         border-collapse: collapse;
         border-spacing: 0;
         table-layout: fixed;
@@ -3244,7 +3244,7 @@ table.er_emails {
             }
 
             div.first-of-month {
-              z-index: 2;
+              z-index: 4;
               left:-1px;
               position: absolute;
               height: 1000px;
@@ -3254,7 +3254,7 @@ table.er_emails {
             }
 
             div.today {
-              z-index: 2;
+              z-index: 4;
               position: absolute;
               height: 1000px;
               border-left: 2px dashed #008cff;
@@ -3305,6 +3305,8 @@ table.er_emails {
               border-left: 1px solid #e4e8f1;
               border-bottom: 1px solid #e4e8f1;
               position: relative;
+              min-height: 27px;
+              height: 27px;
 
               &.weekend {
                 background: #ffffda;
@@ -3326,29 +3328,32 @@ table.er_emails {
                 //background-color: #f3f3f3
               }
 
-              .spacer {
-                pointer-events: none;
-              }
-
               .reservation {
+                box-sizing: content-box;
                 position: absolute;
+                display: flex;
+                cursor: pointer;
+                flex-direction: row;
                 top: 0;
                 width: 100%;
                 z-index: 1;
                 padding: 0;
                 margin: 0;
                 white-space: nowrap;
-                background: #62a7fb;
-                border: 1px solid #4a7cbc;
+                background: #63aaff;
+                border-left: 2px solid #5692db;
+                border-top: 1px solid #63aaff;
                 color: #fff;
                 font-size: 12px;
                 font-weight: 400;
-                cursor: pointer;
 
                 .wrapper {
-                  flex-grow: 1;
-                  width: 100%;
                   display: block;
+                  flex-grow: 1;
+                  box-sizing: content-box;
+                  min-width: 0;
+                  pointer-events: none;
+                  width: 100%;
                   padding: 4px;
 
                   span {
@@ -3357,15 +3362,24 @@ table.er_emails {
                     left: 0;
                     right: 0;
                     top: 0;
+
+                    display: inline-block;
+                    vertical-align: top;
+                    max-width: 100%;
+                    box-sizing: border-box;
+                    white-space: nowrap;
+                    overflow: hidden;
                   }
                 }
 
                 &.ui-draggable-dragging {
                   opacity: 80%;
+                  pointer-events: none;
                 }
 
                 &.ui-resizable-resizing {
                   opacity: 80%;
+                  z-index: 2;
                 }
               }
             }
@@ -3378,7 +3392,7 @@ table.er_emails {
                 height: 20px;
                 font-size: 12px;
                 background-color: #fff !important;
-                border-left: 1px solid transparent;
+                border-left: 1px solid #fff;
                 color: #888888;
 
                 &.unavailable {

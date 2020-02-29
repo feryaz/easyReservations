@@ -3171,7 +3171,7 @@ table.er_emails .er-email-settings-table-status .tips {
   /* Internet Explorer/Edge */
 }
 .er-timeline div.header {
-  height: 32px;
+  height: 28px;
   text-align: center;
   padding: 8px 6px 8px 6px;
   line-height: 20px;
@@ -3278,7 +3278,7 @@ table.er_emails .er-email-settings-table-status .tips {
   position: relative;
 }
 .er-timeline .container .timeline table {
-  box-sizing: border-box;
+  box-sizing: content-box;
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
@@ -3305,7 +3305,7 @@ table.er_emails .er-email-settings-table-status .tips {
   font-weight: normal;
 }
 .er-timeline .container .timeline table thead th div.first-of-month {
-  z-index: 2;
+  z-index: 4;
   left: -1px;
   position: absolute;
   height: 1000px;
@@ -3314,7 +3314,7 @@ table.er_emails .er-email-settings-table-status .tips {
   pointer-events: none;
 }
 .er-timeline .container .timeline table thead th div.today {
-  z-index: 2;
+  z-index: 4;
   position: absolute;
   height: 1000px;
   border-left: 2px dashed #008cff;
@@ -3356,6 +3356,8 @@ table.er_emails .er-email-settings-table-status .tips {
   border-left: 1px solid #e4e8f1;
   border-bottom: 1px solid #e4e8f1;
   position: relative;
+  min-height: 27px;
+  height: 27px;
 }
 .er-timeline .container .timeline table tbody tr td.weekend {
   background: #ffffda;
@@ -3366,28 +3368,32 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline table tbody tr td.current {
   background-color: #f7f8f9;
 }
-.er-timeline .container .timeline table tbody tr td .spacer {
-  pointer-events: none;
-}
 .er-timeline .container .timeline table tbody tr td .reservation {
+  box-sizing: content-box;
   position: absolute;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
   top: 0;
   width: 100%;
   z-index: 1;
   padding: 0;
   margin: 0;
   white-space: nowrap;
-  background: #62a7fb;
-  border: 1px solid #4a7cbc;
+  background: #63aaff;
+  border-left: 2px solid #5692db;
+  border-top: 1px solid #63aaff;
   color: #fff;
   font-size: 12px;
   font-weight: 400;
-  cursor: pointer;
 }
 .er-timeline .container .timeline table tbody tr td .reservation .wrapper {
-  flex-grow: 1;
-  width: 100%;
   display: block;
+  flex-grow: 1;
+  box-sizing: content-box;
+  min-width: 0;
+  pointer-events: none;
+  width: 100%;
   padding: 4px;
 }
 .er-timeline .container .timeline table tbody tr td .reservation .wrapper span {
@@ -3396,12 +3402,20 @@ table.er_emails .er-email-settings-table-status .tips {
   left: 0;
   right: 0;
   top: 0;
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .er-timeline .container .timeline table tbody tr td .reservation.ui-draggable-dragging {
   opacity: 80%;
+  pointer-events: none;
 }
 .er-timeline .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
   opacity: 80%;
+  z-index: 2;
 }
 .er-timeline .container .timeline table tbody tr.resource td {
   z-index: 1;
@@ -3410,7 +3424,7 @@ table.er_emails .er-email-settings-table-status .tips {
   height: 20px;
   font-size: 12px;
   background-color: #fff !important;
-  border-left: 1px solid transparent;
+  border-left: 1px solid #fff;
   color: #888888;
 }
 .er-timeline .container .timeline table tbody tr.resource td.unavailable {

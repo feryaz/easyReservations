@@ -240,6 +240,7 @@
   font-size: 13px;
   padding: 4px 0 !important;
   border-bottom: 1px solid #ccd0d4;
+  background: #fff;
 }
 .easy-datepicker td {
   border: 0;
@@ -410,7 +411,8 @@
 }
 
 .ui-resizable-helper {
-  border: 2px dotted #00F;
+  background: #62a7fb;
+  opacity: 80%;
   z-index: 1000 !important;
 }
 
