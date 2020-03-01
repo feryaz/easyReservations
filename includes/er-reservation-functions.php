@@ -102,8 +102,7 @@ function er_reservation_parse_tag( $tag, $reservation ) {
             break;
         case 'name':
         case 'thename':
-            //return $reservation->get_name( ); prevent loop for now TODO
-            return '';
+            return $reservation->get_name( );
             break;
         case 'resource':
         case 'rooms':

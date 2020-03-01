@@ -66,7 +66,7 @@ class ER_Form_Handler {
                     $reservation = ER()->reservation_manager()->get( absint( $cart_item ) );
 
                     if ( $reservation ) {
-                        $name = $reservation->get_title();
+                        $name = $reservation->get_name();
                     }
                 } elseif ( isset( $cart_item['name'] ) ) {
                     $name = sanitize_text_field( $cart_item['name'] );
