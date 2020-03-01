@@ -3285,7 +3285,7 @@ table.er_emails .er-email-settings-table-status .tips {
   flex-direction: row;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 3;
   padding: 0;
   margin: 0;
   white-space: nowrap;
@@ -3320,6 +3320,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .container .timeline .reservation.ui-draggable-dragging {
   opacity: 80%;
+  z-index: 3;
   pointer-events: none;
 }
 .er-timeline .container .timeline .reservation.ui-resizable-resizing {
@@ -3340,9 +3341,10 @@ table.er_emails .er-email-settings-table-status .tips {
   width: 95px;
   padding: 4px 0;
   border-left: 1px solid transparent;
-  font-weight: bold;
+  border-bottom: 0;
   position: relative;
   font-size: 13px;
+  font-weight: bold;
 }
 .er-timeline .container .timeline table thead th .date {
   position: relative;
@@ -3417,20 +3419,34 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline table tbody tr td.current {
   background-color: #f7f8f9;
 }
+.er-timeline .container .timeline table tbody tr td .reservation {
+  z-index: 1;
+}
+.er-timeline .container .timeline table tbody tr td .reservation.ui-draggable-dragging {
+  z-index: 1;
+}
 .er-timeline .container .timeline table tbody tr.resource td {
+  box-sizing: content-box;
+  width: 88px;
   z-index: 1;
   text-align: center;
-  padding: 1px 5px;
+  padding: 0;
+  height: 20px;
+  background-color: #fff !important;
+  border: 0;
+}
+.er-timeline .container .timeline table tbody tr.resource td div {
+  color: #888888;
+  line-height: 18px;
   height: 20px;
   font-size: 12px;
-  background-color: #fff !important;
-  border-left: 1px solid #fff;
-  color: #888888;
+  padding: 1px 5px;
+  border-bottom: 1px solid #e4e8f1;
 }
 .er-timeline .container .timeline table tbody tr.resource td.unavailable {
   color: #ff9f9e;
 }
-.er-timeline .container .timeline table tbody tr.resource:first-of-type td {
+.er-timeline .container .timeline table tbody tr.resource:first-of-type td div {
   border-top: 1px solid #e4e8f1;
 }
 

@@ -3094,7 +3094,6 @@ table.er_emails {
       word-wrap: break-word;
       white-space: nowrap;
 
-
       table {
         margin: 0;
         border-spacing: 0;
@@ -3209,7 +3208,7 @@ table.er_emails {
         flex-direction: row;
         top: 0;
         width: 100%;
-        z-index: 1;
+        z-index: 3;
         padding: 0;
         margin: 0;
         white-space: nowrap;
@@ -3247,6 +3246,7 @@ table.er_emails {
 
         &.ui-draggable-dragging {
           opacity: 80%;
+          z-index: 3;
           pointer-events: none;
         }
 
@@ -3270,9 +3270,10 @@ table.er_emails {
             width: 95px;
             padding: 4px 0;
             border-left: 1px solid transparent;
-            font-weight: bold;
+            border-bottom: 0;
             position: relative;
             font-size: 13px;
+            font-weight: bold;
 
             .date {
               position: relative;
@@ -3382,25 +3383,43 @@ table.er_emails {
               &.loading {
                 //background-color: #f3f3f3
               }
+
+              .reservation {
+                z-index: 1;
+
+                &.ui-draggable-dragging {
+                  z-index: 1;
+                }
+              }
+
             }
 
             &.resource {
               td {
+                box-sizing: content-box;
+                width: 88px;
                 z-index: 1;
                 text-align: center;
-                padding: 1px 5px;
+                padding: 0;
                 height: 20px;
-                font-size: 12px;
                 background-color: #fff !important;
-                border-left: 1px solid #fff;
-                color: #888888;
+                border: 0;
+
+                div {
+                  color: #888888;
+                  line-height: 18px;
+                  height: 20px;
+                  font-size: 12px;
+                  padding: 1px 5px;
+                  border-bottom: 1px solid #e4e8f1;
+                }
 
                 &.unavailable {
                   color: #ff9f9e;
                 }
               }
 
-              &:first-of-type td {
+              &:first-of-type td div {
                 border-top: 1px solid #e4e8f1;
               }
             }

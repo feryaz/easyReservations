@@ -134,12 +134,12 @@
 			er_timeline.set_current_date( today );
 
 			table.find( 'td,th' ).remove();
-			date.setTime( date.getTime() - ( 10 * interval * 1000 ) );
+			date.setTime( er_timeline.manipulate_date_without_offset( start, ( 10 * interval * 1000 ) * -1 ) );
 			last_query_end = date.getTime();
 			last_query_start = date.getTime();
 
 			for ( i = 0; i < 50; i++ ) {
-				end = new Date( date.getTime() + ( i * interval * 1000 ) );
+				end = er_timeline.manipulate_date_without_offset( date, i * interval * 1000 );
 				er_timeline.generate_column( end );
 			}
 
@@ -150,6 +150,15 @@
 			);
 
 			//er_timeline.slide_current();
+		},
+
+		remove_offset: function( date ){
+			return new Date( date.getTime() - date.getTimezoneOffset() * 1000 * 60 );
+		},
+
+		manipulate_date_without_offset: function( date, amount ){
+			var new_date = new Date( date.getTime() + amount );
+			return new Date( new_date.getTime() + new_date.getTimezoneOffset() * 1000 * 60 - date.getTimezoneOffset() * 1000 * 60 );
 		},
 
 		slide_current: function ( one_less ) {
@@ -186,15 +195,16 @@
 
 		add_new_column: function ( at_start ) {
 			if ( at_start ) {
-				start.setTime( start.getTime() - ( interval * 1000 ) );
+				start = er_timeline.manipulate_date_without_offset( start, interval * 1000 * -1 );
 				er_timeline.generate_column( start, true );
 				er_timeline.set_current_date( start );
 
 				table.find( 'th:last-child,td:last-child' ).remove();
 				last_query_end -= ( interval * 1000 );
-				end.setTime( end.getTime() - ( interval * 1000 ) );
+				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 * -1 );
 			} else {
-				end.setTime( end.getTime() + ( interval * 1000 ) );
+				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
+
 				er_timeline.generate_column( end );
 				er_timeline.set_current_date( end );
 
@@ -212,7 +222,8 @@
 					} )
 					.remove();
 				last_query_start += ( interval * 1000 );
-				start.setTime( start.getTime() + ( interval * 1000 ) );
+
+				start = er_timeline.manipulate_date_without_offset( start, interval * 1000 );
 			}
 		},
 
@@ -314,8 +325,8 @@
 
 		recursively_remove_reservation: function ( reservation ) {
 			var id   = parseInt( reservation.id, 10 ),
-				date = new Date( reservation.arrival ),
-				end  = new Date( reservation.departure );
+				date = new Date( reservation.arrival.getTime() ),
+				end  = new Date( reservation.departure.getTime() );
 
 			if ( interval === "86400" ) {
 				date.setHours( 0, 0, 0 );
@@ -327,10 +338,12 @@
 
 			while ( date <= end ) {
 				var cell = $( 'td[data-date="' + ( date.getTime() ) + '"][data-resource="' + reservation.resource + '"][data-space="' + reservation.space + '"]' );
+
 				if ( cell.length > 0 ) {
 					er_timeline.recursively_remove_reservations( cell, reservation.depths, id );
 				}
-				date.setTime( date.getTime() + ( interval * 1000 ) );
+
+				date = er_timeline.manipulate_date_without_offset( date, interval * 1000 );
 			}
 
 			return false;
@@ -373,10 +386,10 @@
 
 		draw_reservation: function ( reservation ) {
 			var id           = parseInt( reservation.id, 10 ),
-				date         = new Date( reservation.arrival ),
-				end          = new Date( reservation.departure ),
+				date         = new Date( reservation.arrival.getTime() ),
+				end          = new Date( reservation.departure.getTime() ),
 				element      = $( '<div class="reservation">' ),
-				width        = ( reservation.departure - reservation.arrival ),
+				width        = ( reservation.departure.getTime() - reservation.arrival.getTime() ), //TODO remove offset?
 				width_px     = ( ( ( width / 1000 ) / interval ) * cell_dimensions.width ) - ( interval === "86400" ? 2 : 1 ),
 				did_add      = false,
 				depths_taken = [],
@@ -417,7 +430,7 @@
 
 					if ( did_add === false ) {
 						//We will append the reservation to the first cell found, we set left but don't know the depths yet
-						element.css( 'left', ( ( ( ( reservation.arrival - date.getTime() ) / 1000 ) / interval ) * cell_dimensions.width ) - 1 + 'px' );
+						element.css( 'left', ( ( ( reservation.arrival.getTime() - date.getTime() ) / 1000 / interval * cell_dimensions.width ) - 1 ) + 'px' );
 
 						did_add = cell;
 					}
@@ -429,7 +442,7 @@
 					}
 				}
 
-				date.setTime( date.getTime() + ( interval * 1000 ) );
+				date = er_timeline.manipulate_date_without_offset( date, interval * 1000 );
 			}
 
 			if ( did_add === false ) {
@@ -486,15 +499,17 @@
 									ui.position.left = drag_start_position.left + ( test * cell_dimensions.width );
 								}
 
-
 								tooltip
-									.html( easyFormatTime( new Date( reservation.arrival + ( difference * 1000 ) ) ) + ' - ' + easyFormatTime( new Date( reservation.departure + ( difference * 1000 ) ) ) )
+									.html(
+										easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, difference * 1000 ) ) +
+										' - ' +
+										easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.departure, difference * 1000 ) )
+									)
 									.css( {
 										'top':  mouse_pos_y,
 										'left': Math.min( mouse_pos_x - 130, timeline.width() )
 									} )
 									.show();
-
 
 								if ( drag_snap_top !== false ) {
 									ui.position.top = drag_snap_top - drag_start_offset.top + drag_start_position.top + 1;
@@ -596,13 +611,13 @@
 									message = '';
 
 								if( ui.position.left - ui.originalPosition.left !== 0 ){
-									message = easyFormatTime( new Date( reservation.arrival + ( arrival_difference * 1000 ) ) );
+									message = easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, arrival_difference * 1000 ) );
 								} else if( ui.size.width - ui.originalSize.width !== 0) {
-									message = easyFormatTime( new Date( reservation.arrival + ( departure_difference * 1000 ) ) );
+									message = easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, departure_difference * 1000 ) );
 								} else {
-									message = easyFormatTime( new Date( reservation.arrival + ( arrival_difference * 1000 ) ) );
+									message = easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, arrival_difference * 1000 ) );
 									message += ' - ';
-									message += easyFormatTime( new Date( reservation.arrival + ( departure_difference * 1000 ) ) );
+									message += easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, departure_difference * 1000 ) );
 								}
 
 								tooltip
@@ -620,8 +635,8 @@
 									departure_difference  = interval / cell_dimensions.width * ( ui.size.width + 2 ),
 									reservation = {
 										id:        id,
-										arrival:   reservations[ id ].arrival + ( arrival_difference * 1000 ),
-										departure: reservations[ id ].arrival + ( arrival_difference * 1000 ) + ( departure_difference * 1000 ),
+										arrival: er_timeline.manipulate_date_without_offset( reservations[ id ].arrival, arrival_difference * 1000 ),
+										departure: er_timeline.manipulate_date_without_offset( reservations[ id ].arrival, ( arrival_difference * 1000 ) + ( departure_difference * 1000 ) ),
 										resource: 	reservations[ id ].resource,
 										space: reservations[ id ].space
 									};
@@ -689,8 +704,8 @@
 			//if ( typeof reservations[ id ] === 'undefined' ) {
 			if ( !$.isNumeric( reservation.arrival ) ) {
 				reservation.id = id;
-				reservation.arrival = new Date( reservation.arrival ).getTime();
-				reservation.departure = new Date( reservation.departure ).getTime();
+				reservation.arrival = new Date( reservation.arrival );
+				reservation.departure = new Date( reservation.departure );
 				reservation.resource = parseInt( reservation.resource, 10 );
 				reservation.space = parseInt( reservation.space, 10 );
 			}
@@ -718,7 +733,7 @@
 			return is_available;
 		},
 
-		generate_column: function ( date, left ) {
+		generate_column: function ( date, at_start ) {
 			var header_main  = '',
 				header_class = '',
 				child        = 1,
@@ -776,11 +791,11 @@
 
 			header_main
 				.addClass( header_class )
-				.attr( 'data-date', date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) + 3600000 );
+				.attr( 'data-date', date.getTime() );
 
 			header_class += ' loading';
 
-			if ( left ) {
+			if ( at_start ) {
 				thead_main.prepend( header_main );
 			} else {
 				thead_main.append( header_main );
@@ -790,9 +805,9 @@
 				var cell_header = $( '<td class="resource"><div style="height:20px;pointer-events:none"></div></td>' )
 					.addClass( header_class )
 					.attr( 'data-resource', resource_id )
-					.attr( 'data-date', date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) + 3600000 );
+					.attr( 'data-date', date.getTime() );
 
-				if ( left ) {
+				if ( at_start ) {
 					tbody.find( 'tr:nth-child(' + child + ')' ).prepend( cell_header );
 				} else {
 					tbody.find( 'tr:nth-child(' + child + ')' ).append( cell_header );
@@ -804,11 +819,11 @@
 						.attr( 'data-resource', resource_id )
 						.data( 'reservations', [] )
 						.attr( 'data-space', i )
-						.attr( 'data-date', date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) + 3600000 );
+						.attr( 'data-date', date.getTime() );
 
 					child++;
 
-					if ( left ) {
+					if ( at_start ) {
 						tbody.find( 'tr:nth-child(' + child + ')' ).prepend( cell );
 					} else {
 						tbody.find( 'tr:nth-child(' + child + ')' ).append( cell );
@@ -824,21 +839,17 @@
 								if( last_hover.getAttribute( "data-space" ) ){
 									cell = $( last_hover );
 								}
-								console.log( ui.helper.position() );
-								console.log( ui.helper.offset() );
-								console.log( ui );
 
 								var id          = parseInt( ui.draggable.attr( 'data-id' ), 10 ),
 									difference  = interval / cell_dimensions.width * ( ui.position.left - drag_start_position.left ),
 									reservation = {
 										id:        id,
-										arrival:   reservations[ id ].arrival + ( difference * 1000 ),
-										departure: reservations[ id ].departure + ( difference * 1000 ),
+										arrival: er_timeline.manipulate_date_without_offset( reservations[ id ].arrival, difference * 1000 ),
+										departure: er_timeline.manipulate_date_without_offset( reservations[ id ].departure, difference * 1000 ),
 										resource:  parseInt( cell.attr( 'data-resource' ), 10 ),
 										space:     parseInt( cell.attr( 'data-space' ), 10 )
 									};
 
-								console.log( new Date( reservation.arrival ) );
 								if ( er_both_params.resources[ reservation.resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
 									er_timeline.recursively_remove_reservation( reservations[ id ] );
 
@@ -863,7 +874,7 @@
 				child++;
 			} );
 
-			if ( left ) {
+			if ( at_start ) {
 				if ( last_query_start === 0 || last_query_start - ( interval * 1000 * 10 ) > date.getTime() ) {
 					er_timeline.load_data( start, new Date( last_query_start ) );
 					last_query_start = date.getTime();
