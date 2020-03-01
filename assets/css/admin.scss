@@ -3201,6 +3201,61 @@ table.er_emails {
       overflow: hidden;
       position: relative;
 
+      .reservation {
+        box-sizing: content-box;
+        position: absolute;
+        display: flex;
+        cursor: pointer;
+        flex-direction: row;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        background: #63aaff;
+        border-left: 2px solid #5088cc;
+        border-top: 1px solid #63aaff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 400;
+
+        .wrapper {
+          display: block;
+          flex-grow: 1;
+          box-sizing: content-box;
+          min-width: 0;
+          pointer-events: none;
+          width: 100%;
+          padding: 4px;
+
+          span {
+            position: -webkit-sticky;
+            position: sticky;
+            left: 0;
+            right: 0;
+            top: 0;
+
+            display: inline-block;
+            vertical-align: top;
+            max-width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+
+        &.ui-draggable-dragging {
+          opacity: 80%;
+          pointer-events: none;
+        }
+
+        &.ui-resizable-resizing {
+          opacity: 80%;
+          z-index: 3;
+        }
+      }
+
       table {
         box-sizing: content-box;
         border-collapse: collapse;
@@ -3326,61 +3381,6 @@ table.er_emails {
 
               &.loading {
                 //background-color: #f3f3f3
-              }
-
-              .reservation {
-                box-sizing: content-box;
-                position: absolute;
-                display: flex;
-                cursor: pointer;
-                flex-direction: row;
-                top: 0;
-                width: 100%;
-                z-index: 1;
-                padding: 0;
-                margin: 0;
-                white-space: nowrap;
-                background: #63aaff;
-                border-left: 2px solid #5692db;
-                border-top: 1px solid #63aaff;
-                color: #fff;
-                font-size: 12px;
-                font-weight: 400;
-
-                .wrapper {
-                  display: block;
-                  flex-grow: 1;
-                  box-sizing: content-box;
-                  min-width: 0;
-                  pointer-events: none;
-                  width: 100%;
-                  padding: 4px;
-
-                  span {
-                    position: -webkit-sticky;
-                    position: sticky;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-
-                    display: inline-block;
-                    vertical-align: top;
-                    max-width: 100%;
-                    box-sizing: border-box;
-                    white-space: nowrap;
-                    overflow: hidden;
-                  }
-                }
-
-                &.ui-draggable-dragging {
-                  opacity: 80%;
-                  pointer-events: none;
-                }
-
-                &.ui-resizable-resizing {
-                  opacity: 80%;
-                  z-index: 2;
-                }
               }
             }
 
