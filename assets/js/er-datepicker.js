@@ -16,9 +16,15 @@ jQuery( function ( $ ) {
 				changeYear: true,
 				showAnim: 'slideDown',
 				beforeShow: function ( _, inst ) {
+					console.log( 13 );
+
 					inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 				},
 			}, default_args );
+
+			if( $( this ).is('div') ){
+				$( this ).removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
+			}
 
 			var data_format = $( this ).data( 'format' );
 			if ( data_format && typeof data_format !== "undefined" ) {

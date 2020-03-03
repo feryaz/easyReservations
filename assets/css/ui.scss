@@ -190,18 +190,17 @@
     white-space: nowrap;
 
     span.input-box {
-      padding: 0 8px;
+      padding: 0 10px;
       line-height: 2;
       display: inline-block;
       font-size: 14px;
       height: auto;
       font-weight: 500;
-      color: #333333;
+      color: $subtext;
       text-align: center;
-      background: #f8f8f8;
+      background: $contentbg;
       border: 1px solid $inputborder;
       border-radius: .25rem;
-      vertical-align: top;
 
       -webkit-user-select: none;
       -moz-user-select: none;

@@ -8,6 +8,22 @@
     transform: rotate(360deg);
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeInFast {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /**
  * easyReservations CSS Variables
  */
@@ -3155,43 +3171,159 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 
 .er-timeline {
-  position: relative;
+  display: flex;
+  align-items: stretch;
   border: 1px solid #ccd0d4;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   background-color: #fff;
   user-select: none;
-  /* supported by Chrome and Opera */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
+  height: 100%;
+}
+.er-timeline .sidebar {
+  transition: width 0.3s linear;
+  overflow: hidden;
+  border-right: 1px solid #ccd0d4;
+}
+.er-timeline .sidebar .easy-datepicker {
+  transition: none;
+  display: block;
+  width: 304px;
+}
+.er-timeline .sidebar .easy-datepicker .ui-datepicker-inline {
+  border: 0;
+  border-bottom: 1px solid #ccd0d4;
+}
+.er-timeline .sidebar .easy-datepicker .ui-datepicker-inline .ui-datepicker-header {
+  background: #fff;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar.expanded {
+  width: 304px;
+}
+.er-timeline .content {
+  transition: width 0.3s linear;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+}
+.er-timeline .sidebar.expanded + .content {
+  width: calc(100% - 305px);
 }
 .er-timeline div.header {
   height: 28px;
-  text-align: center;
-  padding: 8px 6px 8px 6px;
-  line-height: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  vertical-align: middle;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  padding: 8px;
+  align-items: center;
 }
-.er-timeline div.header .er-datepicker {
+.er-timeline div.header button {
+  display: inline-block;
+  text-decoration: none;
+  background: #fff;
+  padding: 0 10px;
+  border: 1px solid #cfcfcf;
+  border-radius: 3px;
+  line-height: 2.15384615;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  outline: 0;
+  cursor: pointer;
+}
+.er-timeline div.header button:hover {
+  background: #f3f5f6;
+}
+.er-timeline div.header button:active {
+  background: #ebedee;
+}
+.er-timeline div.header .left {
+  text-align: right;
+}
+.er-timeline div.header .left .pending::after {
+  cursor: pointer;
+  font-size: 20px;
+  position: relative;
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline div.header .left .expand-sidebar::after {
+  cursor: pointer;
+  font-size: 20px;
+  position: relative;
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline div.header .left .contract-sidebar::after {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  position: relative;
+  transform: scale(-1, 1);
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline div.header .middle {
+  flex-grow: 2;
+  text-align: center;
+}
+.er-timeline div.header .middle span {
+  border: 1px solid #cfcfcf;
+  border-radius: 3px;
+  padding: 5px 10px 6px;
+  font-size: 13px;
+  line-height: 2.15384615;
+  cursor: pointer;
+  color: #666;
+  font-weight: 500;
+}
+.er-timeline div.header .middle input.er-datepicker {
   z-index: 3;
   position: relative;
   display: none;
 }
+.er-timeline div.header .right {
+  text-align: left;
+}
 .er-timeline .container {
   display: flex;
+  /*.shadow {
+    box-shadow: inset 2px 1px 4px -2px grey;
+    position: absolute;
+    z-index: 1;
+    top: 45px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }*/
 }
 .er-timeline .container .resources {
   height: 100%;
   word-wrap: break-word;
   white-space: nowrap;
+  z-index: 2;
 }
 .er-timeline .container .resources table {
   margin: 0;
@@ -3200,32 +3332,44 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .resources table thead th {
   height: 36px;
   padding: 4px;
-  border-bottom: 1px solid #e4e8f1;
 }
 .er-timeline .container .resources table tbody td {
-  padding: 3px 6px 3px 15px;
-  font-size: 12px;
-  border-bottom: 1px solid #e4e8f1;
-  height: 21px;
+  padding: 3px 15px 3px 15px;
+  border-right: 1px solid #ebebeb;
+  height: 28px;
   margin: 0;
+  font-size: 12px;
+  background-color: #fff;
+  font-weight: 600;
+  color: #666;
 }
 .er-timeline .container .resources table tbody td.resource {
   padding: 1px 5px;
   height: 20px;
+  max-width: 0;
+  border-right: 0;
+  background-color: #fff;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
 }
 .er-timeline .container .resources table tbody td.resource a {
+  background: #fff;
+  line-height: 17px;
+  overflow: visible;
   font-size: 12px;
+  width: 100%;
   text-decoration: none;
+  font-weight: 400;
 }
 .er-timeline .container .resources table tbody tr:last-of-type td {
   border-bottom: 0;
 }
-.er-timeline .container .overview {
+.er-timeline .container .timeline-container {
   position: relative;
   overflow: hidden;
 }
-.er-timeline .container .overview .prev,
-.er-timeline .container .overview .next {
+.er-timeline .container .timeline-container .prev,
+.er-timeline .container .timeline-container .next {
   z-index: 3;
   display: block;
   font-family: "Dashicons";
@@ -3237,41 +3381,33 @@ table.er_emails .er-email-settings-table-status .tips {
   cursor: pointer;
   color: #999;
 }
-.er-timeline .container .overview .prev:hover,
-.er-timeline .container .overview .next:hover {
+.er-timeline .container .timeline-container .prev:hover,
+.er-timeline .container .timeline-container .next:hover {
   color: #6d6d6d;
 }
-.er-timeline .container .overview .prev:active,
-.er-timeline .container .overview .next:active {
+.er-timeline .container .timeline-container .prev:active,
+.er-timeline .container .timeline-container .next:active {
   color: #444444;
 }
-.er-timeline .container .overview .prev {
+.er-timeline .container .timeline-container .prev {
   background: linear-gradient(90deg, white 20%, transparent 100%);
 }
-.er-timeline .container .overview .prev:after {
+.er-timeline .container .timeline-container .prev:after {
   display: block;
   margin-top: 12px;
   margin-left: -6px;
   content: "";
 }
-.er-timeline .container .overview .next {
+.er-timeline .container .timeline-container .next {
   text-align: right;
   right: 0;
   background: linear-gradient(270deg, white 20%, transparent 100%);
 }
-.er-timeline .container .overview .next:after {
+.er-timeline .container .timeline-container .next:after {
   display: block;
   margin-top: 12px;
   margin-left: 14px;
   content: "";
-}
-.er-timeline .container .shadow {
-  box-shadow: inset 2px 1px 4px -2px grey;
-  position: absolute;
-  top: 45px;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
 }
 .er-timeline .container .timeline {
   overflow: hidden;
@@ -3339,7 +3475,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .container .timeline table thead th {
   width: 95px;
-  padding: 4px 0;
+  padding: 4px 0px;
   border-left: 1px solid transparent;
   border-bottom: 0;
   position: relative;
@@ -3350,10 +3486,23 @@ table.er_emails .er-email-settings-table-status .tips {
   position: relative;
   pointer-events: none;
   z-index: 2;
+  text-align: center;
 }
 .er-timeline .container .timeline table thead th .date span {
+  transition: background-color 0.1s linear;
+  border-radius: 50%;
+}
+.er-timeline .container .timeline table thead th .date div {
   font-size: 12px;
   font-weight: normal;
+}
+.er-timeline .container .timeline table thead th.weekend {
+  color: #ff7075;
+}
+.er-timeline .container .timeline table thead th.current .date span {
+  border-radius: 50%;
+  padding: 2px 3px;
+  color: #40a0ff;
 }
 .er-timeline .container .timeline table thead th div.first-of-month {
   z-index: 4;
@@ -3376,11 +3525,11 @@ table.er_emails .er-email-settings-table-status .tips {
   z-index: 1;
   position: absolute;
   margin-left: -100000px;
-  height: 1000px;
+  height: 64px;
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
   background-size: 6px 6px;
   opacity: 4%;
-  top: -20px;
+  top: 0;
   pointer-events: none;
 }
 .er-timeline .container .timeline table thead th.past:after {
@@ -3394,7 +3543,7 @@ table.er_emails .er-email-settings-table-status .tips {
   bottom: 0;
   right: 0;
   width: 101%;
-  height: 10000px;
+  height: 100%;
   position: absolute;
   pointer-events: none;
 }
@@ -3404,20 +3553,10 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline table tbody tr td {
   width: 87px;
   padding: 0;
-  border-left: 1px solid #e4e8f1;
-  border-bottom: 1px solid #e4e8f1;
+  border-left: 1px solid #ebebeb;
   position: relative;
-  min-height: 27px;
-  height: 27px;
-}
-.er-timeline .container .timeline table tbody tr td.weekend {
-  background: #ffffda;
-}
-.er-timeline .container .timeline table tbody tr td.unavailable {
-  background-color: #fff6f6;
-}
-.er-timeline .container .timeline table tbody tr td.current {
-  background-color: #f7f8f9;
+  min-height: 34px;
+  height: 34px;
 }
 .er-timeline .container .timeline table tbody tr td .reservation {
   z-index: 1;

@@ -95,7 +95,7 @@
   padding: 11px 10px;
   margin: 0;
   line-height: 24px;
-  border: 1px solid #ccd0d4;
+  border: 1px solid #ebebeb;
   border-right: 0;
   border-left: 0;
 }
@@ -111,7 +111,7 @@
   padding: 8px 15px;
   font-size: 16px;
   font-weight: 600;
-  border-top: 1px solid #ccd0d4;
+  border-top: 1px solid #ebebeb;
 }
 
 .easy-ui-container.inline {
@@ -119,7 +119,7 @@
   box-shadow: none;
 }
 .easy-ui-container.inline > h1 {
-  border-bottom: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .easy-ui {
@@ -168,18 +168,17 @@
   white-space: nowrap;
 }
 .easy-ui span.input-wrapper span.input-box {
-  padding: 0 8px;
+  padding: 0 10px;
   line-height: 2;
   display: inline-block;
   font-size: 14px;
   height: auto;
   font-weight: 500;
-  color: #333333;
+  color: #777;
   text-align: center;
-  background: #f8f8f8;
+  background: #fff;
   border: 1px solid #7e8993;
   border-radius: 0.25rem;
-  vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

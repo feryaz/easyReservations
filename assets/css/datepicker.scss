@@ -41,7 +41,6 @@
   line-height: 16px;
 
   .ui-datepicker-month {
-    font-weight: bold;
     z-index: 4;
   }
 
@@ -85,6 +84,7 @@
   display: inline-block;
   position: relative;
   font: normal normal normal 14px/1;
+  font-size: 20px;
   font-family: 'Dashicons';
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -125,7 +125,7 @@
   .ui-datepicker-title select { font-size:1em; margin:1px 0; }
   select.ui-datepicker-month-year {width: 100%;}
   select.ui-datepicker-month,
-  select.ui-datepicker-year { width: 49%;}
+  select.ui-datepicker-year { width: 66px;}
   table {
     width: 100%;
     font-size: .9em;

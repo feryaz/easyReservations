@@ -36,7 +36,7 @@
 }
 
 .ui-widget-content {
-  border: 1px solid #ccd0d4;
+  border: 1px solid #ebebeb;
   border-top: 3px solid var(--easy-ui-primary);
   background: #fff;
   padding: 0;
@@ -50,15 +50,14 @@
 .ui-widget-header {
   background: #fbfbfb;
   border: 0;
-  border-bottom: 1px solid #ccd0d4;
-  border-top: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
+  border-top: 1px solid #ebebeb;
   border-radius: 0;
   padding: 2px 4px;
   font-weight: normal;
   line-height: 16px;
 }
 .ui-widget-header .ui-datepicker-month {
-  font-weight: bold;
   z-index: 4;
 }
 .ui-widget-header a {
@@ -142,6 +141,7 @@
   display: inline-block;
   position: relative;
   font: normal normal normal 14px/1;
+  font-size: 20px;
   font-family: "Dashicons";
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -221,7 +221,7 @@
 }
 .easy-datepicker select.ui-datepicker-month,
 .easy-datepicker select.ui-datepicker-year {
-  width: 49%;
+  width: 66px;
 }
 .easy-datepicker table {
   width: 100%;
@@ -239,7 +239,7 @@
   text-transform: none;
   font-size: 13px;
   padding: 4px 0 !important;
-  border-bottom: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
   background: #fff;
 }
 .easy-datepicker td {
@@ -247,8 +247,8 @@
   font-size: 14px;
   padding: 0 !important;
   border: 0;
-  border-bottom: 1px solid #ccd0d4;
-  border-right: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
   background: #fff;
   color: #333333;
 }

@@ -2,6 +2,7 @@
 	var tooltip                 = $( '.er-timeline-tooltip' ),
 		timeline_container      = $( '.er-timeline' ),
 		datepicker              = $( '#timeline-datepicker' ),
+		sidebar                	= timeline_container.find( 'div.sidebar' ),
 		timeline                = timeline_container.find( 'div.timeline' ),
 		header                  = timeline_container.find( 'div.header' ),
 		resources               = timeline_container.find( 'div.resources table' ),
@@ -10,6 +11,7 @@
 		thead_main              = timeline.find( 'thead tr' ),
 		tbody                   = table.find( 'tbody' ),
 		reservations            = [], //Reservation data
+		selected                = new Date(), //Current time
 		today                   = new Date(), //Current time
 		start                   = new Date(), //Date of the first column in timeline
 		end                     = false, //Date of the last column in timeline
@@ -23,7 +25,7 @@
 		scroll_drag             = false, //position from which scroll was started in timeline header
 		scroll_action           = false, //js interval that scrolls timeline
 		scroll_add              = false, //js interval that adds new calendar columns based on scroll
-		cell_dimensions         = { height: 27, width: 96 },
+		cell_dimensions         = { height: 34, width: 96 },
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
@@ -31,14 +33,33 @@
 
 	timeline_container.insertAfter( 'hr.wp-header-end' );
 	tooltip.insertAfter( 'hr.wp-header-end' );
+	sidebar.hide();
+	today.setHours(0, 0, 0, 0);
 
-	header.bind( 'click', function () {
-		datepicker.datepicker( 'show' );
-	} );
+	header
+		.on( 'click', '.expand-sidebar', function () {
+			sidebar.addClass('expanded').show();
+			$(this)
+				.removeClass('expand-sidebar')
+				.addClass('contract-sidebar');
+		} )
+		.on( 'click', '.contract-sidebar', function () {
+			sidebar.removeClass( 'expanded' ).hide( 300, 'linear');
+			$(this)
+				.removeClass('contract-sidebar')
+				.addClass('expand-sidebar');
+		} )
+		.on( 'click', '.date', function () {
+			er_sidebar.toggle();
+		} )
+		.on( 'click', '.today', function () {
+			er_timeline.jump_to_date( today );
+		} );
 
-	datepicker.bind( 'change', function () {
-		start = $( this ).datepicker( "getDate" );
-		er_timeline.init();
+	datepicker.bind( 'change', function (e) {
+		console.log(e);
+		console.log( $( this ).val() );
+		er_timeline.jump_to_date( $( this ).datepicker( "getDate" ) );
 	} );
 
 	timeline.find( 'thead' ).on( {
@@ -75,7 +96,7 @@
 					er_timeline.highlight_current( new Date( parseInt( e.target.getAttribute( "data-date" ), 10 ) ) );
 				}
 
-				//if( e.target.getAttribute( "data-space" ) )console.log($(e.target).data('reservations'));
+				//if( e.target.getAttribute( "data-space" ) ) console.log($(e.target).data('reservations'));
 				if ( last_hover.getAttribute( "data-space" ) ) {
 					drag_snap_top = $( last_hover ).offset().top;
 				} else if( last_hover.getAttribute( "data-id" ) ) {
@@ -84,7 +105,6 @@
 			}
 		} )
 		.mouseleave( function () {
-			//er_timeline.slide_current();
 			thead_main.css( 'cursor', 'grab' );
 			clearInterval( scroll_action );
 			scroll_action = false;
@@ -113,30 +133,57 @@
 		} );
 
 	timeline.scroll( function () {
+		er_timeline.set_current_date();
+
 		if ( scroll_action !== false ) {
 			thead_main.css( 'cursor', 'grabbing' );
 			//er_timeline.start_scroll_add_interval();
 		}
 	} );
 
+	var er_sidebar = {
+		is_open: function(){
+			return sidebar.hasClass('expanded');
+		},
+		open: function(){
+			if( !er_sidebar.is_open() ){
+				header.find('.expand-sidebar').click();
+			}
+		},
+		close: function(){
+			if( er_sidebar.is_open() ){
+				header.find('.contract-sidebar').click();
+			}
+		},
+		toggle: function(){
+			if( er_sidebar.is_open() ){
+				header.find('.contract-sidebar').click();
+			} else {
+				header.find( '.expand-sidebar' ).click();
+			}
+		}
+	};
+
+	er_sidebar.open();
+
 	var er_timeline = {
 		init: function () {
+			var date, i;
+
 			if ( interval === "86400" ) {
 				start.setHours( 0, 0, 0, 0 );
 			} else {
 				start.setHours( start.getHours(), 0, 0, 0 );
 			}
 
-			timeline.scrollLeft( 1 );
-
-			var date = start, i;
-
-			er_timeline.set_current_date( today );
 
 			table.find( 'td,th' ).remove();
-			date.setTime( er_timeline.manipulate_date_without_offset( start, ( 10 * interval * 1000 ) * -1 ) );
-			last_query_end = date.getTime();
-			last_query_start = date.getTime();
+
+			reservations = [];
+			start = er_timeline.manipulate_date_without_offset( start, ( 15 * interval * 1000 ) * -1 );
+			date = start;
+			last_query_end = new Date( date.getTime() );
+			last_query_start = new Date( date.getTime() );
 
 			for ( i = 0; i < 50; i++ ) {
 				end = er_timeline.manipulate_date_without_offset( date, i * interval * 1000 );
@@ -146,10 +193,10 @@
 			er_timeline.load_remaining();
 
 			timeline.scrollLeft(
-				thead_main.find( 'th:nth-child(9)' ).offset().left - timeline.offset().left + timeline.scrollLeft() + 1
+				thead_main.find( 'th:nth-child(15)' ).offset().left - timeline.offset().left + timeline.scrollLeft() + 1
 			);
 
-			//er_timeline.slide_current();
+			er_timeline.set_current_date();
 		},
 
 		remove_offset: function( date ){
@@ -161,26 +208,28 @@
 			return new Date( new_date.getTime() + new_date.getTimezoneOffset() * 1000 * 60 - date.getTimezoneOffset() * 1000 * 60 );
 		},
 
-		slide_current: function ( one_less ) {
-			var current_cell = thead_main.find( 'th:nth-child(' + ( Math.round( timeline.scrollLeft() / cell_dimensions.width ) + ( 3 ) ) + ')' );
-			er_timeline.highlight_current( new Date( current_cell.data( 'date' ) ) );
-		},
-
 		highlight_current: function ( date ) {
-			er_timeline.set_current_date( date );
-
-			$( '.er-timeline .current' ).removeClass( 'current' );
-			$( '*[data-date="' + date.getTime() + '"]' ).addClass( 'current' );
+			$( '.er-timeline .hover' ).removeClass( 'hover' );
+			$( '*[data-date="' + date.getTime() + '"]' ).addClass( 'hover' );
 		},
 
-		set_current_date: function ( date ) {
+		set_current_date: function () {
+			thead_main.find( 'th.current' ).removeClass( 'current' );
+			selected = er_timeline.manipulate_date_without_offset( start, ( ( timeline.scrollLeft() / cell_dimensions.width + 1 ) * interval * 1000 ) );
+
 			if ( interval === "3600" ) {
-				header_date.html( date.getDate() + ' ' + er_date_picker_params.month_names[ date.getMonth() ] + ' ' + date.getFullYear() );
+				selected.setHours( start.getHours(), 0, 0, 0 );
+
+				header_date.html( selected.getDate() + ' ' + er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
 			} else {
-				header_date.html( er_date_picker_params.month_names[ date.getMonth() ] + ' ' + date.getFullYear() );
+				selected.setHours( 0, 0, 0, 0 );
+
+				header_date.html( er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
 			}
 
-			datepicker.val( date.getDate() + '.' + ( date.getMonth() + 1 ) + '.' + date.getFullYear() );
+			thead_main.find( 'th[data-date="' + selected.getTime() + '"]' ).addClass( 'current' );
+
+			datepicker.datepicker( "setDate", selected );
 		},
 
 		start_scroll_add_interval: function () {
@@ -188,8 +237,26 @@
 				scroll_add = setInterval( function () {
 					if ( scroll_add !== false && ( timeline.scrollLeft() < 2 || timeline[ 0 ].scrollWidth - ( timeline.width() + timeline.scrollLeft() ) < 2 ) ) {
 						er_timeline.add_new_column( timeline.scrollLeft() < 2 );
+						er_timeline.set_current_date();
 					}
 				}, 38 );
+			}
+		},
+
+		jump_to_date: function( date ){
+			if( date < start || date > end ){
+				start = date;
+				er_timeline.init();
+			} else {
+				var days_between = ( selected.getTime() - date.getTime() + date.getTimezoneOffset() * 1000 * 60 - selected.getTimezoneOffset() * 1000 * 60 ) / ( interval * 1000 ),
+					abs = Math.abs( days_between );
+				console.log( days_between );
+
+				for(var i = 1; i <= abs ; i++){
+					er_timeline.add_new_column( days_between > 0 );
+				}
+
+				er_timeline.set_current_date();
 			}
 		},
 
@@ -197,16 +264,15 @@
 			if ( at_start ) {
 				start = er_timeline.manipulate_date_without_offset( start, interval * 1000 * -1 );
 				er_timeline.generate_column( start, true );
-				er_timeline.set_current_date( start );
 
 				table.find( 'th:last-child,td:last-child' ).remove();
-				last_query_end -= ( interval * 1000 );
+
+				last_query_end = er_timeline.manipulate_date_without_offset( last_query_end, interval * 1000 * -1 );
 				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 * -1 );
 			} else {
 				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
 
 				er_timeline.generate_column( end );
-				er_timeline.set_current_date( end );
 
 				table.find( 'th:first-child' ).remove();
 				table.find( 'td:first-child' )
@@ -221,8 +287,8 @@
 						}
 					} )
 					.remove();
-				last_query_start += ( interval * 1000 );
 
+				last_query_start = er_timeline.manipulate_date_without_offset( last_query_start, interval * 1000 );
 				start = er_timeline.manipulate_date_without_offset( start, interval * 1000 );
 			}
 		},
@@ -236,12 +302,13 @@
 		},
 
 		load_remaining: function () {
-			if ( last_query_start === 0 || last_query_start > start.getTime() ) {
-				er_timeline.load_data( start, new Date( last_query_start ) );
-				last_query_start = start.getTime();
-			} else if ( last_query_end < end.getTime() ) {
-				er_timeline.load_data( new Date( last_query_end ), new Date( end.getTime() + ( interval * 1000 ) ) );
-				last_query_end = end.getTime();
+			if ( last_query_start === 0 || last_query_start > start ) {
+				er_timeline.load_data( start, last_query_start );
+				last_query_start = new Date( start.getTime() );
+			} else if ( last_query_end < end ) {
+				var next_query_end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
+				er_timeline.load_data( last_query_end, next_query_end );
+				last_query_end = next_query_end;
 			} else {
 
 			}
@@ -281,7 +348,7 @@
 									.removeClass( 'loading' )
 									.addClass( cell_class );
 								$( 'tr.resource td[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
-									.html( '<div style="pointer-events:none">' + content + '</div>' )
+									.html( '<div><span>' + content + '</span></div>' )
 									.addClass( result == quantity ? 'unavailable' : '' );
 							} );
 						} );
@@ -289,8 +356,6 @@
 
 					if ( response.reservations ) {
 						$.each( response.reservations, function ( _, reservation ) {
-							reservation.changed = true;
-
 							er_timeline.add_reservation( reservation );
 						} );
 
@@ -375,7 +440,6 @@
 			}
 
 			cell.data( 'reservations', new_cell_reservation );
-			cell.height( cell_dimensions.height + cell_dimensions.height * max_depths );
 
 			if ( found_start !== false ) {
 				return er_timeline.recursively_remove_reservations( cell.next(), found_start, id );
@@ -397,8 +461,6 @@
 
 			changed_any_reservation = false;
 
-			$( '.reservation[data-id="' + id + '"]' ).remove();
-
 			if ( interval === "86400" ) {
 				date.setHours( 0, 0, 0 );
 				end.setHours( 0, 0, 0 );
@@ -408,12 +470,14 @@
 			}
 
 			while ( date <= end ) {
+				//Check each existing cell that is in this reservations duration
 				var cell = $( 'td[data-date="' + ( date.getTime() ) + '"][data-resource="' + reservation.resource + '"][data-space="' + reservation.space + '"]' );
 
 				if ( cell && cell.length > 0 ) {
 					var cell_reservations = cell.data( 'reservations' );
 
 					if ( cell_reservations.length > 0 ) {
+						//Go through existing reservation in the cell and check if to redraw them or if to close depths for this reservation
 						$.each( cell_reservations, function ( index, reservation_id ) {
 							if ( reservation_id && reservation_id !== id ) {
 								if ( reservations[ reservation_id ].arrival > reservation.arrival && reservations[ reservation_id ].arrival < reservation.departure && reservations[ reservation_id ].departure > reservation.arrival ) {
@@ -446,12 +510,17 @@
 			}
 
 			if ( did_add === false ) {
+				//No cell to put reservation in found
 				return true;
 				//delete reservations[ id ];
 			} else {
 				if ( changed_any_reservation ) {
+					//We changed other reservations and begin drawing from the first changed reservation by arrival again
+
 					return false;
 				} else {
+					//We can draw this reservations now
+
 					element
 						.html( '<span class="wrapper"><span>#' + id + ' ' + reservation.title + '</span></span>' )
 						.draggable( {
@@ -512,7 +581,7 @@
 									.show();
 
 								if ( drag_snap_top !== false ) {
-									ui.position.top = drag_snap_top - drag_start_offset.top + drag_start_position.top + 1;
+									ui.position.top = drag_snap_top - drag_start_offset.top + drag_start_position.top;
 								}
 
 								if( mouse_position < 10 || timeline.width() - mouse_position < 10 ){
@@ -673,6 +742,13 @@
 						.attr( 'data-tip', reservation.id )
 						.attr( 'data-id', reservation.id );
 
+					var was_there = $( '.reservation[data-id="' + id + '"]' ).remove();
+
+					if( was_there.length > 0 ){
+						console.log( was_there.length );
+						element.addClass( 'fade-in-fast' );
+					}
+
 					did_add.append( element );
 
 					while ( depths_taken[ depths ] === 1 ) {
@@ -680,10 +756,10 @@
 					}
 
 					if ( depths > 0 ) {
-						if ( did_add.height() < cell_dimensions.height + cell_dimensions.height * depths ) {
-							did_add.height( cell_dimensions.height + cell_dimensions.height * depths + 1 );
+						if ( did_add.height() < cell_dimensions.height + ( cell_dimensions.height - 3 ) * depths ) {
+							did_add.height( cell_dimensions.height + ( cell_dimensions.height - 3 ) * depths );
 						}
-						element.css( 'top', (cell_dimensions.height + 1) * depths + 'px' );
+						element.css( 'top', ( cell_dimensions.height - 3 ) * depths + 'px' );
 					}
 
 					reservation.depths = depths;
@@ -702,15 +778,19 @@
 			var id = parseInt( reservation.id, 10 );
 
 			//if ( typeof reservations[ id ] === 'undefined' ) {
-			if ( !$.isNumeric( reservation.arrival ) ) {
-				reservation.id = id;
-				reservation.arrival = new Date( reservation.arrival );
-				reservation.departure = new Date( reservation.departure );
-				reservation.resource = parseInt( reservation.resource, 10 );
-				reservation.space = parseInt( reservation.space, 10 );
-			}
+			reservation.id = id;
+			reservation.arrival = new Date( reservation.arrival );
+			reservation.departure = new Date( reservation.departure );
+			reservation.resource = parseInt( reservation.resource, 10 );
+			reservation.space = parseInt( reservation.space, 10 );
 
-			reservation.changed = true;
+			//TODO add check if it needs to be redrawn
+			if ( typeof reservations[ id ] === 'undefined' ) {
+				reservation.changed = true;
+			} else {
+				reservation.changed = reservations[ id ].changed;
+				reservation.depths = reservations[ id ].depths;
+			}
 
 			reservations[ id ] = reservation;
 		},
@@ -741,7 +821,7 @@
 				day          = date.getDay() === 0 ? 6 : date.getDay() - 1;
 
 			if ( interval === "86400" ) {
-				header_main = $( '<th><div class="date"><div>' + easyFormatDate( date, 'd' ) + '</div><span>' + er_date_picker_params.day_names_min[ day ] + '</span></div></th>' );
+				header_main = $( '<th><div class="date"><span>' + easyFormatDate( date, 'd' ) + '</span><div>' + er_date_picker_params.day_names_min[ day ] + '</div></div></th>' );
 
 				if ( date.getDate() === 1 ) {
 					header_class = 'first';
@@ -802,7 +882,7 @@
 			}
 
 			$.each( data.resources, function ( resource_id, resource ) {
-				var cell_header = $( '<td class="resource"><div style="height:20px;pointer-events:none"></div></td>' )
+				var cell_header = $( '<td class="resource"><div></div></td>' )
 					.addClass( header_class )
 					.attr( 'data-resource', resource_id )
 					.attr( 'data-date', date.getTime() );
@@ -875,14 +955,15 @@
 			} );
 
 			if ( at_start ) {
-				if ( last_query_start === 0 || last_query_start - ( interval * 1000 * 10 ) > date.getTime() ) {
-					er_timeline.load_data( start, new Date( last_query_start ) );
-					last_query_start = date.getTime();
+				if ( last_query_start === 0 || last_query_start.getTime() - ( interval * 1000 * 10 ) > date.getTime() ) {
+					er_timeline.load_data( start, last_query_start );
+					last_query_start = new Date( start.getTime() );
 				}
 			} else {
-				if ( last_query_end + ( interval * 1000 * 10 ) < date.getTime() ) {
-					er_timeline.load_data( new Date( last_query_end ), new Date( end.getTime() + ( interval * 1000 ) ) );
-					last_query_end = date.getTime();
+				if ( last_query_end.getTime() + ( interval * 1000 * 10 ) < date.getTime() ) {
+					var next_query_end = new Date( er_timeline.manipulate_date_without_offset( end, interval * 1000 ).getTime() );
+					er_timeline.load_data( last_query_end, next_query_end );
+					last_query_end = next_query_end;
 				}
 			}
 		}

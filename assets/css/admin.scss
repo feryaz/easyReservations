@@ -3057,32 +3057,147 @@ table.er_emails {
 }
 
 .er-timeline {
-  position: relative;
+  display: flex;
+  align-items: stretch;
 
   border: 1px solid #ccd0d4;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   background-color: #fff;
 
-  user-select: none; /* supported by Chrome and Opera */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  height: 100%;
+
+  .sidebar {
+    transition: width 0.3s linear;
+    overflow: hidden;
+    border-right: 1px solid #ccd0d4;
+
+    .easy-datepicker {
+      transition: none;
+      display: block;
+      width: 304px;
+
+      .ui-datepicker-inline {
+        border: 0;
+        border-bottom: 1px solid #ccd0d4;
+
+        .ui-datepicker-header {
+          background: #fff;
+          padding: 6px 0;
+
+          border: 0;
+          border-bottom: 1px solid $innerborder;
+        }
+      }
+    }
+
+    &.expanded {
+      width: 304px;
+    }
+  }
+
+  .content {
+    transition: width 0.3s linear;
+
+    box-sizing: border-box;
+    position: relative;
+
+    width: 100%;
+  }
+
+  .sidebar.expanded + .content {
+    width: calc(100% - 305px);
+  }
 
   div.header {
     height: 28px;
-    text-align: center;
-    padding: 8px 6px 8px 6px;
-    line-height: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    vertical-align: middle;
+    border-bottom: 1px solid $innerborder;
+    display: flex;
+    padding: 8px;
+    align-items: center;
 
-    .er-datepicker {
-      z-index: 3;
-      position: relative;
-      display: none;
+    button {
+      display: inline-block;
+      text-decoration: none;
+      background: #fff;
+      padding: 0 10px;
+      border: 1px solid #cfcfcf;
+      border-radius: 3px;
+      line-height: 2.15384615;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+
+      outline: 0;
+      cursor: pointer;
+
+      &:hover {
+        background: #f3f5f6;
+      }
+
+      &:active {
+        background: #ebedee;
+      }
+    }
+
+    .left {
+      text-align: right;
+
+      .pending::after {
+        cursor: pointer;
+        font-size: 20px;
+        position: relative;
+
+        @include iconbeforedashicons("\f469");
+      }
+
+      .expand-sidebar::after {
+        cursor: pointer;
+        font-size: 20px;
+        position: relative;
+
+        @include iconbeforedashicons("\f310");
+      }
+
+      .contract-sidebar::after {
+        cursor: pointer;
+        display: inline-block;
+
+        font-size: 20px;
+        position: relative;
+        transform: scale(-1, 1);
+
+        @include iconbeforedashicons("\f310");
+      }
+    }
+
+    .middle {
+      flex-grow: 2;
+      text-align: center;
+
+      span {
+        border: 1px solid #cfcfcf;
+        border-radius: 3px;
+        padding: 5px 10px 6px;
+        font-size: 13px;
+        line-height: 2.15384615;
+        cursor: pointer;
+        color: #666;
+        font-weight: 500;
+      }
+
+      span, button {
+      }
+
+      input.er-datepicker {
+        z-index: 3;
+        position: relative;
+        display: none;
+      }
+    }
+
+    .right {
+      text-align: left;
     }
   }
 
@@ -3093,6 +3208,7 @@ table.er_emails {
       height: 100%;
       word-wrap: break-word;
       white-space: nowrap;
+      z-index: 2;
 
       table {
         margin: 0;
@@ -3102,27 +3218,43 @@ table.er_emails {
           th {
             height: 36px;
             padding: 4px;
-            border-bottom: 1px solid #e4e8f1;
           }
         }
 
         tbody {
           td {
-            padding: 3px 6px 3px 15px;
-            font-size: 12px;
-            border-bottom: 1px solid #e4e8f1;
-            height: 21px;
+            padding: 3px 15px 3px 15px;
+            border-right: 1px solid $innerborder;
+            height: 28px;
             margin: 0;
+            font-size: 12px;
+            background-color: #fff;
+            font-weight: 600;
+            color: #666;
 
             &.resource {
               padding: 1px 5px;
               height: 20px;
+              max-width: 0;
+              border-right: 0;
+              background-color: #fff;
+              border-top: 1px solid $innerborder;
+              border-bottom: 1px solid $innerborder;
 
               a {
+                background: #fff;
+                line-height: 17px;
+                overflow: visible;
                 font-size: 12px;
+                width: 100%;
                 text-decoration: none;
+                font-weight: 400;
               }
             }
+          }
+
+          tr.resource td  {
+
           }
 
           tr:last-of-type td {
@@ -3136,7 +3268,7 @@ table.er_emails {
       }
     }
 
-    .overview {
+    .timeline-container {
       position: relative;
       overflow: hidden;
 
@@ -3187,14 +3319,15 @@ table.er_emails {
       }
     }
 
-    .shadow {
+    /*.shadow {
       box-shadow: inset 2px 1px 4px -2px grey;
       position: absolute;
+      z-index: 1;
       top: 45px;
       width: 100%;
       height: 100%;
       pointer-events: none;
-    }
+    }*/
 
     .timeline {
       overflow: hidden;
@@ -3268,7 +3401,7 @@ table.er_emails {
 
           th {
             width: 95px;
-            padding: 4px 0;
+            padding: 4px 0px;
             border-left: 1px solid transparent;
             border-bottom: 0;
             position: relative;
@@ -3279,18 +3412,30 @@ table.er_emails {
               position: relative;
               pointer-events: none;
               z-index: 2;
+              text-align: center;
 
               span {
+                transition: background-color 0.1s linear;
+                border-radius: 50%;
+              }
+
+              div {
                 font-size: 12px;
                 font-weight: normal;
               }
             }
 
             &.weekend {
-              //background-color: #ffffda;
+              color: #ff7075;
             }
+
             &.current {
-              //background-color: #f7f8f9;
+              .date span {
+                //background-color: #d4d4d4;
+                border-radius: 50%;
+                padding: 2px 3px;
+                color: $primary;
+              }
             }
 
             &.today {
@@ -3322,11 +3467,11 @@ table.er_emails {
               z-index: 1;
               position: absolute;
               margin-left: -100000px;
-              height: 1000px;
+              height: 64px;
               background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
               background-size: 6.00px 6.00px;
               opacity: 4%;
-              top: -20px;
+              top: 0;
               pointer-events: none;
             }
           }
@@ -3342,7 +3487,7 @@ table.er_emails {
             bottom: 0;
             right: 0;
             width: 101%;
-            height: 10000px;
+            height: 100%;
             position: absolute;
             pointer-events: none;
           }
@@ -3358,23 +3503,22 @@ table.er_emails {
             td {
               width: 87px;
               padding: 0;
-              border-left: 1px solid #e4e8f1;
-              border-bottom: 1px solid #e4e8f1;
+              border-left: 1px solid $innerborder;
               position: relative;
-              min-height: 27px;
-              height: 27px;
+              min-height: 34px;
+              height: 34px;
 
               &.weekend {
-                background: #ffffda;
+                //background: #ffffda;
               }
 
               &.unavailable {
-                background-color: #fff6f6;
+                //background-color: #fff6f6;
               }
 
-              &.current {
+              &.hover {
                 //border-left: 1px solid #c8d8ff;
-                background-color: #f7f8f9;
+                //background-color: #f7f8f9;
               }
 
               &.first {
@@ -3465,7 +3609,6 @@ table.er_emails {
 }
 
 @media screen and (max-width: 782px) {
-
   .er-backbone-modal .er-backbone-modal-content {
     width: 100%;
     height: 100%;
