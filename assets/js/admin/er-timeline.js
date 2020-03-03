@@ -60,11 +60,14 @@
 		er_timeline.jump_to_date( $( this ).datepicker( "getDate" ) );
 	} );
 
-	timeline.find( 'thead' ).on( {
-		'mousedown': function ( e ) {
+	thead_main
+		.on( 'mousedown', 'th', function ( e ) {
 			scroll_drag = timeline.scrollLeft() + e.pageX;
-		}
-	} );
+		} )
+		.on( 'click', 'th', function ( e ) {
+			console.log( scroll_drag );
+			console.log( timeline.scrollLeft() + e.pageX );
+		} );
 
 	$( window )
 		.mouseup( function () {
@@ -81,6 +84,7 @@
 			mouse_pos_y = e.pageY;
 			if ( scroll_drag && e.which === 1 ) {
 				timeline.scrollLeft( scroll_drag - e.pageX < 1 ? 1 : scroll_drag - e.pageX );
+				er_timeline.set_current_date();
 
 				if ( scroll_add === false ) {
 					thead_main.css( 'cursor', 'grabbing' );
@@ -111,27 +115,28 @@
 		} )
 		.on( 'mousedown', '.next', function () {
 			if ( scroll_action === false ) {
+				er_timeline.add_new_column();
+				er_timeline.set_current_date();
+
 				scroll_action = setInterval( function () {
-					if ( scroll_action !== false ) {
-						timeline.scrollLeft( timeline.scrollLeft() + cell_dimensions.width );
-						er_timeline.start_scroll_add_interval();
-					}
+					er_timeline.add_new_column();
+					er_timeline.set_current_date();
 				}, 100 );
 			}
 		} )
 		.on( 'mousedown', '.prev', function () {
 			if ( scroll_action === false ) {
+				er_timeline.add_new_column( true );
+				er_timeline.set_current_date();
+
 				scroll_action = setInterval( function () {
-					if ( scroll_action !== false ) {
-						timeline.scrollLeft( timeline.scrollLeft() - cell_dimensions.width );
-						er_timeline.start_scroll_add_interval();
-					}
+						er_timeline.add_new_column( true );
+						er_timeline.set_current_date();
 				}, 100 );
 			}
 		} );
 
 	timeline.scroll( function () {
-		er_timeline.set_current_date();
 
 		if ( scroll_action !== false ) {
 			thead_main.css( 'cursor', 'grabbing' );
@@ -212,22 +217,28 @@
 		},
 
 		set_current_date: function () {
-			thead_main.find( 'th.current' ).removeClass( 'current' );
-			selected = er_timeline.manipulate_date_without_offset( start, ( ( timeline.scrollLeft() / cell_dimensions.width + 1 ) * interval * 1000 ) );
+			var currently_selected = er_timeline.manipulate_date_without_offset( start, ( ( timeline.scrollLeft() / cell_dimensions.width + 1 ) * interval * 1000 ) );
 
 			if ( interval === "3600" ) {
-				selected.setHours( start.getHours(), 0, 0, 0 );
-
-				header_date.html( selected.getDate() + ' ' + er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
+				currently_selected.setHours( start.getHours(), 0, 0, 0 );
 			} else {
-				selected.setHours( 0, 0, 0, 0 );
-
-				header_date.html( er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
+				currently_selected.setHours( 0, 0, 0, 0 );
 			}
 
-			thead_main.find( 'th[data-date="' + selected.getTime() + '"]' ).addClass( 'current' );
+			if( currently_selected !== selected){
+				selected = currently_selected;
+				thead_main.find( 'th.current' ).removeClass( 'current' );
 
-			datepicker.datepicker( "setDate", selected );
+				if ( interval === "3600" ) {
+					header_date.html( selected.getDate() + ' ' + er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
+				} else {
+					header_date.html( er_date_picker_params.month_names[ selected.getMonth() ] + ' ' + selected.getFullYear() );
+				}
+
+				thead_main.find( 'th[data-date="' + selected.getTime() + '"]' ).addClass( 'current' );
+
+				datepicker.datepicker( "setDate", selected );
+			}
 		},
 
 		start_scroll_add_interval: function () {
