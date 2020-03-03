@@ -8,18 +8,21 @@ if ( !defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-$wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD status varchar(10) NOT NULL default ''" );
-$wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD order_id BIGINT UNSIGNED NOT NULL DEFAULT 0" );
+//Only do database preparations if this is the first time
+if( is_null( get_option( 'last_processed_reservation', null ) ) ) {
+    $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD status varchar(10) NOT NULL default ''" );
+    $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD order_id BIGINT UNSIGNED NOT NULL DEFAULT 0" );
 
-$wpdb->query( "DELETE FROM {$wpdb->prefix}reservations WHERE country = 'ICS'" );
-$wpdb->query( "DELETE FROM {$wpdb->prefix}postmeta WHERE meta_key = 'easy-resource-taxes'" );
+    $wpdb->query( "DELETE FROM {$wpdb->prefix}reservations WHERE country = 'ICS'" );
+    $wpdb->query( "DELETE FROM {$wpdb->prefix}postmeta WHERE meta_key = 'easy-resource-taxes'" );
 
-$wpdb->query( "UPDATE {$wpdb->prefix}reservations SET status = ( CASE 
+    $wpdb->query( "UPDATE {$wpdb->prefix}reservations SET status = ( CASE 
     WHEN approve = 'yes' THEN 'approved' 
     WHEN approve = 'no' THEN 'cancelled' 
     WHEN approve = 'del' THEN 'trash' 
     ELSE 'pending' 
   END ) WHERE 1=1" );
+}
 
 $reservations = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}reservations ORDER BY id ASC", ARRAY_A );
 
