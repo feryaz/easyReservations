@@ -57,8 +57,6 @@
 		} );
 
 	datepicker.bind( 'change', function (e) {
-		console.log(e);
-		console.log( $( this ).val() );
 		er_timeline.jump_to_date( $( this ).datepicker( "getDate" ) );
 	} );
 
@@ -622,7 +620,6 @@
 							minWidth:    4,
 							start:       function ( event, ui ) {
 								var id       = parseInt( ui.originalElement.attr( 'data-id' ), 10 ),
-									original = $( this ),
 									cell     = ui.originalElement.parent(),
 									direction_west = $( last_hover ).hasClass( 'ui-resizable-w' );
 

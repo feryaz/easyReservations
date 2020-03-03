@@ -100,7 +100,7 @@
   border-left: 0;
 }
 .easy-ui-container.border > h1:first-of-type {
-  border-top: 0px;
+  border-top: 0;
 }
 .easy-ui-container.border > h2 {
   margin: 0 15px 20px 15px;
@@ -125,7 +125,6 @@
 .easy-ui {
   /* INPUT & SELECT */
   /* INPUT */
-  /* HELPER */
 }
 .easy-ui img {
   display: inline-block;
@@ -179,6 +178,7 @@
   background: #fff;
   border: 1px solid #7e8993;
   border-radius: 0.25rem;
+  vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -356,19 +356,6 @@
 .easy-ui span.row > small,
 .easy-ui > small {
   display: block;
-}
-.easy-ui .input-wrapper select,
-.easy-ui input[type=text],
-.easy-ui input[type=password],
-.easy-ui input[type=email],
-.easy-ui textarea,
-.easy-ui .select select,
-.easy-ui legend {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
 }
 .easy-ui select::-ms-expand {
   display: none;

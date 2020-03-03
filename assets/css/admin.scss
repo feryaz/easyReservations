@@ -730,7 +730,6 @@ code {
         background: #f8f8f8;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
-        -khtml-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
@@ -1652,7 +1651,6 @@ ul.er_coupon_list {
     th,
     td {
       padding: 1em 1.5em;
-      text-align: left;
       border: 0;
       border-bottom: 1px solid #eee;
       margin: 0;
@@ -2946,7 +2944,6 @@ table.er_emails {
         content: "\f333";
         font-family: "Dashicons";
         text-align: center;
-        line-height: 1;
         color: #999;
         display: block;
         width: 24px;
@@ -3341,13 +3338,12 @@ table.er_emails {
         flex-direction: row;
         top: 0;
         width: 100%;
-        z-index: 3;
+        z-index: 1;
         padding: 0;
-        margin: 0;
+        margin: 3px 0 0 0;
         white-space: nowrap;
         background: #63aaff;
         border-left: 2px solid #5088cc;
-        border-top: 1px solid #63aaff;
         color: #fff;
         font-size: 12px;
         font-weight: 400;
@@ -3401,7 +3397,7 @@ table.er_emails {
 
           th {
             width: 95px;
-            padding: 4px 0px;
+            padding: 4px 0;
             border-left: 1px solid transparent;
             border-bottom: 0;
             position: relative;
@@ -3530,41 +3526,60 @@ table.er_emails {
 
               .reservation {
                 z-index: 1;
+                animation: fadeIn ease-in 1;
+                animation-duration: 0.4s;
 
-                &.ui-draggable-dragging {
-                  z-index: 1;
+                &.fade-in-fast {
+                  animation-name: fadeInFast;
+                }
+
+                &:hover {
+                  transition: 0.3s;
+                  border-left: 2px solid #223955;
+                }
+
+                &.ui-resizable-resizing {
+                  opacity: 0.8;
+                  z-index: 3;
                 }
               }
+            }
 
+            &.line:nth-of-type(odd) td {
+              background-color: #f9f9f9;
             }
 
             &.resource {
               td {
-                box-sizing: content-box;
-                width: 88px;
                 z-index: 1;
-                text-align: center;
+                width: 88px;
                 padding: 0;
                 height: 20px;
-                background-color: #fff !important;
+                background-color: #fff;
                 border: 0;
 
                 div {
-                  color: #888888;
-                  line-height: 18px;
+                  pointer-events: none;
                   height: 20px;
-                  font-size: 12px;
+                  border-top: 1px solid #ebebeb;
+                  border-bottom: 1px solid #ebebeb;
                   padding: 1px 5px;
-                  border-bottom: 1px solid #e4e8f1;
+                  text-align: center;
+
+                  span {
+                    animation-name: fadeIn;
+                    animation-duration: 1s;
+                    animation-fill-mode: both;
+                    font-size: 12px;
+                    color: #888888;
+                    line-height: 17px;
+                    vertical-align: middle;
+                  }
                 }
 
                 &.unavailable {
                   color: #ff9f9e;
                 }
-              }
-
-              &:first-of-type td div {
-                border-top: 1px solid #e4e8f1;
               }
             }
           }
@@ -3575,8 +3590,8 @@ table.er_emails {
 }
 
 /**
-  * Backbone modal dialog
-  */
+* Backbone modal dialog
+*/
 .er-backbone-modal {
 
   * {
@@ -3814,9 +3829,6 @@ table#custom_field_add {
     margin: 2px 0 2px 5px;
     padding: 5px 5px 5px 8px;
     background: #f1f1f1;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
     border-radius: 5px;
     cursor: pointer;
   }

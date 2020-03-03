@@ -113,7 +113,7 @@
   }
 
   > h1:first-of-type {
-    border-top: 0px;
+    border-top: 0;
   }
 
   > h2 {
@@ -201,6 +201,7 @@
       background: $contentbg;
       border: 1px solid $inputborder;
       border-radius: .25rem;
+      vertical-align: top;
 
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -387,21 +388,6 @@
   span.row > small,
   > small {
     display: block;
-  }
-
-  /* HELPER */
-  .input-wrapper select,
-  input[type="text"],
-  input[type="password"],
-  input[type="email"],
-  textarea,
-  .select select,
-  legend {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    -o-appearance: none;
-    appearance: none;
   }
 
   select::-ms-expand {
