@@ -8,8 +8,6 @@ if ( !defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-exit;
-
 $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD status varchar(10) NOT NULL default ''" );
 $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations ADD order_id BIGINT UNSIGNED NOT NULL DEFAULT 0" );
 
