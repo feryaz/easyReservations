@@ -63,10 +63,6 @@
 	thead_main
 		.on( 'mousedown', 'th', function ( e ) {
 			scroll_drag = timeline.scrollLeft() + e.pageX;
-		} )
-		.on( 'click', 'th', function ( e ) {
-			console.log( scroll_drag );
-			console.log( timeline.scrollLeft() + e.pageX );
 		} );
 
 	$( window )
@@ -225,7 +221,7 @@
 				currently_selected.setHours( 0, 0, 0, 0 );
 			}
 
-			if( currently_selected !== selected){
+			if( currently_selected.getTime() !== selected.getTime() ){
 				selected = currently_selected;
 				thead_main.find( 'th.current' ).removeClass( 'current' );
 
@@ -259,7 +255,6 @@
 			} else {
 				var days_between = ( selected.getTime() - date.getTime() + date.getTimezoneOffset() * 1000 * 60 - selected.getTimezoneOffset() * 1000 * 60 ) / ( interval * 1000 ),
 					abs = Math.abs( days_between );
-				console.log( days_between );
 
 				for(var i = 1; i <= abs ; i++){
 					er_timeline.add_new_column( days_between > 0 );
