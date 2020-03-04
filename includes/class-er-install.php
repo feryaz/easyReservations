@@ -23,6 +23,7 @@ class ER_Install {
         '4.0'         => 'updates/easyreservations-update-4.0.php',
         '5.0'         => 'updates/easyreservations-update-5.0.php',
         '6.0-alpha.1' => 'updates/easyreservations-update-6.0.alpha.1.php',
+        '6.0-alpha.6' => 'updates/easyreservations-update-6.0.alpha.6.php',
     );
 
     /**
@@ -124,7 +125,7 @@ class ER_Install {
      * @return boolean
      */
     public static function needs_db_update( $plugin = 'reservations' ) {
-        $current_db_version = get_option( $plugin .'_db_version', null );
+        $current_db_version = get_option( $plugin . '_db_version', null );
 
         if ( $plugin !== 'reservations' ) {
             $updates = apply_filters( 'easyreservations_' . $plugin . '_db_updates', array() );
@@ -132,7 +133,7 @@ class ER_Install {
             $updates = self::$db_updates;
         }
 
-        $update_versions    = array_keys( $updates );
+        $update_versions = array_keys( $updates );
         usort( $update_versions, 'version_compare' );
 
         return !is_null( $current_db_version ) && version_compare( $current_db_version, end( $update_versions ), '<' );
@@ -151,7 +152,9 @@ class ER_Install {
                 ER_Admin_Notices::add_notice( 'update_'. $plugin );
             }
         } else {
-            self::update_db_version();
+            if( $plugin === 'reservations' ){
+                self::update_db_version();
+            }
         }
     }
 
@@ -358,7 +361,6 @@ class ER_Install {
         add_option( 'reservations_uninstall', '1', '', 'no' );
         add_option( 'reservations_form', er_form_get_default(), '', 'no' );
         add_option( 'reservations_form_checkout', er_form_get_default( 'checkout' ), '', 'no' );
-        add_option( 'reservations_db_version', ER()->version, '', 'yes' );
 
         add_option( 'reservations_custom_fields', array(
                 'id'     => 2,
