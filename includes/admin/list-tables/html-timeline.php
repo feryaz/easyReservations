@@ -42,6 +42,7 @@ $resources = ER()->resources()->get_accessible();
                         <thead class="resource">
                             <tr>
                                 <th>
+                                    <span class="resource-handler" data-resource="<?php echo esc_attr( $resource->get_id() ); ?>"></span>
                                     <a href="<?php echo esc_url( admin_url( 'admin.php?page=resource&resource=' . $resource->get_id() ) ); ?>"><?php echo esc_html( $resource->get_title() ); ?></a>
                                 </th>
                             </tr>

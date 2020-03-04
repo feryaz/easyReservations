@@ -3175,17 +3175,45 @@ table.er_emails {
         }
 
         thead.resource th {
-          padding: 1px 5px;
-          height: 20px;
+          padding: 4px 5px 0;
           max-width: 0;
           border-right: 0;
           background-color: #fff;
           border-top: 1px solid $innerborder;
           border-bottom: 1px solid $innerborder;
 
+          .resource-handler {
+            color: #999;
+
+            &:hover {
+              color: #6d6d6d;
+            }
+
+            &:active {
+              color: #444444;
+            }
+
+            &::after {
+              cursor: pointer;
+              display: inline-block;
+
+              font-size: 18px;
+              position: relative;
+
+              @include iconbeforedashicons("\f347");
+            }
+
+            &.retracted::after {
+              @include iconbeforedashicons("\f345");
+            }
+          }
+
+          span {
+            vertical-align: middle;
+          }
+
           a {
             background: #fff;
-            line-height: 17px;
             overflow: visible;
             font-size: 12px;
             width: 100%;
@@ -3197,7 +3225,7 @@ table.er_emails {
         tbody td {
           padding: 3px 15px 3px 15px;
           border-right: 1px solid $innerborder;
-          height: 28px;
+          height: 26px;
           margin: 0;
           font-size: 12px;
           background-color: #fff;
@@ -3333,6 +3361,7 @@ table.er_emails {
         border-spacing: 0;
         table-layout: fixed;
         width: 100%;
+        //overflow: hidden; TODO
 
         tr:nth-of-type(odd) td {
           background-color: #f9f9f9;
@@ -3440,13 +3469,13 @@ table.er_emails {
             z-index: 1;
             width: 88px;
             padding: 0;
-            height: 20px;
+            height: 24px;
             background-color: #fff;
             border: 0;
 
             div {
               pointer-events: none;
-              height: 20px;
+              height: 24px;
               border-top: 1px solid #ebebeb;
               border-bottom: 1px solid #ebebeb;
               padding: 1px 5px;
@@ -3459,7 +3488,7 @@ table.er_emails {
                 font-size: 12px;
                 font-weight: 400;
                 color: #888888;
-                line-height: 17px;
+                line-height: 24px;
                 vertical-align: middle;
               }
             }
