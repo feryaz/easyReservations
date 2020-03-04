@@ -3296,12 +3296,12 @@ table.er_emails .er-email-settings-table-status .tips {
   padding: 4px;
 }
 .er-timeline .container .resources table thead.resource th {
-  padding: 4px 5px 0;
   max-width: 0;
+  padding: 4px 5px 0;
   border-right: 0;
-  background-color: #fff;
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
+  background-color: #fff;
 }
 .er-timeline .container .resources table thead.resource th .resource-handler {
   color: #999;
@@ -3313,10 +3313,6 @@ table.er_emails .er-email-settings-table-status .tips {
   color: #444444;
 }
 .er-timeline .container .resources table thead.resource th .resource-handler::after {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 18px;
-  position: relative;
   font-family: "Dashicons";
   speak: none;
   font-weight: normal;
@@ -3326,6 +3322,10 @@ table.er_emails .er-email-settings-table-status .tips {
   -webkit-font-smoothing: antialiased;
   content: "";
   text-decoration: none;
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  cursor: pointer;
 }
 .er-timeline .container .resources table thead.resource th .resource-handler.retracted::after {
   font-family: "Dashicons";
@@ -3342,12 +3342,12 @@ table.er_emails .er-email-settings-table-status .tips {
   vertical-align: middle;
 }
 .er-timeline .container .resources table thead.resource th a {
-  background: #fff;
   overflow: visible;
-  font-size: 12px;
   width: 100%;
-  text-decoration: none;
+  background: #fff;
   font-weight: 400;
+  font-size: 12px;
+  text-decoration: none;
 }
 .er-timeline .container .resources table tbody td {
   padding: 3px 15px 3px 15px;
@@ -3358,6 +3358,7 @@ table.er_emails .er-email-settings-table-status .tips {
   background-color: #fff;
   font-weight: 600;
   color: #666;
+  vertical-align: top;
 }
 .er-timeline .container .timeline-container {
   position: relative;
@@ -3416,7 +3417,7 @@ table.er_emails .er-email-settings-table-status .tips {
   flex-direction: row;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 3;
   padding: 0;
   margin: 3px 0 0 0;
   white-space: nowrap;
@@ -3522,7 +3523,7 @@ table.er_emails .er-email-settings-table-status .tips {
   z-index: 1;
   position: absolute;
   margin-left: -100000px;
-  height: 64px;
+  height: 44px;
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
   background-size: 6px 6px;
   opacity: 4%;
@@ -3591,6 +3592,9 @@ table.er_emails .er-email-settings-table-status .tips {
   z-index: 1;
   animation: fadeIn ease-in 1;
   animation-duration: 0.4s;
+}
+.er-timeline .container .timeline table tbody tr td .reservation.selected {
+  background: #5088cc;
 }
 .er-timeline .container .timeline table tbody tr td .reservation.fade-in-fast {
   animation-name: fadeInFast;

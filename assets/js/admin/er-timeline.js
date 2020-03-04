@@ -172,6 +172,10 @@
 				$(tbody[ tbody_index ]).hide();
 				elem.hide();
 			}
+		} )
+		.on( 'click', '.reservation', function () {
+			timeline.find( '.reservation.selected' ).removeClass( 'selected' );
+			$( this ).addClass( 'selected' );
 		} );
 
 	timeline.scroll( function () {
@@ -710,7 +714,7 @@
 									direction_west = $( last_hover ).hasClass( 'ui-resizable-w' );
 
 								console.log( ui.originalElement.css( 'top' ) );
-								ui.originalElement.attr( 'style', 'left: ' + ui.originalElement.css( 'left' ) + ';top: ' + ui.originalElement.css( 'top' ) + ';width: ' + ui.originalElement.css( 'width' ) );
+								ui.originalElement.attr( 'style', 'left: ' + ui.originalElement.css( 'left' ) + ';top: ' + ui.originalElement.css( 'top' ) + ' !important;width: ' + ui.originalElement.css( 'width' ) );
 							},
 							resize:      function ( event, ui ) {
 								var id          = parseInt( ui.element.attr( 'data-id' ), 10 ),

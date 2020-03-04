@@ -3175,12 +3175,14 @@ table.er_emails {
         }
 
         thead.resource th {
-          padding: 4px 5px 0;
           max-width: 0;
+          padding: 4px 5px 0;
+
           border-right: 0;
-          background-color: #fff;
           border-top: 1px solid $innerborder;
           border-bottom: 1px solid $innerborder;
+
+          background-color: #fff;
 
           .resource-handler {
             color: #999;
@@ -3194,13 +3196,13 @@ table.er_emails {
             }
 
             &::after {
-              cursor: pointer;
+              @include iconbeforedashicons("\f347");
+
+              position: relative;
               display: inline-block;
 
               font-size: 18px;
-              position: relative;
-
-              @include iconbeforedashicons("\f347");
+              cursor: pointer;
             }
 
             &.retracted::after {
@@ -3213,12 +3215,15 @@ table.er_emails {
           }
 
           a {
-            background: #fff;
             overflow: visible;
-            font-size: 12px;
+
             width: 100%;
-            text-decoration: none;
+
+            background: #fff;
+
             font-weight: 400;
+            font-size: 12px;
+            text-decoration: none;
           }
         }
 
@@ -3231,6 +3236,7 @@ table.er_emails {
           background-color: #fff;
           font-weight: 600;
           color: #666;
+          vertical-align: top;
         }
       }
     }
@@ -3308,7 +3314,7 @@ table.er_emails {
         flex-direction: row;
         top: 0;
         width: 100%;
-        z-index: 1;
+        z-index: 3;
         padding: 0;
         margin: 3px 0 0 0;
         white-space: nowrap;
@@ -3317,6 +3323,7 @@ table.er_emails {
         color: #fff;
         font-size: 12px;
         font-weight: 400;
+        //outline: 1px solid #5088cc;outline-offset: -1px;
 
         .wrapper {
           display: block;
@@ -3438,7 +3445,7 @@ table.er_emails {
               z-index: 1;
               position: absolute;
               margin-left: -100000px;
-              height: 64px;
+              height: 44px;
               background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
               background-size: 6.00px 6.00px;
               opacity: 4%;
@@ -3537,6 +3544,10 @@ table.er_emails {
                 z-index: 1;
                 animation: fadeIn ease-in 1;
                 animation-duration: 0.4s;
+
+                &.selected {
+                  background: #5088cc;
+                }
 
                 &.fade-in-fast {
                   animation-name: fadeInFast;
