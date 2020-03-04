@@ -155,7 +155,7 @@ function er_reservation_parse_tag( $tag, $reservation ) {
             return esc_html( $reservation->get_billing_units() );
             break;
         case 'date':
-            $format = isset( $tag['format'] ) ? $tag['format'] : isset( $tag[1] ) ? $tag[1] : er_date_format();
+            $format = isset( $tag['format'] ) ? $tag['format'] : ( isset( $tag[1] ) ? $tag[1] : er_date_format() );
 
             return esc_html( date( $format, er_get_time() ) );
             break;
