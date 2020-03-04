@@ -238,10 +238,6 @@ class ER_Reservation extends ER_Receipt {
     public function get_title( $context = 'view' ) {
         $title = $this->get_prop( 'title', $context );
 
-        if( $context === 'view' ){
-            return $title ? $title : $this->get_name();
-        }
-
         return $title;
     }
 
@@ -255,7 +251,7 @@ class ER_Reservation extends ER_Receipt {
     }
 
     /**
-     * Get reservation name.
+     * Get reservation name - should be generated on runtime
      *
      * @return string
      */

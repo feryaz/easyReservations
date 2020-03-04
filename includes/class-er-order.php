@@ -1541,7 +1541,7 @@ class ER_Order extends ER_Abstract_Order {
                 $item = new ER_Receipt_Item_Reservation();
                 $item->set_reservation_id( $reservation->get_id() );
                 $item->set_resource_id( $reservation->get_resource_id() );
-                $item->set_name( $reservation->get_title() );
+                $item->set_name( $reservation->get_name() );
                 $item->set_subtotal( $price ? $price : $reservation->get_subtotal() );
                 $item->set_total( $price ? $price : $reservation->get_subtotal() );
 
@@ -1553,7 +1553,7 @@ class ER_Order extends ER_Abstract_Order {
 
                 $this->add_item( $item );
             } else {
-                throw new Exception( sprintf(  __( 'Cannot order %s. %s.', 'easyReservations' ), $reservation->get_title() ,  $errors->get_error_message() ) );
+                throw new Exception( sprintf(  __( 'Cannot order %s. %s.', 'easyReservations' ), $reservation->get_name() ,  $errors->get_error_message() ) );
             }
 
         } else {
@@ -1567,16 +1567,21 @@ class ER_Order extends ER_Abstract_Order {
      * Finalize an order and its reservations after they got validated
      */
     public function finalize() {
+        $i = 1;
+
         foreach ( $this->get_reservations() as $reservation_item ) {
             $reservation = $reservation_item->get_reservation();
 
             if( $reservation ){
                 $reservation->set_status( ER_Reservation_Status::PENDING );
                 $reservation->set_order_id( $this->get_id() );
+                $reservation->set_title( $this->get_formatted_full_name() . ' ' . $i );
 
                 $reservation = apply_filters( 'easyreservations_before_add_reservation_to_order', $reservation, $this );
 
                 $reservation->save();
+
+                $i++;
             }
         }
 

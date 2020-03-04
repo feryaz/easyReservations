@@ -185,7 +185,6 @@ function easyreservations_delete_plugin() {
 		delete_option( 'reservations_uninstall' );
 		delete_option( 'reservations_settings' );
 		delete_option( 'reservations_form' );
-		delete_option( 'reservations_db_version' );
 		delete_option( 'reservations_edit_options' );
 		delete_option( 'reservations_edit_url' );
 		delete_option( 'reservations_main_permission' );
