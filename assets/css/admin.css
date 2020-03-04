@@ -3215,26 +3215,6 @@ table.er_emails .er-email-settings-table-status .tips {
   padding: 8px;
   align-items: center;
 }
-.er-timeline div.header button {
-  display: inline-block;
-  text-decoration: none;
-  background: #fff;
-  padding: 0 10px;
-  border: 1px solid #cfcfcf;
-  border-radius: 3px;
-  line-height: 2.15384615;
-  font-size: 13px;
-  font-weight: 600;
-  color: #666;
-  outline: 0;
-  cursor: pointer;
-}
-.er-timeline div.header button:hover {
-  background: #f3f5f6;
-}
-.er-timeline div.header button:active {
-  background: #ebedee;
-}
 .er-timeline div.header .left {
   text-align: right;
 }
@@ -3286,21 +3266,6 @@ table.er_emails .er-email-settings-table-status .tips {
   flex-grow: 2;
   text-align: center;
 }
-.er-timeline div.header .middle span {
-  border: 1px solid #cfcfcf;
-  border-radius: 3px;
-  padding: 5px 10px 6px;
-  font-size: 13px;
-  line-height: 2.15384615;
-  cursor: pointer;
-  color: #666;
-  font-weight: 500;
-}
-.er-timeline div.header .middle input.er-datepicker {
-  z-index: 3;
-  position: relative;
-  display: none;
-}
 .er-timeline div.header .right {
   text-align: left;
 }
@@ -3326,9 +3291,27 @@ table.er_emails .er-email-settings-table-status .tips {
   margin: 0;
   border-spacing: 0;
 }
-.er-timeline .container .resources table thead th {
+.er-timeline .container .resources table thead.main th {
   height: 36px;
   padding: 4px;
+}
+.er-timeline .container .resources table thead.resource th {
+  padding: 1px 5px;
+  height: 20px;
+  max-width: 0;
+  border-right: 0;
+  background-color: #fff;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .container .resources table thead.resource th a {
+  background: #fff;
+  line-height: 17px;
+  overflow: visible;
+  font-size: 12px;
+  width: 100%;
+  text-decoration: none;
+  font-weight: 400;
 }
 .er-timeline .container .resources table tbody td {
   padding: 3px 15px 3px 15px;
@@ -3339,27 +3322,6 @@ table.er_emails .er-email-settings-table-status .tips {
   background-color: #fff;
   font-weight: 600;
   color: #666;
-}
-.er-timeline .container .resources table tbody td.resource {
-  padding: 1px 5px;
-  height: 20px;
-  max-width: 0;
-  border-right: 0;
-  background-color: #fff;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-}
-.er-timeline .container .resources table tbody td.resource a {
-  background: #fff;
-  line-height: 17px;
-  overflow: visible;
-  font-size: 12px;
-  width: 100%;
-  text-decoration: none;
-  font-weight: 400;
-}
-.er-timeline .container .resources table tbody tr:last-of-type td {
-  border-bottom: 0;
 }
 .er-timeline .container .timeline-container {
   position: relative;
@@ -3466,10 +3428,13 @@ table.er_emails .er-email-settings-table-status .tips {
   table-layout: fixed;
   width: 100%;
 }
-.er-timeline .container .timeline table thead {
+.er-timeline .container .timeline table tr:nth-of-type(odd) td {
+  background-color: #f9f9f9;
+}
+.er-timeline .container .timeline table thead.main {
   cursor: grab;
 }
-.er-timeline .container .timeline table thead th {
+.er-timeline .container .timeline table thead.main th {
   width: 95px;
   padding: 4px 0;
   border-left: 1px solid transparent;
@@ -3478,29 +3443,29 @@ table.er_emails .er-email-settings-table-status .tips {
   font-size: 13px;
   font-weight: bold;
 }
-.er-timeline .container .timeline table thead th .date {
+.er-timeline .container .timeline table thead.main th .date {
   position: relative;
   pointer-events: none;
   z-index: 2;
   text-align: center;
 }
-.er-timeline .container .timeline table thead th .date span {
+.er-timeline .container .timeline table thead.main th .date span {
   transition: background-color 0.1s linear;
   border-radius: 50%;
 }
-.er-timeline .container .timeline table thead th .date div {
+.er-timeline .container .timeline table thead.main th .date div {
   font-size: 12px;
   font-weight: normal;
 }
-.er-timeline .container .timeline table thead th.weekend {
+.er-timeline .container .timeline table thead.main th.weekend {
   color: #ff7075;
 }
-.er-timeline .container .timeline table thead th.current .date span {
+.er-timeline .container .timeline table thead.main th.current .date span {
   border-radius: 50%;
   padding: 2px 3px;
   color: #40a0ff;
 }
-.er-timeline .container .timeline table thead th div.first-of-month {
+.er-timeline .container .timeline table thead.main th div.first-of-month {
   z-index: 4;
   left: -1px;
   position: absolute;
@@ -3509,7 +3474,7 @@ table.er_emails .er-email-settings-table-status .tips {
   top: -20px;
   pointer-events: none;
 }
-.er-timeline .container .timeline table thead th div.today {
+.er-timeline .container .timeline table thead.main th div.today {
   z-index: 4;
   position: absolute;
   height: 1000px;
@@ -3517,7 +3482,7 @@ table.er_emails .er-email-settings-table-status .tips {
   top: -20px;
   pointer-events: none;
 }
-.er-timeline .container .timeline table thead th div.overlay {
+.er-timeline .container .timeline table thead.main th div.overlay {
   z-index: 1;
   position: absolute;
   margin-left: -100000px;
@@ -3528,7 +3493,7 @@ table.er_emails .er-email-settings-table-status .tips {
   top: 0;
   pointer-events: none;
 }
-.er-timeline .container .timeline table thead th.past:after {
+.er-timeline .container .timeline table thead.main th.past:after {
   z-index: 1;
   content: "";
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
@@ -3543,6 +3508,35 @@ table.er_emails .er-email-settings-table-status .tips {
   position: absolute;
   pointer-events: none;
 }
+.er-timeline .container .timeline table thead.resource th {
+  z-index: 1;
+  width: 88px;
+  padding: 0;
+  height: 20px;
+  background-color: #fff;
+  border: 0;
+}
+.er-timeline .container .timeline table thead.resource th div {
+  pointer-events: none;
+  height: 20px;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+  padding: 1px 5px;
+  text-align: center;
+}
+.er-timeline .container .timeline table thead.resource th div span {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+  line-height: 17px;
+  vertical-align: middle;
+}
+.er-timeline .container .timeline table thead.resource th.unavailable {
+  color: #ff9f9e;
+}
 .er-timeline .container .timeline table tbody tr:last-of-type td {
   border-bottom: 0;
 }
@@ -3552,7 +3546,10 @@ table.er_emails .er-email-settings-table-status .tips {
   border-left: 1px solid #ebebeb;
   position: relative;
   min-height: 34px;
-  height: 34px;
+  height: 32px;
+}
+.er-timeline .container .timeline table tbody tr td.unavailable {
+  background-color: #fff6f6;
 }
 .er-timeline .container .timeline table tbody tr td .reservation {
   z-index: 1;
@@ -3569,37 +3566,6 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
   opacity: 0.8;
   z-index: 3;
-}
-.er-timeline .container .timeline table tbody tr.line:nth-of-type(odd) td {
-  background-color: #f9f9f9;
-}
-.er-timeline .container .timeline table tbody tr.resource td {
-  z-index: 1;
-  width: 88px;
-  padding: 0;
-  height: 20px;
-  background-color: #fff;
-  border: 0;
-}
-.er-timeline .container .timeline table tbody tr.resource td div {
-  pointer-events: none;
-  height: 20px;
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
-  padding: 1px 5px;
-  text-align: center;
-}
-.er-timeline .container .timeline table tbody tr.resource td div span {
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  font-size: 12px;
-  color: #888888;
-  line-height: 17px;
-  vertical-align: middle;
-}
-.er-timeline .container .timeline table tbody tr.resource td.unavailable {
-  color: #ff9f9e;
 }
 
 /**

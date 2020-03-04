@@ -3113,30 +3113,6 @@ table.er_emails {
     padding: 8px;
     align-items: center;
 
-    button {
-      display: inline-block;
-      text-decoration: none;
-      background: #fff;
-      padding: 0 10px;
-      border: 1px solid #cfcfcf;
-      border-radius: 3px;
-      line-height: 2.15384615;
-      font-size: 13px;
-      font-weight: 600;
-      color: #666;
-
-      outline: 0;
-      cursor: pointer;
-
-      &:hover {
-        background: #f3f5f6;
-      }
-
-      &:active {
-        background: #ebedee;
-      }
-    }
-
     .left {
       text-align: right;
 
@@ -3171,26 +3147,6 @@ table.er_emails {
     .middle {
       flex-grow: 2;
       text-align: center;
-
-      span {
-        border: 1px solid #cfcfcf;
-        border-radius: 3px;
-        padding: 5px 10px 6px;
-        font-size: 13px;
-        line-height: 2.15384615;
-        cursor: pointer;
-        color: #666;
-        font-weight: 500;
-      }
-
-      span, button {
-      }
-
-      input.er-datepicker {
-        z-index: 3;
-        position: relative;
-        display: none;
-      }
     }
 
     .right {
@@ -3211,57 +3167,43 @@ table.er_emails {
         margin: 0;
         border-spacing: 0;
 
-        thead {
+        thead.main {
           th {
             height: 36px;
             padding: 4px;
           }
         }
 
-        tbody {
-          td {
-            padding: 3px 15px 3px 15px;
-            border-right: 1px solid $innerborder;
-            height: 28px;
-            margin: 0;
+        thead.resource th {
+          padding: 1px 5px;
+          height: 20px;
+          max-width: 0;
+          border-right: 0;
+          background-color: #fff;
+          border-top: 1px solid $innerborder;
+          border-bottom: 1px solid $innerborder;
+
+          a {
+            background: #fff;
+            line-height: 17px;
+            overflow: visible;
             font-size: 12px;
-            background-color: #fff;
-            font-weight: 600;
-            color: #666;
-
-            &.resource {
-              padding: 1px 5px;
-              height: 20px;
-              max-width: 0;
-              border-right: 0;
-              background-color: #fff;
-              border-top: 1px solid $innerborder;
-              border-bottom: 1px solid $innerborder;
-
-              a {
-                background: #fff;
-                line-height: 17px;
-                overflow: visible;
-                font-size: 12px;
-                width: 100%;
-                text-decoration: none;
-                font-weight: 400;
-              }
-            }
-          }
-
-          tr.resource td  {
-
-          }
-
-          tr:last-of-type td {
-            border-bottom: 0;
+            width: 100%;
+            text-decoration: none;
+            font-weight: 400;
           }
         }
-      }
 
-      .resource {
-
+        tbody td {
+          padding: 3px 15px 3px 15px;
+          border-right: 1px solid $innerborder;
+          height: 28px;
+          margin: 0;
+          font-size: 12px;
+          background-color: #fff;
+          font-weight: 600;
+          color: #666;
+        }
       }
     }
 
@@ -3392,7 +3334,11 @@ table.er_emails {
         table-layout: fixed;
         width: 100%;
 
-        thead {
+        tr:nth-of-type(odd) td {
+          background-color: #f9f9f9;
+        }
+
+        thead.main {
           cursor: grab;
 
           th {
@@ -3489,8 +3435,42 @@ table.er_emails {
           }
         }
 
-        tbody {
+        thead.resource {
+          th {
+            z-index: 1;
+            width: 88px;
+            padding: 0;
+            height: 20px;
+            background-color: #fff;
+            border: 0;
 
+            div {
+              pointer-events: none;
+              height: 20px;
+              border-top: 1px solid #ebebeb;
+              border-bottom: 1px solid #ebebeb;
+              padding: 1px 5px;
+              text-align: center;
+
+              span {
+                animation-name: fadeIn;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                font-size: 12px;
+                font-weight: 400;
+                color: #888888;
+                line-height: 17px;
+                vertical-align: middle;
+              }
+            }
+
+            &.unavailable {
+              color: #ff9f9e;
+            }
+          }
+        }
+
+        tbody {
           tr {
             &:last-of-type td {
               border-bottom: 0;
@@ -3502,14 +3482,14 @@ table.er_emails {
               border-left: 1px solid $innerborder;
               position: relative;
               min-height: 34px;
-              height: 34px;
+              height: 32px;
 
               &.weekend {
                 //background: #ffffda;
               }
 
               &.unavailable {
-                //background-color: #fff6f6;
+                background-color: #fff6f6;
               }
 
               &.hover {
@@ -3541,44 +3521,6 @@ table.er_emails {
                 &.ui-resizable-resizing {
                   opacity: 0.8;
                   z-index: 3;
-                }
-              }
-            }
-
-            &.line:nth-of-type(odd) td {
-              background-color: #f9f9f9;
-            }
-
-            &.resource {
-              td {
-                z-index: 1;
-                width: 88px;
-                padding: 0;
-                height: 20px;
-                background-color: #fff;
-                border: 0;
-
-                div {
-                  pointer-events: none;
-                  height: 20px;
-                  border-top: 1px solid #ebebeb;
-                  border-bottom: 1px solid #ebebeb;
-                  padding: 1px 5px;
-                  text-align: center;
-
-                  span {
-                    animation-name: fadeIn;
-                    animation-duration: 1s;
-                    animation-fill-mode: both;
-                    font-size: 12px;
-                    color: #888888;
-                    line-height: 17px;
-                    vertical-align: middle;
-                  }
-                }
-
-                &.unavailable {
-                  color: #ff9f9e;
                 }
               }
             }

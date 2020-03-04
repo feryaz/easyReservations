@@ -8,7 +8,8 @@
 		resources               = timeline_container.find( 'div.resources table' ),
 		header_date             = header.find( '.date' ),
 		table                   = timeline.find( 'table' ),
-		thead_main              = timeline.find( 'thead tr' ),
+		thead_main              = table.find( 'thead.main tr' ),
+		thead                   = table.find( 'thead:not(.main)' ),
 		tbody                   = table.find( 'tbody' ),
 		reservations            = [], //Reservation data
 		selected                = new Date(), //Current time
@@ -25,7 +26,7 @@
 		scroll_drag             = false, //position from which scroll was started in timeline header
 		scroll_action           = false, //js interval that scrolls timeline
 		scroll_add              = false, //js interval that adds new calendar columns based on scroll
-		cell_dimensions         = { height: 34, width: 96 },
+		cell_dimensions         = { height: 32, width: 96 },
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
@@ -34,7 +35,14 @@
 	timeline_container.insertAfter( 'hr.wp-header-end' );
 	tooltip.insertAfter( 'hr.wp-header-end' );
 	sidebar.hide();
-	today.setHours(0, 0, 0, 0);
+
+	if( interval === "86400" ){
+		today.setHours( 0, 0, 0, 0 );
+		header.find( '.daily' ).addClass( 'active' );
+	} else {
+		today.setHours( today.getHours(), 0, 0, 0 );
+		header.find( '.hourly' ).addClass( 'active' );
+	}
 
 	header
 		.on( 'click', '.expand-sidebar', function () {
@@ -48,6 +56,24 @@
 			$(this)
 				.removeClass('contract-sidebar')
 				.addClass('expand-sidebar');
+		} )
+		.on( 'click', '.hourly', function () {
+			if( !$(this).hasClass('active') ){
+				header.find('.daily').removeClass('active');
+				$( this ).addClass( 'active' );
+				start = new Date( selected.getTime() );
+				interval = "3600";
+				er_timeline.init();
+			}
+		} )
+		.on( 'click', '.daily', function () {
+			if( !$(this).hasClass('active') ){
+				header.find('.hourly').removeClass('active');
+				$( this ).addClass( 'active' );
+				start = new Date( selected.getTime() );
+				interval = "86400";
+				er_timeline.init();
+			}
 		} )
 		.on( 'click', '.date', function () {
 			er_sidebar.toggle();
@@ -348,10 +374,10 @@
 									content = quantity - result;
 								}
 
-								$( 'td[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
+								tbody.find( 'td[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
 									.removeClass( 'loading' )
 									.addClass( cell_class );
-								$( 'tr.resource td[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
+								thead.find( 'th[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
 									.html( '<div><span>' + content + '</span></div>' )
 									.addClass( result == quantity ? 'unavailable' : '' );
 							} );
@@ -819,7 +845,7 @@
 		generate_column: function ( date, at_start ) {
 			var header_main  = '',
 				header_class = '',
-				child        = 1,
+				tbody_number        = 0,
 				i            = 0,
 				day          = date.getDay() === 0 ? 6 : date.getDay() - 1;
 
@@ -844,12 +870,13 @@
 			if ( date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear() && ( interval === "86400" || date.getHours() === today.getHours() ) ) {
 				var today_marker  = $( '<div class="today"></div>' ),
 					today_overlay = $( '<div class="overlay"></div>' ),
-					difference    = 0;
+					difference    = 0,
+					real_today	  = new Date();
 
 				if ( interval === "86400" ) {
-					difference = cell_dimensions.width / 86400 * ( today.getHours() * 3600 + today.getMinutes() * 60 );
+					difference = cell_dimensions.width / 86400 * ( real_today.getHours() * 3600 + real_today.getMinutes() * 60 ) - 1;
 				} else {
-					difference = cell_dimensions.width / 3600 * ( today.getMinutes() * 60 );
+					difference = cell_dimensions.width / 3600 * ( real_today.getMinutes() * 60 ) - 1;
 				}
 
 				today_marker
@@ -885,15 +912,15 @@
 			}
 
 			$.each( data.resources, function ( resource_id, resource ) {
-				var cell_header = $( '<td class="resource"><div></div></td>' )
+				var cell_header = $( '<th><div></div></th>' )
 					.addClass( header_class )
 					.attr( 'data-resource', resource_id )
 					.attr( 'data-date', date.getTime() );
 
 				if ( at_start ) {
-					tbody.find( 'tr:nth-child(' + child + ')' ).prepend( cell_header );
+					$( thead[ tbody_number ]).find( 'tr' ).prepend( cell_header );
 				} else {
-					tbody.find( 'tr:nth-child(' + child + ')' ).append( cell_header );
+					$( thead[ tbody_number ] ).find( 'tr' ).append( cell_header );
 				}
 
 				for ( i = 1; i <= ( resource.availability_by === 'unit' ? resource.quantity : 1 ); i++ ) {
@@ -904,18 +931,16 @@
 						.attr( 'data-space', i )
 						.attr( 'data-date', date.getTime() );
 
-					child++;
-
 					if ( at_start ) {
-						tbody.find( 'tr:nth-child(' + child + ')' ).prepend( cell );
+						$(tbody[ tbody_number ]).find( 'tr:nth-child(' + i + ')' ).prepend( cell );
 					} else {
-						tbody.find( 'tr:nth-child(' + child + ')' ).append( cell );
+						$(tbody[ tbody_number ]).find( 'tr:nth-child(' + i + ')' ).append( cell );
 					}
 
 					cell
 						.droppable( {
-							scope: "reservations",
-							tolerance: "pointer",
+							scope: "reservations", //we only accept reservations
+							tolerance: "pointer", //targets the cell under the mouse
 							drop:  function ( event, ui ) {
 								var cell = $( this );
 
@@ -954,7 +979,7 @@
 							}
 						} );
 				}
-				child++;
+				tbody_number++;
 			} );
 
 			if ( at_start ) {

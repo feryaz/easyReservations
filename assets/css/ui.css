@@ -170,7 +170,7 @@
   padding: 0 10px;
   line-height: 2;
   display: inline-block;
-  font-size: 14px;
+  font-size: 13px;
   height: auto;
   font-weight: 500;
   color: #777;
@@ -195,13 +195,11 @@
 .easy-ui span.input-wrapper span.input-box.clickable {
   cursor: pointer;
 }
-.easy-ui span.input-wrapper span.input-box.clickable:hover {
-  color: #333;
-  background-color: #e0e0e0;
+.easy-ui span.input-wrapper span.input-box.clickable:hover, .easy-ui span.input-wrapper span.input-box.clickable.active {
+  background-color: #ebebeb;
 }
 .easy-ui span.input-wrapper span.input-box.clickable:active {
-  color: #333;
-  background-color: #dddddd;
+  background-color: #dedede;
 }
 .easy-ui span.input-wrapper .iris-picker {
   position: absolute;
