@@ -3055,32 +3055,32 @@ table.er_emails {
 
 .er-timeline {
   display: flex;
-  align-items: stretch;
-
-  border: 1px solid #ccd0d4;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  background-color: #fff;
-
-  user-select: none;
   height: 100%;
 
+  user-select: none;
+  background-color: #fff;
+  border: 1px solid #ccd0d4;
+
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  align-items: stretch;
+
   .sidebar {
-    transition: width 0.3s linear;
     overflow: hidden;
     border-right: 1px solid #ccd0d4;
+    transition: width 0.3s linear;
 
     .easy-datepicker {
-      transition: none;
       display: block;
       width: 304px;
+      transition: none;
 
       .ui-datepicker-inline {
         border: 0;
         border-bottom: 1px solid #ccd0d4;
 
         .ui-datepicker-header {
-          background: #fff;
           padding: 6px 0;
+          background: #fff;
 
           border: 0;
           border-bottom: 1px solid $innerborder;
@@ -3094,12 +3094,12 @@ table.er_emails {
   }
 
   .content {
-    transition: width 0.3s linear;
-
-    box-sizing: border-box;
     position: relative;
 
     width: 100%;
+    box-sizing: border-box;
+
+    transition: width 0.3s linear;
   }
 
   .sidebar.expanded + .content {
@@ -3107,37 +3107,37 @@ table.er_emails {
   }
 
   div.header {
-    height: 28px;
-    border-bottom: 1px solid $innerborder;
     display: flex;
+    height: 28px;
     padding: 8px;
+    border-bottom: 1px solid $innerborder;
     align-items: center;
 
     .left {
       text-align: right;
 
       .pending::after {
-        cursor: pointer;
-        font-size: 20px;
         position: relative;
+        font-size: 20px;
+        cursor: pointer;
 
         @include iconbeforedashicons("\f469");
       }
 
       .expand-sidebar::after {
-        cursor: pointer;
-        font-size: 20px;
         position: relative;
+        font-size: 20px;
+        cursor: pointer;
 
         @include iconbeforedashicons("\f310");
       }
 
       .contract-sidebar::after {
-        cursor: pointer;
+        position: relative;
         display: inline-block;
 
         font-size: 20px;
-        position: relative;
+        cursor: pointer;
         transform: scale(-1, 1);
 
         @include iconbeforedashicons("\f310");
@@ -3145,8 +3145,8 @@ table.er_emails {
     }
 
     .middle {
-      flex-grow: 2;
       text-align: center;
+      flex-grow: 2;
     }
 
     .right {
@@ -3158,10 +3158,10 @@ table.er_emails {
     display: flex;
 
     .resources {
+      z-index: 2;
       height: 100%;
       word-wrap: break-word;
       white-space: nowrap;
-      z-index: 2;
 
       table {
         margin: 0;
@@ -3178,11 +3178,11 @@ table.er_emails {
           max-width: 0;
           padding: 4px 5px 0;
 
-          border-right: 0;
-          border-top: 1px solid $innerborder;
-          border-bottom: 1px solid $innerborder;
-
           background-color: #fff;
+          border-top: 1px solid $innerborder;
+          border-right: 0;
+
+          border-bottom: 1px solid $innerborder;
 
           .resource-handler {
             color: #999;
@@ -3215,28 +3215,28 @@ table.er_emails {
           }
 
           a {
-            overflow: visible;
-
             width: 100%;
 
-            background: #fff;
+            overflow: visible;
+
+            font-size: 12px;
 
             font-weight: 400;
-            font-size: 12px;
             text-decoration: none;
+            background: #fff;
           }
         }
 
         tbody td {
-          padding: 3px 15px 3px 15px;
-          border-right: 1px solid $innerborder;
           height: 26px;
+          padding: 3px 15px 3px 15px;
           margin: 0;
           font-size: 12px;
-          background-color: #fff;
           font-weight: 600;
           color: #666;
           vertical-align: top;
+          background-color: #fff;
+          border-right: 1px solid $innerborder;
         }
       }
     }
@@ -3247,16 +3247,16 @@ table.er_emails {
 
       .prev,
       .next {
-        z-index: 3;
-        display: block;
-        font-family: 'Dashicons';
         position: absolute;
         top: 0;
-        font-size: 18px;
-        height: 44px;
+        z-index: 3;
+        display: block;
         width: 30px;
-        cursor: pointer;
+        height: 44px;
+        font-family: 'Dashicons';
+        font-size: 18px;
         color: #999;
+        cursor: pointer;
 
         &:hover {
           color: #6d6d6d;
@@ -3279,8 +3279,8 @@ table.er_emails {
       }
 
       .next {
-        text-align: right;
         right: 0;
+        text-align: right;
         background: linear-gradient(270deg, white 20%, transparent 100%);
 
         &:after {
@@ -3303,71 +3303,71 @@ table.er_emails {
     }*/
 
     .timeline {
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
 
       .reservation {
-        box-sizing: content-box;
         position: absolute;
-        display: flex;
-        cursor: pointer;
-        flex-direction: row;
         top: 0;
-        width: 100%;
         z-index: 3;
+        display: flex;
+        width: 100%;
+        box-sizing: content-box;
         padding: 0;
         margin: 3px 0 0 0;
-        white-space: nowrap;
-        background: #63aaff;
-        border-left: 2px solid #5088cc;
-        color: #fff;
         font-size: 12px;
         font-weight: 400;
+        color: #fff;
+        white-space: nowrap;
+        cursor: pointer;
+        flex-direction: row;
+        background: #63aaff;
+        border-left: 2px solid #5088cc;
         //outline: 1px solid #5088cc;outline-offset: -1px;
 
         .wrapper {
           display: block;
-          flex-grow: 1;
-          box-sizing: content-box;
-          min-width: 0;
-          pointer-events: none;
           width: 100%;
+          min-width: 0;
+          box-sizing: content-box;
           padding: 4px;
+          pointer-events: none;
+          flex-grow: 1;
 
           span {
             position: -webkit-sticky;
             position: sticky;
-            left: 0;
-            right: 0;
             top: 0;
+            right: 0;
+            left: 0;
 
             display: inline-block;
-            vertical-align: top;
             max-width: 100%;
             box-sizing: border-box;
-            white-space: nowrap;
             overflow: hidden;
+            white-space: nowrap;
+            vertical-align: top;
           }
         }
 
         &.ui-draggable-dragging {
-          opacity: 80%;
           z-index: 3;
           pointer-events: none;
+          opacity: 80%;
         }
 
         &.ui-resizable-resizing {
-          opacity: 80%;
           z-index: 3;
+          opacity: 80%;
         }
       }
 
       table {
-        box-sizing: content-box;
-        border-collapse: collapse;
-        border-spacing: 0;
-        table-layout: fixed;
         width: 100%;
+        box-sizing: content-box;
+        table-layout: fixed;
+        border-spacing: 0;
+        border-collapse: collapse;
         //overflow: hidden; TODO
 
         tr:nth-of-type(odd) td {
@@ -3378,23 +3378,23 @@ table.er_emails {
           cursor: grab;
 
           th {
+            position: relative;
             width: 95px;
             padding: 4px 0;
-            border-left: 1px solid transparent;
-            border-bottom: 0;
-            position: relative;
             font-size: 13px;
             font-weight: bold;
+            border-bottom: 0;
+            border-left: 1px solid transparent;
 
             .date {
               position: relative;
-              pointer-events: none;
               z-index: 2;
               text-align: center;
+              pointer-events: none;
 
               span {
-                transition: background-color 0.1s linear;
                 border-radius: 50%;
+                transition: background-color 0.1s linear;
               }
 
               div {
@@ -3410,9 +3410,9 @@ table.er_emails {
             &.current {
               .date span {
                 //background-color: #d4d4d4;
-                border-radius: 50%;
                 padding: 2px 3px;
                 color: $primary;
+                border-radius: 50%;
               }
             }
 
@@ -3423,51 +3423,51 @@ table.er_emails {
             }
 
             div.first-of-month {
-              z-index: 4;
-              left:-1px;
               position: absolute;
-              height: 1000px;
-              border-left: 2px solid #c94330;
               top: -20px;
+              left:-1px;
+              z-index: 4;
+              height: 1000px;
               pointer-events: none;
+              border-left: 2px solid #c94330;
             }
 
             div.today {
-              z-index: 4;
               position: absolute;
-              height: 1000px;
-              border-left: 2px dashed #008cff;
               top: -20px;
+              z-index: 4;
+              height: 1000px;
               pointer-events: none;
+              border-left: 2px dashed #008cff;
             }
 
             div.overlay {
-              z-index: 1;
               position: absolute;
-              margin-left: -100000px;
+              top: 0;
+              z-index: 1;
               height: 44px;
+              margin-left: -100000px;
+              pointer-events: none;
               background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
               background-size: 6.00px 6.00px;
               opacity: 4%;
-              top: 0;
-              pointer-events: none;
             }
           }
 
           th.past:after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
             z-index: 1;
+            width: 101%;
+            height: 100%;
+            pointer-events: none;
             content: "";
             background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
             background-size: 6.00px 6.00px;
             opacity: 4%;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            width: 101%;
-            height: 100%;
-            position: absolute;
-            pointer-events: none;
           }
         }
 
@@ -3475,28 +3475,28 @@ table.er_emails {
           th {
             z-index: 1;
             width: 88px;
-            padding: 0;
             height: 24px;
+            padding: 0;
             background-color: #fff;
             border: 0;
 
             div {
-              pointer-events: none;
               height: 24px;
-              border-top: 1px solid #ebebeb;
-              border-bottom: 1px solid #ebebeb;
               padding: 1px 5px;
               text-align: center;
+              pointer-events: none;
+              border-top: 1px solid #ebebeb;
+              border-bottom: 1px solid #ebebeb;
 
               span {
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 24px;
+                color: #888888;
+                vertical-align: middle;
                 animation-name: fadeIn;
                 animation-duration: 1s;
                 animation-fill-mode: both;
-                font-size: 12px;
-                font-weight: 400;
-                color: #888888;
-                line-height: 24px;
-                vertical-align: middle;
               }
             }
 
@@ -3513,12 +3513,12 @@ table.er_emails {
             }
 
             td {
+              position: relative;
               width: 87px;
+              height: 32px;
+              min-height: 34px;
               padding: 0;
               border-left: 1px solid $innerborder;
-              position: relative;
-              min-height: 34px;
-              height: 32px;
 
               &.weekend {
                 //background: #ffffda;
@@ -3554,13 +3554,13 @@ table.er_emails {
                 }
 
                 &:hover {
-                  transition: 0.3s;
                   border-left: 2px solid #223955;
+                  transition: 0.3s;
                 }
 
                 &.ui-resizable-resizing {
-                  opacity: 0.8;
                   z-index: 3;
+                  opacity: 0.8;
                 }
               }
             }
