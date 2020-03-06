@@ -885,7 +885,7 @@ class ER_Reservation extends ER_Receipt {
             $t_total_children = $t_price_children * $multiplier_children;
             $t_total          = $t_total_adults + $t_total_children;
 
-            if ( $return_receipt ) {
+            if ( is_array( $return_receipt ) ) {
                 $return_receipt[] = array(
                     'type'           => 'resource',
                     'resource_id'    => $resource->get_id(),
@@ -914,7 +914,7 @@ class ER_Reservation extends ER_Receipt {
                     }
 
                     if ( $amount !== 0 ) {
-                        if( $return_receipt ){
+                        if( is_array( $return_receipt ) ){
                             $return_receipt[] = array(
                                 'type'        => 'filter',
                                 'resource_id' => $resource->get_id(),

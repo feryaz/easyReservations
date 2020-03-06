@@ -82,7 +82,7 @@ $time_options = er_form_time_options();
         ),
         array(
             'title'       => __( 'Billing', 'easyReservations' ),
-            'desc_tip'    => __( 'The interval by which reservations get billed. In daily mode every 24 hours get charged while the nightly mode only charges once per day regardless of arrival and departure time.', 'easyReservations' ),
+            'desc_tip'    => __( 'Base price gets multiplied by amount of adults, children price by amount of children.', 'easyReservations' ),
             'desc'        => sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'person', 'easyReservations' ) ),
             'input-group' => 'start',
             'id'          => 'billing_per_person',
