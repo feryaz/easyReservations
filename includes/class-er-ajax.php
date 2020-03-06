@@ -1595,8 +1595,8 @@ class ER_AJAX {
             $availability = new ER_Resource_Availability( $resource, 0, 1, 0, false, $interval );
             $date         = clone $start;
 
-            while( $date < $end ){
-                $return[$resource->get_id()][($date->getOffsetTimestamp() - ( $hour * 3600 ))] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
+            while ( $date < $end ) {
+                $return[$resource->get_id()][( $date->getOffsetTimestamp() - ( $hour * 3600 ) )] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
                 $date->add( $date_interval );
             }
         }
@@ -1613,17 +1613,17 @@ class ER_AJAX {
             $wpdb->prepare(
                 "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, m.meta_value as title " .
                 "FROM {$wpdb->prefix}reservations as r " .
-                "INNER JOIN {$wpdb->prefix}reservationmeta as m on m.reservation_id = r.id " .
-                "WHERE %s <= r.departure AND %s >= r.arrival and m.meta_key = %s AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') ".
+                "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
+                "WHERE %s <= r.departure AND %s >= r.arrival AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') " .
                 "ORDER BY arrival",
-                $start->format( 'Y-m-d H:i:s'),
-                $end->format( 'Y-m-d H:i:s'),
-                '_title'
+                '_title',
+                $start->format( 'Y-m-d H:i:s' ),
+                $end->format( 'Y-m-d H:i:s' )
             )
         );
 
         wp_send_json( array(
-            'data' => $return,
+            'data'         => $return,
             'reservations' => $reservations
         ) );
 

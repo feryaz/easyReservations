@@ -1746,8 +1746,8 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   margin: 2px 0 2px 4px;
 }
 
-.reservation-preview,
-.order-preview {
+a.reservation-preview,
+a.order-preview {
   float: right;
   width: 16px;
   padding: 4px 7px 4px 4px;
@@ -1758,8 +1758,8 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   border-radius: 4px;
   text-decoration: none;
 }
-.reservation-preview::before,
-.order-preview::before {
+a.reservation-preview::before,
+a.order-preview::before {
   font-family: "Dashicons";
   outline: none !important;
   content: "";
@@ -1768,12 +1768,12 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   font-size: 18px;
   vertical-align: top;
 }
-.reservation-preview:hover,
-.order-preview:hover {
+a.reservation-preview:hover,
+a.order-preview:hover {
   border: 2px solid #00a0d2;
 }
-.reservation-preview.disabled::before,
-.order-preview.disabled::before {
+a.reservation-preview.disabled::before,
+a.order-preview.disabled::before {
   content: url("../images/wpspin.gif");
   padding-left: 1px;
 }
@@ -1813,8 +1813,7 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   line-height: 2.5em;
   color: #777;
   background: #e5e5e5;
-  border-radius: 4px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
   margin: -0.25em 0;
   cursor: inherit !important;
   white-space: nowrap;
@@ -1825,25 +1824,45 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   background: #c8d7e1;
   color: #2e4453;
 }
+.reservation-status.status-completed.background,
+.order-status.status-completed.background {
+  background: #2e4453;
+}
 .reservation-status.status-on-hold,
 .order-status.status-on-hold {
   background: #f8dda7;
   color: #94660c;
+}
+.reservation-status.status-on-hold.background,
+.order-status.status-on-hold.background {
+  background: #94660c;
 }
 .reservation-status.status-failed,
 .order-status.status-failed {
   background: #eba3a3;
   color: #761919;
 }
+.reservation-status.status-failed.background,
+.order-status.status-failed.background {
+  background: #761919;
+}
 .reservation-status.status-approved,
 .order-status.status-approved {
   background: #c6e1c6;
   color: #5b841b;
 }
+.reservation-status.status-approved.background,
+.order-status.status-approved.background {
+  background: #5b841b;
+}
 .reservation-status.status-trash,
 .order-status.status-trash {
   background: #eba3a3;
   color: #761919;
+}
+.reservation-status.status-trash.background,
+.order-status.status-trash.background {
+  background: #761919;
 }
 .reservation-status > span,
 .order-status > span {
@@ -3181,20 +3200,66 @@ table.er_emails .er-email-settings-table-status .tips {
   border-right: 1px solid #ccd0d4;
   transition: width 0.3s linear;
 }
-.er-timeline .sidebar .easy-datepicker {
+.er-timeline .sidebar h2 {
+  margin: 0;
+  padding: 13px;
+  border-bottom: 1px solid #ebebeb;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+.er-timeline .sidebar h3 {
+  margin: 10px 0;
+  padding: 4px 13px;
+  background: #ebebeb;
+  color: #777;
+  font-size: 13px;
+  font-weight: 500;
+}
+.er-timeline .sidebar .input-wrapper {
+  width: 90%;
+  margin: 0 5% 5px;
+}
+.er-timeline .sidebar .input-wrapper .input-box {
+  width: 100%;
+}
+.er-timeline .sidebar > .calendar .easy-datepicker {
   display: block;
   width: 304px;
   transition: none;
 }
-.er-timeline .sidebar .easy-datepicker .ui-datepicker-inline {
+.er-timeline .sidebar > .calendar .easy-datepicker .ui-datepicker-inline {
   border: 0;
   border-bottom: 1px solid #ccd0d4;
 }
-.er-timeline .sidebar .easy-datepicker .ui-datepicker-inline .ui-datepicker-header {
+.er-timeline .sidebar > .calendar .easy-datepicker .ui-datepicker-inline .ui-datepicker-header {
   padding: 6px 0;
   background: #fff;
   border: 0;
   border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .pending {
+  width: 304px;
+}
+.er-timeline .sidebar > .pending .reservations {
+  padding: 13px;
+  cursor: pointer;
+}
+.er-timeline .sidebar > .reservation-details {
+  width: 304px;
+}
+.er-timeline .sidebar > .reservation-details .reservation-header {
+  padding: 13px;
+}
+.er-timeline .sidebar > .reservation-details .reservation-header .reservation-status {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  margin-right: 6px;
+}
+.er-timeline .sidebar > .reservation-details .reservation-header .title {
+  font-size: 16px;
+  font-weight: 500;
+  vertical-align: middle;
 }
 .er-timeline .sidebar.expanded {
   width: 304px;
@@ -3218,6 +3283,22 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline div.header .left {
   text-align: right;
 }
+.er-timeline div.header .left .pending {
+  position: relative;
+  display: inline-block;
+}
+.er-timeline div.header .left .pending span {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 1;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 17px;
+  color: white;
+  background: red;
+  border-radius: 50%;
+}
 .er-timeline div.header .left .pending::after {
   position: relative;
   font-size: 20px;
@@ -3229,7 +3310,7 @@ table.er_emails .er-email-settings-table-status .tips {
   text-transform: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  content: "";
+  content: "";
   text-decoration: none;
 }
 .er-timeline div.header .left .expand-sidebar::after {
@@ -3421,11 +3502,9 @@ table.er_emails .er-email-settings-table-status .tips {
   font-size: 12px;
   font-weight: 400;
   color: #fff;
-  white-space: nowrap;
   cursor: pointer;
+  white-space: nowrap;
   flex-direction: row;
-  background: #63aaff;
-  border-left: 2px solid #5088cc;
 }
 .er-timeline .container .timeline .reservation .wrapper {
   display: block;
@@ -3433,21 +3512,39 @@ table.er_emails .er-email-settings-table-status .tips {
   min-width: 0;
   box-sizing: content-box;
   padding: 4px;
+  padding-left: 0;
   pointer-events: none;
   flex-grow: 1;
 }
-.er-timeline .container .timeline .reservation .wrapper span {
+.er-timeline .container .timeline .reservation .wrapper .sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   right: 0;
   left: 0;
+  padding-left: 4px;
   display: inline-block;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   white-space: nowrap;
   vertical-align: top;
+}
+.er-timeline .container .timeline .reservation .wrapper .sticky .id {
+  padding: 0 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+.er-timeline .container .timeline .reservation .wrapper .sticky .title {
+  pointer-events: auto;
+  position: relative;
+  display: inline-block;
+  padding-left: 4px;
+  cursor: text;
+}
+.er-timeline .container .timeline .reservation.approved {
+  background: #60a2ff;
+  border-left: 2px solid #497cc3;
 }
 .er-timeline .container .timeline .reservation.ui-draggable-dragging {
   z-index: 3;
@@ -3664,8 +3761,8 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-backbone-modal-main .er-backbone-modal-header {
   height: auto;
-  background: #fcfcfc;
   padding: 1em 1.5em;
+  background: #fcfcfc;
   border-bottom: 1px solid #ddd;
 }
 .er-backbone-modal-main .er-backbone-modal-header h1 {
@@ -3675,18 +3772,18 @@ table.er_emails .er-email-settings-table-status .tips {
   line-height: 1.5em;
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link {
-  cursor: pointer;
-  color: #777;
-  height: 54px;
-  width: 54px;
-  padding: 0;
   position: absolute;
   top: 0;
   right: 0;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  color: #777;
   text-align: center;
+  cursor: pointer;
+  background-color: transparent;
   border: 0;
   border-left: 1px solid #ddd;
-  background-color: transparent;
   transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link::before {

@@ -63,8 +63,11 @@
 				er_timeline.init();
 			}
 		} )
+		.on( 'click', '.pending', function () {
+			er_sidebar.toggle_pending();
+		} )
 		.on( 'click', '.date', function () {
-			er_sidebar.toggle();
+			er_sidebar.toggle_calendar();
 		} )
 		.on( 'click', '.today', function () {
 			er_timeline.jump_to_date( today );
@@ -169,11 +172,99 @@
 			}
 		} )
 		.on( 'click', '.reservation', function () {
+			var id = parseInt( $( this ).attr( 'data-id' ), 10 );
+
 			timeline.find( '.reservation.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
+
+			er_sidebar.display_reservation( reservations[ id ] );
+		} )
+		.on( 'click', '.title', function ( e ) {
+			//$( this ).focus();
 		} );
 
 	var er_sidebar = {
+
+		/**
+		 * Init sidebar
+		 */
+		init: function () {
+
+			if ( data.pending && data.pending.length > 0 ) {
+				header.find( '.pending' ).html( '<span>' + data.pending.length + '</span>' );
+
+				var reservations_container = sidebar.find( '> .pending' ).find( '.reservations' );
+				reservations_container.html( '' );
+
+				$.each( data.pending, function ( index, reservation ) {
+					var element          = $( '<div class="pending-reservation">' ),
+						resource_id      = parseInt( reservation.resource, 10 ),
+						found_free_space = false;
+
+					reservation.arrival = new Date( reservation.arrival );
+					reservation.departure = new Date( reservation.departure );
+
+					if( !reservation.title ){
+						reservation.title = 'No title';
+					}
+
+					element
+						.html( '<span>#' + reservation.id + ' ' + reservation.title + '</span>' );
+
+					element.bind( 'click', function () {
+						er_timeline.jump_to_date( reservation.arrival );
+
+						if ( resource_id > 0 ) {
+							timeline_container.find( '.resource-handler:not([data-resource="' + reservation.resource + '"],.retracted)' ).click();
+						}
+
+						$.each( data.resources, function ( _, resource ) {
+							if ( !found_free_space && ( resource_id === 0 || resource_id === resource.ID ) ) {
+								if ( resource.availability_by === 'unit' ) {
+									reservation.resource = resource.ID;
+									reservation.space = 1;
+									found_free_space = true;
+
+									return false;
+								} else {
+									reservation.resource = resource.ID;
+
+									for ( var i = 1; i <= resource.quantity; i++ ) {
+										reservation.space = 1;
+
+										//TODO this should happen after reservations are loaded
+										if ( er_timeline.check_availability( reservation ) ) {
+											found_free_space = true;
+											break;
+										}
+									}
+								}
+							}
+						} );
+
+						if ( found_free_space ) {
+							reservation.status = 'approved';
+
+							er_timeline.add_reservation( reservation );
+							er_timeline.draw_reservations();
+
+							data.pending.splice( index );
+							$( this ).remove();
+							er_sidebar.init();
+						}
+					} );
+
+					reservations_container.append( element );
+				} );
+			} else {
+				header.find( '.pending' ).html( '' );
+
+				sidebar.find( '> .pending' ).find( '.reservations' ).html( data.i18n_no_pending );
+			}
+
+			er_sidebar.display_calendar();
+		},
+
 		/**
 		 * Is sidebar open
 		 *
@@ -186,7 +277,7 @@
 		/**
 		 * Open sidebar
 		 */
-		open:    function () {
+		open: function () {
 			if ( !er_sidebar.is_open() ) {
 				header.find( '.expand-sidebar' ).click();
 			}
@@ -195,7 +286,7 @@
 		/**
 		 * Close sidebar
 		 */
-		close:   function () {
+		close: function () {
 			if ( er_sidebar.is_open() ) {
 				header.find( '.contract-sidebar' ).click();
 			}
@@ -203,17 +294,93 @@
 
 		/**
 		 * Toggle sidebar
+		 *
+		 * @return {boolean}
 		 */
-		toggle:  function () {
+		toggle: function () {
 			if ( er_sidebar.is_open() ) {
 				header.find( '.contract-sidebar' ).click();
+				return false;
 			} else {
 				header.find( '.expand-sidebar' ).click();
+				return true;
 			}
-		}
-	};
+		},
 
-	er_sidebar.open();
+		/**
+		 * If calendar is open close sidebar, else display calendar and/or open sidebar
+		 */
+		toggle_calendar: function () {
+			if ( !sidebar.find( '> .calendar' ).hasClass( 'visible' ) ) {
+				er_sidebar.display_calendar();
+				er_sidebar.open();
+			} else {
+				er_sidebar.toggle();
+			}
+		},
+
+		/**
+		 * If pending is open close sidebar, else display pending and/or open sidebar
+		 */
+		toggle_pending: function () {
+			if( !sidebar.find( '> .pending' ).hasClass( 'visible' ) ){
+				er_sidebar.display_pending();
+				er_sidebar.open();
+			} else {
+				er_sidebar.toggle();
+			}
+		},
+
+		/**
+		 * Clear currently displayed section
+		 */
+		clear: function () {
+			sidebar.find( '> .visible' ).hide().removeClass( 'visible' );
+		},
+
+		/**
+		 * Display calendar
+		 */
+		display_calendar: function () {
+			var container = sidebar.find( '> .calendar' );
+
+			er_sidebar.clear();
+			container.show().addClass( 'visible' );
+		},
+
+		/**
+		 * Display pending
+		 */
+		display_pending: function () {
+			var container = sidebar.find( '> .pending' );
+
+			er_sidebar.clear();
+			container.show().addClass( 'visible' );
+		},
+
+		/**
+		 * Display reservation
+		 *
+		 * @param {Object} reservation
+		 */
+		display_reservation: function ( reservation ) {
+			var container = sidebar.find( '> .reservation-details' ),
+				container_header = container.find( '.reservation-header' );
+
+			container_header.find( '.title' ).html( reservation.title );
+			container_header.find( '.reservation-status' ).attr( 'class', 'reservation-status status-' + reservation.status );
+
+			container.find( '.reservation-preview' )
+				.attr( 'data-reservation-id', reservation.id )
+				.data( 'reservation-data', false );
+
+			container.find( '.input-box.status- ' + reservation.status ).remove().addClass( 'reservation-status' );
+
+			er_sidebar.clear();
+			container.show().addClass( 'visible' );
+			er_sidebar.open();
+		},
+	};
 
 	var er_timeline = {
 
@@ -246,7 +413,7 @@
 
 			for ( var i = 0; i < 50; i++ ) {
 				end = er_timeline.manipulate_date_without_offset( start, i * interval * 1000 );
-				er_timeline.generate_column( end );
+				er_timeline.generate_column( end, false );
 			}
 
 			er_timeline.load_remaining();
@@ -262,8 +429,8 @@
 		/**
 		 * Add an amount in milliseconds to a data object. If there's an offset in timezones also adds that offset.
 		 *
-		 * @param date
-		 * @param amount
+		 * @param {Date} date
+		 * @param {int} amount
 		 * @returns {Date}
 		 */
 		manipulate_date_without_offset: function ( date, amount ) {
@@ -274,7 +441,7 @@
 		/**
 		 * Highlights currently hovered column
 		 *
-		 * @param date
+		 * @param {Date} date
 		 */
 		highlight_current: function ( date ) {
 			table.find( 'td.hover, th.hover' ).removeClass( 'hover' );
@@ -310,7 +477,7 @@
 				//If only the hour changed in hourly view we don't change the header or datepicker
 				selected = currently_selected;
 
-				thead_main.find( 'th.current' ).removeClass( 'current' )
+				thead_main.find( 'th.current' ).removeClass( 'current' );
 				thead_main.find( 'th[data-date="' + selected.getTime() + '"]' ).addClass( 'current' );
 			}
 		},
@@ -375,7 +542,7 @@
 			} else {
 				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
 
-				er_timeline.generate_column( end );
+				er_timeline.generate_column( end, false );
 
 				table.find( 'th:first-child' ).remove();
 				table.find( 'td:first-child' )
@@ -441,7 +608,7 @@
 								//$( 'td[data-date="' + ( parseInt( timestamp, 10 ) * 1000 ) + '"][data-resource="' + resource_id + '"]' ).css( 'background', '#ff0000' );
 								var date       = new Date( parseInt( timestamp, 10 ) * 1000 ),
 									cell_class = '',
-									content    = '';
+									content;
 
 								if ( result < 0 ) {
 									cell_class = 'unavailable';
@@ -455,7 +622,7 @@
 									.addClass( cell_class );
 								thead.find( 'th[data-date="' + ( date.getTime() + ( date.getTimezoneOffset() * 1000 * 60 ) ) + '"][data-resource="' + resource_id + '"]' )
 									.html( '<div><span>' + content + '</span></div>' )
-									.addClass( result == quantity ? 'unavailable' : '' );
+									.addClass( parseInt( result, 10 ) === quantity ? 'unavailable' : '' );
 							} );
 						} );
 					}
@@ -479,7 +646,7 @@
 				completed = true;
 
 			$.each( reservations, function ( _, reservation ) {
-				if ( reservation && reservation.changed ) {
+				if ( reservation && reservation.changed && reservation.status !== 'pending' ) {
 					queue.push( reservation.id );
 				}
 			} );
@@ -573,6 +740,100 @@
 		},
 
 		/**
+		 * Set jquery dom element to be draggable
+		 *
+		 * @param {jQuery} element
+		 */
+		set_draggable: function ( element ) {
+			element.draggable( {
+				snap:          snapping_enabled ? false : 'td.cell,.reservation',
+				snapTolerance: 3,
+				scroll:        false,
+				helper:        "clone",
+				appendTo:      ".timeline",
+				stack:         '.reservation',
+				scope:         'reservations',
+				cancel:        '.title',
+				revert:        function ( event, ui ) {
+					if ( event )
+						return event;
+
+					//on older version of jQuery use $(this).data("draggable")
+					//on 2.x versions of jQuery use $(this).data("ui-draggable")
+					$( this ).data( "uiDraggable" ).originalPosition = {
+						top:  drag_start_position.top - 1,
+						left: drag_start_position.left
+					};
+
+					return !event;
+				},
+
+				start: function ( event, ui ) {
+					drag_start_position = ui.originalPosition;
+					drag_start_offset = ui.offset;
+				},
+
+				drag: function ( event, ui ) {
+					var id             = parseInt( ui.helper.attr( 'data-id' ), 10 ),
+						reservation    = reservations[ id ],
+						difference     = interval / cell_dimensions.width * ( ui.position.left - drag_start_position.left ),
+						mouse_position = mouse_pos_x - timeline.offset().left;
+
+					if ( snapping_enabled ) {
+						var step = Math.round( ( ui.position.left - drag_start_position.left ) / cell_dimensions.width );
+						difference = step * interval;
+						ui.position.left = drag_start_position.left + ( step * cell_dimensions.width );
+					}
+
+					tooltip
+						.html(
+							easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, difference * 1000 ) ) + ' - ' +
+							easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.departure, difference * 1000 ) )
+						)
+						.css( {
+							'top':     mouse_pos_y,
+							'left':    Math.min( mouse_pos_x - 130, timeline.width() ),
+							'display': 'block'
+						} );
+
+					if ( drag_snap_top !== false ) {
+						ui.position.top = drag_snap_top - drag_start_offset.top + drag_start_position.top;
+					}
+
+					if ( ( mouse_position > 0 && mouse_position < 15 ) || timeline.width() - mouse_position < 15 ) {
+						if ( scroll_action === false ) {
+							scroll_action = setInterval( function () {
+								if ( scroll_action !== false ) {
+									var mouse_position = mouse_pos_x - timeline.offset().left;
+									if ( scroll_add === false && ( ( mouse_position > 0 && mouse_position < 15 ) || timeline.width() - mouse_position < 15 ) ) {
+										er_timeline.add_new_column( mouse_position < 15 );
+										drag_start_position.left = drag_start_position.left + ( mouse_position < 15 ? cell_dimensions.width : cell_dimensions.width * -1 );
+									}
+
+									timeline.scrollLeft( Math.max( 1, timeline.scrollLeft() + ( mouse_position < 15 ? cell_dimensions.width * -1 : cell_dimensions.width ) ) );
+									//timeline.animate( { scrollLeft: ( mouse_pos_x - timeline.offset().left < 10 ? '-=' : '+=' ) + cell_dimensions.width + 'px' }, 130 );
+								}
+							}, 130 );
+						}
+					} else if ( scroll_action !== false ) {
+						clearInterval( scroll_action );
+						scroll_action = false;
+						er_timeline.load_remaining();
+					}
+				},
+
+				stop: function () {
+					tooltip.css( 'display', 'none' );
+					if ( scroll_action !== false ) {
+						clearInterval( scroll_action );
+						scroll_action = false;
+						er_timeline.load_remaining();
+					}
+				}
+			} );
+		},
+
+		/**
 		 * Draw single reservation
 		 *
 		 * @param {object} reservation
@@ -641,6 +902,8 @@
 
 			if ( did_add === false ) {
 				//No cell to put reservation in found
+				reservations[ id ].changed = false;
+
 				return true;
 				//delete reservations[ id ];
 			} else {
@@ -652,109 +915,15 @@
 					//We can draw this reservations now
 
 					element
-						.html( '<span class="wrapper"><span>#' + id + ' ' + reservation.title + '</span></span>' )
-						.draggable( {
-							snap:          snapping_enabled ? false : 'td.cell,.reservation',
-							snapTolerance: 3,
-							scroll:        false,
-							helper:        "clone",
-							appendTo:      ".timeline",
-							revert:        function ( event, ui ) {
-								if ( event )
-									return event;
-								// on older version of jQuery use "draggable"
-								// $(this).data("draggable")
-								// on 2.x versions of jQuery use "ui-draggable"
-								// $(this).data("ui-draggable")
-								if ( $( this ).data( "uiDraggable" ) ) {
-
-								}
-								$( this ).data( "uiDraggable" ).originalPosition = {
-									top:  drag_start_position.top - 1,
-									left: drag_start_position.left
-								};
-								// return boolean
-								return !event;
-								// that evaluate like this:
-								// return event !== false ? false : true;
-							},
-							stack:         '.reservation',
-							scope:         'reservations',
-							start:         function ( event, ui ) {
-								drag_start_position = ui.originalPosition;
-								drag_start_offset = ui.offset;
-							},
-							drag:          function ( event, ui ) {
-								var id             = parseInt( ui.helper.attr( 'data-id' ), 10 ),
-									reservation    = reservations[ id ],
-									difference     = interval / cell_dimensions.width * ( ui.position.left - drag_start_position.left ),
-									mouse_position = mouse_pos_x - timeline.offset().left;
-
-								if ( snapping_enabled ) {
-									console.log( ui );
-									var test = Math.round( ( ui.position.left - drag_start_position.left ) / cell_dimensions.width );
-									difference = test * interval;
-									ui.position.left = drag_start_position.left + ( test * cell_dimensions.width );
-								}
-
-								tooltip
-									.html(
-										easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, difference * 1000 ) ) +
-										' - ' +
-										easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.departure, difference * 1000 ) )
-									)
-									.css( {
-										'top':  mouse_pos_y,
-										'left': Math.min( mouse_pos_x - 130, timeline.width() )
-									} )
-									.show();
-
-								if ( drag_snap_top !== false ) {
-									ui.position.top = drag_snap_top - drag_start_offset.top + drag_start_position.top;
-								}
-
-								if ( mouse_position < 15 || timeline.width() - mouse_position < 15 ) {
-									if ( scroll_action === false ) {
-										scroll_action = setInterval( function () {
-											if ( scroll_action !== false ) {
-												if ( scroll_add === false && ( timeline.scrollLeft() < 2 || timeline[ 0 ].scrollWidth - ( timeline.width() + timeline.scrollLeft() ) < 2 ) ) {
-													er_timeline.add_new_column( timeline.scrollLeft() < 2 );
-													drag_start_position.left = drag_start_position.left + ( timeline.scrollLeft() < 2 ? cell_dimensions.width : cell_dimensions.width * -1 );
-												}
-
-												timeline.scrollLeft( Math.max( 1, timeline.scrollLeft() + ( mouse_pos_x - timeline.offset().left < 10 ? cell_dimensions.width * -1 : cell_dimensions.width ) ) );
-												//timeline.animate( { scrollLeft: ( mouse_pos_x - timeline.offset().left < 10 ? '-=' : '+=' ) + cell_dimensions.width + 'px' }, 130 );
-											}
-										}, 130 );
-									}
-								} else if ( scroll_action !== false ) {
-									clearInterval( scroll_action );
-									scroll_action = false;
-									er_timeline.load_remaining();
-								}
-							},
-							stop:          function () {
-								tooltip.hide();
-								if ( scroll_action !== false ) {
-									clearInterval( scroll_action );
-									scroll_action = false;
-									er_timeline.load_remaining();
-								}
-							}
-						} )
+						.html( '<span class="wrapper"><span class="sticky"><span class="id">' + id + '</span><div class="title" contenteditable="true">' + reservation.title + '</div></span></span>' )
 						.resizable( {
 							handles:   'e, w',
-							grid:      snapping_enabled ? [96, 28] : false,
+							grid:      snapping_enabled ? [96, 26] : false,
 							maxWidth:  cell_dimensions.width * 50,
 							scroll:    0,
 							minHeight: 0,
 							minWidth:  4,
 							start:     function ( event, ui ) {
-								var id             = parseInt( ui.originalElement.attr( 'data-id' ), 10 ),
-									cell           = ui.originalElement.parent(),
-									direction_west = $( last_hover ).hasClass( 'ui-resizable-w' );
-
-								console.log( ui.originalElement.css( 'top' ) );
 								ui.originalElement.attr( 'style', 'left: ' + ui.originalElement.css( 'left' ) + ';top: ' + ui.originalElement.css( 'top' ) + ' !important;width: ' + ui.originalElement.css( 'width' ) );
 							},
 							resize:    function ( event, ui ) {
@@ -762,7 +931,7 @@
 									reservation          = reservations[ id ],
 									arrival_difference   = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
 									departure_difference = interval / cell_dimensions.width * ( ui.size.width + 2 ),
-									message              = '';
+									message;
 
 								if ( ui.position.left - ui.originalPosition.left !== 0 ) {
 									message = easyFormatTime( er_timeline.manipulate_date_without_offset( reservation.arrival, arrival_difference * 1000 ) );
@@ -777,11 +946,10 @@
 								tooltip
 									.html( message )
 									.css( {
-										'top':  mouse_pos_y,
-										'left': Math.min( mouse_pos_x - 130, timeline.width() )
-									} )
-									.show();
-
+										'top':     mouse_pos_y,
+										'left':    Math.min( mouse_pos_x - 130, timeline.width() ),
+										'display': 'block'
+									} );
 							},
 							stop:      function ( event, ui ) {
 								var id                   = parseInt( ui.element.attr( 'data-id' ), 10 ),
@@ -795,12 +963,7 @@
 										space:     reservations[ id ].space
 									};
 
-								console.log( ui.size.width );
-								console.log( departure_difference );
-								console.log( reservation.arrival );
-								console.log( reservation.departure );
-
-								if ( er_both_params.resources[ reservations[ id ].resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
+								if ( data.resources[ reservations[ id ].resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
 									er_timeline.recursively_remove_reservation( reservations[ id ] );
 
 									reservations[ id ].arrival = reservation.arrival;
@@ -821,15 +984,18 @@
 									);
 								}
 
-								tooltip.hide();
+								tooltip.css( 'display', 'none' );
 							}
 						} )
 						.css( 'min-width', width_px + 'px' )
 						.css( 'max-width', width_px + 'px' )
 						.css( 'top', '0px' )
 						.css( 'position', 'absolute' )
+						.addClass( reservation.status )
 						.attr( 'data-tip', reservation.id )
 						.attr( 'data-id', reservation.id );
+
+					er_timeline.set_draggable( element );
 
 					var was_there = $( '.reservation[data-id="' + id + '"]' ).remove();
 
@@ -931,7 +1097,7 @@
 		 * @param {boolean} at_start wether to add it at start
 		 */
 		generate_column: function ( date, at_start ) {
-			var header_main  = '',
+			var header_main,
 				header_class = '',
 				tbody_number = 0,
 				i            = 0,
@@ -963,8 +1129,8 @@
 			if ( date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear() && ( interval === "86400" || date.getHours() === today.getHours() ) ) {
 				var today_marker  = $( '<div class="today"></div>' ),
 					today_overlay = $( '<div class="overlay"></div>' ),
-					difference    = 0,
-					real_today    = new Date();
+					real_today    = new Date(),
+					difference;
 
 				if ( interval === "86400" ) {
 					difference = cell_dimensions.width / 86400 * ( real_today.getHours() * 3600 + real_today.getMinutes() * 60 ) - 1;
@@ -1051,7 +1217,7 @@
 										space:     parseInt( cell.attr( 'data-space' ), 10 )
 									};
 
-								if ( er_both_params.resources[ reservation.resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
+								if ( data.resources[ reservation.resource ].availability_by !== 'unit' || er_timeline.check_availability( reservation ) ) {
 									er_timeline.recursively_remove_reservation( reservations[ id ] );
 
 									reservations[ id ].arrival = reservation.arrival;
@@ -1059,6 +1225,10 @@
 									reservations[ id ].resource = reservation.resource;
 									reservations[ id ].space = reservation.space;
 									reservations[ id ].changed = true;
+
+									if ( reservations[ id ].status === 'pending' ) {
+										reservations[ id ].status = 'approved';
+									}
 
 									ui.helper.remove();
 
@@ -1093,6 +1263,7 @@
 	timeline_container.insertAfter( 'hr.wp-header-end' );
 	tooltip.insertAfter( 'hr.wp-header-end' );
 	sidebar.hide();
+	er_sidebar.toggle();
 
 	if ( interval === "86400" ) {
 		today.setHours( 0, 0, 0, 0 );
@@ -1102,6 +1273,8 @@
 		header.find( '.hourly' ).addClass( 'active' );
 	}
 
+	er_sidebar.init();
 	er_timeline.init();
+	er_sidebar.toggle_pending();
 } )
 ( jQuery, er_timeline_params );

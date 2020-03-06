@@ -339,15 +339,30 @@ class ER_Admin {
         }
 
         if( $screen_id === 'edit-easy_reservation' ){
+            global $wpdb;
+
+            $pending_reservations = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, m.meta_value as title " .
+                    "FROM {$wpdb->prefix}reservations as r " .
+                    "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
+                    "WHERE r.arrival >= NOW() AND status IN ('" . implode( "', '", er_reservation_get_pending_statuses() ) . "') " .
+                    "ORDER BY r.arrival",
+                    '_title'
+                )
+            );
+
             wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-timeline',
                 'er_timeline_params',
                 array(
-                    'ajax_url' => admin_url( 'admin-ajax.php' ),
-                    'nonce'    => wp_create_nonce( 'easyreservations-timeline' ),
-                    'resources' => er_list_pluck( ER()->resources()->get(), 'get_data' ),
-                    'default_cells' => 45,
+                    'ajax_url'         => admin_url( 'admin-ajax.php' ),
+                    'i18n_no_pending'  => __( 'No pending reservations ', 'easyReservations' ),
+                    'nonce'            => wp_create_nonce( 'easyreservations-timeline' ),
+                    'resources'        => er_list_pluck( ER()->resources()->get(), 'get_data' ),
+                    'pending'          => $pending_reservations,
+                    'default_cells'    => 45,
                     'default_interval' => 86400,
                 )
             );
@@ -368,7 +383,7 @@ class ER_Admin {
 
             $params = array(
                 'remove_item_notice'           => __( 'Are you sure you want to remove the selected items?', 'easyReservations' ),
-                'remove_reservation_notice'           => __( 'Are you sure you want to remove the selected reservation from this order?', 'easyReservations' ),
+                'remove_reservation_notice'    => __( 'Are you sure you want to remove the selected reservation from this order?', 'easyReservations' ),
                 'i18n_select_items'            => __( 'Please select some items.', 'easyReservations' ),
                 'i18n_do_refund'               => __( 'Are you sure you wish to process this refund? This action cannot be undone.', 'easyReservations' ),
                 'i18n_delete_refund'           => __( 'Are you sure you wish to delete this refund? This action cannot be undone.', 'easyReservations' ),
@@ -386,8 +401,8 @@ class ER_Admin {
                 'plugin_url'                   => ER()->plugin_url(),
                 'ajax_url'                     => admin_url( 'admin-ajax.php' ),
                 'custom_nonce'                 => wp_create_nonce( 'custom' ),
-                'receipt_item_nonce'             => wp_create_nonce( 'receipt-item' ),
-                'preview_nonce'             => wp_create_nonce( 'easyreservations-preview-reservation' ),
+                'receipt_item_nonce'           => wp_create_nonce( 'receipt-item' ),
+                'preview_nonce'                => wp_create_nonce( 'easyreservations-preview-reservation' ),
                 'calc_totals_nonce'            => wp_create_nonce( 'calc-totals' ),
                 'get_customer_details_nonce'   => wp_create_nonce( 'get-customer-details' ),
                 'add_order_note_nonce'         => wp_create_nonce( 'add-order-note' ),

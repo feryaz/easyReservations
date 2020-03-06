@@ -7,11 +7,34 @@ $resources = ER()->resources()->get_accessible();
 ?>
 <div class="er-timeline-tooltip"></div>
 <div class="er-timeline">
-    <div class="sidebar">
-        <div class="day">
+    <div class="sidebar easy-ui">
+        <div class="calendar visible">
             <div class="er-datepicker" id="timeline-datepicker"></div>
         </div>
-        <div class="pending"></div>
+        <div class="pending visible">
+            <h2><?php esc_html_e( 'Pending reservations', 'easyReservations' ); ?></h2>
+            <div class="reservations"></div>
+        </div>
+        <div class="reservation-details visible">
+            <h2><?php esc_html_e( 'Reservation', 'easyReservations' ); ?></h2>
+            <div class="reservation-header">
+                <span class="reservation-status"></span>
+                <span class="title"></span>
+            </div>
+            <span class="input-wrapper">
+                <span class="input-box clickable reservation-preview" data-reservation-id="0"><?php esc_html_e( 'More details', 'easyReservations' ); ?></span>
+            </span>
+            <h3>Status</h3>
+            <span class="input-wrapper">
+                <span class="input-box clickable status-approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
+            </span>
+            <span class="input-wrapper">
+                <span class="input-box clickable status-checked"><?php esc_html_e( 'Checked in', 'easyReservations' ); ?></span>
+            </span>
+            <span class="input-wrapper">
+                <span class="input-box clickable status-completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
+            </span>
+        </div>
     </div>
     <div class="content">
         <div class="header">
