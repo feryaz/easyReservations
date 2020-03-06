@@ -21,18 +21,43 @@ $resources = ER()->resources()->get_accessible();
                 <span class="reservation-status"></span>
                 <span class="title"></span>
             </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Arrival', 'easyReservations' ); ?></label>
+                <span class="reservation-arrival"></span>
+            </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Departure', 'easyReservations' ); ?></label>
+                <span class="reservation-departure"></span>
+            </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Resource', 'easyReservations' ); ?></label>
+                <span class="reservation-resource"></span>
+            </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Space', 'easyReservations' ); ?></label>
+                <span class="reservation-space"></span>
+            </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Adults', 'easyReservations' ); ?></label>
+                <span class="reservation-adults"></span>
+            </div>
+            <div class="row">
+                <label><?php esc_html_e( 'Children', 'easyReservations' ); ?></label>
+                <span class="reservation-children"></span>
+            </div>
+            <div class="reservation-order row"></div>
             <span class="input-wrapper">
                 <span class="input-box clickable reservation-preview" data-reservation-id="0"><?php esc_html_e( 'More details', 'easyReservations' ); ?></span>
             </span>
             <h3>Status</h3>
             <span class="input-wrapper">
-                <span class="input-box clickable status-approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status-approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
             </span>
             <span class="input-wrapper">
-                <span class="input-box clickable status-checked"><?php esc_html_e( 'Checked in', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status-checked"><?php esc_html_e( 'Checked in', 'easyReservations' ); ?></span>
             </span>
             <span class="input-wrapper">
-                <span class="input-box clickable status-completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status-completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
             </span>
         </div>
     </div>

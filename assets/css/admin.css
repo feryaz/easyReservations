@@ -1815,7 +1815,7 @@ a.order-preview.disabled::before {
   background: #e5e5e5;
   border-radius: 3px;
   margin: -0.25em 0;
-  cursor: inherit !important;
+  cursor: inherit;
   white-space: nowrap;
   max-width: 100%;
 }
@@ -1835,7 +1835,7 @@ a.order-preview.disabled::before {
 }
 .reservation-status.status-on-hold.background,
 .order-status.status-on-hold.background {
-  background: #94660c;
+  background: #f8dda7 !important;
 }
 .reservation-status.status-failed,
 .order-status.status-failed {
@@ -1844,7 +1844,7 @@ a.order-preview.disabled::before {
 }
 .reservation-status.status-failed.background,
 .order-status.status-failed.background {
-  background: #761919;
+  background: #eba3a3 !important;
 }
 .reservation-status.status-approved,
 .order-status.status-approved {
@@ -1853,7 +1853,7 @@ a.order-preview.disabled::before {
 }
 .reservation-status.status-approved.background,
 .order-status.status-approved.background {
-  background: #5b841b;
+  background: #c6e1c6 !important;
 }
 .reservation-status.status-trash,
 .order-status.status-trash {
@@ -1862,7 +1862,7 @@ a.order-preview.disabled::before {
 }
 .reservation-status.status-trash.background,
 .order-status.status-trash.background {
-  background: #761919;
+  background: #eba3a3 !important;
 }
 .reservation-status > span,
 .order-status > span {
@@ -3217,10 +3217,11 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .sidebar .input-wrapper {
   width: 90%;
-  margin: 0 5% 5px;
+  margin: 0 13px 5px;
 }
 .er-timeline .sidebar .input-wrapper .input-box {
   width: 100%;
+  margin: 0;
 }
 .er-timeline .sidebar > .calendar .easy-datepicker {
   display: block;
@@ -3260,6 +3261,22 @@ table.er_emails .er-email-settings-table-status .tips {
   font-size: 16px;
   font-weight: 500;
   vertical-align: middle;
+}
+.er-timeline .sidebar > .reservation-details .row {
+  padding: 0 13px 13px;
+}
+.er-timeline .sidebar > .reservation-details .row label {
+  display: inline-block;
+  width: 80px;
+}
+.er-timeline .sidebar > .reservation-details .row span {
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.er-timeline .sidebar > .reservation-details .reservation-preview.disabled::before {
+  content: url("../images/wpspin.gif");
+  padding-left: 1px;
 }
 .er-timeline .sidebar.expanded {
   width: 304px;

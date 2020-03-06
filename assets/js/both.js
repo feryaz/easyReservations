@@ -1,5 +1,12 @@
 function easyFormatDate( date, format ) {
 	if ( !format ) format = er_both_params.date_format;
+	if( format === 'full' ){
+		format = er_both_params.date_format;
+
+		if( er_both_params.use_time ){
+			format += ' ' + er_both_params.time_format;
+		}
+	}
 
 	var year   = date.getYear(),
 		month  = easyAddZero( date.getMonth() + 1 ),

@@ -1592,7 +1592,7 @@ a.order-preview {
   background: #e5e5e5;
   border-radius: 3px;
   margin: -0.25em 0;
-  cursor: inherit !important;
+  cursor: inherit;
   white-space: nowrap;
   max-width: 100%;
 
@@ -1610,7 +1610,7 @@ a.order-preview {
     color: #94660c;
 
     &.background {
-      background: #94660c;
+      background: #f8dda7 !important;
     }
   }
 
@@ -1619,7 +1619,7 @@ a.order-preview {
     color: #761919;
 
     &.background {
-      background: #761919;
+      background: #eba3a3 !important;
     }
   }
 
@@ -1628,7 +1628,7 @@ a.order-preview {
     color: #5b841b;
 
     &.background {
-      background: #5b841b;
+      background: #c6e1c6 !important;
     }
   }
 
@@ -1637,7 +1637,7 @@ a.order-preview {
     color: #761919;
 
     &.background {
-      background: #761919;
+      background: #eba3a3 !important;
     }
   }
 
@@ -3107,10 +3107,11 @@ table.er_emails {
 
     .input-wrapper {
       width: 90%;
-      margin: 0 5% 5px;
+      margin: 0 13px 5px;
 
       .input-box {
         width: 100%;
+        margin: 0;
       }
     }
 
@@ -3161,6 +3162,30 @@ table.er_emails {
           font-size: 16px;
           font-weight: 500;
           vertical-align: middle;
+        }
+      }
+
+      .row {
+        padding: 0 13px 13px;
+
+        label {
+          display: inline-block;
+          width: 80px;
+        }
+
+        span {
+          word-wrap: break-word;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+
+      .reservation-preview {
+        &.disabled {
+          &::before {
+            content: url("../images/wpspin.gif");
+            padding-left: 1px;
+          }
         }
       }
     }

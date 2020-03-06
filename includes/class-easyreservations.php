@@ -407,6 +407,7 @@ final class easyReservations {
         wp_localize_script( 'er-both', 'er_both_params', array(
             'date_format' => er_date_format(),
             'time_format' => er_time_format(),
+            'use_time'    => er_use_time(),
             'time'        => er_get_time(),
             'offset'      => date( "Z" ),
             'resources'   => er_list_pluck( ER()->resources()->get(), 'get_data' ),

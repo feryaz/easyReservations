@@ -343,7 +343,7 @@ class ER_Admin {
 
             $pending_reservations = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, m.meta_value as title " .
+                    "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
                     "FROM {$wpdb->prefix}reservations as r " .
                     "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
                     "WHERE r.arrival >= NOW() AND status IN ('" . implode( "', '", er_reservation_get_pending_statuses() ) . "') " .
@@ -358,7 +358,10 @@ class ER_Admin {
                 'er_timeline_params',
                 array(
                     'ajax_url'         => admin_url( 'admin-ajax.php' ),
-                    'i18n_no_pending'  => __( 'No pending reservations ', 'easyReservations' ),
+                    'order_url'        => admin_url( 'post.php?post=%s&action=edit' ),
+                    'i18n_no_pending'  => __( 'No pending reservations', 'easyReservations' ),
+                    'i18n_no_order'    => __( 'Not attached to any order', 'easyReservations' ),
+                    'i18n_order'       => __( 'Attached to order %s', 'easyReservations' ),
                     'nonce'            => wp_create_nonce( 'easyreservations-timeline' ),
                     'resources'        => er_list_pluck( ER()->resources()->get(), 'get_data' ),
                     'pending'          => $pending_reservations,

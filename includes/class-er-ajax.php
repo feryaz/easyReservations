@@ -1611,7 +1611,7 @@ class ER_AJAX {
 
         $reservations = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, m.meta_value as title " .
+                "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
                 "FROM {$wpdb->prefix}reservations as r " .
                 "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
                 "WHERE %s <= r.departure AND %s >= r.arrival AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') " .

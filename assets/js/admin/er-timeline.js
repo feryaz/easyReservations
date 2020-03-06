@@ -374,7 +374,24 @@
 				.attr( 'data-reservation-id', reservation.id )
 				.data( 'reservation-data', false );
 
-			container.find( '.input-box.status- ' + reservation.status ).remove().addClass( 'reservation-status' );
+			container.find( '.input-box.reservation-status' ).removeClass( 'reservation-status' );
+			container.find( '.input-box.status-' + reservation.status ).addClass( 'reservation-status' );
+
+			container.find( '.reservation-arrival' ).html( easyFormatDate( reservation.arrival, 'full' ) );
+			container.find( '.reservation-departure' ).html( easyFormatDate( reservation.departure, 'full' ) );
+
+			console.log( data.resources[ reservation.resource ] );
+			container.find( '.reservation-resource' ).html( data.resources[ reservation.resource ].post_title );
+			container.find( '.reservation-adults' ).html( reservation.adults );
+			container.find( '.reservation-children' ).html( reservation.children );
+
+			if( reservation.order_id === '0' ){
+				container.find( '.reservation-order' ).html( data.i18n_no_order );
+			} else {
+				container.find( '.reservation-order' )
+					.html( data.i18n_order.replace( "%s", '<a href="' + data.order_url.replace( "%s", reservation.order_id ) + '" target="_blank">#' + reservation.order_id + '</a>' ) );
+			}
+
 
 			er_sidebar.clear();
 			container.show().addClass( 'visible' );

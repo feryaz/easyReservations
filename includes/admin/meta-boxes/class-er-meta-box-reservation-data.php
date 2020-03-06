@@ -59,8 +59,7 @@ class ER_Meta_Box_Reservation_Data {
                 <p class="easyreservations-order-data__meta order_number">
                     <?php
                     if ( $order ) {
-                        esc_html_e( 'Attached to order', 'easyReservations' );
-                        echo ' ' . $order->get_edit_link();
+                        echo esc_html( sprintf( __( 'Attached to order %s', 'easyReservations' ), $order->get_edit_link() ) );
                     }
                     ?>
                 </p>
