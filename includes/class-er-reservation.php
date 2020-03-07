@@ -504,7 +504,7 @@ class ER_Reservation extends ER_Receipt {
      * @param bool $billing_method
      */
     public function calculate_billing_units( $interval = false, $billing_method = false){
-        if(is_null($this->get_resource()) || $this->get_arrival() === null || $this->get_departure() === null){
+        if ( is_null( $this->get_resource() ) || $this->get_arrival() === null || $this->get_departure() === null ) {
             $this->set_billing_units( 1 );
             $this->set_frequency_units( 1 );
 

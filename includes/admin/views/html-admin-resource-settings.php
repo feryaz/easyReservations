@@ -403,7 +403,7 @@ $time_options = er_form_time_options();
 
         if (interval.val() === "86401") {
             billing_method.attr('disabled', 'disabled');
-            hidden_billing_field.attr('name', 'billing-method').val(3);
+            hidden_billing_field.attr('name', 'billing_method').val(3);
         } else {
             billing_method.attr('disabled', false);
             hidden_billing_field.attr('name', '').val('');

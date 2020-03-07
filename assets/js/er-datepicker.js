@@ -20,12 +20,12 @@ jQuery( function ( $ ) {
 				},
 			}, default_args );
 
-			var data_format = $( this ).data( 'format' );
+			var data_format = $( this ).attr( 'data-format' );
 			if ( data_format && typeof data_format !== "undefined" ) {
 				args.dateFormat = data_format;
 			}
 
-			var data_target = $( this ).data( 'target' );
+			var data_target = $( this ).attr( 'data-target' );
 			if ( data_target && typeof data_target !== "undefined" ) {
 				args.onSelect = function ( selectedDate ) {
 					var instance = $( this ).data( "datepicker" );
