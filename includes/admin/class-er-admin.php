@@ -359,6 +359,8 @@ class ER_Admin {
                 array(
                     'ajax_url'         => admin_url( 'admin-ajax.php' ),
                     'order_url'        => admin_url( 'post.php?post=%s&action=edit' ),
+                    'i18n_stop_edit'  => __( 'Stop edit', 'easyReservations' ),
+                    'i18n_allow_edit'  => __( 'Allow edit', 'easyReservations' ),
                     'i18n_no_pending'  => __( 'No pending reservations', 'easyReservations' ),
                     'i18n_no_order'    => __( 'Not attached to any order', 'easyReservations' ),
                     'i18n_order'       => __( 'Attached to order %s', 'easyReservations' ),

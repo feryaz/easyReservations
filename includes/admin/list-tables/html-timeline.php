@@ -49,7 +49,7 @@ $resources = ER()->resources()->get_accessible();
             <span class="input-wrapper">
                 <span class="input-box clickable reservation-preview" data-reservation-id="0"><?php esc_html_e( 'More details', 'easyReservations' ); ?></span>
             </span>
-            <h3>Status</h3>
+            <h3><?php esc_html_e( 'Status', 'easyReservations' ); ?></h3>
             <span class="input-wrapper">
                 <span class="input-box clickable background status-approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
             </span>
@@ -59,6 +59,15 @@ $resources = ER()->resources()->get_accessible();
             <span class="input-wrapper">
                 <span class="input-box clickable background status-completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
             </span>
+            <h3><?php esc_html_e( 'Actions', 'easyReservations' ); ?></h3>
+            <span class="input-wrapper">
+                <span class="input-box clickable background allow-edit" data-reservation-id=""><?php esc_html_e( 'Allow edit', 'easyReservations' ); ?></span>
+            </span>
+            <div class="edit-actions">
+                <span class="input-wrapper">
+                    <span class="input-box clickable background status-completed"><?php esc_html_e( 'Snapping', 'easyReservations' ); ?></span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="content">

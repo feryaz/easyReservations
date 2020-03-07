@@ -3150,6 +3150,9 @@ table.er_emails {
 
       .reservation-header {
         padding: 13px;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: nowrap;
 
         .reservation-status {
           display: inline-block;
@@ -3174,9 +3177,9 @@ table.er_emails {
         }
 
         span {
+          overflow: hidden;
           word-wrap: break-word;
           white-space: nowrap;
-          overflow: hidden;
         }
       }
 
@@ -3479,7 +3482,6 @@ table.er_emails {
               position: relative;
               display: inline-block;
               padding-left: 4px;
-              cursor: text;
             }
           }
         }

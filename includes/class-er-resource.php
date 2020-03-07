@@ -154,6 +154,7 @@ class ER_Resource {
             'interval'  => $this->get_billing_interval(),
             'frequency' => $this->get_frequency(),
             'quantity' => $this->get_quantity(),
+            'spaces' => $this->get_spaces_options(),
             'slots' => $this->get_slots(),
             'availability_by' => $this->availability_by(),
         );

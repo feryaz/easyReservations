@@ -3250,6 +3250,9 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .sidebar > .reservation-details .reservation-header {
   padding: 13px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
 }
 .er-timeline .sidebar > .reservation-details .reservation-header .reservation-status {
   display: inline-block;
@@ -3270,9 +3273,9 @@ table.er_emails .er-email-settings-table-status .tips {
   width: 80px;
 }
 .er-timeline .sidebar > .reservation-details .row span {
+  overflow: hidden;
   word-wrap: break-word;
   white-space: nowrap;
-  overflow: hidden;
 }
 .er-timeline .sidebar > .reservation-details .reservation-preview.disabled::before {
   content: url("../images/wpspin.gif");
@@ -3557,7 +3560,6 @@ table.er_emails .er-email-settings-table-status .tips {
   position: relative;
   display: inline-block;
   padding-left: 4px;
-  cursor: text;
 }
 .er-timeline .container .timeline .reservation.approved {
   background: #60a2ff;
