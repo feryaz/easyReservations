@@ -100,6 +100,7 @@ class ER_AJAX {
             'update_order_review'           => true,
             'remove_coupon'                 => true,
             'timeline_data'                 => false,
+            'timeline_update_reservation'   => false,
             'json_search_order'             => false,
             'mark_order_status'             => false,
             'mark_reservation_status'       => false,
@@ -1626,6 +1627,41 @@ class ER_AJAX {
             'data'         => $return,
             'reservations' => $reservations
         ) );
+
+        exit;
+    }
+
+    /**
+     * Update reservation from timeline
+     */
+    public static function timeline_update_reservation() {
+        global $wpdb;
+
+        check_ajax_referer( 'easyreservations-timeline', 'security' );
+
+	    $id        = absint( $_POST['id'] );
+	    $arrival   = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
+	    $departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+	    $resource  = absint( $_POST['resource'] );
+	    $space     = absint( $_POST['space'] );
+	    $title     = sanitize_text_field( $_POST['title'] );
+	    $status    = sanitize_key( $_POST['status'] );
+
+	    $reservation = er_get_reservation( $id );
+
+	    if( $reservation ){
+		    $reservation->set_arrival( $arrival );
+		    $reservation->set_departure( $departure );
+		    $reservation->set_resource_id( $resource );
+		    $reservation->set_space( $space );
+		    $reservation->set_title( $title );
+
+		    if( $status !== $reservation->get_status() ){
+		        $reservation->update_status( $status, __( 'Reservation status changed in timeline:', 'easyReservations' ), true );
+            }
+
+		    $reservation->save();
+        }
 
         exit;
     }

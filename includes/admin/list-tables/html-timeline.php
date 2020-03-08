@@ -51,13 +51,13 @@ $resources = ER()->resources()->get_accessible();
             </span>
             <h3><?php esc_html_e( 'Status', 'easyReservations' ); ?></h3>
             <span class="input-wrapper">
-                <span class="input-box clickable background status-approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status status-approved" data-status="approved"><?php esc_html_e( 'Approved', 'easyReservations' ); ?></span>
             </span>
             <span class="input-wrapper">
-                <span class="input-box clickable background status-checked"><?php esc_html_e( 'Checked in', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status status-checked" data-status="checked"><?php esc_html_e( 'Checked in', 'easyReservations' ); ?></span>
             </span>
             <span class="input-wrapper">
-                <span class="input-box clickable background status-completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
+                <span class="input-box clickable background status status-completed" data-status="completed"><?php esc_html_e( 'Completed', 'easyReservations' ); ?></span>
             </span>
             <h3><?php esc_html_e( 'Actions', 'easyReservations' ); ?></h3>
             <span class="input-wrapper">
@@ -65,7 +65,10 @@ $resources = ER()->resources()->get_accessible();
             </span>
             <div class="edit-actions">
                 <span class="input-wrapper">
-                    <span class="input-box clickable background status-completed"><?php esc_html_e( 'Snapping', 'easyReservations' ); ?></span>
+                    <span class="input-box clickable background snapping enabled"><?php esc_html_e( 'Snapping', 'easyReservations' ); ?></span>
+                </span>
+                <span class="input-wrapper">
+                    <span class="input-box clickable background revert"><?php esc_html_e( 'Revert changes', 'easyReservations' ); ?></span>
                 </span>
             </div>
         </div>

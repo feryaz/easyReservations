@@ -1826,7 +1826,16 @@ a.order-preview.disabled::before {
 }
 .reservation-status.status-completed.background,
 .order-status.status-completed.background {
-  background: #2e4453;
+  background: #c8d7e1 !important;
+}
+.reservation-status.status-checked,
+.order-status.status-checked {
+  background: #e1dfc8;
+  color: #534d2e;
+}
+.reservation-status.status-checked.background,
+.order-status.status-checked.background {
+  background: #e1dfc8 !important;
 }
 .reservation-status.status-on-hold,
 .order-status.status-on-hold {
@@ -3265,6 +3274,12 @@ table.er_emails .er-email-settings-table-status .tips {
   font-weight: 500;
   vertical-align: middle;
 }
+.er-timeline .sidebar > .reservation-details .snapping {
+  background: #ff0000;
+}
+.er-timeline .sidebar > .reservation-details .snapping.enabled {
+  background: #00d084;
+}
 .er-timeline .sidebar > .reservation-details .row {
   padding: 0 13px 13px;
 }
@@ -3715,13 +3730,19 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline table tbody tr td .reservation.fade-in-fast {
   animation-name: fadeInFast;
 }
-.er-timeline .container .timeline table tbody tr td .reservation:hover {
-  border-left: 2px solid #223955;
-  transition: 0.3s;
+.er-timeline .container .timeline table tbody tr td .reservation.ui-draggable {
+  cursor: move;
+}
+.er-timeline .container .timeline table tbody tr td .reservation.ui-draggable .title {
+  cursor: text;
 }
 .er-timeline .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
   z-index: 3;
   opacity: 0.8;
+}
+.er-timeline .container .timeline table tbody tr td .reservation:hover {
+  border-left: 2px solid #223955;
+  transition: border-left-color 0.3s;
 }
 
 /**

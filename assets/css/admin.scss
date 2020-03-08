@@ -1601,7 +1601,16 @@ a.order-preview {
     color: #2e4453;
 
     &.background {
-      background: #2e4453;
+      background: #c8d7e1 !important;
+    }
+  }
+
+  &.status-checked {
+    background: #e1dfc8;
+    color: #534d2e;
+
+    &.background {
+      background: #e1dfc8 !important;
     }
   }
 
@@ -3168,6 +3177,14 @@ table.er_emails {
         }
       }
 
+      .snapping {
+        background: #ff0000;
+
+        &.enabled {
+          background: #00d084;
+        }
+      }
+
       .row {
         padding: 0 13px 13px;
 
@@ -3694,14 +3711,22 @@ table.er_emails {
                   animation-name: fadeInFast;
                 }
 
-                &:hover {
-                  border-left: 2px solid #223955;
-                  transition: 0.3s;
+                &.ui-draggable {
+                  cursor: move;
+                  
+                  .title {
+                    cursor: text;
+                  }
                 }
 
                 &.ui-resizable-resizing {
                   z-index: 3;
                   opacity: 0.8;
+                }
+
+                &:hover {
+                  border-left: 2px solid #223955;
+                  transition: border-left-color 0.3s;
                 }
               }
             }

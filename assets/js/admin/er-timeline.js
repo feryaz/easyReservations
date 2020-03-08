@@ -19,6 +19,7 @@
 		drag_start_position     = false, //Dragged reservations starting position
 		drag_start_offset       = false, //Dragged reservations starting offset
 		drag_snap_top           = false, //Tells the draggable reservation what top to snap to
+		edit_mode 				= false, //If we are in edit mode this is a backup of the reservation object to revert to
 		changed_any_reservation = false, //If any other reservations got changed while attempting to draw a reservation
 		mouse_pos_x             = 0, //Mouse position x gets updated while hovering timeline
 		mouse_pos_y             = 0, //Mouse position y gets updated while hovering timeline
@@ -179,14 +180,66 @@
 
 			er_sidebar.display_reservation( reservations[ id ] );
 		} )
+		.on( 'keydown', '.reservation .title', function ( e ) {
+			if ( e.keyCode === 13 ) {
+				var id = $( this ).parents( '.reservation' ).attr( 'data-id' );
+				reservations[ id ].title = $( this ).html();
+				$(this).blur();
+				er_sidebar.display_reservation( reservations[ id ] );
+				return false;
+			}
+		} );
+
+	sidebar
 		.on( 'click', '.allow-edit', function () {
-			console.log( $( this ).attr( 'data-reservation-id' ) );
-			er_timeline.reservation_allow_edit( timeline.find( '.reservation[data-id="' + $( this ).attr( 'data-reservation-id' ) + '"]' ) );
-			$( this ).removeClass( 'allow-edit' ).addClass( 'stop-edit' ).html( data.i18n_stop_edit );
+			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
+
+			if ( edit_mode ) {
+				er_timeline.update_reservation( id );
+				er_sidebar.stop_edit( edit_mode.id );
+			}
+
+			edit_mode = JSON.parse( JSON.stringify( reservations[ id ] ) );
+
+			sidebar.find( '> .reservation-details .edit-actions' ).show();
+			er_timeline.reservation_allow_edit( timeline.find( '.reservation[data-id="' + id + '"]' ) );
+			$( this ).html( data.i18n_stop_edit ).addClass( 'stop-edit' ).removeClass( 'allow-edit' );
 		} )
 		.on( 'click', '.stop-edit', function () {
-			er_timeline.reservation_stop_edit( $( '.reservation[data-id="' + $( this ).attr( 'data-reservation-id' ) + '"]' ) );
-			$( this ).removeClass( 'stop-edit' ).addClass( 'allow-edit' ).html( data.i18n_allow_edit );
+			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
+			er_timeline.update_reservation( id );
+			er_sidebar.stop_edit( id );
+		} )
+		.on( 'click', '.status', function () {
+			if ( !$( this ).hasClass( 'reservation-status' ) ) {
+				var id = parseInt( $( this ).parent().parent().attr( 'data-reservation-id' ), 10 );
+
+				reservations[ id ].status = $( this ).attr( 'data-status' );
+
+				er_sidebar.display_reservation( reservations[ id ] );
+				er_timeline.update_reservation( id );
+			}
+		} )
+		.on( 'click', '.snapping', function () {
+			if ( $( this ).hasClass( 'enabled' ) ) {
+				snapping_enabled = false;
+				$( this ).removeClass( 'enabled' );
+			} else {
+				snapping_enabled = true;
+				$( this ).addClass( 'enabled' );
+			}
+		} )
+		.on( 'click', '.revert', function () {
+			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
+			er_timeline.recursively_remove_reservation( reservations[ id ] );
+
+			timeline.find( '.reservation[data-id="' + id + '"]' ).remove();
+
+			edit_mode.changed = true;
+			er_timeline.add_reservation( edit_mode );
+			er_timeline.draw_reservations();
+
+			er_sidebar.stop_edit( id );
 		} );
 
 	var er_sidebar = {
@@ -365,6 +418,19 @@
 		},
 
 		/**
+		 * Resets reservation details and unbinds reservation element
+		 */
+		stop_edit: function ( id ) {
+			sidebar.find( '> .reservation-details .edit-actions' ).hide();
+			sidebar.find( '> .reservation-details .stop-edit' ).html( data.i18n_allow_edit ).removeClass( 'stop-edit' ).addClass( 'allow-edit' );
+
+			if( edit_mode ) {
+				er_timeline.reservation_stop_edit( $( '.reservation[data-id="' + id + '"]' ) );
+				edit_mode = false;
+			}
+		},
+
+		/**
 		 * Display reservation
 		 *
 		 * @param {Object} reservation
@@ -377,11 +443,14 @@
 			container_header.find( '.title' ).html( reservation.title );
 			container_header.find( '.reservation-status' ).attr( 'class', 'reservation-status status-' + reservation.status );
 
+			container.attr( 'data-reservation-id', reservation.id );
+
 			container.find( '.reservation-preview' )
 				.attr( 'data-reservation-id', reservation.id )
 				.data( 'reservation-data', false );
 
-			container.find( '.allow-edit' ).attr( 'data-reservation-id', reservation.id );
+			container.find( '.snapping' ).removeClass( 'enabled' );
+			container.find( '.revert' ).attr( 'data-reservation-id', reservation.id );
 
 			container.find( '.input-box.reservation-status' ).removeClass( 'reservation-status' );
 			container.find( '.input-box.status-' + reservation.status ).addClass( 'reservation-status' );
@@ -392,20 +461,35 @@
 			container.find( '.reservation-adults' ).html( reservation.adults );
 			container.find( '.reservation-children' ).html( reservation.children );
 
+			if( edit_mode && edit_mode.id === reservation.id ){
+				container.find( '.edit-actions' ).show();
+				container.find( '.allow-edit' )
+					.html( data.i18n_stop_edit )
+					.removeClass( 'allow-edit' )
+					.addClass( 'stop-edit' );
+
+				container.find( '.stop-edit' ).attr( 'data-reservation-id', reservation.id );
+			} else {
+				container.find( '.stop-edit' ).html( data.i18n_allow_edit ).removeClass( 'stop-edit' ).addClass( 'allow-edit' );
+				container.find( '.allow-edit' ).attr( 'data-reservation-id', reservation.id );
+				container.find( '.edit-actions' ).hide();
+			}
+
 			if( resource.availability_by !== 'unit' ){
 				container.find( '.reservation-space' ).hide();
 			} else {
 				container.find( '.reservation-space' ).show().html( typeof resource.spaces[reservation.space] === 'undefined' ? reservation.space : resource.spaces[ reservation.space ] );
 			}
 
-			console.log( reservation );
 			if( reservation.order_id === '0' ){
 				container.find( '.reservation-order' ).html( data.i18n_no_order );
 			} else {
-				container.find( '.reservation-order' )
-					.html( data.i18n_order.replace( "%s", '<a href="' + data.order_url.replace( "%s", reservation.order_id ) + '" target="_blank">#' + reservation.order_id + '</a>' ) );
+				container.find( '.reservation-order' ).html( data.i18n_order.replace( "%s", '<a href="' + data.order_url.replace( "%s", reservation.order_id ) + '" target="_blank">#' + reservation.order_id + '</a>' ) );
 			}
 
+			if( snapping_enabled ){
+				container.find( '.snapping' ).addClass( 'enabled' );
+			}
 
 			er_sidebar.clear();
 			container.show().addClass( 'visible' );
@@ -669,6 +753,35 @@
 			} );
 		},
 
+		update_reservation: function( id ){
+			var reservation = reservations[ id ];
+			$.ajax( {
+				url:     data.ajax_url,
+				data:    {
+					action:     'easyreservations_timeline_update_reservation',
+					security:   data.nonce,
+					id: id,
+					arrival: easyFormatDate( reservation.arrival, 'full' ),
+					departure: easyFormatDate( reservation.departure, 'full' ),
+					status: reservation.status,
+					resource: reservation.resource,
+					space: reservation.space,
+					title: reservation.title
+				},
+				type:    'POST',
+				success: function ( response ) {
+					if ( response.data ) {
+					}
+
+					if ( response.reservation ) {
+						er_timeline.add_reservation( response.reservation );
+
+						er_timeline.draw_reservations();
+					}
+				}
+			} );
+		},
+
 		/**
 		 * Draw reservations ordered by arrival until we have to remove others down the line, if so start process again
 		 */
@@ -777,8 +890,8 @@
 		 */
 		reservation_stop_edit: function ( element ) {
 			element
-				.draggable( 'disable' )
-				.resizable( 'disable' );
+				.draggable( 'destroy' )
+				.resizable( 'destroy' );
 
 			element.find( '.title' ).attr( 'contenteditable', 'false' );
 		},
@@ -791,7 +904,7 @@
 		reservation_allow_edit: function ( element ) {
 			element
 				.draggable( {
-					snap:          snapping_enabled ? false : 'td.cell,.reservation',
+					snap:          snapping_enabled ? false : '.reservation',
 					snapTolerance: 3,
 					scroll:        false,
 					helper:        "clone",
@@ -1046,6 +1159,13 @@
 
 					if ( was_there.length > 0 ) {
 						element.addClass( 'fade-in-fast' );
+					}
+					
+					if( edit_mode && edit_mode.id === id ){
+						er_sidebar.display_reservation( reservation );
+						er_timeline.reservation_allow_edit( element );
+						timeline.find( '.reservation.selected' ).removeClass( 'selected' );
+						element.addClass( 'selected' );
 					}
 
 					did_add.append( element );
