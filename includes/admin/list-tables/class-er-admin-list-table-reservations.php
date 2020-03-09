@@ -89,21 +89,26 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
             $pgstrt = absint( ( $page - 1 ) * $q['posts_per_page'] ) . ', ';
         }
 
-        $orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : '';
+        $orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : 'created';
 
-        if ( !empty( $orderby ) ) {
+	    if ( !empty( $orderby ) ) {
             switch ( $orderby ) {
                 case 'date':
                     $orderby = 'arrival';
+                    break;
+
                 case 'created':
                     $orderby = 'id';
-                case 'order':
+	                break;
+
+	            case 'order':
                     $orderby = 'order_id';
+		            break;
             }
 
             $orderby = 'ORDER BY ' . $orderby;
 
-            $order = isset( $_REQUEST['order'] ) ? sanitize_key( $_REQUEST['order'] ) : '';
+            $order = isset( $_REQUEST['order'] ) ? sanitize_key( $_REQUEST['order'] ) : 'DESC';
             if( !empty( $order ) ){
                 $orderby .= ' ' . $order;
             }
