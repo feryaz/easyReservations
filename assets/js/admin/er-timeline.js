@@ -31,8 +31,8 @@
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
-		first_hour              = data.first_hour, //First hour to display in timeline
-		last_hour               = data.last_hour, //Last hour to display in timeline
+		first_hour              = parseInt( data.first_hour, 10), //First hour to display in timeline
+		last_hour               = parseInt( data.last_hour, 10 ), //Last hour to display in timeline
 		interval                = data.default_interval; //Default interval of timeline
 
 	header
@@ -532,14 +532,16 @@
 			last_query_start = new Date( start.getTime() );
 
 			for ( var i = 0; i < 50; i++ ) {
-				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
 				er_timeline.generate_column( end, false );
+				if( i < 49 ){
+					end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
+				}
 			}
 
 			er_timeline.load_remaining();
 
 			timeline.scrollLeft(
-				thead_main.find( 'th:nth-child(15)' ).offset().left - timeline.offset().left + timeline.scrollLeft() + 1
+				thead_main.find( 'th[data-date="' + today.getTime() + '"]' ).offset().left - timeline.offset().left + timeline.scrollLeft() + 1
 			);
 
 			er_timeline.set_current_date();
@@ -561,20 +563,22 @@
 					if( amount >= 0 ){
 						new_date = new Date( new_date.getTime() + ( first_hour * 3600000 - ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) ) );
 					} else {
-						new_date = new Date( new_date.getTime() - 86400000 + ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) - 86400000 + last_hour * 3600000 );
+						new_date = new Date( new_date.getTime() - ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) - 86400000 + last_hour * 3600000 );
 					}
 				} else if ( new_date.getHours() > last_hour ) {
-					if( amount >=  0 ){
+					if( amount >= 0 ){
 						new_date = new Date( new_date.getTime() + 86400000 - ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) + first_hour * 3600000 );
 					} else {
 						new_date.setHours( last_hour, 0, 0, 0);
 					}
 				}
 
-				var total = new_date.getTime() - date.getTime();
-				if( total > 86400000 ){
-					var x = Math.floor( total/86400000 );
-					new_date = new Date( new_date.getTime() - ( x * ( first_hour * 3600000 ) + x * ( 86400000 - last_hour * 3600000 ) ) );
+				if( Math.abs( amount ) > 3600000 ){
+					var x = Math.floor( amount / 86400000 );
+					new_date = new Date( new_date.getTime() - ( x * (( first_hour - 1)  * 3600000 ) + x * ( 86400000 - last_hour * 3600000 ) ) );
+				} else if( Math.abs( amount ) > 3600000 ){
+					var x = Math.floor( amount / 3600000 );
+					new_date = new Date( new_date.getTime() + ( x * (( first_hour - 1)  * 3600000 ) + x * ( 86400000 - last_hour * 3600000 ) ) );
 				}
 			}
 
@@ -602,6 +606,13 @@
 			} else {
 				currently_selected.setHours( 0, 0, 0, 0 );
 			}
+
+			/**
+			console.log( '.......' );
+			console.log( start );
+			console.log( Math.round( timeline.scrollLeft() / cell_dimensions.width ) + 1 );
+			console.log( new Date ( start.getTime() + ( Math.round( timeline.scrollLeft() / cell_dimensions.width ) + 1 ) * interval * 1000 ) );
+			console.log( currently_selected );**/
 
 			if ( !selected || currently_selected.getDate() !== selected.getDate() || currently_selected.getMonth() !== selected.getMonth() || currently_selected.getFullYear() !== selected.getFullYear() ) {
 				selected = currently_selected;
@@ -675,7 +686,10 @@
 		 */
 		add_new_column: function ( at_start ) {
 			if ( at_start ) {
+				console.log( start );
 				start = er_timeline.manipulate_date_without_offset( start, interval * 1000 * -1 );
+				console.log( start );
+				console.log( '----' );
 				er_timeline.generate_column( start, true );
 
 				table.find( 'th:last-child,td:last-child' ).remove();
@@ -1286,7 +1300,7 @@
 		/**
 		 * Generate and appends calendar column
 		 *
-		 * @param {date} date of cell to add
+		 * @param {Date} date of cell to add
 		 * @param {boolean} at_start wether to add it at start
 		 */
 		generate_column: function ( date, at_start ) {
@@ -1314,7 +1328,7 @@
 
 				header_main = $( '<th><div class="date"><span>' + easyFormatDate( date, 'H' ) + '</span><div>' + description + '</div></div></th>' );
 
-				if ( date.getHours() === 0 ) {
+				if ( date.getHours() === first_hour ) {
 					header_main.append( $( '<div class="first-of-month"></div>' ) );
 				}
 			}
