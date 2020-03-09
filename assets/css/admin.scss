@@ -3410,7 +3410,7 @@ table.er_emails {
       .prev {
         background: linear-gradient(90deg, white 20%, transparent 100%);
 
-        &:after {
+        &::after {
           display: block;
           margin-top: 12px;
           margin-left: -6px;
@@ -3423,7 +3423,7 @@ table.er_emails {
         text-align: right;
         background: linear-gradient(270deg, white 20%, transparent 100%);
 
-        &:after {
+        &::after {
           display: block;
           margin-top: 12px;
           margin-left: 14px;
@@ -3506,6 +3506,28 @@ table.er_emails {
         &.approved {
           background: #60a2ff;
           border-left: 2px solid #497cc3;
+
+          &.selected {
+            background: #497cc3;
+          }
+        }
+
+        &.checked {
+          background: #ffb860;
+          border-left: 2px solid #c39849;
+
+          &.selected {
+            background: #c39849;
+          }
+        }
+
+        &.completed {
+          background: #7dd06e;
+          border-left: 2px solid #55a047;
+
+          &.selected {
+            background: #55a047;
+          }
         }
 
         &.ui-draggable-dragging {
@@ -3612,7 +3634,7 @@ table.er_emails {
             }
           }
 
-          th.past:after {
+          th.past::after {
             position: absolute;
             top: 0;
             right: 0;
@@ -3702,10 +3724,6 @@ table.er_emails {
                 z-index: 1;
                 animation: fadeIn ease-in 1;
                 animation-duration: 0.4s;
-
-                &.selected {
-                  background: #5088cc;
-                }
 
                 &.fade-in-fast {
                   animation-name: fadeInFast;

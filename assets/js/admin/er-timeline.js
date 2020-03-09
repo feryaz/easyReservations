@@ -31,7 +31,9 @@
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
-		interval                = data.default_interval; //Interval of timeline;
+		first_hour              = data.first_hour, //First hour to display in timeline
+		last_hour               = data.last_hour, //Last hour to display in timeline
+		interval                = data.default_interval; //Default interval of timeline
 
 	header
 		.on( 'click', '.expand-sidebar', function () {
@@ -212,9 +214,11 @@
 		} )
 		.on( 'click', '.status', function () {
 			if ( !$( this ).hasClass( 'reservation-status' ) ) {
-				var id = parseInt( $( this ).parent().parent().attr( 'data-reservation-id' ), 10 );
+				var id     = parseInt( $( this ).parent().parent().attr( 'data-reservation-id' ), 10 ),
+					status = $( this ).attr( 'data-status' );
 
-				reservations[ id ].status = $( this ).attr( 'data-status' );
+				reservations[ id ].status = status;
+				timeline.find( '.reservation[data-id="' + id + '"]' ).removeClass( 'approved checked completed' ).addClass( status );
 
 				er_sidebar.display_reservation( reservations[ id ] );
 				er_timeline.update_reservation( id );
@@ -523,11 +527,12 @@
 			table.find( 'td,th' ).remove();
 
 			start = er_timeline.manipulate_date_without_offset( start, ( 15 * interval * 1000 ) * -1 );
+			end = new Date( start.getTime() );
 			last_query_end = new Date( start.getTime() );
 			last_query_start = new Date( start.getTime() );
 
 			for ( var i = 0; i < 50; i++ ) {
-				end = er_timeline.manipulate_date_without_offset( start, i * interval * 1000 );
+				end = er_timeline.manipulate_date_without_offset( end, interval * 1000 );
 				er_timeline.generate_column( end, false );
 			}
 
@@ -550,6 +555,29 @@
 		 */
 		manipulate_date_without_offset: function ( date, amount ) {
 			var new_date = new Date( date.getTime() + amount );
+
+			if ( interval === "3600" ) {
+				if ( new_date.getHours() < first_hour ) {
+					if( amount >= 0 ){
+						new_date = new Date( new_date.getTime() + ( first_hour * 3600000 - ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) ) );
+					} else {
+						new_date = new Date( new_date.getTime() - 86400000 + ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) - 86400000 + last_hour * 3600000 );
+					}
+				} else if ( new_date.getHours() > last_hour ) {
+					if( amount >=  0 ){
+						new_date = new Date( new_date.getTime() + 86400000 - ( new_date.getHours() * 3600000 + new_date.getMinutes() * 60000 ) + first_hour * 3600000 );
+					} else {
+						new_date.setHours( last_hour, 0, 0, 0);
+					}
+				}
+
+				var total = new_date.getTime() - date.getTime();
+				if( total > 86400000 ){
+					var x = Math.floor( total/86400000 );
+					new_date = new Date( new_date.getTime() - ( x * ( first_hour * 3600000 ) + x * ( 86400000 - last_hour * 3600000 ) ) );
+				}
+			}
+
 			return new Date( new_date.getTime() + new_date.getTimezoneOffset() * 1000 * 60 - date.getTimezoneOffset() * 1000 * 60 );
 		},
 
@@ -567,7 +595,7 @@
 		 * Set the second visible cell as current date
 		 */
 		set_current_date: function () {
-			var currently_selected = er_timeline.manipulate_date_without_offset( start, ( ( timeline.scrollLeft() / cell_dimensions.width + 1 ) * interval * 1000 ) );
+			var currently_selected = er_timeline.manipulate_date_without_offset( start, ( ( Math.round( timeline.scrollLeft() / cell_dimensions.width ) + 1 ) * interval * 1000 ) );
 
 			if ( interval === "3600" ) {
 				currently_selected.setHours( currently_selected.getHours(), 0, 0, 0 );
@@ -1075,7 +1103,7 @@
 				date         = new Date( reservation.arrival.getTime() ),
 				end          = new Date( reservation.departure.getTime() ),
 				element      = $( '<div class="reservation">' ),
-				width        = ( reservation.departure.getTime() - reservation.arrival.getTime() ), //TODO remove offset?
+				width        = er_timeline.manipulate_date_without_offset( reservation.arrival , reservation.departure.getTime() - reservation.arrival.getTime() ).getTime() - er_timeline.manipulate_date_without_offset( reservation.arrival, 0 ).getTime(), //TODO remove offset?
 				width_px     = ( ( ( width / 1000 ) / interval ) * cell_dimensions.width ) - 2,
 				did_add      = false,
 				depths_taken = [],
@@ -1116,7 +1144,7 @@
 
 					if ( did_add === false ) {
 						//We will append the reservation to the first cell found, we set left but don't know the depths yet
-						element.css( 'left', ( ( ( reservation.arrival.getTime() - date.getTime() ) / 1000 / interval * cell_dimensions.width ) - 1 ) + 'px' );
+						element.css( 'left', ( ( ( er_timeline.manipulate_date_without_offset( reservation.arrival, 0 ) - date.getTime() ) / 1000 / interval * cell_dimensions.width ) - 1 ) + 'px' );
 
 						did_add = cell;
 					}

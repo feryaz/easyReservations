@@ -3504,7 +3504,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline-container .prev {
   background: linear-gradient(90deg, white 20%, transparent 100%);
 }
-.er-timeline .container .timeline-container .prev:after {
+.er-timeline .container .timeline-container .prev::after {
   display: block;
   margin-top: 12px;
   margin-left: -6px;
@@ -3515,7 +3515,7 @@ table.er_emails .er-email-settings-table-status .tips {
   text-align: right;
   background: linear-gradient(270deg, white 20%, transparent 100%);
 }
-.er-timeline .container .timeline-container .next:after {
+.er-timeline .container .timeline-container .next::after {
   display: block;
   margin-top: 12px;
   margin-left: 14px;
@@ -3579,6 +3579,23 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline .reservation.approved {
   background: #60a2ff;
   border-left: 2px solid #497cc3;
+}
+.er-timeline .container .timeline .reservation.approved.selected {
+  background: #497cc3;
+}
+.er-timeline .container .timeline .reservation.checked {
+  background: #ffb860;
+  border-left: 2px solid #c39849;
+}
+.er-timeline .container .timeline .reservation.checked.selected {
+  background: #c39849;
+}
+.er-timeline .container .timeline .reservation.completed {
+  background: #7dd06e;
+  border-left: 2px solid #55a047;
+}
+.er-timeline .container .timeline .reservation.completed.selected {
+  background: #55a047;
 }
 .er-timeline .container .timeline .reservation.ui-draggable-dragging {
   z-index: 3;
@@ -3661,7 +3678,7 @@ table.er_emails .er-email-settings-table-status .tips {
   background-size: 6px 6px;
   opacity: 4%;
 }
-.er-timeline .container .timeline table thead.main th.past:after {
+.er-timeline .container .timeline table thead.main th.past::after {
   position: absolute;
   top: 0;
   right: 0;
@@ -3723,9 +3740,6 @@ table.er_emails .er-email-settings-table-status .tips {
   z-index: 1;
   animation: fadeIn ease-in 1;
   animation-duration: 0.4s;
-}
-.er-timeline .container .timeline table tbody tr td .reservation.selected {
-  background: #5088cc;
 }
 .er-timeline .container .timeline table tbody tr td .reservation.fade-in-fast {
   animation-name: fadeInFast;
