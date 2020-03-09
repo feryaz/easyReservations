@@ -57,7 +57,6 @@
 ----------------------------------*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   border: none;
-  background: $contentbg;
   border-radius: 0;
   color: $textcolor;
 }
@@ -160,7 +159,6 @@
         border: 0;
         border-bottom: 1px solid $innerborder;
         border-right: 1px solid $innerborder;
-        background: $contentbg;
         color: $textcolor;
 
         span,
@@ -171,7 +169,6 @@
           text-decoration: none !important;
           box-shadow: none !important;
           font-weight: normal;
-          background: #fff;
         }
       }
 
