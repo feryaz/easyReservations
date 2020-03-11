@@ -368,8 +368,8 @@ class ER_Admin {
                     'resources'        => er_list_pluck( ER()->resources()->get(), 'get_data' ),
                     'pending'          => $pending_reservations,
                     'default_cells'    => 45,
-                    'first_hour'       => 10,
-                    'last_hour'        => 14,
+                    'first_hour'       => 0,
+                    'last_hour'        => 23,
                     'default_interval' => 86400,
                 )
             );

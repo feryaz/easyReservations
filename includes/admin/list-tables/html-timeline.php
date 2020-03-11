@@ -88,6 +88,17 @@ $resources = ER()->resources()->get_accessible();
                     <span class="input-box clickable hourly"><?php esc_html_e( 'Hourly', 'easyReservations' ); ?></span>
                     <span class="input-box clickable daily"><?php esc_html_e( 'Daily', 'easyReservations' ); ?></span>
                 </span>
+                <div class="er-dropdown" style="display: inline-block">
+                    <a class="button-primary add dropdown-toggle"><?php esc_html_e( 'Add', 'easyReservations' ); ?></a>
+                    <ul class="dropdown-menu right" role="menu" aria-labelledby="menu1">
+                        <li role="presentation">
+                            <a role="menuitem" class="start-add" data-target="reservation" tabindex="-1" href="#"><?php esc_html_e( 'Reservation', 'easyReservations' ); ?></a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" class="start-add" data-target="resource" tabindex="-1" href="#"><?php esc_html_e( 'Block resource', 'easyReservations' ); ?></a></li>
+                        <li role="presentation"><a role="menuitem" class="start-add" data-target="global" tabindex="-1" href="#"><?php esc_html_e( 'Block global', 'easyReservations' ); ?></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -110,7 +121,7 @@ $resources = ER()->resources()->get_accessible();
                         <tbody>
                             <?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i++ ): ?>
                                 <tr>
-                                    <td><?php echo esc_html( $resource->get_space_name( $i ) ); ?></td>
+                                    <td data-resource="<?php echo esc_attr( $resource->get_id() ); ?>" data-space="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $resource->get_space_name( $i ) ); ?></td>
                                 </tr>
                             <?php endfor; ?>
                         </tbody>

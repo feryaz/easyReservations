@@ -1571,14 +1571,83 @@ class ER_AJAX {
         global $wpdb;
 
         check_ajax_referer( 'easyreservations-timeline', 'security' );
+	    define( 'RESERVATIONS_ADMIN_REQUEST', true );
 
-        $start         = new ER_DateTime( sanitize_text_field( $_POST['start'] ) );
-        $end           = new ER_DateTime( sanitize_text_field( $_POST['end'] ) );
-        $interval      = absint( $_POST['interval'] );
-        $date_interval = new DateInterval( 'PT' . $interval . 'S' );
-        $return        = array();
+	    $start         = new ER_DateTime( sanitize_text_field( $_POST['start'] ) );
+	    $end           = new ER_DateTime( sanitize_text_field( $_POST['end'] ) );
+	    $interval      = absint( $_POST['interval'] );
+	    $date_interval = new DateInterval( 'PT' . $interval . 'S' );
+	    $return        = array();
+	    $add           = isset( $_POST['add'] ) ? sanitize_text_field( $_POST['add'] ) : false;
+	    $resource      = isset( $_POST['resource'] ) ? absint( $_POST['resource'] ) : false;
+	    $space         = isset( $_POST['space'] ) ? absint( $_POST['space'] ) : false;
 
-        foreach ( ER()->resources()->get_accessible() as $resource ) {
+	    if( $add ){
+	        $arrival = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
+	        $departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+
+		    if( $add === 'reservation' ){
+	            $reservation = new ER_Reservation(0);
+	            $reservation->set_resource_id( $resource );
+	            $reservation->set_space( $space );
+	            $reservation->set_arrival( $arrival );
+	            $reservation->set_departure( $departure );
+	            $reservation->set_status( 'approved' );
+			    $reservation->set_title( __( 'No title', 'easyReservations' ) );
+
+			    $availability = $reservation->check_availability();
+
+	            if( !$availability ){
+		            $reservation->calculate_taxes( false );
+		            $reservation->calculate_totals( false );
+
+		            $reservation->save();
+                } else {
+	                var_dump('TODO');
+                }
+            } else {
+		        if( $add === 'resource' ){
+			        $availability_filter = array();
+			        $all_filter          = get_post_meta( $resource, 'easy_res_filter', true );
+
+			        if( $all_filter && !empty( $all_filter ) ){
+			            foreach( $all_filter as $key => $filter ){
+			                if( $filter['type'] === 'unavail' ){
+				                $availability_filter[] = $filter;
+				                unset( $all_filter[$key] );
+			                }
+                        }
+                    } else {
+				        $all_filter = array();
+                    }
+                } else {
+			        $availability_filter = get_option( 'reservations_availability_filters', array() );
+		        }
+
+		        $filter = array(
+			        'name' => 'Timeline',
+			        'type' => 'unavail',
+			        'imp'  => 1,
+			        'cond' => 'range',
+			        'from' => $arrival->format( 'Y-m-d H:i:s' ),
+			        'to'   => $departure->format( 'Y-m-d H:i:s' )
+		        );
+
+			    $availability_filter[] = $filter;
+
+			    usort( $availability_filter, function ( $a, $b ) {
+				    return $a['imp'] - $b['imp'];
+			    } );
+
+			    if ( $add === 'resource' ) {
+				    update_post_meta( $resource, 'easy_res_filter', $all_filter + $availability_filter );
+			    } else {
+				    update_option( 'reservations_availability_filters', $availability_filter );
+			    }
+		    }
+        }
+
+	    foreach ( ER()->resources()->get_accessible() as $resource ) {
             $return[$resource->get_id()] = array();
 
             if ( $interval == DAY_IN_SECONDS ) {

@@ -3385,17 +3385,20 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline div.header .right {
   text-align: left;
 }
+.er-timeline div.header .right .add {
+  margin-left: 10px;
+  line-height: 28px;
+  vertical-align: middle;
+}
+.er-timeline div.header .right .add::before {
+  font-family: "Dashicons";
+  font-size: 14px;
+  content: "";
+  margin-right: 0.5em;
+  vertical-align: bottom;
+}
 .er-timeline .container {
   display: flex;
-  /*.shadow {
-    box-shadow: inset 2px 1px 4px -2px grey;
-    position: absolute;
-    z-index: 1;
-    top: 45px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }*/
 }
 .er-timeline .container .resources {
   z-index: 2;
@@ -3467,7 +3470,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .container .resources table tbody td {
   height: 26px;
-  padding: 3px 15px 3px 15px;
+  padding: 6px 15px 0px 15px;
   margin: 0;
   font-size: 12px;
   font-weight: 600;
@@ -3475,6 +3478,9 @@ table.er_emails .er-email-settings-table-status .tips {
   vertical-align: top;
   background-color: #fff;
   border-right: 1px solid #ebebeb;
+}
+.er-timeline .container .resources table tbody td.hover {
+  background: #ebe9eb;
 }
 .er-timeline .container .timeline-container {
   position: relative;
@@ -3524,6 +3530,17 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline .container .timeline {
   position: relative;
   overflow: hidden;
+}
+.er-timeline .container .timeline.hourly table thead.main th {
+  width: 47px;
+}
+.er-timeline .container .timeline .placeholder {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  pointer-events: none;
+  background: #ebe9eb;
+  opacity: 90%;
 }
 .er-timeline .container .timeline .reservation {
   position: absolute;
@@ -3650,6 +3667,9 @@ table.er_emails .er-email-settings-table-status .tips {
   color: #40a0ff;
   border-radius: 50%;
 }
+.er-timeline .container .timeline table thead.main th.hover {
+  background: #ebe9eb;
+}
 .er-timeline .container .timeline table thead.main th div.first-of-month {
   position: absolute;
   top: -20px;
@@ -3695,7 +3715,6 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .container .timeline table thead.resource th {
   z-index: 1;
-  width: 88px;
   height: 24px;
   padding: 0;
   background-color: #fff;
@@ -3727,7 +3746,6 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .container .timeline table tbody tr td {
   position: relative;
-  width: 87px;
   height: 32px;
   min-height: 34px;
   padding: 0;

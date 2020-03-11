@@ -3291,6 +3291,20 @@ table.er_emails {
 
     .right {
       text-align: left;
+
+      .add {
+        margin-left: 10px;
+        line-height: 28px;
+        vertical-align: middle;
+
+        &::before {
+          font-family: "Dashicons";
+          font-size: 14px;
+          content: "\f132";
+          margin-right: 0.5em;
+          vertical-align: bottom;
+        }
+      }
     }
   }
 
@@ -3369,7 +3383,7 @@ table.er_emails {
 
         tbody td {
           height: 26px;
-          padding: 3px 15px 3px 15px;
+          padding: 6px 15px 0px 15px;
           margin: 0;
           font-size: 12px;
           font-weight: 600;
@@ -3377,6 +3391,10 @@ table.er_emails {
           vertical-align: top;
           background-color: #fff;
           border-right: 1px solid $innerborder;
+
+          &.hover {
+            background: $secondary;
+          }
         }
       }
     }
@@ -3432,19 +3450,22 @@ table.er_emails {
       }
     }
 
-    /*.shadow {
-      box-shadow: inset 2px 1px 4px -2px grey;
-      position: absolute;
-      z-index: 1;
-      top: 45px;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }*/
-
     .timeline {
       position: relative;
       overflow: hidden;
+
+      &.hourly table thead.main th {
+        width: 47px;
+      }
+
+      .placeholder {
+        position: absolute;
+        z-index: 0;
+        height: 100%;
+        pointer-events: none;
+        background: $secondary;
+        opacity: 90%;
+      }
 
       .reservation {
         position: absolute;
@@ -3599,7 +3620,8 @@ table.er_emails {
             &.today {
             }
 
-            &.first {
+            &.hover {
+              background: $secondary;
             }
 
             div.first-of-month {
@@ -3654,7 +3676,6 @@ table.er_emails {
         thead.resource {
           th {
             z-index: 1;
-            width: 88px;
             height: 24px;
             padding: 0;
             background-color: #fff;
@@ -3694,7 +3715,6 @@ table.er_emails {
 
             td {
               position: relative;
-              width: 87px;
               height: 32px;
               min-height: 34px;
               padding: 0;

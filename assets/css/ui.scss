@@ -519,6 +519,62 @@ input[type="submit"].easy-button,
   }
 }
 
+/* Dropdown */
+
+.er-dropdown {
+  position: relative;
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 4;
+    display: none;
+    float: left;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 13px;
+    text-align: left;
+    list-style: none;
+    background-color: $contentbg;
+    background-clip: padding-box;
+    border: 1px solid $outerborder;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+
+    &.right {
+      right: 0;
+      left: unset;
+    }
+
+    // Dividers (basically an hr) within the dropdown
+    .divider {
+      height: 1px;
+      margin: 9px 0;
+      overflow: hidden;
+      background-color: #e5e5e5;
+    }
+
+    // Links within the dropdown menu
+    > li > a {
+      display: block;
+      padding: 3px 20px;
+      clear: both;
+      font-weight: 400;
+      line-height: 1.42857143;
+      color: $textcolor;
+      text-decoration: none;
+      white-space: nowrap; // prevent links from randomly breaking onto new lines
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $selected;
+      }
+    }
+  }
+}
+
 /* Slider */
 
 div.easy-slider {
