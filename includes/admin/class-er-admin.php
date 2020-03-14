@@ -352,13 +352,16 @@ class ER_Admin {
                 )
             );
 
-            wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
+            wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'moment', 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-timeline',
                 'er_timeline_params',
                 array(
                     'ajax_url'         => admin_url( 'admin-ajax.php' ),
                     'order_url'        => admin_url( 'post.php?post=%s&action=edit' ),
+                    'i18n_no_resource'   => __( 'No resource selected', 'easyReservations' ),
+                    'i18n_no_arrivals'   => __( 'No arrivals', 'easyReservations' ),
+                    'i18n_no_departures'   => __( 'No departures', 'easyReservations' ),
                     'i18n_stop_edit'   => __( 'Save changes', 'easyReservations' ),
                     'i18n_allow_edit'  => __( 'Allow edit', 'easyReservations' ),
                     'i18n_no_pending'  => __( 'No pending reservations', 'easyReservations' ),

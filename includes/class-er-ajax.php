@@ -1603,8 +1603,14 @@ class ER_AJAX {
 
 		            $reservation->save();
                 } else {
-	                var_dump('TODO');
-                }
+		            wp_send_json(
+			            array(
+				            'message' => __( 'Reservation could not be added as the requested space is full', 'easyReservations' )
+			            )
+		            );
+
+		            exit;
+	            }
             } else {
 		        if( $add === 'resource' ){
 			        $availability_filter = array();
@@ -1666,7 +1672,7 @@ class ER_AJAX {
             $date         = clone $start;
 
             while ( $date < $end ) {
-                $return[$resource->get_id()][( $date->getOffsetTimestamp() - ( $hour * 3600 ) )] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
+                $return[$resource->get_id()][er_date_sub_seconds( $date, $hour * 3600 )->format('Y-m-d H:i:s')] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
                 $date->add( $date_interval );
             }
         }
@@ -1707,6 +1713,7 @@ class ER_AJAX {
         global $wpdb;
 
         check_ajax_referer( 'easyreservations-timeline', 'security' );
+	    define( 'RESERVATIONS_ADMIN_REQUEST', true );
 
 	    $id        = absint( $_POST['id'] );
 	    $arrival   = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
@@ -1725,11 +1732,31 @@ class ER_AJAX {
 		    $reservation->set_space( $space );
 		    $reservation->set_title( $title );
 
-		    if( $status !== $reservation->get_status() ){
-		        $reservation->update_status( $status, __( 'Reservation status changed in timeline:', 'easyReservations' ), true );
-            }
+		    $availability = $reservation->check_availability();
 
-		    $reservation->save();
+		    if ( ! $availability ) {
+			    if ( $status !== $reservation->get_status() ) {
+				    $reservation->update_status( $status, __( 'Reservation status changed in timeline:', 'easyReservations' ), true );
+			    } else {
+				    $reservation->save();
+			    }
+
+			    wp_send_json(
+			        array(
+			            'reservation' => $reservation->get_data()
+                    )
+                );
+
+			    exit;
+		    } else {
+			    wp_send_json(
+				    array(
+					    'message' => __( 'Reservation could not be updated as the requested space is full', 'easyReservations' )
+				    )
+			    );
+
+			    exit;
+		    }
         }
 
         exit;

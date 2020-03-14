@@ -10,17 +10,20 @@ $resources = ER()->resources()->get_accessible();
     <div class="sidebar easy-ui">
         <div class="calendar visible">
             <div class="er-datepicker" id="timeline-datepicker"></div>
+            <h3><?php esc_html_e( 'Arrivals', 'easyReservations' ); ?></h3>
+            <div class="reservations arrivals"></div>
+            <h3><?php esc_html_e( 'Departures', 'easyReservations' ); ?></h3>
+            <div class="reservations departures"></div>
         </div>
         <div class="pending visible">
             <h2><?php esc_html_e( 'Pending reservations', 'easyReservations' ); ?></h2>
             <div class="reservations"></div>
         </div>
         <div class="reservation-details visible">
-            <h2><?php esc_html_e( 'Reservation', 'easyReservations' ); ?></h2>
-            <div class="reservation-header">
+            <h2>
                 <span class="reservation-status"></span>
                 <span class="title"></span>
-            </div>
+            </h2>
             <div class="row">
                 <label><?php esc_html_e( 'Arrival', 'easyReservations' ); ?></label>
                 <span class="reservation-arrival"></span>

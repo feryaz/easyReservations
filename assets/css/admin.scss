@@ -1597,12 +1597,13 @@ a.order-preview {
   max-width: 100%;
 
   &.status-completed {
-    background: #c8d7e1;
-    color: #2e4453;
+    background: #c6e1c6;
+    color: #5b841b;
 
     &.background {
-      background: #c8d7e1 !important;
+      background: #c6e1c6 !important;
     }
+
   }
 
   &.status-checked {
@@ -1633,11 +1634,11 @@ a.order-preview {
   }
 
   &.status-approved {
-    background: #c6e1c6;
-    color: #5b841b;
+    background: #c8d7e1;
+    color: #2e4453;
 
     &.background {
-      background: #c6e1c6 !important;
+      background: #c8d7e1 !important;
     }
   }
 
@@ -3082,41 +3083,43 @@ table.er_emails {
 }
 
 .er-timeline {
-  display: flex;
+  display: none;
   height: 100%;
-
   user-select: none;
-  background-color: #fff;
-  border: 1px solid #ccd0d4;
-
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   align-items: stretch;
 
   .sidebar {
     overflow: hidden;
-    border-right: 1px solid #ccd0d4;
+    background: #fff;
+    border: 1px solid $outerborder;
+    border-right:0;
     transition: width 0.3s linear;
 
+    &.expanded {
+      width: 304px;
+    }
+
     h2 {
-      margin: 0;
       padding: 13px;
-      border-bottom: 1px solid $innerborder;
-      white-space: nowrap;
+      margin: 0;
       word-wrap: break-word;
+      white-space: nowrap;
+      border-bottom: 1px solid $innerborder;
     }
 
     h3 {
+      padding: 4px 12px;
       margin: 10px 0;
-      padding: 4px 13px;
-      background: $innerborder;
-      color: $subtext;
       font-size: 13px;
       font-weight: 500;
+      color: $subtext;
+      background: $innerborder;
     }
 
     .input-wrapper {
       width: 90%;
-      margin: 0 13px 5px;
+      margin: 0 12px 5px;
 
       .input-box {
         width: 100%;
@@ -3143,37 +3146,163 @@ table.er_emails {
           }
         }
       }
+
+      h3 {
+        margin: 0;
+      }
+
+      .reservations {
+        padding: 0;
+        cursor: pointer;
+
+        .today-reservation {
+          padding: 12px 12px;
+          border-bottom: 1px solid $innerborder;
+
+          > .date {
+            float: left;
+            padding: 0 8px 0 0;
+            font-size: 14px;
+            text-align: center;
+
+            .hour {
+              display: block;
+              font-weight: 500;
+              border-bottom: 1px solid $innerborder;
+            }
+
+            .minute {
+              font-weight: 500;
+            }
+
+            .ampm {
+              display: block;
+              color: $subtext;
+              font-size: 12px;
+              font-style: italic;
+            }
+          }
+
+          > div {
+            display: inline-block;
+            width: 83%;
+            padding-left: 8px;
+            border-left: 1px solid $innerborder;
+
+            div {
+              overflow: hidden;
+              word-wrap: break-word;
+              white-space: nowrap;
+            }
+
+            .title {
+              font-weight: 500;
+
+              .id {
+                display: inline-block;
+                padding: 0 3px 1px;
+                margin-right: 5px;
+                font-weight: 400;
+                line-height: 17px;
+                color: $subtext;
+                background: $innerborder;
+                border-radius: 3px;
+              }
+            }
+
+            .date {
+              color: $subtext;
+
+              .arrival {
+                display: inline-block;
+                transform: scaleX(-1);
+              }
+
+              .departure {
+                display: inline-block;
+              }
+
+              .arrival::before,
+              .departure::before {
+                position: relative;
+                font-size: 14px;
+                vertical-align: text-bottom;
+
+                @include iconbeforedashicons("\f474");
+              }
+            }
+          }
+
+          &:hover {
+            background: $selected;
+          }
+        }
+      }
     }
 
     > .pending {
       width: 304px;
 
       .reservations {
-        padding:13px;
+        padding: 0;
         cursor: pointer;
+
+        .pending-reservation {
+          padding: 12px 12px;
+          border-bottom: 1px solid $innerborder;
+
+          .id {
+            float: left;
+            padding: 0 3px 1px;
+            margin-right: 6px;
+            color: $subtext;
+            background: $innerborder;
+            border-radius: 3px;
+          }
+
+          > div {
+            display: inline-block;
+            width: 83%;
+
+            div {
+              overflow: hidden;
+              word-wrap: break-word;
+              white-space: nowrap;
+            }
+
+            .title {
+              font-weight: 500;
+            }
+
+            .date {
+              color: $subtext;
+            }
+          }
+
+          &:hover {
+            background: $selected;
+          }
+        }
       }
     }
 
     > .reservation-details {
       width: 304px;
 
-      .reservation-header {
-        padding: 13px;
+      h2 {
         overflow: hidden;
         word-wrap: break-word;
         white-space: nowrap;
+        margin-bottom: 12px;
 
         .reservation-status {
           display: inline-block;
-          width: 12px;
-          height: 10px;
-          margin-right: 6px;
+          padding: 0 3px 1px;
+          line-height: unset;
+          font-size: 14px;
         }
 
         .title {
-          font-size: 16px;
-          font-weight: 500;
-          vertical-align: middle;
         }
       }
 
@@ -3186,7 +3315,7 @@ table.er_emails {
       }
 
       .row {
-        padding: 0 13px 13px;
+        padding: 0 12px 12px;
 
         label {
           display: inline-block;
@@ -3203,568 +3332,577 @@ table.er_emails {
       .reservation-preview {
         &.disabled {
           &::before {
-            content: url("../images/wpspin.gif");
             padding-left: 1px;
+            content: url("../images/wpspin.gif");
           }
         }
       }
     }
-
-    &.expanded {
-      width: 304px;
-    }
-  }
-
-  .content {
-    position: relative;
-
-    width: 100%;
-    box-sizing: border-box;
-
-    transition: width 0.3s linear;
   }
 
   .sidebar.expanded + .content {
     width: calc(100% - 305px);
   }
 
-  div.header {
-    display: flex;
-    height: 28px;
-    padding: 8px;
-    border-bottom: 1px solid $innerborder;
-    align-items: center;
+  > .content {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    transition: width 0.3s linear;
+    border-left: 1px solid $outerborder;
 
-    .left {
-      text-align: right;
+    div.header {
+      display: flex;
+      height: 28px;
+      padding: 8px;
+      background: #fff;
+      border-top: 1px solid $outerborder;
+      border-right: 1px solid $outerborder;
+      border-bottom: 1px solid $innerborder;
+      align-items: center;
 
-      .pending {
-        position: relative;
-        display: inline-block;
+      .left {
+        text-align: right;
 
-        span {
-          position: absolute;
-          top: -6px;
-          right: -6px;
-          z-index: 1;
-          padding: 0 5px;
-          font-size: 11px;
-          line-height: 17px;
-          color: white;
-          background: red;
-          border-radius: 50%;
+        .pending {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+
+          span {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            z-index: 1;
+            padding: 0 5px;
+            font-size: 11px;
+            line-height: 17px;
+            color: white;
+            background: red;
+            border-radius: 50%;
+          }
+
+          &::after {
+            position: relative;
+            font-size: 20px;
+
+            @include iconbeforedashicons("\f101");
+          }
         }
 
-        &::after {
+        .expand-sidebar::after {
           position: relative;
           font-size: 20px;
           cursor: pointer;
 
-          @include iconbeforedashicons("\f101");
+          @include iconbeforedashicons("\f310");
+        }
+
+        .contract-sidebar::after {
+          position: relative;
+          display: inline-block;
+
+          font-size: 20px;
+          cursor: pointer;
+          transform: scale(-1, 1);
+
+          @include iconbeforedashicons("\f310");
         }
       }
 
-      .expand-sidebar::after {
-        position: relative;
-        font-size: 20px;
-        cursor: pointer;
-
-        @include iconbeforedashicons("\f310");
+      .middle {
+        text-align: center;
+        flex-grow: 2;
       }
 
-      .contract-sidebar::after {
-        position: relative;
-        display: inline-block;
+      .right {
+        text-align: left;
 
-        font-size: 20px;
-        cursor: pointer;
-        transform: scale(-1, 1);
+        .add {
+          margin-left: 6px;
+          line-height: 28px;
+          vertical-align: middle;
 
-        @include iconbeforedashicons("\f310");
-      }
-    }
-
-    .middle {
-      text-align: center;
-      flex-grow: 2;
-    }
-
-    .right {
-      text-align: left;
-
-      .add {
-        margin-left: 10px;
-        line-height: 28px;
-        vertical-align: middle;
-
-        &::before {
-          font-family: "Dashicons";
-          font-size: 14px;
-          content: "\f132";
-          margin-right: 0.5em;
-          vertical-align: bottom;
-        }
-      }
-    }
-  }
-
-  .container {
-    display: flex;
-
-    .resources {
-      z-index: 2;
-      height: 100%;
-      word-wrap: break-word;
-      white-space: nowrap;
-
-      table {
-        margin: 0;
-        border-spacing: 0;
-
-        thead.main {
-          th {
-            height: 36px;
-            padding: 4px;
-          }
-        }
-
-        thead.resource th {
-          max-width: 0;
-          padding: 4px 5px 0;
-
-          background-color: #fff;
-          border-top: 1px solid $innerborder;
-          border-right: 0;
-
-          border-bottom: 1px solid $innerborder;
-
-          .resource-handler {
-            color: #999;
-
-            &:hover {
-              color: #6d6d6d;
-            }
-
-            &:active {
-              color: #444444;
-            }
-
-            &::after {
-              @include iconbeforedashicons("\f347");
-
-              position: relative;
-              display: inline-block;
-
-              font-size: 18px;
-              cursor: pointer;
-            }
-
-            &.retracted::after {
-              @include iconbeforedashicons("\f345");
-            }
-          }
-
-          span {
-            vertical-align: middle;
-          }
-
-          a {
-            width: 100%;
-
-            overflow: visible;
-
-            font-size: 12px;
-
-            font-weight: 400;
-            text-decoration: none;
-            background: #fff;
-          }
-        }
-
-        tbody td {
-          height: 26px;
-          padding: 6px 15px 0px 15px;
-          margin: 0;
-          font-size: 12px;
-          font-weight: 600;
-          color: #666;
-          vertical-align: top;
-          background-color: #fff;
-          border-right: 1px solid $innerborder;
-
-          &.hover {
-            background: $secondary;
+          &::before {
+            margin-right: 0.5em;
+            font-family: "Dashicons";
+            font-size: 14px;
+            vertical-align: bottom;
+            content: "\f132";
           }
         }
       }
     }
 
-    .timeline-container {
-      position: relative;
-      overflow: hidden;
+    .container {
+      display: flex;
+      background: #fff;
+      border-right: 1px solid $outerborder;
+      border-bottom: 1px solid $outerborder;
 
-      .prev,
-      .next {
-        position: absolute;
-        top: 0;
-        z-index: 3;
-        display: block;
-        width: 30px;
-        height: 44px;
-        font-family: 'Dashicons';
-        font-size: 18px;
-        color: #999;
-        cursor: pointer;
-
-        &:hover {
-          color: #6d6d6d;
-        }
-
-        &:active {
-          color: #444444;
-        }
-      }
-
-      .prev {
-        background: linear-gradient(90deg, white 20%, transparent 100%);
-
-        &::after {
-          display: block;
-          margin-top: 12px;
-          margin-left: -6px;
-          content: "\f341";
-        }
-      }
-
-      .next {
-        right: 0;
-        text-align: right;
-        background: linear-gradient(270deg, white 20%, transparent 100%);
-
-        &::after {
-          display: block;
-          margin-top: 12px;
-          margin-left: 14px;
-          content: "\f345";
-        }
-      }
-    }
-
-    .timeline {
-      position: relative;
-      overflow: hidden;
-
-      &.hourly table thead.main th {
-        width: 47px;
-      }
-
-      .placeholder {
-        position: absolute;
-        z-index: 0;
+      .resources {
+        z-index: 2;
         height: 100%;
-        pointer-events: none;
-        background: $secondary;
-        opacity: 90%;
-      }
-
-      .reservation {
-        position: absolute;
-        top: 0;
-        z-index: 3;
-        display: flex;
-        width: 100%;
-        box-sizing: content-box;
-        padding: 0;
-        margin: 3px 0 0 0;
-        font-size: 12px;
-        font-weight: 400;
-        color: #fff;
-        cursor: pointer;
+        word-wrap: break-word;
         white-space: nowrap;
-        flex-direction: row;
-        //outline: 1px solid #5088cc;outline-offset: -1px;
 
-        .wrapper {
-          display: block;
-          width: 100%;
-          min-width: 0;
-          box-sizing: content-box;
-          padding: 4px;
-          padding-left: 0;
-          pointer-events: none;
-          flex-grow: 1;
+        table {
+          margin: 0;
+          border-spacing: 0;
 
-          .sticky {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            right: 0;
-            left: 0;
-            padding-left: 4px;
+          thead.main {
+            th {
+              height: 36px;
+              padding: 4px;
+            }
+          }
 
-            display: inline-block;
-            max-width: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-            white-space: nowrap;
+          thead.resource th {
+            max-width: 0;
+            padding: 4px 5px 0;
+            background-color: #fff;
+            border-top: 1px solid $innerborder;
+            border-right: 0;
+            border-bottom: 1px solid $innerborder;
+
+            .resource-handler {
+              color: #999;
+
+              &:hover {
+                color: #6d6d6d;
+              }
+
+              &:active {
+                color: #444444;
+              }
+
+              &::after {
+                @include iconbeforedashicons("\f347");
+                position: relative;
+                display: inline-block;
+                font-size: 18px;
+                cursor: pointer;
+              }
+
+              &.retracted::after {
+                @include iconbeforedashicons("\f345");
+              }
+            }
+
+            span {
+              vertical-align: middle;
+            }
+
+            a {
+              width: 100%;
+              overflow: visible;
+              font-size: 12px;
+              font-weight: 500;
+              text-decoration: none;
+              background: #fff;
+            }
+          }
+
+          tbody td {
+            height: 26px;
+            padding: 6px 15px 0px 15px;
+            margin: 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
             vertical-align: top;
-
-            .id {
-              padding: 0 3px;
-              background: rgba(255, 255, 255, 0.2);
-              border-radius: 3px;
-            }
-
-            .title {
-              pointer-events: auto;
-              position: relative;
-              display: inline-block;
-              padding-left: 4px;
-            }
-          }
-        }
-
-        &.approved {
-          background: #60a2ff;
-          border-left: 2px solid #497cc3;
-
-          &.selected {
-            background: #497cc3;
-          }
-        }
-
-        &.checked {
-          background: #ffb860;
-          border-left: 2px solid #c39849;
-
-          &.selected {
-            background: #c39849;
-          }
-        }
-
-        &.completed {
-          background: #7dd06e;
-          border-left: 2px solid #55a047;
-
-          &.selected {
-            background: #55a047;
-          }
-        }
-
-        &.ui-draggable-dragging {
-          z-index: 3;
-          pointer-events: none;
-          opacity: 80%;
-        }
-
-        &.ui-resizable-resizing {
-          z-index: 3;
-          opacity: 80%;
-        }
-      }
-
-      table {
-        width: 100%;
-        box-sizing: content-box;
-        table-layout: fixed;
-        border-spacing: 0;
-        border-collapse: collapse;
-        //overflow: hidden; TODO
-
-        tr:nth-of-type(odd) td {
-          background-color: #f9f9f9;
-        }
-
-        thead.main {
-          cursor: grab;
-
-          th {
-            position: relative;
-            width: 95px;
-            padding: 4px 0;
-            font-size: 13px;
-            font-weight: bold;
-            border-bottom: 0;
-            border-left: 1px solid transparent;
-
-            .date {
-              position: relative;
-              z-index: 2;
-              text-align: center;
-              pointer-events: none;
-
-              span {
-                border-radius: 50%;
-                transition: background-color 0.1s linear;
-              }
-
-              div {
-                font-size: 12px;
-                font-weight: normal;
-              }
-            }
-
-            &.weekend {
-              color: #ff7075;
-            }
-
-            &.current {
-              .date span {
-                //background-color: #d4d4d4;
-                padding: 2px 3px;
-                color: $primary;
-                border-radius: 50%;
-              }
-            }
-
-            &.today {
-            }
+            background-color: #fff;
+            border-right: 1px solid $innerborder;
 
             &.hover {
               background: $secondary;
             }
+          }
+        }
+      }
 
-            div.first-of-month {
-              position: absolute;
-              top: -20px;
-              left:-1px;
-              z-index: 4;
-              height: 1000px;
-              pointer-events: none;
-              border-left: 2px solid #c94330;
-            }
+      .timeline-container {
+        position: relative;
+        overflow: hidden;
 
-            div.today {
-              position: absolute;
-              top: -20px;
-              z-index: 4;
-              height: 1000px;
-              pointer-events: none;
-              border-left: 2px dashed #008cff;
-            }
+        .prev,
+        .next {
+          position: absolute;
+          top: 0;
+          z-index: 3;
+          display: block;
+          width: 30px;
+          height: 44px;
+          font-family: 'Dashicons';
+          font-size: 18px;
+          color: #999;
+          cursor: pointer;
 
-            div.overlay {
-              position: absolute;
-              top: 0;
-              z-index: 1;
-              height: 44px;
-              margin-left: -100000px;
-              pointer-events: none;
-              background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
-              background-size: 6.00px 6.00px;
-              opacity: 4%;
+          &:hover {
+            color: #6d6d6d;
+          }
+
+          &:active {
+            color: #444444;
+          }
+        }
+
+        .prev {
+          background: linear-gradient(90deg, white 20%, transparent 100%);
+
+          &::after {
+            display: block;
+            margin-top: 12px;
+            margin-left: -6px;
+            content: "\f341";
+          }
+        }
+
+        .next {
+          right: 0;
+          text-align: right;
+          background: linear-gradient(270deg, white 20%, transparent 100%);
+
+          &::after {
+            display: block;
+            margin-top: 12px;
+            margin-left: 14px;
+            content: "\f345";
+          }
+        }
+
+        .timeline {
+          position: relative;
+          overflow: hidden;
+
+          &.hourly table thead.main th {
+            width: 47px;
+
+            &::after {
+              width: 102% !important;
             }
           }
 
-          th.past::after {
+          .placeholder {
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1;
-            width: 101%;
+            z-index: 0;
             height: 100%;
             pointer-events: none;
-            content: "";
-            background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
-            background-size: 6.00px 6.00px;
-            opacity: 4%;
+            background: $secondary;
+            opacity: 90%;
           }
-        }
 
-        thead.resource {
-          th {
-            z-index: 1;
-            height: 24px;
+          .reservation {
+            position: absolute;
+            top: 0;
+            z-index: 3;
+            display: flex;
+            width: 100%;
+            box-sizing: content-box;
             padding: 0;
-            background-color: #fff;
-            border: 0;
+            margin: 3px 0 0 0;
+            font-size: 12px;
+            font-weight: 400;
+            color: #fff;
+            white-space: nowrap;
+            cursor: pointer;
+            flex-direction: row;
+            //outline: 1px solid #5088cc;outline-offset: -1px;
 
-            div {
-              height: 24px;
-              padding: 1px 5px;
-              text-align: center;
+            .wrapper {
+              display: block;
+              width: 100%;
+              min-width: 0;
+              box-sizing: content-box;
+              padding: 4px;
+              padding-left: 0;
               pointer-events: none;
-              border-top: 1px solid #ebebeb;
-              border-bottom: 1px solid #ebebeb;
+              flex-grow: 1;
+              overflow: visible;
 
-              span {
-                font-size: 12px;
-                font-weight: 400;
-                line-height: 24px;
-                color: #888888;
-                vertical-align: middle;
-                animation-name: fadeIn;
-                animation-duration: 1s;
-                animation-fill-mode: both;
-              }
-            }
+              .sticky {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                right: 0;
+                left: 0;
+                display: inline-block;
+                max-width: 100%;
+                box-sizing: border-box;
+                padding-left: 4px;
+                overflow: hidden;
+                white-space: nowrap;
+                vertical-align: top;
 
-            &.unavailable {
-              color: #ff9f9e;
-            }
-          }
-        }
-
-        tbody {
-          tr {
-            &:last-of-type td {
-              border-bottom: 0;
-            }
-
-            td {
-              position: relative;
-              height: 32px;
-              min-height: 34px;
-              padding: 0;
-              border-left: 1px solid $innerborder;
-
-              &.weekend {
-                //background: #ffffda;
-              }
-
-              &.unavailable {
-                background-color: #fff6f6;
-              }
-
-              &.hover {
-                //border-left: 1px solid #c8d8ff;
-                //background-color: #f7f8f9;
-              }
-
-              &.first {
-              }
-
-              &.loading {
-                //background-color: #f3f3f3
-              }
-
-              .reservation {
-                z-index: 1;
-                animation: fadeIn ease-in 1;
-                animation-duration: 0.4s;
-
-                &.fade-in-fast {
-                  animation-name: fadeInFast;
+                .id {
+                  padding: 0 3px;
+                  background: rgba(255, 255, 255, 0.2);
+                  border-radius: 3px;
                 }
 
-                &.ui-draggable {
-                  cursor: move;
-                  
-                  .title {
-                    cursor: text;
+                .title {
+                  position: relative;
+                  display: inline-block;
+                  padding-left: 4px;
+                  pointer-events: auto;
+                }
+              }
+            }
+
+            &.approved {
+              background: #60a2ff;
+
+              .wrapper {
+                border-left: 2px solid #497cc3;
+              }
+
+              &.selected {
+                //background: #497cc3;
+              }
+            }
+
+            &.checked {
+              background: #ffb860;
+
+              .wrapper {
+                border-left: 2px solid #c39849;
+              }
+
+              &.selected {
+                //background: #c39849;
+              }
+            }
+
+            &.completed {
+              background: #7dd06e;
+
+              .wrapper {
+                border-left: 2px solid #55a047;
+              }
+
+              &.selected {
+                //background: #55a047;
+              }
+            }
+
+            &.ui-draggable-dragging {
+              z-index: 3;
+              pointer-events: none;
+              opacity: 80%;
+            }
+
+            &.ui-resizable-resizing {
+              z-index: 3;
+              opacity: 80%;
+            }
+          }
+
+          table {
+            width: 100%;
+            box-sizing: content-box;
+            table-layout: fixed;
+            border-spacing: 0;
+            border-collapse: collapse;
+
+            tr:nth-of-type(odd) td {
+              background-color: #f9f9f9;
+            }
+
+            thead.main {
+              cursor: grab;
+
+              th {
+                position: relative;
+                width: 95px;
+                padding: 4px 0;
+                font-size: 13px;
+                font-weight: bold;
+                border-bottom: 0;
+                border-left: 1px solid transparent;
+
+                .date {
+                  position: relative;
+                  z-index: 2;
+                  text-align: center;
+                  pointer-events: none;
+
+                  span {
+                    border-radius: 50%;
+                    transition: background-color 0.1s linear;
+                  }
+
+                  div {
+                    font-size: 12px;
+                    font-weight: normal;
                   }
                 }
 
-                &.ui-resizable-resizing {
-                  z-index: 3;
-                  opacity: 0.8;
+                &.weekend {
+                  color: #ff7075;
                 }
 
-                &:hover {
-                  border-left: 2px solid #223955;
-                  transition: border-left-color 0.3s;
+                &.current {
+                  .date span {
+                    //background-color: #d4d4d4;
+                    padding: 2px 3px;
+                    color: $primary;
+                    border-radius: 50%;
+                  }
+                }
+
+                &.today {
+                }
+
+                &.hover {
+                  background: $secondary;
+                }
+
+                div.first-of-month {
+                  position: absolute;
+                  top: -20px;
+                  left: -1px;
+                  z-index: 4;
+                  height: 1000px;
+                  pointer-events: none;
+                  border-left: 2px solid #c94330;
+                }
+
+                div.today {
+                  position: absolute;
+                  top: -20px;
+                  z-index: 4;
+                  height: 1000px;
+                  pointer-events: none;
+                  border-left: 2px dashed #008cff;
+                }
+
+                div.overlay {
+                  position: absolute;
+                  top: 0;
+                  z-index: 1;
+                  height: 44px;
+                  margin-left: -100000px;
+                  pointer-events: none;
+                  background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
+                  background-size: 6.00px 6.00px;
+                  opacity: 4%;
+                }
+              }
+
+              th.past::after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 1;
+                width: 101%;
+                height: 100%;
+                pointer-events: none;
+                content: "";
+                background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
+                background-size: 6.00px 6.00px;
+                opacity: 4%;
+              }
+            }
+
+            thead.resource {
+              th {
+                z-index: 1;
+                height: 24px;
+                padding: 0;
+                background-color: #fff;
+                border: 0;
+
+                div {
+                  height: 24px;
+                  padding: 1px 5px;
+                  text-align: center;
+                  pointer-events: none;
+                  border-top: 1px solid #ebebeb;
+                  border-bottom: 1px solid #ebebeb;
+
+                  span {
+                    font-size: 12px;
+                    font-weight: 400;
+                    line-height: 24px;
+                    color: #888888;
+                    vertical-align: middle;
+                    animation-name: fadeIn;
+                    animation-duration: 1s;
+                    animation-fill-mode: both;
+                  }
+                }
+
+                &.unavailable {
+                  color: #ff9f9e;
+                }
+              }
+            }
+
+            tbody {
+
+              tr {
+                &:last-of-type td {
+                  border-bottom: 0;
+                }
+
+                td {
+                  position: relative;
+                  height: 32px;
+                  min-height: 34px;
+                  padding: 0;
+                  border-left: 1px solid $innerborder;
+
+                  &.weekend {
+                    //background: #ffffda;
+                  }
+
+                  &.unavailable {
+                    background-color: #fff6f6;
+                  }
+
+                  &.hover {
+                    //border-left: 1px solid #c8d8ff;
+                    //background-color: #f7f8f9;
+                  }
+
+                  &.loading {
+                    //background-color: #f3f3f3
+                  }
+
+                  .reservation {
+                    z-index: 1;
+                    animation: fadeIn ease-in 1;
+                    animation-duration: 0.4s;
+
+                    &.fade-in-fast {
+                      animation-name: fadeInFast;
+                    }
+
+                    &.ui-draggable {
+                      cursor: move;
+
+                      .title {
+                        cursor: text;
+                      }
+                    }
+
+                    &.ui-resizable-resizing {
+                      z-index: 3;
+                      opacity: 0.8;
+                    }
+
+                    &.selected {
+                      outline: 1px solid #fff;
+                      outline-offset: -3px;
+                    }
+
+                    &:hover {
+                      //border-left: 2px solid #223955;
+                      //transition: border-left-color 0.3s;
+                    }
+                  }
                 }
               }
             }
