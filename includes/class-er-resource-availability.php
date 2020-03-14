@@ -101,7 +101,7 @@ class ER_Resource_Availability {
         $this->status = '(' . $this->status . ')';
 
         if ( $id ) {
-            $this->resource_query .= $wpdb->prepare( ' id != %d AND', $ids );
+            $this->resource_query .= $wpdb->prepare( ' id != %d AND', $id );
         }
     }
 
