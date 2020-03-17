@@ -147,9 +147,14 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 
         $limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 
-        $old_request = "SELECT $select FROM {$wpdb->prefix}reservations WHERE 1=1 $where $orderby $limits";
+	    $found_rows = '';
+	    if ( ! $q['no_found_rows'] && ! empty( $limits ) ) {
+		    $found_rows = 'SQL_CALC_FOUND_ROWS';
+	    }
 
-        return $old_request;
+	    $old_request = "SELECT $found_rows $select FROM {$wpdb->prefix}reservations WHERE 1=1 $where $orderby $limits";
+
+	    return $old_request;
     }
 
     /**
