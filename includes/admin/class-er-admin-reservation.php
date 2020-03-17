@@ -89,7 +89,11 @@ class ER_Admin_Reservation {
         } else {
             //create and save a reservation so custom fields work
             $reservation = new ER_Reservation( 0 );
-            $reservation->save();
+            $now = er_get_datetime();
+            $now->setTime(0, 0, 0, 0);
+	        $reservation->set_arrival( $now );
+	        $reservation->set_departure( $now );
+	        $reservation->save();
             $reservation_id = $reservation->get_id();
         }
 

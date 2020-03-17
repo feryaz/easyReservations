@@ -29,17 +29,48 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
         add_filter( 'get_search_query', array( $this, 'search_label' ) );
         add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
         add_filter( 'views_edit-easy_reservation', array( $this, 'views' ), 10, 2 );
+	    add_filter( 'screen_settings', array( $this, 'screen_settings' ), 10, 2 );
 
-        add_action( 'all_admin_notices', array( $this, 'output_timeline' ) );
+	    add_action( 'all_admin_notices', array( $this, 'output_timeline' ) );
         add_action( 'admin_notices', array( $this, 'bulk_admin_notices' ) );
         add_action( 'admin_footer', array( $this, 'reservation_preview_template' ) );
         add_action( 'parse_query', array( $this, 'search_custom_fields' ) );
 
-        remove_action( 'admin_notices', array( 'WP_Privacy_Policy_Content', 'notice' ) );
+	    remove_action( 'admin_notices', array( 'WP_Privacy_Policy_Content', 'notice' ) );
     }
 
+	/**
+	 * Output timeline html
+	 */
     public function output_timeline() {
-        include "html-timeline.php";
+	    include RESERVATIONS_ABSPATH . "includes/admin/views/html-timeline.php";
+    }
+
+	/**
+     * Add to screen settings
+     *
+	 * @param $rv
+	 * @param $screen
+	 * @return string
+	 */
+    public function screen_settings( $rv, $screen ) {
+        $user_id = get_current_user_id();
+        ob_start();
+        ?>
+            <fieldset class="metabox-prefs">
+                <legend><?php esc_html_e('Timeline', 'easyReservations'); ?></legend>
+                <label for="edit_easy_reservation_timeline_hourly">
+                    <input type="checkbox" name="timeline_hourly" id="edit_easy_reservation_timeline_hourly" value="1" <?php checked( get_user_meta( $user_id, 'timeline_hourly', true ) === 'on' ); ?>><?php esc_html_e( 'Hourly mode as default', 'easyReservations' ); ?>
+                </label>
+                <label for="edit_easy_reservation_timeline_snapping">
+                    <input type="checkbox" name="timeline_snapping" class="hide-column-tog" id="edit_easy_reservation_timeline_snapping" value="1" <?php checked( get_user_meta( $user_id, 'timeline_snapping', true ) === 'on' ); ?>><?php esc_html_e( 'Snapping enabled as default', 'easyReservations' ); ?>
+                </label>
+            </fieldset>
+        <?php
+
+	    $rv .= ob_get_clean();
+
+        return $rv;
     }
 
     /**
@@ -89,21 +120,26 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
             $pgstrt = absint( ( $page - 1 ) * $q['posts_per_page'] ) . ', ';
         }
 
-        $orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : '';
+        $orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : 'created';
 
-        if ( !empty( $orderby ) ) {
+	    if ( !empty( $orderby ) ) {
             switch ( $orderby ) {
                 case 'date':
                     $orderby = 'arrival';
+                    break;
+
                 case 'created':
                     $orderby = 'id';
-                case 'order':
+	                break;
+
+	            case 'order':
                     $orderby = 'order_id';
+		            break;
             }
 
             $orderby = 'ORDER BY ' . $orderby;
 
-            $order = isset( $_REQUEST['order'] ) ? sanitize_key( $_REQUEST['order'] ) : '';
+            $order = isset( $_REQUEST['order'] ) ? sanitize_key( $_REQUEST['order'] ) : 'DESC';
             if( !empty( $order ) ){
                 $orderby .= ' ' . $order;
             }
@@ -111,9 +147,14 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 
         $limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 
-        $old_request = "SELECT $select FROM {$wpdb->prefix}reservations WHERE 1=1 $where $orderby $limits";
+	    $found_rows = '';
+	    if ( ! $q['no_found_rows'] && ! empty( $limits ) ) {
+		    $found_rows = 'SQL_CALC_FOUND_ROWS';
+	    }
 
-        return $old_request;
+	    $old_request = "SELECT $found_rows $select FROM {$wpdb->prefix}reservations WHERE 1=1 $where $orderby $limits";
+
+	    return $old_request;
     }
 
     /**

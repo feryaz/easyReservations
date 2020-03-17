@@ -1,7 +1,7 @@
 === easyReservations ===
 Contributors: feryaz
 Tags: booking, reservations, hotel, reservation form, calendar, reservation, restaurant, booking form, hospitality, events, tours, availability, bookings, booking calendar, availability calendar
-Requires at least: 4.9
+Requires at least: 5.3
 Tested up to: 5.3.2
 Requires PHP: 5.6
 Stable tag: 5.0.11
@@ -53,6 +53,15 @@ Automatic updates should work smoothly and does not delete any data, but we stil
 If you encounter issues with the catalog/category pages after an update, flush the permalinks by going to WordPress > Settings > Permalinks and hitting “Save.” That should return things to normal.
 
 == Changelog ==
+
+= 6.0-alpha.7 - 2020-03-XX=
+* Feature - Reservation timeline
+* Enhancement - Filters can set the price to 0
+* Tweak - Order of reservations in admin table
+* Fix - Pagination in reservations table
+* Fix - Arrival and departure default value in reservation add
+* Fix - Nightly billing calculation of nights
+* Fix - Format in date created field in orders and reservations
 
 = 6.0-alpha.6 - 2020-03-04 =
 * Tweak - Improved separation between reservation name and title

@@ -20,7 +20,11 @@ class ER_Meta_Box_Reservation_Data {
 	 * @param ER_Reservation $reservation
 	 */
 	public static function output( $reservation ) {
-        $order        = false;
+	    wp_enqueue_script( 'er-timeline' );
+
+		include RESERVATIONS_ABSPATH . "includes/admin/views/html-timeline.php";
+
+		$order        = false;
         $time_options = er_form_time_options();
         $date_created = $reservation->get_date_created();
 
@@ -59,8 +63,7 @@ class ER_Meta_Box_Reservation_Data {
                 <p class="easyreservations-order-data__meta order_number">
                     <?php
                     if ( $order ) {
-                        esc_html_e( 'Attached to order', 'easyReservations' );
-                        echo ' ' . $order->get_edit_link();
+	                    echo sprintf( esc_html__( 'Attached to order %s', 'easyReservations' ), $order->get_edit_link() );
                     }
                     ?>
                 </p>
@@ -76,7 +79,7 @@ class ER_Meta_Box_Reservation_Data {
 
                         <p class="form-field form-field-wide">
 							<label for="reservation_date"><?php esc_html_e( 'Date created:', 'easyReservations' ); ?></label>
-							<input type="text" class="er-datepicker date-created" name="reservation_date" maxlength="10" value="<?php echo esc_attr( $date_created->date_i18n( 'Y-m-d' ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>" <?php echo esc_attr($disabled); ?>/>@
+							<input type="text" class="er-datepicker date-created" name="reservation_date" maxlength="10" data-format="yy-mm-dd" value="<?php echo esc_attr( $date_created->date_i18n( 'Y-m-d' ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>" <?php echo esc_attr($disabled); ?>/>@
 							<input type="number" class="hour" placeholder="<?php esc_attr_e( 'h', 'easyReservations' ); ?>" name="reservation_date_hour" min="0" max="23" step="1" value="<?php echo esc_attr( $date_created->date_i18n( 'H' ) ); ?>" pattern="([01]?[0-9]{1}|2[0-3]{1})" <?php echo esc_attr( $disabled ); ?>/>:
 							<input type="number" class="minute" placeholder="<?php esc_attr_e( 'm', 'easyReservations' ); ?>" name="reservation_date_minute" min="0" max="59" step="1" value="<?php echo esc_attr( $date_created->date_i18n( 'i' ) ); ?>" pattern="[0-5]{1}[0-9]{1}" <?php echo esc_attr( $disabled ); ?>/>
 							<input type="hidden" name="reservation_date_second" value="<?php echo esc_attr( $date_created->date_i18n( 's' ) ); ?>" <?php echo esc_attr( $disabled ); ?>/>

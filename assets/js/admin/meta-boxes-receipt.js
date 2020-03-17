@@ -13,7 +13,7 @@ jQuery(function ($) {
                 .on('click', 'a.remove-coupon', this.remove_coupon)
                 .on('click', 'button.refund-items', this.refund_items)
                 .on('click', '.cancel-action', this.cancel)
-                .on('click', 'a.reservation-preview', this.preview_reservation)
+                .on('click', '.reservation-preview', this.preview_reservation)
                 .on('click', 'button.add-receipt-reservation', this.add_item)
                 .on('click', 'button.add-receipt-fee', this.add_fee)
                 .on('click', 'button.add-receipt-tax', this.add_tax)
@@ -214,7 +214,7 @@ jQuery(function ($) {
                     },
                     type: 'GET',
                     success: function (response) {
-                        $('.reservation-preview').removeClass('disabled');
+                        $previewButton.removeClass('disabled');
 
                         if (response.success) {
                             $previewButton.data('reservation-data', response.data);

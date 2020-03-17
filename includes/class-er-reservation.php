@@ -504,7 +504,7 @@ class ER_Reservation extends ER_Receipt {
      * @param bool $billing_method
      */
     public function calculate_billing_units( $interval = false, $billing_method = false){
-        if(is_null($this->get_resource()) || $this->get_arrival() === null || $this->get_departure() === null){
+        if ( is_null( $this->get_resource() ) || $this->get_arrival() === null || $this->get_departure() === null ) {
             $this->set_billing_units( 1 );
             $this->set_frequency_units( 1 );
 
@@ -820,29 +820,29 @@ class ER_Reservation extends ER_Receipt {
                             $arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
                             $i = $arrival->getTimestamp();
 
-                            if ( ( !in_array( $i, $stay_prices_adults ) && !empty( $filter['price'] ) ) || ( $this->get_children() > 0 && !in_array( $i, $stay_prices_children ) && isset( $filter['children-price'] ) && !empty( $filter['children-price'] ) ) ) {
-                                if ( !isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
-                                    if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && !empty( $filter['children-price'] ) && !in_array( $i, $stay_prices_children ) ) {
-                                        if ( strpos( $filter['children-price'], '%' ) !== false ) {
-                                            $amount = round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
-                                        } else {
-                                            $amount = $filter['children-price'];
-                                        }
+	                        if ( ! in_array( $i, $stay_prices_adults ) || ( $this->get_children() > 0 && ! in_array( $i, $stay_prices_children ) && isset( $filter['children-price'] ) ) ) {
+		                        if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
+			                        if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && ! empty( $filter['children-price'] ) && ! in_array( $i, $stay_prices_children ) ) {
+				                        if ( strpos( $filter['children-price'], '%' ) !== false ) {
+					                        $amount = round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
+				                        } else {
+					                        $amount = empty( $filter['children-price'] ) ? 0 : $filter['children-price'];
+				                        }
 
-                                        $stay_prices_children[$i] = $amount;
-                                    }
+				                        $stay_prices_children[ $i ] = $amount;
+			                        }
 
-                                    if ( !empty( $filter['price'] ) && !in_array( $i, $stay_prices_adults ) ) {
-                                        if ( strpos( $filter['price'], '%' ) !== false ) {
-                                            $amount = round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
-                                        } else {
-                                            $amount = $filter['price'];
-                                        }
+			                        if ( ! in_array( $i, $stay_prices_adults ) ) {
+				                        if ( strpos( $filter['price'], '%' ) !== false ) {
+					                        $amount = round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
+				                        } else {
+					                        $amount = empty( $filter['price'] ) ? 0 : $filter['price'];
+				                        }
 
-                                        $stay_prices_adults[$i] = $amount;
-                                    }
-                                }
-                            }
+				                        $stay_prices_adults[ $i ] = $amount;
+			                        }
+		                        }
+	                        }
                         }
                     }
                     unset( $all_filter[$key] );
@@ -885,7 +885,7 @@ class ER_Reservation extends ER_Receipt {
             $t_total_children = $t_price_children * $multiplier_children;
             $t_total          = $t_total_adults + $t_total_children;
 
-            if ( $return_receipt ) {
+            if ( is_array( $return_receipt ) ) {
                 $return_receipt[] = array(
                     'type'           => 'resource',
                     'resource_id'    => $resource->get_id(),
@@ -914,7 +914,7 @@ class ER_Reservation extends ER_Receipt {
                     }
 
                     if ( $amount !== 0 ) {
-                        if( $return_receipt ){
+                        if( is_array( $return_receipt ) ){
                             $return_receipt[] = array(
                                 'type'        => 'filter',
                                 'resource_id' => $resource->get_id(),

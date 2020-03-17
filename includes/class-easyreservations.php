@@ -407,6 +407,7 @@ final class easyReservations {
         wp_localize_script( 'er-both', 'er_both_params', array(
             'date_format' => er_date_format(),
             'time_format' => er_time_format(),
+            'use_time'    => er_use_time(),
             'time'        => er_get_time(),
             'offset'      => date( "Z" ),
             'resources'   => er_list_pluck( ER()->resources()->get(), 'get_data' ),
@@ -426,7 +427,7 @@ final class easyReservations {
         do_action( 'before_easyreservations_init' );
 
         if ( isset( $_GET['lang'] ) ) {
-            define( WPLANG, sanitize_key( $_GET['lang'] ));
+            define( 'WPLANG', sanitize_key( $_GET['lang'] ));
             global $sitepress;
             if ( $sitepress && is_object( $sitepress ) ) {
                 $sitepress->switch_lang( sanitize_key( $_GET['lang'] ) );

@@ -154,6 +154,7 @@ class ER_Resource {
             'interval'  => $this->get_billing_interval(),
             'frequency' => $this->get_frequency(),
             'quantity' => $this->get_quantity(),
+            'spaces' => $this->get_spaces_options(),
             'slots' => $this->get_slots(),
             'availability_by' => $this->availability_by(),
         );
@@ -493,17 +494,18 @@ class ER_Resource {
      */
     public function get_billing_units( $arrival, $departure, $interval = false, $billing_method = false ) {
         $interval = $interval ? $interval : $this->get_billing_interval();
-
-        if ( !$billing_method ) {
-            $billing_method = $this->get_billing_method();
-        }
+        $billing_method = $billing_method ? $billing_method : $this->get_billing_method();
 
         $number = ( $departure->getTimestamp() - $arrival->getTimestamp() ) / $interval;
 
         if ( $billing_method == 0 ) {
             $times = is_numeric( $number ) ? ceil( ceil( $number / 0.01 ) * 0.01 ) : false;
         } elseif ( $billing_method == 3 ) {
-            $times = intval( $departure->diff( $arrival )->format( "%a" ) );
+            $start_day = clone $arrival;
+            $end_day = clone $departure;
+            $start_day->setTime(0,0,0);
+            $end_day->setTime(0,0,0);
+            $times = intval( $end_day->diff( $start_day )->format( "%a" ) );
         } else {
             $times = floor( $number );
         }

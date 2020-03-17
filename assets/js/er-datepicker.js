@@ -11,21 +11,27 @@ jQuery( function ( $ ) {
 		$( '.er-datepicker' ).each( function () {
 			$( this ).attr( 'autocomplete', 'off' );
 
-			var args = $.extend( {
-				changeMonth: true,
-				changeYear: true,
-				showAnim: 'slideDown',
-				beforeShow: function ( _, inst ) {
-					inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
-				},
-			}, default_args );
+			var data_target = $( this ).attr( 'data-target' ),
+				data_format = $( this ).attr( 'data-format' ),
+				args = $.extend( {
+					changeMonth: true,
+					changeYear: true,
+					showAnim: 'slideDown',
+					beforeShow: function ( _, inst ) {
+						console.log( 13 );
 
-			var data_format = $( this ).data( 'format' );
+						inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
+					},
+				}, default_args );
+
+			if( $( this ).is('div') ){
+				$( this ).removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
+			}
+
 			if ( data_format && typeof data_format !== "undefined" ) {
 				args.dateFormat = data_format;
 			}
 
-			var data_target = $( this ).data( 'target' );
 			if ( data_target && typeof data_target !== "undefined" ) {
 				args.onSelect = function ( selectedDate ) {
 					var instance = $( this ).data( "datepicker" );

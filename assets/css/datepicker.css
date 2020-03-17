@@ -24,47 +24,40 @@
 }
 
 .ui-widget {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 1.1em;
 }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget .ui-widget button {
   font-size: 14px;
   font-family: inherit;
 }
-.ui-widget .ui-widget {
-  font-size: 1em;
-}
 
 .ui-widget-content {
-  border: 1px solid #ccd0d4;
+  border: 1px solid #ebebeb;
   border-top: 3px solid var(--easy-ui-primary);
   background: #fff;
   padding: 0;
   margin: 0;
 }
-
 .ui-widget-content a {
   color: #222222;
 }
-
-.ui-widget-header {
+.ui-widget-content .ui-widget-header {
   background: #fbfbfb;
   border: 0;
-  border-bottom: 1px solid #ccd0d4;
-  border-top: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
+  border-top: 1px solid #ebebeb;
   border-radius: 0;
   padding: 2px 4px;
   font-weight: normal;
   line-height: 16px;
 }
-.ui-widget-header .ui-datepicker-month {
-  font-weight: bold;
+.ui-widget-content .ui-widget-header .ui-datepicker-month {
   z-index: 4;
 }
-.ui-widget-header a {
+.ui-widget-content .ui-widget-header a {
   color: #333333;
 }
-.ui-widget-header .ui-icon {
+.ui-widget-content .ui-widget-header .ui-icon {
   background-image: none;
 }
 
@@ -72,7 +65,6 @@
 ----------------------------------*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   border: none;
-  background: none;
   border-radius: 0;
   color: #333333;
 }
@@ -89,15 +81,10 @@
   border-color: #e6e6e6;
 }
 
-.ui-state-hover a, .ui-state-hover a:hover {
-  color: #111111;
-  text-decoration: none;
-}
-
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-  background: #569ff7;
+  background: #40a0ff;
   color: #fff;
-  border-color: #569ff7;
+  border-color: #40a0ff;
 }
 
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
@@ -142,6 +129,7 @@
   display: inline-block;
   position: relative;
   font: normal normal normal 14px/1;
+  font-size: 20px;
   font-family: "Dashicons";
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -221,7 +209,7 @@
 }
 .easy-datepicker select.ui-datepicker-month,
 .easy-datepicker select.ui-datepicker-year {
-  width: 49%;
+  width: 66px;
 }
 .easy-datepicker table {
   width: 100%;
@@ -232,42 +220,42 @@
   margin: 0 !important;
   padding: 0;
 }
-.easy-datepicker th {
+.easy-datepicker table th {
   text-align: center;
   border: 0;
   color: #333333;
   text-transform: none;
   font-size: 13px;
   padding: 4px 0 !important;
-  border-bottom: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
   background: #fff;
 }
-.easy-datepicker td {
+.easy-datepicker table tr {
+  border: 0;
+}
+.easy-datepicker table tr td {
   border: 0;
   font-size: 14px;
   padding: 0 !important;
   border: 0;
-  border-bottom: 1px solid #ccd0d4;
-  border-right: 1px solid #ccd0d4;
-  background: #fff;
+  border-bottom: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
   color: #333333;
 }
-.easy-datepicker tr {
-  border: 0;
-}
-.easy-datepicker tr > td:last-of-type {
-  border-right: 0;
-}
-.easy-datepicker tr:last-of-type > td {
-  border-bottom: 0;
-}
-.easy-datepicker td span, .easy-datepicker td a {
+.easy-datepicker table tr td span,
+.easy-datepicker table tr td a {
   display: block;
   padding: 6px;
   text-align: center;
   text-decoration: none !important;
   box-shadow: none !important;
   font-weight: normal;
+}
+.easy-datepicker table tr > td:last-of-type {
+  border-right: 0;
+}
+.easy-datepicker table tr:last-of-type > td {
+  border-bottom: 0;
 }
 .easy-datepicker .ui-datepicker-buttonpane {
   background-image: none;

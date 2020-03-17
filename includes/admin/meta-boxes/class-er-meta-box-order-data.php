@@ -163,7 +163,7 @@ class ER_Meta_Box_Order_Data {
 
 						<p class="form-field form-field-wide">
 							<label for="order_date"><?php esc_html_e( 'Date created:', 'easyReservations' ); ?></label>
-							<input type="text" class="er-datepicker date-created" name="order_date" maxlength="10" value="<?php echo esc_attr( date_i18n( 'Y-m-d', strtotime( $post->post_date ) ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>" />@
+							<input type="text" class="er-datepicker date-created" name="order_date" maxlength="10" data-format="yy-mm-dd" value="<?php echo esc_attr( date_i18n( 'Y-m-d', strtotime( $post->post_date ) ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>" />@
 							<input type="number" class="hour" placeholder="<?php esc_attr_e( 'h', 'easyReservations' ); ?>" name="order_date_hour" min="0" max="23" step="1" value="<?php echo esc_attr( date_i18n( 'H', strtotime( $post->post_date ) ) ); ?>" pattern="([01]?[0-9]{1}|2[0-3]{1})" />:
 							<input type="number" class="minute" placeholder="<?php esc_attr_e( 'm', 'easyReservations' ); ?>" name="order_date_minute" min="0" max="59" step="1" value="<?php echo esc_attr( date_i18n( 'i', strtotime( $post->post_date ) ) ); ?>" pattern="[0-5]{1}[0-9]{1}" />
 							<input type="hidden" name="order_date_second" value="<?php echo esc_attr( date_i18n( 's', strtotime( $post->post_date ) ) ); ?>" />
