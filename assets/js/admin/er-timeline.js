@@ -211,8 +211,7 @@
 
 			//Handle drag scrolling in timeline header
 			if ( scroll_drag && e.which === 1 ) {
-				var scroll = Math.min( scroll_drag - e.pageX < 1 ? 1 : scroll_drag - e.pageX, thead_main.width() - timeline.width() - cell_dimensions.width );
-				scroller.scrollLeft( scroll );
+				scroller.scrollLeft( Math.min( scroll_drag - e.pageX < 1 ? 1 : scroll_drag - e.pageX, thead_main.width() - timeline.width() - cell_dimensions.width ) );
 				er_timeline.set_current_date();
 
 				if ( scroll_add === false ) {
