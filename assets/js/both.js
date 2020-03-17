@@ -1,18 +1,25 @@
 function easyFormatDate( date, format ) {
 	if ( !format ) format = er_both_params.date_format;
+	if( format === 'full' ){
+		format = er_both_params.date_format;
 
-	var year   = date.getYear(),
-		month  = easyAddZero( date.getMonth() + 1 ),
-		day    = easyAddZero( date.getDate() ),
-		hour   = date.getHours(),
-		minute = easyAddZero( date.getMinutes() );
+		if( er_both_params.use_time ){
+			format += ' ' + er_both_params.time_format;
+		}
+	}
+
+	var year   = date instanceof Date ? date.getYear() : date.year(),
+		month  = date instanceof Date ? date.getMonth() + 1 : date.month() + 1,
+		day    = date instanceof Date ? date.getDate() : date.date(),
+		hour   = date instanceof Date ?  date.getHours() : date.hour(),
+		minute = date instanceof Date ? date.getMinutes() : date.minute();
 
 	if ( year < 999 ) year += 1900;
 
 	format = format.replace( "Y", year );
-	format = format.replace( "m", month );
-	format = format.replace( "d", day );
-	format = easyFormatTime( hour, minute, format );
+	format = format.replace( "m", easyAddZero( month ) );
+	format = format.replace( "d", easyAddZero( day ) );
+	format = easyFormatTime( hour, easyAddZero( minute ), format );
 
 	return format
 }
@@ -20,9 +27,10 @@ function easyFormatDate( date, format ) {
 function easyFormatTime( hour, minute, format ) {
 	if ( !format ) format = er_both_params.time_format;
 	if ( !minute ) {
-		minute = easyAddZero( hour.getMinutes() );
-		hour = hour.getHours();
+		minute = easyAddZero( hour instanceof Date ? hour.getMinutes() : hour.minute() );
+		hour = hour instanceof Date ? hour.getHours() : hour.hour();
 	}
+
 	format = format.replace( "H", easyAddZero( hour ) );
 	format = format.replace( "h", hour % 12 ? easyAddZero( hour % 12 ) : 12 );
 	format = format.replace( "a", hour >= 12 ? 'pm' : 'am' );

@@ -8,6 +8,22 @@
     transform: rotate(360deg);
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeInFast {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /**
  * easyReservations CSS Variables
  */
@@ -724,7 +740,6 @@ code[data-tag] {
   background: #f8f8f8;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -1731,8 +1746,8 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   margin: 2px 0 2px 4px;
 }
 
-.reservation-preview,
-.order-preview {
+a.reservation-preview,
+a.order-preview {
   float: right;
   width: 16px;
   padding: 4px 7px 4px 4px;
@@ -1743,8 +1758,8 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   border-radius: 4px;
   text-decoration: none;
 }
-.reservation-preview::before,
-.order-preview::before {
+a.reservation-preview::before,
+a.order-preview::before {
   font-family: "Dashicons";
   outline: none !important;
   content: "";
@@ -1753,12 +1768,12 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   font-size: 18px;
   vertical-align: top;
 }
-.reservation-preview:hover,
-.order-preview:hover {
+a.reservation-preview:hover,
+a.order-preview:hover {
   border: 2px solid #00a0d2;
 }
-.reservation-preview.disabled::before,
-.order-preview.disabled::before {
+a.reservation-preview.disabled::before,
+a.order-preview.disabled::before {
   content: url("../images/wpspin.gif");
   padding-left: 1px;
 }
@@ -1798,37 +1813,65 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   line-height: 2.5em;
   color: #777;
   background: #e5e5e5;
-  border-radius: 4px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
   margin: -0.25em 0;
-  cursor: inherit !important;
+  cursor: inherit;
   white-space: nowrap;
   max-width: 100%;
 }
 .reservation-status.status-completed,
 .order-status.status-completed {
-  background: #c8d7e1;
-  color: #2e4453;
+  background: #c6e1c6;
+  color: #5b841b;
+}
+.reservation-status.status-completed.background,
+.order-status.status-completed.background {
+  background: #c6e1c6 !important;
+}
+.reservation-status.status-checked,
+.order-status.status-checked {
+  background: #e1dfc8;
+  color: #534d2e;
+}
+.reservation-status.status-checked.background,
+.order-status.status-checked.background {
+  background: #e1dfc8 !important;
 }
 .reservation-status.status-on-hold,
 .order-status.status-on-hold {
   background: #f8dda7;
   color: #94660c;
 }
+.reservation-status.status-on-hold.background,
+.order-status.status-on-hold.background {
+  background: #f8dda7 !important;
+}
 .reservation-status.status-failed,
 .order-status.status-failed {
   background: #eba3a3;
   color: #761919;
 }
+.reservation-status.status-failed.background,
+.order-status.status-failed.background {
+  background: #eba3a3 !important;
+}
 .reservation-status.status-approved,
 .order-status.status-approved {
-  background: #c6e1c6;
-  color: #5b841b;
+  background: #c8d7e1;
+  color: #2e4453;
+}
+.reservation-status.status-approved.background,
+.order-status.status-approved.background {
+  background: #c8d7e1 !important;
 }
 .reservation-status.status-trash,
 .order-status.status-trash {
   background: #eba3a3;
   color: #761919;
+}
+.reservation-status.status-trash.background,
+.order-status.status-trash.background {
+  background: #eba3a3 !important;
 }
 .reservation-status > span,
 .order-status > span {
@@ -1854,7 +1897,6 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
 .er-order-preview .er-order-preview-table th,
 .er-order-preview .er-order-preview-table td {
   padding: 1em 1.5em;
-  text-align: left;
   border: 0;
   border-bottom: 1px solid #eee;
   margin: 0;
@@ -3046,7 +3088,6 @@ table.er_emails td.sort .er-item-reorder-nav::before {
   content: "";
   font-family: "Dashicons";
   text-align: center;
-  line-height: 1;
   color: #999;
   display: block;
   width: 24px;
@@ -3155,288 +3196,705 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 
 .er-timeline {
-  position: relative;
-  border: 1px solid #ccd0d4;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  background-color: #fff;
+  display: none;
+  height: 100%;
   user-select: none;
-  /* supported by Chrome and Opera */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  align-items: stretch;
 }
-.er-timeline div.header {
-  height: 28px;
-  text-align: center;
-  padding: 8px 6px 8px 6px;
-  line-height: 20px;
-  font-size: 16px;
-  font-weight: bold;
+.er-timeline .sidebar {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #b9b7b7;
+  border-right: 0;
+  transition: width 0.3s linear;
+}
+.er-timeline .sidebar.expanded {
+  width: 304px;
+}
+.er-timeline .sidebar h2 {
+  padding: 13px;
+  margin: 0;
+  word-wrap: break-word;
+  white-space: nowrap;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar h3 {
+  padding: 4px 12px;
+  margin: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #777;
+  background: #ebebeb;
+}
+.er-timeline .sidebar .input-wrapper {
+  width: 90%;
+  margin: 0 12px 5px;
+}
+.er-timeline .sidebar .input-wrapper .input-box {
+  width: 100%;
+  margin: 0;
+}
+.er-timeline .sidebar > .calendar .easy-datepicker {
+  display: block;
+  width: 304px;
+  transition: none;
+}
+.er-timeline .sidebar > .calendar .easy-datepicker .ui-datepicker-inline {
+  border: 0;
+  border-bottom: 1px solid #ccd0d4;
+}
+.er-timeline .sidebar > .calendar .easy-datepicker .ui-datepicker-inline .ui-datepicker-header {
+  padding: 6px 0;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .calendar h3 {
+  margin: 0;
+}
+.er-timeline .sidebar > .calendar .reservations {
+  padding: 0;
   cursor: pointer;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation {
+  padding: 12px 12px;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > .date {
+  float: left;
+  padding: 0 8px 0 0;
+  font-size: 14px;
+  text-align: center;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > .date .hour {
+  display: block;
+  font-weight: 500;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > .date .minute {
+  font-weight: 500;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > .date .ampm {
+  display: block;
+  color: #777;
+  font-size: 12px;
+  font-style: italic;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div {
+  display: inline-block;
+  width: 83%;
+  padding-left: 8px;
+  border-left: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div div {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .title {
+  font-weight: 500;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .title .id {
+  display: inline-block;
+  padding: 0 3px 1px;
+  margin-right: 5px;
+  font-weight: 400;
+  line-height: 17px;
+  color: #777;
+  background: #ebebeb;
+  border-radius: 3px;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .date {
+  color: #777;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .date .arrival {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .date .departure {
+  display: inline-block;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .date .arrival::before,
+.er-timeline .sidebar > .calendar .reservations .today-reservation > div .date .departure::before {
+  position: relative;
+  font-size: 14px;
+  vertical-align: text-bottom;
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline .sidebar > .calendar .reservations .today-reservation:hover {
+  background: #f2f2f2;
+}
+.er-timeline .sidebar > .pending {
+  width: 304px;
+}
+.er-timeline .sidebar > .pending .reservations {
+  padding: 0;
+  cursor: pointer;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation {
+  padding: 12px 12px;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation .id {
+  float: left;
+  padding: 0 3px 1px;
+  margin-right: 6px;
+  color: #777;
+  background: #ebebeb;
+  border-radius: 3px;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation > div {
+  display: inline-block;
+  width: 83%;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation > div div {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation > div .title {
+  font-weight: 500;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation > div .date {
+  color: #777;
+}
+.er-timeline .sidebar > .pending .reservations .pending-reservation:hover {
+  background: #f2f2f2;
+}
+.er-timeline .sidebar > .reservation-details {
+  width: 304px;
+}
+.er-timeline .sidebar > .reservation-details h2 {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+  margin-bottom: 12px;
+}
+.er-timeline .sidebar > .reservation-details h2 .reservation-status {
+  display: inline-block;
+  padding: 0 3px 1px;
+  line-height: unset;
+  font-size: 14px;
+}
+.er-timeline .sidebar > .reservation-details .snapping {
+  background: #ff0000;
+}
+.er-timeline .sidebar > .reservation-details .snapping.enabled {
+  background: #00d084;
+}
+.er-timeline .sidebar > .reservation-details .row {
+  padding: 0 12px 12px;
+}
+.er-timeline .sidebar > .reservation-details .row label {
+  display: inline-block;
+  width: 80px;
+}
+.er-timeline .sidebar > .reservation-details .row span {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+.er-timeline .sidebar > .reservation-details .reservation-preview.disabled::before {
+  padding-left: 1px;
+  content: url("../images/wpspin.gif");
+}
+.er-timeline .sidebar.expanded + .content {
+  width: calc(100% - 305px);
+}
+.er-timeline > .content {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  transition: width 0.3s linear;
+  border-left: 1px solid #b9b7b7;
+}
+.er-timeline > .content div.header {
+  display: flex;
+  height: 28px;
+  padding: 8px;
+  background: #fff;
+  border-top: 1px solid #b9b7b7;
+  border-right: 1px solid #b9b7b7;
+  border-bottom: 1px solid #ebebeb;
+  align-items: center;
+}
+.er-timeline > .content div.header .left {
+  text-align: right;
+}
+.er-timeline > .content div.header .left .pending {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.er-timeline > .content div.header .left .pending span {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 1;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 17px;
+  color: white;
+  background: red;
+  border-radius: 50%;
+}
+.er-timeline > .content div.header .left .pending::after {
+  position: relative;
+  font-size: 20px;
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline > .content div.header .left .expand-sidebar::after {
+  position: relative;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline > .content div.header .left .contract-sidebar::after {
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  transform: scale(-1, 1);
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+}
+.er-timeline > .content div.header .middle {
+  text-align: center;
+  flex-grow: 2;
+}
+.er-timeline > .content div.header .right {
+  text-align: left;
+}
+.er-timeline > .content div.header .right .add {
+  margin-left: 6px;
+  line-height: 28px;
   vertical-align: middle;
 }
-.er-timeline div.header .er-datepicker {
-  z-index: 3;
-  position: relative;
-  display: none;
+.er-timeline > .content div.header .right .add::before {
+  margin-right: 0.5em;
+  font-family: "Dashicons";
+  font-size: 14px;
+  vertical-align: bottom;
+  content: "";
 }
-.er-timeline .container {
+.er-timeline > .content .container {
   display: flex;
+  background: #fff;
+  border-right: 1px solid #b9b7b7;
+  border-bottom: 1px solid #b9b7b7;
 }
-.er-timeline .container .resources {
+.er-timeline > .content .container .resources {
+  z-index: 2;
   height: 100%;
   word-wrap: break-word;
   white-space: nowrap;
 }
-.er-timeline .container .resources table {
+.er-timeline > .content .container .resources table {
   margin: 0;
   border-spacing: 0;
 }
-.er-timeline .container .resources table thead th {
+.er-timeline > .content .container .resources table thead.main th {
   height: 36px;
   padding: 4px;
-  border-bottom: 1px solid #e4e8f1;
 }
-.er-timeline .container .resources table tbody td {
-  padding: 3px 6px 3px 15px;
-  font-size: 12px;
-  border-bottom: 1px solid #e4e8f1;
-  height: 21px;
-  margin: 0;
+.er-timeline > .content .container .resources table thead.resource th {
+  max-width: 0;
+  padding: 4px 5px 0;
+  background-color: #fff;
+  border-top: 1px solid #ebebeb;
+  border-right: 0;
+  border-bottom: 1px solid #ebebeb;
 }
-.er-timeline .container .resources table tbody td.resource {
-  padding: 1px 5px;
-  height: 20px;
+.er-timeline > .content .container .resources table thead.resource th .resource-handler {
+  color: #999;
 }
-.er-timeline .container .resources table tbody td.resource a {
-  font-size: 12px;
+.er-timeline > .content .container .resources table thead.resource th .resource-handler:hover {
+  color: #6d6d6d;
+}
+.er-timeline > .content .container .resources table thead.resource th .resource-handler:active {
+  color: #444444;
+}
+.er-timeline > .content .container .resources table thead.resource th .resource-handler::after {
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  cursor: pointer;
+}
+.er-timeline > .content .container .resources table thead.resource th .resource-handler.retracted::after {
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  content: "";
   text-decoration: none;
 }
-.er-timeline .container .resources table tbody tr:last-of-type td {
-  border-bottom: 0;
+.er-timeline > .content .container .resources table thead.resource th span {
+  vertical-align: middle;
 }
-.er-timeline .container .overview {
+.er-timeline > .content .container .resources table thead.resource th a {
+  width: 100%;
+  overflow: visible;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  background: #fff;
+}
+.er-timeline > .content .container .resources table tbody td {
+  height: 26px;
+  padding: 6px 15px 0px 15px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  vertical-align: top;
+  background-color: #fff;
+  border-right: 1px solid #ebebeb;
+}
+.er-timeline > .content .container .resources table tbody td.hover {
+  background: #ebe9eb;
+}
+.er-timeline > .content .container .timeline-container {
   position: relative;
   overflow: hidden;
 }
-.er-timeline .container .overview .prev,
-.er-timeline .container .overview .next {
-  z-index: 3;
-  display: block;
-  font-family: "Dashicons";
+.er-timeline > .content .container .timeline-container .prev,
+.er-timeline > .content .container .timeline-container .next {
   position: absolute;
   top: 0;
-  font-size: 18px;
-  height: 44px;
+  z-index: 3;
+  display: block;
   width: 30px;
-  cursor: pointer;
+  height: 44px;
+  font-family: "Dashicons";
+  font-size: 18px;
   color: #999;
+  cursor: pointer;
 }
-.er-timeline .container .overview .prev:hover,
-.er-timeline .container .overview .next:hover {
+.er-timeline > .content .container .timeline-container .prev:hover,
+.er-timeline > .content .container .timeline-container .next:hover {
   color: #6d6d6d;
 }
-.er-timeline .container .overview .prev:active,
-.er-timeline .container .overview .next:active {
+.er-timeline > .content .container .timeline-container .prev:active,
+.er-timeline > .content .container .timeline-container .next:active {
   color: #444444;
 }
-.er-timeline .container .overview .prev {
+.er-timeline > .content .container .timeline-container .prev {
   background: linear-gradient(90deg, white 20%, transparent 100%);
 }
-.er-timeline .container .overview .prev:after {
+.er-timeline > .content .container .timeline-container .prev::after {
   display: block;
   margin-top: 12px;
   margin-left: -6px;
   content: "";
 }
-.er-timeline .container .overview .next {
-  text-align: right;
+.er-timeline > .content .container .timeline-container .next {
   right: 0;
+  text-align: right;
   background: linear-gradient(270deg, white 20%, transparent 100%);
 }
-.er-timeline .container .overview .next:after {
+.er-timeline > .content .container .timeline-container .next::after {
   display: block;
   margin-top: 12px;
   margin-left: 14px;
   content: "";
 }
-.er-timeline .container .shadow {
-  box-shadow: inset 2px 1px 4px -2px grey;
+.er-timeline > .content .container .timeline-container .timeline {
+  position: relative;
+  overflow: hidden;
+}
+.er-timeline > .content .container .timeline-container .timeline.hourly table thead.main th {
+  width: 47px;
+}
+.er-timeline > .content .container .timeline-container .timeline.hourly table thead.main th::after {
+  width: 102% !important;
+}
+.er-timeline > .content .container .timeline-container .timeline .placeholder {
   position: absolute;
-  top: 45px;
-  width: 100%;
+  z-index: 0;
   height: 100%;
   pointer-events: none;
+  background: #ebe9eb;
+  opacity: 90%;
 }
-.er-timeline .container .timeline {
-  overflow: hidden;
-  position: relative;
-}
-.er-timeline .container .timeline table {
-  box-sizing: content-box;
-  border-collapse: collapse;
-  border-spacing: 0;
-  table-layout: fixed;
+.er-timeline > .content .container .timeline-container .timeline .reservation {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  display: flex;
   width: 100%;
+  box-sizing: content-box;
+  padding: 0;
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-direction: row;
 }
-.er-timeline .container .timeline table thead {
+.er-timeline > .content .container .timeline-container .timeline .reservation .wrapper {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: content-box;
+  padding: 4px;
+  padding-left: 0;
+  pointer-events: none;
+  flex-grow: 1;
+  overflow: visible;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation .wrapper .sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-left: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: top;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation .wrapper .sticky .id {
+  padding: 0 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation .wrapper .sticky .title {
+  position: relative;
+  display: inline-block;
+  padding-left: 4px;
+  pointer-events: auto;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.approved {
+  background: #60a2ff;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.approved .wrapper {
+  border-left: 2px solid #497cc3;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.checked {
+  background: #ffb860;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.checked .wrapper {
+  border-left: 2px solid #c39849;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.completed {
+  background: #7dd06e;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.completed .wrapper {
+  border-left: 2px solid #55a047;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.ui-draggable-dragging {
+  z-index: 3;
+  pointer-events: none;
+  opacity: 80%;
+}
+.er-timeline > .content .container .timeline-container .timeline .reservation.ui-resizable-resizing {
+  z-index: 3;
+  opacity: 80%;
+}
+.er-timeline > .content .container .timeline-container .timeline table {
+  width: 100%;
+  box-sizing: content-box;
+  table-layout: fixed;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.er-timeline > .content .container .timeline-container .timeline table tr:nth-of-type(odd) td {
+  background-color: #f9f9f9;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main {
   cursor: grab;
 }
-.er-timeline .container .timeline table thead th {
+.er-timeline > .content .container .timeline-container .timeline table thead.main th {
+  position: relative;
   width: 95px;
   padding: 4px 0;
-  border-left: 1px solid transparent;
-  font-weight: bold;
-  position: relative;
   font-size: 13px;
+  font-weight: bold;
+  border-bottom: 0;
+  border-left: 1px solid transparent;
 }
-.er-timeline .container .timeline table thead th .date {
+.er-timeline > .content .container .timeline-container .timeline table thead.main th .date {
   position: relative;
-  pointer-events: none;
   z-index: 2;
+  text-align: center;
+  pointer-events: none;
 }
-.er-timeline .container .timeline table thead th .date span {
+.er-timeline > .content .container .timeline-container .timeline table thead.main th .date span {
+  border-radius: 50%;
+  transition: background-color 0.1s linear;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main th .date div {
   font-size: 12px;
   font-weight: normal;
 }
-.er-timeline .container .timeline table thead th div.first-of-month {
-  z-index: 4;
+.er-timeline > .content .container .timeline-container .timeline table thead.main th.weekend {
+  color: #ff7075;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main th.current .date span {
+  padding: 2px 3px;
+  color: #40a0ff;
+  border-radius: 50%;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main th.hover {
+  background: #ebe9eb;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main th div.first-of-month {
+  position: absolute;
+  top: -20px;
   left: -1px;
-  position: absolute;
-  height: 1000px;
-  border-left: 2px solid #c94330;
-  top: -20px;
-  pointer-events: none;
-}
-.er-timeline .container .timeline table thead th div.today {
   z-index: 4;
-  position: absolute;
   height: 1000px;
-  border-left: 2px dashed #008cff;
-  top: -20px;
   pointer-events: none;
+  border-left: 2px solid #c94330;
 }
-.er-timeline .container .timeline table thead th div.overlay {
-  z-index: 1;
+.er-timeline > .content .container .timeline-container .timeline table thead.main th div.today {
   position: absolute;
-  margin-left: -100000px;
+  top: -20px;
+  z-index: 4;
   height: 1000px;
+  pointer-events: none;
+  border-left: 2px dashed #008cff;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.main th div.overlay {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 44px;
+  margin-left: -100000px;
+  pointer-events: none;
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
   background-size: 6px 6px;
   opacity: 4%;
-  top: -20px;
-  pointer-events: none;
 }
-.er-timeline .container .timeline table thead th.past:after {
+.er-timeline > .content .container .timeline-container .timeline table thead.main th.past::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 1;
+  width: 101%;
+  height: 100%;
+  pointer-events: none;
   content: "";
   background-image: linear-gradient(45deg, #ffffff 16.67%, #000000 16.67%, #000000 50%, #ffffff 50%, #ffffff 66.67%, #000000 66.67%, #000000 100%);
   background-size: 6px 6px;
   opacity: 4%;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 101%;
-  height: 10000px;
-  position: absolute;
-  pointer-events: none;
 }
-.er-timeline .container .timeline table tbody tr:last-of-type td {
-  border-bottom: 0;
-}
-.er-timeline .container .timeline table tbody tr td {
-  width: 87px;
-  padding: 0;
-  border-left: 1px solid #e4e8f1;
-  border-bottom: 1px solid #e4e8f1;
-  position: relative;
-  min-height: 27px;
-  height: 27px;
-}
-.er-timeline .container .timeline table tbody tr td.weekend {
-  background: #ffffda;
-}
-.er-timeline .container .timeline table tbody tr td.unavailable {
-  background-color: #fff6f6;
-}
-.er-timeline .container .timeline table tbody tr td.current {
-  background-color: #f7f8f9;
-}
-.er-timeline .container .timeline table tbody tr td .reservation {
-  box-sizing: content-box;
-  position: absolute;
-  display: flex;
-  cursor: pointer;
-  flex-direction: row;
-  top: 0;
-  width: 100%;
+.er-timeline > .content .container .timeline-container .timeline table thead.resource th {
   z-index: 1;
+  height: 24px;
   padding: 0;
-  margin: 0;
-  white-space: nowrap;
-  background: #63aaff;
-  border-left: 2px solid #5692db;
-  border-top: 1px solid #63aaff;
-  color: #fff;
+  background-color: #fff;
+  border: 0;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.resource th div {
+  height: 24px;
+  padding: 1px 5px;
+  text-align: center;
+  pointer-events: none;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+}
+.er-timeline > .content .container .timeline-container .timeline table thead.resource th div span {
   font-size: 12px;
   font-weight: 400;
-}
-.er-timeline .container .timeline table tbody tr td .reservation .wrapper {
-  display: block;
-  flex-grow: 1;
-  box-sizing: content-box;
-  min-width: 0;
-  pointer-events: none;
-  width: 100%;
-  padding: 4px;
-}
-.er-timeline .container .timeline table tbody tr td .reservation .wrapper span {
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  right: 0;
-  top: 0;
-  display: inline-block;
-  vertical-align: top;
-  max-width: 100%;
-  box-sizing: border-box;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.er-timeline .container .timeline table tbody tr td .reservation.ui-draggable-dragging {
-  opacity: 80%;
-  pointer-events: none;
-}
-.er-timeline .container .timeline table tbody tr td .reservation.ui-resizable-resizing {
-  opacity: 80%;
-  z-index: 2;
-}
-.er-timeline .container .timeline table tbody tr.resource td {
-  z-index: 1;
-  text-align: center;
-  padding: 1px 5px;
-  height: 20px;
-  font-size: 12px;
-  background-color: #fff !important;
-  border-left: 1px solid #fff;
+  line-height: 24px;
   color: #888888;
+  vertical-align: middle;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
-.er-timeline .container .timeline table tbody tr.resource td.unavailable {
+.er-timeline > .content .container .timeline-container .timeline table thead.resource th.unavailable {
   color: #ff9f9e;
 }
-.er-timeline .container .timeline table tbody tr.resource:first-of-type td {
-  border-top: 1px solid #e4e8f1;
+.er-timeline > .content .container .timeline-container .timeline table tbody tr:last-of-type td {
+  border-bottom: 0;
 }
-
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td {
+  position: relative;
+  height: 32px;
+  min-height: 34px;
+  padding: 0;
+  border-left: 1px solid #ebebeb;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td.unavailable {
+  background-color: #fff6f6;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation {
+  z-index: 1;
+  animation: fadeIn ease-in 1;
+  animation-duration: 0.4s;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation.fade-in-fast {
+  animation-name: fadeInFast;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation.ui-draggable {
+  cursor: move;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation.ui-draggable .title {
+  cursor: text;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation.ui-resizable-resizing {
+  z-index: 3;
+  opacity: 0.8;
+}
+.er-timeline > .content .container .timeline-container .timeline table tbody tr td .reservation.selected {
+  outline: 1px solid #fff;
+  outline-offset: -3px;
+}
 /**
-  * Backbone modal dialog
-  */
+* Backbone modal dialog
+*/
 .er-backbone-modal * {
   box-sizing: border-box;
 }
@@ -3490,8 +3948,8 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-backbone-modal-main .er-backbone-modal-header {
   height: auto;
-  background: #fcfcfc;
   padding: 1em 1.5em;
+  background: #fcfcfc;
   border-bottom: 1px solid #ddd;
 }
 .er-backbone-modal-main .er-backbone-modal-header h1 {
@@ -3501,18 +3959,18 @@ table.er_emails .er-email-settings-table-status .tips {
   line-height: 1.5em;
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link {
-  cursor: pointer;
-  color: #777;
-  height: 54px;
-  width: 54px;
-  padding: 0;
   position: absolute;
   top: 0;
   right: 0;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  color: #777;
   text-align: center;
+  cursor: pointer;
+  background-color: transparent;
   border: 0;
   border-left: 1px solid #ddd;
-  background-color: transparent;
   transition: color 0.1s ease-in-out, background 0.1s ease-in-out;
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link::before {
@@ -3637,9 +4095,6 @@ table#custom_field_add .sortable {
   margin: 2px 0 2px 5px;
   padding: 5px 5px 5px 8px;
   background: #f1f1f1;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
   border-radius: 5px;
   cursor: pointer;
 }

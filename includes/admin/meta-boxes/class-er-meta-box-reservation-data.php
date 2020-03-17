@@ -20,7 +20,11 @@ class ER_Meta_Box_Reservation_Data {
 	 * @param ER_Reservation $reservation
 	 */
 	public static function output( $reservation ) {
-        $order        = false;
+	    wp_enqueue_script( 'er-timeline' );
+
+		include RESERVATIONS_ABSPATH . "includes/admin/views/html-timeline.php";
+
+		$order        = false;
         $time_options = er_form_time_options();
         $date_created = $reservation->get_date_created();
 

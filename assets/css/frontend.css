@@ -8,6 +8,22 @@
     transform: rotate(360deg);
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeInFast {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /**
  * easyReservations CSS Variables
  */
@@ -923,7 +939,7 @@
   list-style: none outside;
   padding: 0 1em;
   margin: 0 0 1em 0;
-  border: 1px solid #ccd0d4;
+  border: 1px solid #ebebeb;
   box-shadow: none;
   border-radius: 4px;
   box-sizing: border-box;
@@ -933,7 +949,7 @@
 .easyreservations-cart .er-selection-box li,
 .easyreservations-checkout .er-selection-box li,
 #add_payment_method .er-selection-box li {
-  border-bottom: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
   padding: 1em 0;
 }
 .easyreservations-cart .er-selection-box li strong,
@@ -1009,7 +1025,7 @@
   padding: 1em;
   margin: 0;
   list-style: none outside;
-  border-bottom: 1px solid #ccd0d4;
+  border-bottom: 1px solid #ebebeb;
 }
 .easyreservations-cart #payment ul.payment_methods::before, .easyreservations-cart #payment ul.payment_methods::after,
 .easyreservations-checkout #payment ul.payment_methods::before,
@@ -1485,7 +1501,7 @@
   line-height: 30px;
 }
 .easy-date-selection .calendar .ui-datepicker-group-first .ui-datepicker-calendar {
-  border-right: 1px solid #ccd0d4;
+  border-right: 1px solid #ebebeb;
 }
 .easy-date-selection .calendar .ui-datepicker-inline .ui-datepicker-prev.ui-state-hover,
 .easy-date-selection .calendar .ui-datepicker-inline .ui-datepicker-next.ui-state-hover {

@@ -100,6 +100,7 @@ class ER_AJAX {
             'update_order_review'           => true,
             'remove_coupon'                 => true,
             'timeline_data'                 => false,
+            'timeline_update_reservation'   => false,
             'json_search_order'             => false,
             'mark_order_status'             => false,
             'mark_reservation_status'       => false,
@@ -1570,14 +1571,90 @@ class ER_AJAX {
         global $wpdb;
 
         check_ajax_referer( 'easyreservations-timeline', 'security' );
+	    define( 'RESERVATIONS_ADMIN_REQUEST', true );
 
-        $start         = new ER_DateTime( sanitize_text_field( $_POST['start'] ) );
-        $end           = new ER_DateTime( sanitize_text_field( $_POST['end'] ) );
-        $interval      = absint( $_POST['interval'] );
-        $date_interval = new DateInterval( 'PT' . $interval . 'S' );
-        $return        = array();
+	    $start         = new ER_DateTime( sanitize_text_field( $_POST['start'] ) );
+	    $end           = new ER_DateTime( sanitize_text_field( $_POST['end'] ) );
+	    $interval      = absint( $_POST['interval'] );
+	    $date_interval = new DateInterval( 'PT' . $interval . 'S' );
+	    $return        = array();
+	    $add           = isset( $_POST['add'] ) ? sanitize_text_field( $_POST['add'] ) : false;
+	    $resource      = isset( $_POST['resource'] ) ? absint( $_POST['resource'] ) : false;
+	    $space         = isset( $_POST['space'] ) ? absint( $_POST['space'] ) : false;
 
-        foreach ( ER()->resources()->get_accessible() as $resource ) {
+	    if( $add ){
+	        $arrival = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
+	        $departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+	        $title = sanitize_text_field( $_POST['title'] );
+
+		    if( $add === 'reservation' ){
+	            $reservation = new ER_Reservation(0);
+	            $reservation->set_resource_id( $resource );
+	            $reservation->set_space( $space );
+	            $reservation->set_arrival( $arrival );
+	            $reservation->set_departure( $departure );
+	            $reservation->set_status( 'approved' );
+			    $reservation->set_title( $title );
+
+			    $availability = $reservation->check_availability();
+
+	            if( !$availability ){
+		            $reservation->calculate_taxes( false );
+		            $reservation->calculate_totals( false );
+
+		            $reservation->save();
+                } else {
+		            wp_send_json(
+			            array(
+				            'message' => __( 'Reservation could not be added as the requested space is full', 'easyReservations' )
+			            )
+		            );
+
+		            exit;
+	            }
+            } else {
+		        if( $add === 'resource' ){
+			        $availability_filter = array();
+			        $all_filter          = get_post_meta( $resource, 'easy_res_filter', true );
+
+			        if( $all_filter && !empty( $all_filter ) ){
+			            foreach( $all_filter as $key => $filter ){
+			                if( $filter['type'] === 'unavail' ){
+				                $availability_filter[] = $filter;
+				                unset( $all_filter[$key] );
+			                }
+                        }
+                    } else {
+				        $all_filter = array();
+                    }
+                } else {
+			        $availability_filter = get_option( 'reservations_availability_filters', array() );
+		        }
+
+		        $filter = array(
+			        'name' => $title,
+			        'type' => 'unavail',
+			        'imp'  => 1,
+			        'cond' => 'range',
+			        'from' => $arrival->format( 'Y-m-d H:i:s' ),
+			        'to'   => $departure->format( 'Y-m-d H:i:s' )
+		        );
+
+			    $availability_filter[] = $filter;
+
+			    usort( $availability_filter, function ( $a, $b ) {
+				    return $a['imp'] - $b['imp'];
+			    } );
+
+			    if ( $add === 'resource' ) {
+				    update_post_meta( $resource, 'easy_res_filter', $all_filter + $availability_filter );
+			    } else {
+				    update_option( 'reservations_availability_filters', $availability_filter );
+			    }
+		    }
+        }
+
+	    foreach ( ER()->resources()->get_accessible() as $resource ) {
             $return[$resource->get_id()] = array();
 
             if ( $interval == DAY_IN_SECONDS ) {
@@ -1595,8 +1672,8 @@ class ER_AJAX {
             $availability = new ER_Resource_Availability( $resource, 0, 1, 0, false, $interval );
             $date         = clone $start;
 
-            while( $date < $end ){
-                $return[$resource->get_id()][($date->getOffsetTimestamp() - ( $hour * 3600 ))] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
+            while ( $date < $end ) {
+                $return[$resource->get_id()][er_date_sub_seconds( $date, $hour * 3600 )->format('Y-m-d H:i:s')] = $availability->check_whole_period( $date, $interval + $add_to_interval, false, true );
                 $date->add( $date_interval );
             }
         }
@@ -1611,21 +1688,78 @@ class ER_AJAX {
 
         $reservations = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, m.meta_value as title " .
+                "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
                 "FROM {$wpdb->prefix}reservations as r " .
-                "INNER JOIN {$wpdb->prefix}reservationmeta as m on m.reservation_id = r.id " .
-                "WHERE %s <= r.departure AND %s >= r.arrival and m.meta_key = %s AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') ".
+                "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
+                "WHERE %s <= r.departure AND %s >= r.arrival AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') " .
                 "ORDER BY arrival",
-                $start->format( 'Y-m-d H:i:s'),
-                $end->format( 'Y-m-d H:i:s'),
-                '_title'
+                '_title',
+                $start->format( 'Y-m-d H:i:s' ),
+                $end->format( 'Y-m-d H:i:s' )
             )
         );
 
         wp_send_json( array(
-            'data' => $return,
+            'data'         => $return,
             'reservations' => $reservations
         ) );
+
+        exit;
+    }
+
+    /**
+     * Update reservation from timeline
+     */
+    public static function timeline_update_reservation() {
+        global $wpdb;
+
+        check_ajax_referer( 'easyreservations-timeline', 'security' );
+	    define( 'RESERVATIONS_ADMIN_REQUEST', true );
+
+	    $id        = absint( $_POST['id'] );
+	    $arrival   = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
+	    $departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+	    $resource  = absint( $_POST['resource'] );
+	    $space     = absint( $_POST['space'] );
+	    $title     = sanitize_text_field( $_POST['title'] );
+	    $status    = sanitize_key( $_POST['status'] );
+
+	    $reservation = er_get_reservation( $id );
+
+	    if( $reservation ){
+		    $reservation->set_arrival( $arrival );
+		    $reservation->set_departure( $departure );
+		    $reservation->set_resource_id( $resource );
+		    $reservation->set_space( $space );
+		    $reservation->set_title( $title );
+
+		    $availability = $reservation->check_availability();
+
+		    if ( ! $availability ) {
+			    if ( $status !== $reservation->get_status() ) {
+				    $reservation->update_status( $status, __( 'Reservation status changed in timeline:', 'easyReservations' ), true );
+			    } else {
+				    $reservation->save();
+			    }
+
+			    wp_send_json(
+			        array(
+			            'reservation' => $reservation->get_data()
+                    )
+                );
+
+			    exit;
+		    } else {
+			    wp_send_json(
+				    array(
+					    'reservation' => er_get_reservation( $id )->get_data(),
+					    'message' => __( 'Reservation could not be updated as the requested space is full', 'easyReservations' )
+				    )
+			    );
+
+			    exit;
+		    }
+        }
 
         exit;
     }
