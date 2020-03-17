@@ -66,7 +66,7 @@ $text_lighter_40 = er_hex_lighter( $text, 40 );
     border-radius: 3px 3px 0 0 !important;
     color: <?php echo esc_attr( $base_text ); ?>;
     border-bottom: 0;
-    font-weight: bold;
+    font-weight: 700;
     line-height: 100%;
     vertical-align: middle;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -187,7 +187,7 @@ $text_lighter_40 = er_hex_lighter( $text, 40 );
     display: block;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
     line-height: 130%;
     margin: 0 0 18px;
     text-align: <?php echo is_rtl() ? 'right' : 'left'; ?>;
@@ -198,7 +198,7 @@ $text_lighter_40 = er_hex_lighter( $text, 40 );
     display: block;
     font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     line-height: 130%;
     margin: 16px 0 8px;
     text-align: <?php echo is_rtl() ? 'right' : 'left'; ?>;
@@ -206,7 +206,7 @@ $text_lighter_40 = er_hex_lighter( $text, 40 );
 
     a {
     color: <?php echo esc_attr( $link_color ); ?>;
-    font-weight: normal;
+    font-weight: 400;
     text-decoration: underline;
     }
 
@@ -214,7 +214,7 @@ $text_lighter_40 = er_hex_lighter( $text, 40 );
     border: none;
     display: inline-block;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 700;
     height: auto;
     outline: none;
     text-decoration: none;

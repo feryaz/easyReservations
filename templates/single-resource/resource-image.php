@@ -26,7 +26,7 @@ $wrapper_classes   = apply_filters( 'easyreservations_single_resource_image_gall
 	'images',
 ) );
 ?>
-<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
+<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity 0.25s ease-in-out;">
     <figure class="easyreservations-resource-gallery__wrapper">
 		<?php
 		if ( $post_thumbnail_id ) {

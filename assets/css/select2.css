@@ -75,7 +75,7 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #aaa;
   border-radius: 4px;
 }
@@ -178,7 +178,7 @@
 
 .select2-container--default .select2-selection--single .select2-selection__clear {
   float: right;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -232,7 +232,7 @@
 
 .select2-container--default .select2-selection--multiple {
   cursor: text;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #aaa;
   border-radius: 4px;
 }
@@ -249,7 +249,7 @@
   margin: 5px 5px 0 0;
   list-style: none;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__rendered li:before {
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li::before {
   display: none;
   content: "";
 }
@@ -264,7 +264,7 @@
   float: right;
   margin-top: 5px;
   margin-right: 10px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -282,7 +282,7 @@
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
   display: inline-block;
   margin-right: 2px;
-  font-weight: bold;
+  font-weight: 700;
   color: #999;
   cursor: pointer;
 }
@@ -308,7 +308,7 @@
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border: solid black 1px;
+  border: solid #000 1px;
   outline: 0;
 }
 
@@ -398,7 +398,7 @@
 
 .select2-container--default .select2-results__option--highlighted[data-selected],
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  color: white;
+  color: #fff;
   background-color: #0073aa;
 }
 
@@ -410,7 +410,7 @@
 
 .select2-container--classic .select2-selection--single {
   background-color: #f7f7f7;
-  background-image: linear-gradient(to bottom, white 50%, #eee 100%);
+  background-image: linear-gradient(to bottom, #fff 50%, #eee 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
   background-repeat: repeat-x;
   border: 1px solid #aaa;
@@ -430,7 +430,7 @@
 .select2-container--classic .select2-selection--single .select2-selection__clear {
   float: right;
   margin-right: 10px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -496,7 +496,7 @@
 }
 
 .select2-container--classic.select2-container--open.select2-container--above .select2-selection--single {
-  background-image: linear-gradient(to bottom, white 0%, #eee 50%);
+  background-image: linear-gradient(to bottom, #fff 0%, #eee 50%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
   background-repeat: repeat-x;
   border-top: none;
@@ -505,7 +505,7 @@
 }
 
 .select2-container--classic.select2-container--open.select2-container--below .select2-selection--single {
-  background-image: linear-gradient(to bottom, #eee 50%, white 100%);
+  background-image: linear-gradient(to bottom, #eee 50%, #fff 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFEEEEEE", endColorstr="#FFFFFFFF", GradientType=0);
   background-repeat: repeat-x;
   border-bottom: none;
@@ -515,7 +515,7 @@
 
 .select2-container--classic .select2-selection--multiple {
   cursor: text;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #aaa;
   border-radius: 4px;
   outline: 0;
@@ -549,7 +549,7 @@
 .select2-container--classic .select2-selection--multiple .select2-selection__choice__remove {
   display: inline-block;
   margin-right: 2px;
-  font-weight: bold;
+  font-weight: 700;
   color: #888;
   cursor: pointer;
 }
@@ -599,7 +599,7 @@
 }
 
 .select2-container--classic .select2-dropdown {
-  background-color: white;
+  background-color: #fff;
   border: 1px solid transparent;
 }
 
@@ -626,7 +626,7 @@
 
 .select2-container--classic .select2-results__option--highlighted[data-selected],
 .select2-container--classic .select2-results__option--highlighted[aria-selected] {
-  color: white;
+  color: #fff;
   background-color: #3875d7;
 }
 

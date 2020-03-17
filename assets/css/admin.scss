@@ -203,7 +203,7 @@ img.tips {
 	z-index: 9999999;
 	max-width: 20em;
 	margin: 1.5em 1px 0 -1em;
-	line-height: 1.8em;
+	line-height: 1.8;
 	white-space: normal;
 	background: #d82223;
 
@@ -222,8 +222,8 @@ img.tips {
 }
 
 code {
-	padding: .2rem .4rem;
-	font-size: .75rem;
+	padding: 0.2rem 0.4rem;
+	font-size: 0.75rem;
 	color: #d81b60;
 	background-color: #fafafa;
 
@@ -305,7 +305,7 @@ code {
 		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 		font-size: 16px;
 		font-weight: 400;
-		line-height: 1.6em;
+		line-height: 1.6;
 
 		strong {
 			font-weight: 400;
@@ -359,8 +359,8 @@ code {
 				max-width: 100%;
 			}
 
-			input[type=checkbox],
-			input[type=radio] {
+			input[type="checkbox"],
+			input[type="radio"] {
 				width: 16px;
 			}
 
@@ -509,7 +509,7 @@ code {
 			padding: 6px 10px;
 			margin: 0;
 			overflow: hidden;
-			line-height: 1.6em;
+			line-height: 1.6;
 			text-align: center;
 			zoom: 1;
 			border-top: 1px solid #fff;
@@ -592,121 +592,10 @@ code {
 #easyreservations-order-items {
 
 	.inside {
+		display: block !important;
 		padding: 0;
 		margin: 0;
 		background: #fefefe;
-	}
-
-	.er-receipt-data-row {
-		padding: 1.5em 2em;
-		line-height: 2em;
-		text-align: right;
-
-		@include clearfix();
-		background: #f8f8f8;
-		border-bottom: 1px solid #dfdfdf;
-
-		p {
-			margin: 0;
-			line-height: 2em;
-		}
-
-		.er-used-coupons {
-			text-align: left;
-
-			.tips {
-				display: inline-block;
-			}
-		}
-	}
-
-	.er-used-coupons {
-		float: left;
-		width: 50%;
-	}
-
-	.er-receipt-totals {
-		float: right;
-		width: 50%;
-		padding: 0;
-		margin: 0;
-		text-align: right;
-
-		.amount {
-			font-weight: 700;
-		}
-
-		.label {
-			vertical-align: top;
-		}
-
-		.total {
-			width: 10em;
-			box-sizing: border-box;
-			margin: 0 0 0 0.5em;
-			font-size: 1em !important;
-
-			input[type="text"] {
-				float: right;
-				width: 96%;
-			}
-		}
-
-		.refunded-total {
-			color: $red;
-		}
-	}
-
-	.refund-actions {
-		padding-top: 12px;
-		margin-top: 5px;
-		border-top: 1px solid #dfdfdf;
-
-		.button {
-			float: right;
-			margin-left: 4px;
-		}
-
-		.cancel-action {
-			float: left;
-			margin-left: 0;
-		}
-	}
-
-	.add_meta {
-		margin-left: 0 !important;
-	}
-
-	h3 small {
-		color: #999;
-	}
-
-	.amount {
-		white-space: nowrap;
-	}
-
-	.add-items {
-
-		.description {
-			margin-right: 10px;
-		}
-
-		.button {
-			float: left;
-			margin-right: 0.25em;
-		}
-
-		.button-primary {
-			float: none;
-			margin-right: 0;
-		}
-	}
-}
-
-#easyreservations-order-items {
-
-	.inside {
-		display: block !important;
 	}
 
 	.hndle,
@@ -756,7 +645,7 @@ code {
 			tbody th,
 			td {
 				padding: 1.5em 1em 1em;
-				line-height: 1.5em;
+				line-height: 1.5;
 				text-align: left;
 				vertical-align: top;
 				border-bottom: 1px solid #f8f8f8;
@@ -888,7 +777,7 @@ code {
 					min-width: 80px;
 					margin: 1px 0;
 					overflow: hidden;
-					line-height: 1em;
+					line-height: 1;
 					text-align: right;
 					background: #fff;
 					border: 1px solid #ddd;
@@ -1009,13 +898,13 @@ code {
 					th {
 						width: 20%;
 						padding: 0 4px 0.5em 0;
-						line-height: 1.5em;
+						line-height: 1.5;
 						border: 0;
 					}
 
 					td {
 						padding: 0 4px 0.5em 0;
-						line-height: 1.5em;
+						line-height: 1.5;
 						border: 0;
 
 						input {
@@ -1039,7 +928,7 @@ code {
 
 						p {
 							margin: 0 0 0.5em;
-							line-height: 1.5em;
+							line-height: 1.5;
 						}
 
 						p:last-child {
@@ -1058,7 +947,7 @@ code {
 				@include ir();
 				margin: 0 auto;
 				font-size: 1.5em;
-				line-height: 1em;
+				line-height: 1;
 				vertical-align: middle;
 
 				&::before {
@@ -1073,7 +962,7 @@ code {
 				@include ir();
 				margin: 0 auto;
 				font-size: 1.5em;
-				line-height: 1em;
+				line-height: 1;
 				vertical-align: middle;
 
 				&::before {
@@ -1127,10 +1016,124 @@ code {
 					top: auto;
 					left: auto;
 					margin: -1px 4px 0 0;
-					line-height: 1em;
+					line-height: 1;
 					vertical-align: middle;
 				}
 			}
+		}
+	}
+
+	.er-receipt-data-row {
+		padding: 1.5em 2em;
+		line-height: 2;
+		text-align: right;
+
+		@include clearfix();
+		background: #f8f8f8;
+		border-bottom: 1px solid #dfdfdf;
+
+		p {
+			margin: 0;
+			line-height: 2;
+		}
+
+		.er-used-coupons {
+			text-align: left;
+
+			.tips {
+				display: inline-block;
+			}
+		}
+	}
+
+	.er-used-coupons {
+		float: left;
+		width: 50%;
+	}
+
+	.er-receipt-totals {
+		float: right;
+		width: 50%;
+		padding: 0;
+		margin: 0;
+		text-align: right;
+
+		.amount {
+			font-weight: 700;
+		}
+
+		.label {
+			vertical-align: top;
+		}
+
+		.total {
+			width: 10em;
+			box-sizing: border-box;
+			margin: 0 0 0 0.5em;
+			font-size: 1em !important;
+
+			input[type="text"] {
+				float: right;
+				width: 96%;
+			}
+		}
+
+		.refunded-total {
+			color: $red;
+		}
+
+		.er-receipt-edit-line-item-actions {
+			width: 1.5em;
+			visibility: visible !important;
+
+			a {
+				padding: 0;
+			}
+		}
+	}
+
+	.refund-actions {
+		padding-top: 12px;
+		margin-top: 5px;
+		border-top: 1px solid #dfdfdf;
+
+		.button {
+			float: right;
+			margin-left: 4px;
+		}
+
+		.cancel-action {
+			float: left;
+			margin-left: 0;
+		}
+	}
+
+	.add_meta {
+		margin-left: 0 !important;
+	}
+
+	h3 small {
+		color: #999;
+	}
+
+	.amount {
+		white-space: nowrap;
+	}
+
+	.add-items {
+
+		.description {
+			margin-right: 10px;
+		}
+
+		.button {
+			float: left;
+			margin-right: 0.25em;
+		}
+
+		.button-primary {
+			float: none;
+			margin-right: 0;
 		}
 	}
 
@@ -1203,15 +1206,6 @@ code {
 
 	tbody tr:hover .er-receipt-edit-line-item-actions {
 		visibility: visible;
-	}
-
-	.er-receipt-totals .er-receipt-edit-line-item-actions {
-		width: 1.5em;
-		visibility: visible !important;
-
-		a {
-			padding: 0;
-		}
 	}
 }
 
@@ -1498,7 +1492,7 @@ ul.er_coupon_list {
 		.column-shipping_address,
 		.column-billing_address {
 			width: 20ch;
-			line-height: 1.5em;
+			line-height: 1.5;
 
 			.description {
 				display: block;
@@ -1550,7 +1544,7 @@ a.order-preview {
 	&.disabled {
 		&::before {
 			padding-left: 1px;
-			content: url("../images/wpspin.gif");
+			content: url(../images/wpspin.gif);
 		}
 	}
 }
@@ -1560,7 +1554,7 @@ a.order-preview {
 	max-width: 100%;
 	padding: 0 8px;
 	margin: 0;
-	line-height: 2.5em;
+	line-height: 2.5;
 	color: #777;
 	white-space: nowrap;
 	cursor: inherit !important;
@@ -1593,7 +1587,7 @@ a.order-preview {
 	display: inline-flex;
 	max-width: 100%;
 	margin: -0.25em 0;
-	line-height: 2.5em;
+	line-height: 2.5;
 	color: #777;
 	white-space: nowrap;
 	cursor: inherit;
@@ -1782,7 +1776,7 @@ a.order-preview {
 
 	label {
 		margin-right: 6px;
-		font-weight: bold;
+		font-weight: 700;
 		line-height: 28px;
 		cursor: default;
 	}
@@ -2007,9 +2001,6 @@ ul.order_notes {
 			margin-bottom: 8px;
 			overflow: hidden;
 		}
-
-		a {
-		}
 	}
 }
 
@@ -2019,8 +2010,12 @@ ul.order_notes {
 	line-height: 20px;
 }
 
-#filter_form_requirements td, #filter_form_discount td, #filter_form_price td {
-	padding-left: 30px;
+#filter_form_requirements,
+#filter_form_discount,
+#filter_form_price {
+	td {
+		padding-left: 30px;
+	}
 }
 
 tbody#filter_form_discount td:first-of-type,
@@ -2068,7 +2063,7 @@ label.days-option {
 		}
 
 		&.ui-state-hover {
-			background-color: $contenth1
+			background-color: $contenth1;
 		}
 
 	}
@@ -2086,7 +2081,8 @@ label.days-option {
 		border-bottom: 0;
 	}
 
-	p, h4 {
+	p,
+	h4 {
 		margin: 3px 0;
 	}
 
@@ -2158,7 +2154,7 @@ table.formtable {
 			border-bottom: 1px solid #dedede;
 
 			&:nth-child(3) {
-				text-align: center
+				text-align: center;
 			}
 
 			&:nth-child(1) {
@@ -2218,7 +2214,7 @@ formtag {
 			margin: 0;
 
 			li {
-				line-height: 1.4em;
+				line-height: 1.4;
 			}
 		}
 
@@ -2385,7 +2381,7 @@ formtag {
 			width: 26px;
 			padding: 7px 0;
 			font-size: 14px;
-			line-height: 1em;
+			line-height: 1;
 			border: 1px solid $inputborder;
 		}
 	}
@@ -2406,26 +2402,26 @@ formtag {
 	padding: 3px 8px;
 	margin: 10px 0;
 	font-size: 1.7em;
-	line-height: 1.42em;
+	line-height: 1.42;
 	outline: 0;
 
 	&::-webkit-input-placeholder {
-		line-height: 1.42em;
+		line-height: 1.42;
 		color: #bbb;
 	}
 
 	&::-moz-placeholder {
-		line-height: 1.42em;
+		line-height: 1.42;
 		color: #bbb;
 	}
 
 	&:-ms-input-placeholder {
-		line-height: 1.42em;
+		line-height: 1.42;
 		color: #bbb;
 	}
 
 	&:-moz-placeholder {
-		line-height: 1.42em;
+		line-height: 1.42;
 		color: #bbb;
 	}
 }
@@ -2474,7 +2470,7 @@ formtag {
 		box-sizing: border-box;
 		padding: 0 0 10px;
 		margin: 0;
-		line-height: 1em;
+		line-height: 1;
 		background-color: #fafafa;
 		border-right: 1px solid #eee;
 
@@ -2675,7 +2671,7 @@ formtag {
 	textarea {
 		float: left;
 		height: 3.5em;
-		line-height: 1.5em;
+		line-height: 1.5;
 		vertical-align: top;
 	}
 
@@ -2710,7 +2706,7 @@ formtag {
 	}
 
 	.options_group {
-		border-top: 1px solid white;
+		border-top: 1px solid #fff;
 		border-bottom: 1px solid #eee;
 
 		&:first-child {
@@ -2789,6 +2785,7 @@ table.er_input_table {
 	}
 
 	span.tips {
+		padding: 0 3px;
 		color: #0a246a;
 	}
 
@@ -2811,8 +2808,8 @@ table.er_input_table {
 			border-radius: 0;
 		}
 
-		input[type=text],
-		input[type=number] {
+		input[type="text"],
+		input[type="number"] {
 			width: 100% !important;
 			min-width: 100px;
 			padding: 8px 10px;
@@ -2910,10 +2907,6 @@ table.er_input_table {
 		margin-left: 5px;
 	}
 
-	span.tips {
-		padding: 0 3px;
-	}
-
 	.pagination {
 		float: right;
 
@@ -2941,7 +2934,7 @@ table.er_emails {
 	td {
 		display: table-cell !important;
 		padding: 1em !important;
-		line-height: 1.75em;
+		line-height: 1.75;
 		vertical-align: top;
 	}
 
@@ -3020,7 +3013,7 @@ table.er_emails {
 				display: inline-block;
 				width: 100%;
 				height: 100%;
-				font: normal 20px/23px dashicons;
+				font: 400 20px/23px "Dashicons";
 				text-align: center;
 				text-indent: 0;
 				-webkit-font-smoothing: antialiased;
@@ -3315,9 +3308,6 @@ table.er_emails {
 					font-size: 14px;
 					line-height: unset;
 				}
-
-				.title {
-				}
 			}
 
 			.snapping {
@@ -3348,7 +3338,7 @@ table.er_emails {
 				&.disabled {
 					&::before {
 						padding-left: 1px;
-						content: url("../images/wpspin.gif");
+						content: url(../images/wpspin.gif);
 					}
 				}
 			}
@@ -3395,8 +3385,8 @@ table.er_emails {
 						padding: 0 5px;
 						font-size: 11px;
 						line-height: 17px;
-						color: white;
-						background: red;
+						color: #fff;
+						background: #f00;
 						border-radius: 50%;
 					}
 
@@ -3574,7 +3564,7 @@ table.er_emails {
 
 							td {
 								height: 26px;
-								padding: 6px 15px 0px 15px;
+								padding: 6px 15px 0 15px;
 								margin: 0;
 								font-size: 12px;
 								font-weight: 600;
@@ -3618,7 +3608,7 @@ table.er_emails {
 				}
 
 				.prev {
-					background: linear-gradient(90deg, white 20%, transparent 100%);
+					background: linear-gradient(90deg, #fff 20%, transparent 100%);
 
 					&::after {
 						display: block;
@@ -3631,7 +3621,7 @@ table.er_emails {
 				.next {
 					right: 0;
 					text-align: right;
-					background: linear-gradient(270deg, white 20%, transparent 100%);
+					background: linear-gradient(270deg, #fff 20%, transparent 100%);
 
 					&::after {
 						display: block;
@@ -3673,8 +3663,7 @@ table.er_emails {
 							width: 100%;
 							min-width: 0;
 							box-sizing: content-box;
-							padding: 4px;
-							padding-left: 0;
+							padding: 4px 4px 4px 0;
 							overflow: visible;
 							pointer-events: none;
 							flex-grow: 1;
@@ -3758,7 +3747,7 @@ table.er_emails {
 
 					&:not(.hourly) table thead.main th.first {
 						&.first {
-							border-left: 1px solid #ff8100;;
+							border-left: 1px solid #ff8100;
 						}
 					}
 
@@ -3913,7 +3902,7 @@ table.er_emails {
 									margin-left: -100000px;
 									pointer-events: none;
 									background-image: linear-gradient(45deg, #fff 16.67%, #000 16.67%, #000 50%, #fff 50%, #fff 66.67%, #000 66.67%, #000 100%);
-									background-size: 6.00px 6.00px;
+									background-size: 6px 6px;
 									opacity: 2%;
 								}
 							}
@@ -3930,7 +3919,7 @@ table.er_emails {
 								pointer-events: none;
 								content: "";
 								background-image: linear-gradient(45deg, #fff 16.67%, #000 16.67%, #000 50%, #fff 50%, #fff 66.67%, #000 66.67%, #000 100%);
-								background-size: 6.00px 6.00px;
+								background-size: 6px 6px;
 								opacity: 2%;
 							}
 						}
@@ -4137,7 +4126,7 @@ table.er_emails {
 			margin: 0;
 			font-size: 18px;
 			font-weight: 700;
-			line-height: 1.5em;
+			line-height: 1.5;
 		}
 
 		.modal-close-link {
@@ -4157,7 +4146,7 @@ table.er_emails {
 
 			&::before {
 				display: block;
-				font: normal 22px/50px "dashicons" !important;
+				font: 400 22px/50px "Dashicons" !important;
 				font-weight: 300;
 				color: #666;
 				content: "\f335";
@@ -4309,7 +4298,7 @@ table#custom_field_add {
 	}
 
 	.sortable strong {
-		font-weight: bold !important;
+		font-weight: 700 !important;
 	}
 
 	.sortable.clause {

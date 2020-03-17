@@ -68,7 +68,7 @@ foreach ( $items as $item_id => $item ) :
 			er_display_meta(
 				$item->get_formatted_meta_data(),
 				array(
-					'label_before' => '<strong class="er-item-meta-label" style="float: ' . esc_attr( $text_align ) . '; margin-' . esc_attr( $margin_side ) . ': .25em; clear: both">',
+					'label_before' => '<strong class="er-item-meta-label" style="float: ' . esc_attr( $text_align ) . '; margin-' . esc_attr( $margin_side ) . ': 0.25em; clear: both">',
 				)
 			);
 

@@ -60,23 +60,23 @@
 		th {
 			padding: 9px 12px;
 			font-weight: 700;
-			line-height: 1.5em;
+			line-height: 1.5;
 			border-right: 0;
 
 		}
 
 		td {
 			padding: 9px 12px;
-			line-height: 1.5em;
+			line-height: 1.5;
 			vertical-align: middle;
 			border-right: 0;
 
 			small {
-				font-weight: normal;
+				font-weight: 400;
 			}
 
 			del {
-				font-weight: normal;
+				font-weight: 400;
 			}
 		}
 
@@ -148,10 +148,10 @@
 				display: inline-block;
 				width: 20px;
 				height: 20px;
-				font-family: "dashicons";
+				font-family: "Dashicons";
 				font-size: 20px;
 				font-style: normal;
-				font-weight: normal;
+				font-weight: 400;
 				line-height: 1;
 				text-align: center;
 				text-decoration: inherit;
@@ -235,12 +235,11 @@
 
 			.easy-price-display {
 				font-size: 18px;
-				font-weight: bold;
-
+				font-weight: 700;
 			}
 		}
 
-		button[type=submit] {
+		button[type="submit"] {
 			margin: 20px 3px;
 		}
 	}
@@ -351,7 +350,7 @@
 
 			.required {
 				font-weight: 700;
-				color: red;
+				color: #f00;
 				text-decoration: none;
 				visibility: hidden; // Only show optional by default.
 				border: 0 !important;
@@ -390,7 +389,7 @@
 
 			.select2-container {
 				width: 100%;
-				line-height: 2em;
+				line-height: 2;
 			}
 
 			&.easyreservations-invalid {
@@ -486,6 +485,7 @@
 	 */
 	ul.order_details {
 		@include clearfix();
+
 		margin: 0 0 3em;
 		list-style: none;
 
@@ -515,7 +515,7 @@
 	}
 
 	.er-bacs-bank-details-account-name {
-		font-weight: bold;
+		font-weight: 700;
 	}
 
 	/**
@@ -525,7 +525,7 @@
 		position: relative;
 		margin-bottom: 0;
 
-		.resource_title {
+		.resource-title {
 			padding: 0;
 			margin-top: 0;
 			clear: none;
@@ -557,7 +557,7 @@
 		}
 
 		.out-of-stock {
-			color: red;
+			color: #f00;
 		}
 
 		div.images {
@@ -573,8 +573,9 @@
 			}
 
 			div.thumbnails {
-				padding-top: 1em;
 				@include clearfix();
+
+				padding-top: 1em;
 
 				a {
 					float: left;
@@ -816,7 +817,7 @@
 				display: block;
 				margin-bottom: 0.5em;
 				font-size: 0.857em;
-				font-weight: normal;
+				font-weight: 400;
 				color: $highlight;
 
 				del {
@@ -883,6 +884,7 @@
 	}
 
 	.easyreservations-form-login {
+
 		.easyreservations-form-login__submit {
 			float: left;
 			margin-right: 1em;
@@ -900,7 +902,9 @@
 .easyreservations-cart,
 .easyreservations-checkout,
 #add_payment_method {
+
 	table.cart {
+
 		.resource-thumbnail {
 			min-width: 50px;
 		}
@@ -916,7 +920,8 @@
 			vertical-align: middle;
 		}
 
-		th.remove, th.thumbnail {
+		th.remove,
+		th.thumbnail {
 			width: 100px;
 		}
 
@@ -938,6 +943,10 @@
 			.coupon {
 				float: left;
 
+				label {
+					display: none;
+				}
+
 				.input-text {
 					float: left;
 					box-sizing: border-box;
@@ -945,10 +954,6 @@
 					margin: 0 4px 0 0;
 					border: 1px solid darken($secondary, 10%);
 					outline: 0;
-				}
-
-				label {
-					display: none;
 				}
 			}
 		}
@@ -1030,7 +1035,7 @@
 
 		.create-account small {
 			font-size: 11px;
-			font-weight: normal;
+			font-weight: 400;
 			color: $subtext;
 		}
 	}
@@ -1061,7 +1066,7 @@
 
 			li {
 				margin: 0;
-				font-weight: normal;
+				font-weight: 400;
 				line-height: 2;
 				text-align: left;
 
@@ -1091,7 +1096,7 @@
 			}
 		}
 
-		div.payment_box {
+		div.payment-box {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
@@ -1153,9 +1158,7 @@
 				.InputElement {
 					background: #efefef;
 
-					&.is-invalid {
-
-					}
+					//&.is-invalid {}
 				}
 			}
 
@@ -1203,7 +1206,7 @@
 
 			span.help {
 				font-size: 0.857em;
-				font-weight: normal;
+				font-weight: 400;
 				color: $subtext;
 			}
 
@@ -1261,8 +1264,9 @@
 }
 
 .easyreservations-invalid {
+
 	#terms {
-		outline: 2px solid red;
+		outline: 2px solid #f00;
 		outline-offset: 2px;
 	}
 }
@@ -1517,9 +1521,9 @@
 				text-align: center;
 				background: $contentbg;
 
-				border: 1px solid rgba(0, 0, 0, .2);
-				border-radius: .1875rem;
-				box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+				border: 1px solid rgba(0, 0, 0, 0.2);
+				border-radius: 0.1875rem;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
 				.easy-button {
 					margin: 5px 0;
@@ -1773,7 +1777,7 @@
  * RTL styles.
  */
 .rtl {
-	.easyreservations, .easyreservations {
+	.easyreservations {
 		.col2-set {
 			.col-1 {
 				float: right;
@@ -1787,6 +1791,7 @@
 }
 
 //Fix for AIT Themes
-.sbSelector, .sbHolder {
+.sbSelector,
+.sbHolder {
 	display: none;
 }

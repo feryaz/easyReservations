@@ -133,7 +133,7 @@ mark.amount {
 .easyreservations-help-tip::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -248,7 +248,7 @@ img.tips {
   z-index: 9999999;
   max-width: 20em;
   margin: 1.5em 1px 0 -1em;
-  line-height: 1.8em;
+  line-height: 1.8;
   white-space: normal;
   background: #d82223;
 }
@@ -303,7 +303,7 @@ code[data-tag] {
 .button.er-reload::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -357,7 +357,7 @@ code[data-tag] {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.6em;
+  line-height: 1.6;
 }
 #order_data p.order_number strong {
   font-weight: 400;
@@ -485,7 +485,7 @@ code[data-tag] {
 #order_data .order_data_column a.delete-custom::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -557,7 +557,7 @@ code[data-tag] {
   padding: 6px 10px;
   margin: 0;
   overflow: hidden;
-  line-height: 1.6em;
+  line-height: 1.6;
   text-align: center;
   zoom: 1;
   border-top: 1px solid #fff;
@@ -624,101 +624,10 @@ code[data-tag] {
 }
 
 #easyreservations-order-items .inside {
+  display: block !important;
   padding: 0;
   margin: 0;
   background: #fefefe;
-}
-#easyreservations-order-items .er-receipt-data-row {
-  padding: 1.5em 2em;
-  line-height: 2em;
-  text-align: right;
-  *zoom: 1;
-  background: #f8f8f8;
-  border-bottom: 1px solid #dfdfdf;
-}
-#easyreservations-order-items .er-receipt-data-row::before, #easyreservations-order-items .er-receipt-data-row::after {
-  content: " ";
-  display: table;
-}
-#easyreservations-order-items .er-receipt-data-row::after {
-  clear: both;
-}
-#easyreservations-order-items .er-receipt-data-row p {
-  margin: 0;
-  line-height: 2em;
-}
-#easyreservations-order-items .er-receipt-data-row .er-used-coupons {
-  text-align: left;
-}
-#easyreservations-order-items .er-receipt-data-row .er-used-coupons .tips {
-  display: inline-block;
-}
-#easyreservations-order-items .er-used-coupons {
-  float: left;
-  width: 50%;
-}
-#easyreservations-order-items .er-receipt-totals {
-  float: right;
-  width: 50%;
-  padding: 0;
-  margin: 0;
-  text-align: right;
-}
-#easyreservations-order-items .er-receipt-totals .amount {
-  font-weight: 700;
-}
-#easyreservations-order-items .er-receipt-totals .label {
-  vertical-align: top;
-}
-#easyreservations-order-items .er-receipt-totals .total {
-  width: 10em;
-  box-sizing: border-box;
-  margin: 0 0 0 0.5em;
-  font-size: 1em !important;
-}
-#easyreservations-order-items .er-receipt-totals .total input[type=text] {
-  float: right;
-  width: 96%;
-}
-#easyreservations-order-items .er-receipt-totals .refunded-total {
-  color: #a00;
-}
-#easyreservations-order-items .refund-actions {
-  padding-top: 12px;
-  margin-top: 5px;
-  border-top: 1px solid #dfdfdf;
-}
-#easyreservations-order-items .refund-actions .button {
-  float: right;
-  margin-left: 4px;
-}
-#easyreservations-order-items .refund-actions .cancel-action {
-  float: left;
-  margin-left: 0;
-}
-#easyreservations-order-items .add_meta {
-  margin-left: 0 !important;
-}
-#easyreservations-order-items h3 small {
-  color: #999;
-}
-#easyreservations-order-items .amount {
-  white-space: nowrap;
-}
-#easyreservations-order-items .add-items .description {
-  margin-right: 10px;
-}
-#easyreservations-order-items .add-items .button {
-  float: left;
-  margin-right: 0.25em;
-}
-#easyreservations-order-items .add-items .button-primary {
-  float: none;
-  margin-right: 0;
-}
-
-#easyreservations-order-items .inside {
-  display: block !important;
 }
 #easyreservations-order-items .hndle,
 #easyreservations-order-items .handlediv {
@@ -761,7 +670,7 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items tbody th,
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items td {
   padding: 1.5em 1em 1em;
-  line-height: 1.5em;
+  line-height: 1.5;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid #f8f8f8;
@@ -818,7 +727,7 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items td.thumb .er-receipt-item-thumbnail::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -920,7 +829,7 @@ code[data-tag] {
   min-width: 80px;
   margin: 1px 0;
   overflow: hidden;
-  line-height: 1em;
+  line-height: 1;
   text-align: right;
   background: #fff;
   border: 1px solid #ddd;
@@ -1139,13 +1048,13 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.display_meta tr th {
   width: 20%;
   padding: 0 4px 0.5em 0;
-  line-height: 1.5em;
+  line-height: 1.5;
   border: 0;
 }
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.meta tr td,
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.display_meta tr td {
   padding: 0 4px 0.5em 0;
-  line-height: 1.5em;
+  line-height: 1.5;
   border: 0;
 }
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.meta tr td input,
@@ -1170,7 +1079,7 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.meta tr td p,
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.display_meta tr td p {
   margin: 0 0 0.5em;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.meta tr td p:last-child,
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items table.display_meta tr td p:last-child {
@@ -1187,13 +1096,13 @@ code[data-tag] {
   width: 1em;
   margin: 0 auto;
   font-size: 1.5em;
-  line-height: 1em;
+  line-height: 1;
   vertical-align: middle;
 }
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items tr.fee .thumb div::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1216,13 +1125,13 @@ code[data-tag] {
   width: 1em;
   margin: 0 auto;
   font-size: 1.5em;
-  line-height: 1em;
+  line-height: 1;
   vertical-align: middle;
 }
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items tr.refund .thumb div::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1256,7 +1165,7 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items td.line_tax .delete-receipt-tax::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1289,7 +1198,7 @@ code[data-tag] {
 #easyreservations-order-items .easyreservations_receipt_items_wrapper table.easyreservations_receipt_items small.refunded::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1307,8 +1216,103 @@ code[data-tag] {
   top: auto;
   left: auto;
   margin: -1px 4px 0 0;
-  line-height: 1em;
+  line-height: 1;
   vertical-align: middle;
+}
+#easyreservations-order-items .er-receipt-data-row {
+  padding: 1.5em 2em;
+  line-height: 2;
+  text-align: right;
+  *zoom: 1;
+  background: #f8f8f8;
+  border-bottom: 1px solid #dfdfdf;
+}
+#easyreservations-order-items .er-receipt-data-row::before, #easyreservations-order-items .er-receipt-data-row::after {
+  content: " ";
+  display: table;
+}
+#easyreservations-order-items .er-receipt-data-row::after {
+  clear: both;
+}
+#easyreservations-order-items .er-receipt-data-row p {
+  margin: 0;
+  line-height: 2;
+}
+#easyreservations-order-items .er-receipt-data-row .er-used-coupons {
+  text-align: left;
+}
+#easyreservations-order-items .er-receipt-data-row .er-used-coupons .tips {
+  display: inline-block;
+}
+#easyreservations-order-items .er-used-coupons {
+  float: left;
+  width: 50%;
+}
+#easyreservations-order-items .er-receipt-totals {
+  float: right;
+  width: 50%;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+#easyreservations-order-items .er-receipt-totals .amount {
+  font-weight: 700;
+}
+#easyreservations-order-items .er-receipt-totals .label {
+  vertical-align: top;
+}
+#easyreservations-order-items .er-receipt-totals .total {
+  width: 10em;
+  box-sizing: border-box;
+  margin: 0 0 0 0.5em;
+  font-size: 1em !important;
+}
+#easyreservations-order-items .er-receipt-totals .total input[type=text] {
+  float: right;
+  width: 96%;
+}
+#easyreservations-order-items .er-receipt-totals .refunded-total {
+  color: #a00;
+}
+#easyreservations-order-items .er-receipt-totals .er-receipt-edit-line-item-actions {
+  width: 1.5em;
+  visibility: visible !important;
+}
+#easyreservations-order-items .er-receipt-totals .er-receipt-edit-line-item-actions a {
+  padding: 0;
+}
+#easyreservations-order-items .refund-actions {
+  padding-top: 12px;
+  margin-top: 5px;
+  border-top: 1px solid #dfdfdf;
+}
+#easyreservations-order-items .refund-actions .button {
+  float: right;
+  margin-left: 4px;
+}
+#easyreservations-order-items .refund-actions .cancel-action {
+  float: left;
+  margin-left: 0;
+}
+#easyreservations-order-items .add_meta {
+  margin-left: 0 !important;
+}
+#easyreservations-order-items h3 small {
+  color: #999;
+}
+#easyreservations-order-items .amount {
+  white-space: nowrap;
+}
+#easyreservations-order-items .add-items .description {
+  margin-right: 10px;
+}
+#easyreservations-order-items .add-items .button {
+  float: left;
+  margin-right: 0.25em;
+}
+#easyreservations-order-items .add-items .button-primary {
+  float: none;
+  margin-right: 0;
 }
 #easyreservations-order-items .er-receipt-edit-line-item {
   padding-left: 0;
@@ -1347,7 +1351,7 @@ code[data-tag] {
 #easyreservations-order-items .er-receipt-edit-line-item-actions .edit-receipt-item::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1367,7 +1371,7 @@ code[data-tag] {
 #easyreservations-order-items .er-receipt-edit-line-item-actions .delete_refund::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1392,13 +1396,6 @@ code[data-tag] {
 }
 #easyreservations-order-items tbody tr:hover .er-receipt-edit-line-item-actions {
   visibility: visible;
-}
-#easyreservations-order-items .er-receipt-totals .er-receipt-edit-line-item-actions {
-  width: 1.5em;
-  visibility: visible !important;
-}
-#easyreservations-order-items .er-receipt-totals .er-receipt-edit-line-item-actions a {
-  padding: 0;
 }
 
 ul.er_coupon_list {
@@ -1444,7 +1441,7 @@ ul.er_coupon_list li.code .remove-coupon {
 ul.er_coupon_list li.code .remove-coupon::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -1723,7 +1720,7 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
 .post-type-easy_order .wp-list-table .column-shipping_address,
 .post-type-easy_order .wp-list-table .column-billing_address {
   width: 20ch;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 .post-type-easy-rooms .wp-list-table .column-shipping_address .description,
 .post-type-easy-rooms .wp-list-table .column-billing_address .description,
@@ -1779,7 +1776,7 @@ a.order-preview:hover {
 a.reservation-preview.disabled::before,
 a.order-preview.disabled::before {
   padding-left: 1px;
-  content: url("../images/wpspin.gif");
+  content: url(../images/wpspin.gif);
 }
 
 .reservation-date {
@@ -1787,7 +1784,7 @@ a.order-preview.disabled::before {
   max-width: 100%;
   padding: 0 8px;
   margin: 0;
-  line-height: 2.5em;
+  line-height: 2.5;
   color: #777;
   white-space: nowrap;
   cursor: inherit !important;
@@ -1816,7 +1813,7 @@ a.order-preview.disabled::before {
   display: inline-flex;
   max-width: 100%;
   margin: -0.25em 0;
-  line-height: 2.5em;
+  line-height: 2.5;
   color: #777;
   white-space: nowrap;
   cursor: inherit;
@@ -1982,7 +1979,7 @@ a.order-preview.disabled::before {
 }
 .er-action-button-group label {
   margin-right: 6px;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 28px;
   cursor: default;
 }
@@ -2162,13 +2159,16 @@ ul.order_notes li.customer-note .note_content::after {
   margin-bottom: 8px;
   overflow: hidden;
 }
+
 #reservations_reservation_item_label {
   height: 250px;
   padding: 8px;
   line-height: 20px;
 }
 
-#filter_form_requirements td, #filter_form_discount td, #filter_form_price td {
+#filter_form_requirements td,
+#filter_form_discount td,
+#filter_form_price td {
   padding-left: 30px;
 }
 
@@ -2228,7 +2228,8 @@ label.days-option {
 #accordion:last-child {
   border-bottom: 0;
 }
-#accordion p, #accordion h4 {
+#accordion p,
+#accordion h4 {
   margin: 3px 0;
 }
 #accordion p.desc {
@@ -2338,7 +2339,7 @@ formtag.taghover {
   margin: 0;
 }
 .easyreservations .form-table .forminp-radio ul li {
-  line-height: 1.4em;
+  line-height: 1.4;
 }
 .easyreservations .form-table input[type=text],
 .easyreservations .form-table input[type=number],
@@ -2477,7 +2478,7 @@ formtag.taghover {
   width: 26px;
   padding: 7px 0;
   font-size: 14px;
-  line-height: 1em;
+  line-height: 1;
   border: 1px solid #7e8993;
 }
 .easyreservations .widefat {
@@ -2494,23 +2495,23 @@ formtag.taghover {
   padding: 3px 8px;
   margin: 10px 0;
   font-size: 1.7em;
-  line-height: 1.42em;
+  line-height: 1.42;
   outline: 0;
 }
 #easyreservations-coupon-description::-webkit-input-placeholder {
-  line-height: 1.42em;
+  line-height: 1.42;
   color: #bbb;
 }
 #easyreservations-coupon-description::-moz-placeholder {
-  line-height: 1.42em;
+  line-height: 1.42;
   color: #bbb;
 }
 #easyreservations-coupon-description:-ms-input-placeholder {
-  line-height: 1.42em;
+  line-height: 1.42;
   color: #bbb;
 }
 #easyreservations-coupon-description:-moz-placeholder {
-  line-height: 1.42em;
+  line-height: 1.42;
   color: #bbb;
 }
 
@@ -2561,7 +2562,7 @@ formtag.taghover {
   box-sizing: border-box;
   padding: 0 0 10px;
   margin: 0;
-  line-height: 1em;
+  line-height: 1;
   background-color: #fafafa;
   border-right: 1px solid #eee;
 }
@@ -2608,7 +2609,7 @@ formtag.taghover {
 .easyreservations ul.er-tabs li a::before {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -2776,7 +2777,7 @@ formtag.taghover {
 .easyreservations_options_panel textarea {
   float: left;
   height: 3.5em;
-  line-height: 1.5em;
+  line-height: 1.5;
   vertical-align: top;
 }
 .easyreservations_options_panel input[type=text],
@@ -2805,7 +2806,7 @@ formtag.taghover {
   margin-right: 6px;
 }
 .easyreservations_options_panel .options_group {
-  border-top: 1px solid white;
+  border-top: 1px solid #fff;
   border-bottom: 1px solid #eee;
 }
 .easyreservations_options_panel .options_group:first-child {
@@ -2872,6 +2873,7 @@ table.er_input_table td {
 }
 table.er_tax_rates span.tips,
 table.er_input_table span.tips {
+  padding: 0 3px;
   color: #0a246a;
 }
 table.er_tax_rates th,
@@ -3001,10 +3003,6 @@ table.er_input_table .import {
   margin-right: 0;
   margin-left: 5px;
 }
-table.er_tax_rates span.tips,
-table.er_input_table span.tips {
-  padding: 0 3px;
-}
 table.er_tax_rates .pagination,
 table.er_input_table .pagination {
   float: right;
@@ -3034,7 +3032,7 @@ table.er_emails th,
 table.er_emails td {
   display: table-cell !important;
   padding: 1em !important;
-  line-height: 1.75em;
+  line-height: 1.75;
   vertical-align: top;
 }
 table.er_gateways.er_emails td,
@@ -3125,7 +3123,7 @@ table.er_emails td.sort .er-item-reorder-nav button::before {
   display: inline-block;
   width: 100%;
   height: 100%;
-  font: normal 20px/23px dashicons;
+  font: 400 20px/23px "Dashicons";
   text-align: center;
   text-indent: 0;
   -webkit-font-smoothing: antialiased;
@@ -3326,7 +3324,7 @@ table.er_emails .er-email-settings-table-status .tips {
   vertical-align: text-bottom;
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3410,7 +3408,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline .sidebar > .reservation-details .reservation-preview.disabled::before {
   padding-left: 1px;
-  content: url("../images/wpspin.gif");
+  content: url(../images/wpspin.gif);
 }
 .er-timeline .sidebar.expanded + .content {
   width: calc(100% - 305px);
@@ -3451,14 +3449,14 @@ table.er_emails .er-email-settings-table-status .tips {
   padding: 0 5px;
   font-size: 11px;
   line-height: 17px;
-  color: white;
-  background: red;
+  color: #fff;
+  background: #f00;
   border-radius: 50%;
 }
 .er-timeline > .content div.header .left .pending::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3485,7 +3483,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content div.header .left .expand-sidebar::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3496,7 +3494,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content div.header .left .contract-sidebar::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3589,7 +3587,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content .container .resources table thead.resource th div .resource-handler::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3605,7 +3603,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content .container .resources table thead.resource th div .resource-handler.retracted::after {
   font-family: "Dashicons";
   speak: none;
-  font-weight: normal;
+  font-weight: 400;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
@@ -3631,7 +3629,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline > .content .container .resources table tbody tr td {
   height: 26px;
-  padding: 6px 15px 0px 15px;
+  padding: 6px 15px 0 15px;
   margin: 0;
   font-size: 12px;
   font-weight: 600;
@@ -3668,7 +3666,7 @@ table.er_emails .er-email-settings-table-status .tips {
   color: #444;
 }
 .er-timeline > .content .container .timeline-container .prev {
-  background: linear-gradient(90deg, white 20%, transparent 100%);
+  background: linear-gradient(90deg, #fff 20%, transparent 100%);
 }
 .er-timeline > .content .container .timeline-container .prev::after {
   display: block;
@@ -3679,7 +3677,7 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content .container .timeline-container .next {
   right: 0;
   text-align: right;
-  background: linear-gradient(270deg, white 20%, transparent 100%);
+  background: linear-gradient(270deg, #fff 20%, transparent 100%);
 }
 .er-timeline > .content .container .timeline-container .next::after {
   display: block;
@@ -3716,8 +3714,7 @@ table.er_emails .er-email-settings-table-status .tips {
   width: 100%;
   min-width: 0;
   box-sizing: content-box;
-  padding: 4px;
-  padding-left: 0;
+  padding: 4px 4px 4px 0;
   overflow: visible;
   pointer-events: none;
   flex-grow: 1;
@@ -4052,7 +4049,7 @@ table.er_emails .er-email-settings-table-status .tips {
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.5em;
+  line-height: 1.5;
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link {
   position: absolute;
@@ -4071,7 +4068,7 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-backbone-modal-main .er-backbone-modal-header .modal-close-link::before {
   display: block;
-  font: normal 22px/50px "dashicons" !important;
+  font: 400 22px/50px "Dashicons" !important;
   font-weight: 300;
   color: #666;
   content: "";
@@ -4195,7 +4192,7 @@ table#custom_field_add .sortable {
   border-radius: 5px;
 }
 table#custom_field_add .sortable strong {
-  font-weight: bold !important;
+  font-weight: 700 !important;
 }
 table#custom_field_add .sortable.clause {
   background: #d4d4d4;

@@ -27,7 +27,7 @@
 @mixin icon( $glyph: "\e001" ) {
 	font-family: "Dashicons";
 	speak: none;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
@@ -45,7 +45,7 @@
 @mixin iconbeforedashicons( $glyph: "\f333" ) {
 	font-family: "Dashicons";
 	speak: none;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
@@ -57,7 +57,7 @@
 @mixin icon_dashicons( $glyph: "\f333" ) {
 	font-family: "Dashicons";
 	speak: none;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
@@ -76,7 +76,7 @@
 @mixin iconafter( $glyph: "\f333" ) {
 	font-family: "Dashicons";
 	speak: none;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;

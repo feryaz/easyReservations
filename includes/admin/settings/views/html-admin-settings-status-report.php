@@ -768,11 +768,11 @@ $active_theme_info = array(
 			if ( strstr( $plugin['url'], 'easyreservations.org' ) ) {
 				if ( ! empty( $plugin['version_latest'] ) && version_compare( $plugin['version_latest'], $plugin['version'], '>' ) ) {
 					/* translators: %s: plugin latest version */
-					$version_string = ' &ndash; <strong style="color:red;">' . sprintf( esc_html__( '%s is available', 'easyReservations' ), $plugin['version_latest'] ) . '</strong>';
+					$version_string = ' &ndash; <strong style="color:#f00;">' . sprintf( esc_html__( '%s is available', 'easyReservations' ), $plugin['version_latest'] ) . '</strong>';
 				}
 
 				if ( false !== $plugin['network_activated'] ) {
-					$network_string = ' &ndash; <strong style="color:black;">' . esc_html__( 'Network enabled', 'easyReservations' ) . '</strong>';
+					$network_string = ' &ndash; <strong style="color:#000;">' . esc_html__( 'Network enabled', 'easyReservations' ) . '</strong>';
 				}
 			}
 			?>
@@ -818,11 +818,11 @@ $active_theme_info = array(
 			if ( strstr( $plugin['url'], 'easyreservations.org' ) ) {
 				if ( ! empty( $plugin['version_latest'] ) && version_compare( $plugin['version_latest'], $plugin['version'], '>' ) ) {
 					/* translators: %s: plugin latest version */
-					$version_string = ' &ndash; <strong style="color:red;">' . sprintf( esc_html__( '%s is available', 'easyReservations' ), $plugin['version_latest'] ) . '</strong>';
+					$version_string = ' &ndash; <strong style="color:#f00;">' . sprintf( esc_html__( '%s is available', 'easyReservations' ), $plugin['version_latest'] ) . '</strong>';
 				}
 
 				if ( false !== $plugin['network_activated'] ) {
-					$network_string = ' &ndash; <strong style="color:black;">' . esc_html__( 'Network enabled', 'easyReservations' ) . '</strong>';
+					$network_string = ' &ndash; <strong style="color:#000;">' . esc_html__( 'Network enabled', 'easyReservations' ) . '</strong>';
 				}
 			}
 			?>

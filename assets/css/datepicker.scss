@@ -21,15 +21,6 @@
 	height: 100%;
 }
 
-.ui-widget {
-	font-size: 1.1em;
-
-	input, select, textarea, .ui-widget button {
-		font-family: inherit;
-		font-size: 14px;
-	}
-}
-
 .ui-widget-content {
 	padding: 0;
 	margin: 0;
@@ -43,7 +34,7 @@
 
 	.ui-widget-header {
 		padding: 2px 4px;
-		font-weight: normal;
+		font-weight: 400;
 		line-height: 16px;
 		background: $contenth1;
 		border: 0;
@@ -126,7 +117,7 @@
 }
 
 .ui-priority-secondary, .ui-widget-content .ui-priority-secondary, .ui-widget-header .ui-priority-secondary {
-	font-weight: normal;
+	font-weight: 400;
 	filter: Alpha(Opacity=70);
 	opacity: .7;
 }
@@ -188,7 +179,7 @@
 	}
 
 	.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
-		color: #000
+		color: #000;
 		text-decoration: none;
 		background: inherit;
 		box-shadow: none;
@@ -216,7 +207,7 @@
 
 	.ui-datepicker-title {
 		margin: 0 2.3em;
-		line-height: 1.8em;
+		line-height: 1.8;
 		text-align: center;
 	}
 
@@ -238,7 +229,7 @@
 		width: 100%;
 		padding: 0;
 		margin: 0 !important;
-		font-size: .9em;
+		font-size: 0.9em;
 		border-spacing: 0;
 		border-collapse: collapse;
 		border: 0;
@@ -270,7 +261,7 @@
 				a {
 					display: block;
 					padding: 6px;
-					font-weight: normal;
+					font-weight: 400;
 					text-align: center;
 					text-decoration: none !important;
 					box-shadow: none !important;
@@ -288,8 +279,8 @@
 	}
 
 	.ui-datepicker-buttonpane {
-		padding: 0 .2em;
-		margin: .7em 0 0 0;
+		padding: 0 0.2em;
+		margin: 0.7em 0 0 0;
 		background-image: none;
 		border-right: 0;
 		border-bottom: 0;
@@ -299,8 +290,8 @@
 	.ui-datepicker-buttonpane button {
 		float: right;
 		width: auto;
-		padding: .2em .6em .3em .6em;
-		margin: .5em .2em .4em;
+		padding: 0.2em 0.6em 0.3em 0.6em;
+		margin: 0.5em 0.2em 0.4em;
 		overflow: visible;
 		cursor: pointer;
 	}
@@ -351,7 +342,7 @@
 .ui-datepicker-row-break {
 	width: 100%;
 	clear: both;
-	font-size: 0em;
+	font-size: 0;
 }
 
 /* RTL support */
@@ -412,8 +403,7 @@
 	left: -4px; /*must have*/
 	z-index: -1; /*must have*/
 	display: none; /*sorry for IE5*/
-	display /**/
-	: block; /*sorry for IE5*/
+	display: block; /*sorry for IE5*/
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 	filter: mask(); /*must have*/
