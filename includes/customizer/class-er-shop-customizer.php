@@ -27,7 +27,7 @@ class ER_Shop_Customizer {
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function add_sections( $wp_customize ) {
-	    $wp_customize->add_panel( 'easyreservations', array(
+		$wp_customize->add_panel( 'easyreservations', array(
 			'priority'       => 200,
 			'capability'     => 'manage_easyreservations',
 			'theme_supports' => '',
@@ -45,28 +45,28 @@ class ER_Shop_Customizer {
 	 */
 	public function add_styles() {
 		?>
-		<style type="text/css">
-			.easyreservations-cropping-control {
-				margin: 0 40px 1em 0;
-				padding: 0;
-				display:inline-block;
-				vertical-align: top;
-			}
+        <style type="text/css">
+            .easyreservations-cropping-control {
+                margin: 0 40px 1em 0;
+                padding: 0;
+                display: inline-block;
+                vertical-align: top;
+            }
 
-			.easyreservations-cropping-control input[type=radio] {
-				margin-top: 1px;
-			}
+            .easyreservations-cropping-control input[type=radio] {
+                margin-top: 1px;
+            }
 
-			.easyreservations-cropping-control span.easyreservations-cropping-control-aspect-ratio {
-				margin-top: .5em;
-				display:block;
-			}
+            .easyreservations-cropping-control span.easyreservations-cropping-control-aspect-ratio {
+                margin-top: .5em;
+                display: block;
+            }
 
-			.easyreservations-cropping-control span.easyreservations-cropping-control-aspect-ratio input {
-				width: auto;
-				display: inline-block;
-			}
-		</style>
+            .easyreservations-cropping-control span.easyreservations-cropping-control-aspect-ratio input {
+                width: auto;
+                display: inline-block;
+            }
+        </style>
 		<?php
 	}
 
@@ -84,7 +84,7 @@ class ER_Shop_Customizer {
 		/* translators: %d: Setting value */
 		$max_notice = __( 'The maximum allowed setting is %d', 'easyReservations' );
 		?>
-		<script type="text/javascript">
+        <script type="text/javascript">
 			jQuery( document ).ready( function( $ ) {
 				$( document.body ).on( 'change', '.easyreservations-cropping-control input[type="radio"]', function() {
 					var $wrapper = $( this ).closest( '.easyreservations-cropping-control' ),
@@ -105,7 +105,7 @@ class ER_Shop_Customizer {
 
 				wp.customize.section( 'reservations_resource_catalog', function( section ) {
 					section.expanded.bind( function( isExpanded ) {
-                        if ( isExpanded ) {
+						if ( isExpanded ) {
 							wp.customize.previewer.previewUrl.set( '<?php echo esc_js( er_get_page_permalink( 'shop' ) ); ?>' );
 						}
 					} );
@@ -138,7 +138,7 @@ class ER_Shop_Customizer {
 							setting.notifications.add( 'max_columns_error', new wp.customize.Notification(
 								'max_columns_error',
 								{
-									type   : 'error',
+									type:    'error',
 									message: '<?php echo esc_js( sprintf( $max_notice, $max_columns ) ); ?>'
 								}
 							) );
@@ -150,7 +150,7 @@ class ER_Shop_Customizer {
 							setting.notifications.add( 'min_columns_error', new wp.customize.Notification(
 								'min_columns_error',
 								{
-									type   : 'error',
+									type:    'error',
 									message: '<?php echo esc_js( sprintf( $min_notice, $min_columns ) ); ?>'
 								}
 							) );
@@ -171,7 +171,7 @@ class ER_Shop_Customizer {
 							setting.notifications.add( 'max_rows_error', new wp.customize.Notification(
 								'max_rows_error',
 								{
-									type   : 'error',
+									type:    'error',
 									message: '<?php echo esc_js( sprintf( $min_notice, $max_rows ) ); ?>'
 								}
 							) );
@@ -183,7 +183,7 @@ class ER_Shop_Customizer {
 							setting.notifications.add( 'min_rows_error', new wp.customize.Notification(
 								'min_rows_error',
 								{
-									type   : 'error',
+									type:    'error',
 									message: '<?php echo esc_js( sprintf( $min_notice, $min_rows ) ); ?>'
 								}
 							) );
@@ -193,97 +193,96 @@ class ER_Shop_Customizer {
 					} );
 				} );
 			} );
-		</script>
+        </script>
 		<?php
 	}
 
-    public function sanitize_default_catalog_orderby( $value ) {
-        $options = apply_filters( 'easyreservations_default_catalog_orderby_options', array(
-            'menu_order' => __( 'Default sorting (custom ordering + name)', 'easyReservations' ),
-            'date'       => __( 'Sort by most recent', 'easyReservations' ),
-            'price'      => __( 'Sort by price (asc)', 'easyReservations' ),
-            'price-desc' => __( 'Sort by price (desc)', 'easyReservations' ),
-        ) );
+	public function sanitize_default_catalog_orderby( $value ) {
+		$options = apply_filters( 'easyreservations_default_catalog_orderby_options', array(
+			'menu_order' => __( 'Default sorting (custom ordering + name)', 'easyReservations' ),
+			'date'       => __( 'Sort by most recent', 'easyReservations' ),
+			'price'      => __( 'Sort by price (asc)', 'easyReservations' ),
+			'price-desc' => __( 'Sort by price (desc)', 'easyReservations' ),
+		) );
 
-        return array_key_exists( $value, $options ) ? $value : 'menu_order';
-    }
+		return array_key_exists( $value, $options ) ? $value : 'menu_order';
+	}
 
-    /**
+	/**
 	 * Resource page section.
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function add_resource_page_section( $wp_customize ) {
-        $wp_customize->add_section(
-            'reservations_resource_page',
-            array(
-                'title'    => __( 'Resource Page', 'easyreservations' ),
-                'priority' => 10,
-                'panel'    => 'easyreservations',
-            )
-        );
+		$wp_customize->add_section(
+			'reservations_resource_page',
+			array(
+				'title'    => __( 'Resource Page', 'easyreservations' ),
+				'priority' => 10,
+				'panel'    => 'easyreservations',
+			)
+		);
 
-        $wp_customize->add_setting(
-            'reservations_resource_page_redirect',
-            array(
-                'default'    => '',
-                'type'       => 'option',
-                'capability' => 'manage_easyreservations',
-            )
-        );
+		$wp_customize->add_setting(
+			'reservations_resource_page_redirect',
+			array(
+				'default'    => '',
+				'type'       => 'option',
+				'capability' => 'manage_easyreservations',
+			)
+		);
 
-        $pages        = get_pages( array(
-            'post_type'   => 'page',
-            'post_status' => 'publish,private,draft',
-            'child_of'    => 0,
-            'parent'      => -1,
-            'sort_order'  => 'asc',
-            'sort_column' => 'post_title',
-        ) );
-        $page_choices = array( '' => __( 'No page set', 'easyReservations' ) ) + array_combine( array_map( 'strval', wp_list_pluck( $pages, 'ID' ) ), wp_list_pluck( $pages, 'post_title' ) );
+		$pages        = get_pages( array(
+			'post_type'   => 'page',
+			'post_status' => 'publish,private,draft',
+			'child_of'    => 0,
+			'parent'      => - 1,
+			'sort_order'  => 'asc',
+			'sort_column' => 'post_title',
+		) );
+		$page_choices = array( '' => __( 'No page set', 'easyReservations' ) ) + array_combine( array_map( 'strval', wp_list_pluck( $pages, 'ID' ) ), wp_list_pluck( $pages, 'post_title' ) );
 
-        $wp_customize->add_control(
-            'reservations_resource_page_redirect',
-            array(
-                'label'       => __( 'Continue', 'easyReservations' ),
-                'description' => __( 'Select to which page the guest should continue on after adding the resource to cart.', 'easyReservations' ),
-                'section'     => 'reservations_resource_page',
-                'settings'    => 'reservations_resource_page_redirect',
-                'type'        => 'select',
-                'choices'     => apply_filters( 'easyreservations_resource_page_redirect_options', $page_choices ),
-            )
-        );
+		$wp_customize->add_control(
+			'reservations_resource_page_redirect',
+			array(
+				'label'       => __( 'Continue', 'easyReservations' ),
+				'description' => __( 'Select to which page the guest should continue on after adding the resource to cart.', 'easyReservations' ),
+				'section'     => 'reservations_resource_page',
+				'settings'    => 'reservations_resource_page_redirect',
+				'type'        => 'select',
+				'choices'     => apply_filters( 'easyreservations_resource_page_redirect_options', $page_choices ),
+			)
+		);
 
-        $wp_customize->add_setting(
-            'reservations_resource_page_display_price',
-            array(
-                'default'              => 'yes',
-                'type'                 => 'option',
-                'capability'           => 'manage_easyreservations',
-                'sanitize_callback'    => 'er_bool_to_string',
-                'sanitize_js_callback' => 'er_string_to_bool',
-            )
-        );
+		$wp_customize->add_setting(
+			'reservations_resource_page_display_price',
+			array(
+				'default'              => 'yes',
+				'type'                 => 'option',
+				'capability'           => 'manage_easyreservations',
+				'sanitize_callback'    => 'er_bool_to_string',
+				'sanitize_js_callback' => 'er_string_to_bool',
+			)
+		);
 
-        $wp_customize->add_control(
-            'reservations_resource_page_display_price',
-            array(
-                'label'    => __( 'Display base price', 'easyReservations' ),
-                'section'  => 'reservations_resource_page',
-                'settings' => 'reservations_resource_page_display_price',
-                'type'     => 'checkbox',
-            )
-        );
+		$wp_customize->add_control(
+			'reservations_resource_page_display_price',
+			array(
+				'label'    => __( 'Display base price', 'easyReservations' ),
+				'section'  => 'reservations_resource_page',
+				'settings' => 'reservations_resource_page_display_price',
+				'type'     => 'checkbox',
+			)
+		);
+	}
 
-    }
-
-    /**
+	/**
 	 * Resource catalog section.
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
 	 */
 	public function add_resource_catalog_section( $wp_customize ) {
-        $wp_customize->add_section(
+		$wp_customize->add_section(
 			'reservations_resource_catalog',
 			array(
 				'title'    => __( 'Resource Catalog', 'easyreservations' ),
@@ -405,32 +404,32 @@ class ER_Shop_Customizer {
 			)
 		);
 
-        $wp_customize->add_setting(
-            'reservations_placeholder_image',
-            array(
-                'default'           => '',
-                'type'              => 'option',
-                'capability'        => 'manage_easyreservations',
-                'sanitize_callback' => array( $this, 'image_url_to_id' ),
-            )
-        );
+		$wp_customize->add_setting(
+			'reservations_placeholder_image',
+			array(
+				'default'           => '',
+				'type'              => 'option',
+				'capability'        => 'manage_easyreservations',
+				'sanitize_callback' => array( $this, 'image_url_to_id' ),
+			)
+		);
 
-        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'reservations_placeholder_image_control', array(
-            'label'    => __( 'Placeholder Image', 'easyReservations' ),
-            'section'  => 'reservations_resource_images',
-            'settings' => 'reservations_placeholder_image',
-        ) ) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'reservations_placeholder_image_control', array(
+			'label'    => __( 'Placeholder Image', 'easyReservations' ),
+			'section'  => 'reservations_resource_images',
+			'settings' => 'reservations_placeholder_image',
+		) ) );
 
-        if ( ! er_get_theme_support( 'single_image_width' ) ) {
+		if ( ! er_get_theme_support( 'single_image_width' ) ) {
 			$wp_customize->add_setting(
 				'reservations_single_image_width',
 				array(
-                    'default'           => 600,
-                    'type'              => 'option',
-                    'capability'        => 'manage_easyreservations',
-                    'sanitize_callback'    => 'absint',
-                    'sanitize_js_callback' => 'absint',
-                )
+					'default'              => 600,
+					'type'                 => 'option',
+					'capability'           => 'manage_easyreservations',
+					'sanitize_callback'    => 'absint',
+					'sanitize_js_callback' => 'absint',
+				)
 			);
 
 			$wp_customize->add_control(
@@ -641,14 +640,14 @@ class ER_Shop_Customizer {
 
 		$choose_pages = array(
 			'wp_page_for_privacy_policy' => __( 'Privacy policy', 'easyReservations' ),
-			'reservations_terms_page_id'  => __( 'Terms and conditions', 'easyReservations' ),
+			'reservations_terms_page_id' => __( 'Terms and conditions', 'easyReservations' ),
 		);
 
 		$pages        = get_pages( array(
 			'post_type'   => 'page',
 			'post_status' => 'publish,private,draft',
 			'child_of'    => 0,
-			'parent'      => -1,
+			'parent'      => - 1,
 			'exclude'     => array(
 				er_get_page_id( 'cart' ),
 				er_get_page_id( 'checkout' ),
@@ -727,25 +726,27 @@ class ER_Shop_Customizer {
 	 * Sanitize placeholder image setting.
 	 *
 	 * @param string $value URL of image.
+	 *
 	 * @return string
 	 */
-    public function image_url_to_id( $value ) {
-        $id = attachment_url_to_postid( $value );
+	public function image_url_to_id( $value ) {
+		$id = attachment_url_to_postid( $value );
 
-        return $id ? $id : '';
-    }
+		return $id ? $id : '';
+	}
 
-    /**
-     * Sanitize field display.
-     *
-     * @param string $value '', 'subcategories', or 'both'.
-     * @return string
-     */
-    public function sanitize_checkout_field_display( $value ) {
-        $options = array( 'hidden', 'optional', 'required' );
+	/**
+	 * Sanitize field display.
+	 *
+	 * @param string $value '', 'subcategories', or 'both'.
+	 *
+	 * @return string
+	 */
+	public function sanitize_checkout_field_display( $value ) {
+		$options = array( 'hidden', 'optional', 'required' );
 
-        return in_array( $value, $options, true ) ? $value : '';
-    }
+		return in_array( $value, $options, true ) ? $value : '';
+	}
 }
 
 new ER_Shop_Customizer();

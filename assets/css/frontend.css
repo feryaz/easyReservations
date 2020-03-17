@@ -80,37 +80,37 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  line-height: 13px;
   font-size: 16px;
+  line-height: 13px;
+  color: #000;
   text-align: center;
+  border: 1px solid #000;
   border-radius: 100%;
   box-shadow: none !important;
-  border: 1px solid #000;
-  color: #000;
 }
 .easyreservations a.remove:hover {
-  background: #000;
   color: #fff !important;
+  background: #000;
 }
 .easyreservations table.shop_table {
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
   margin: 0 -1px 24px 0;
   text-align: left;
-  width: 100%;
   border-collapse: separate;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
 .easyreservations table.shop_table th {
-  font-weight: 700;
   padding: 9px 12px;
+  font-weight: 700;
   line-height: 1.5em;
   border-right: 0;
 }
 .easyreservations table.shop_table td {
-  border-right: 0;
   padding: 9px 12px;
-  vertical-align: middle;
   line-height: 1.5em;
+  vertical-align: middle;
+  border-right: 0;
 }
 .easyreservations table.shop_table td small {
   font-weight: normal;
@@ -144,88 +144,88 @@
 .easyreservations button.button,
 .easyreservations input.button,
 .easyreservations #respond input#submit {
-  font-size: 100%;
-  margin: 0;
-  line-height: 1;
-  cursor: pointer;
   position: relative;
-  text-decoration: none;
-  overflow: visible;
-  padding: 0.618em 1em;
-  font-weight: 700;
-  border-radius: 3px;
   left: auto;
-  color: #515151;
-  background-color: #ebe9eb;
-  border: 0;
   display: inline-block;
-  background-image: none;
-  box-shadow: none;
+  padding: 0.618em 1em;
+  margin: 0;
+  overflow: visible;
+  font-size: 100%;
+  font-weight: 700;
+  line-height: 1;
+  color: #515151;
+  text-decoration: none;
   text-shadow: none;
+  cursor: pointer;
+  background-color: #ebe9eb;
+  background-image: none;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
 }
 .easyreservations a.button.loading,
 .easyreservations button.button.loading,
 .easyreservations input.button.loading,
 .easyreservations #respond input#submit.loading {
-  opacity: 0.25;
   padding-right: 2.618em;
+  opacity: 0.25;
 }
 .easyreservations a.button.loading::after,
 .easyreservations button.button.loading::after,
 .easyreservations input.button.loading::after,
 .easyreservations #respond input#submit.loading::after {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  line-height: 1;
-  font-family: "dashicons";
-  text-decoration: inherit;
-  font-weight: normal;
-  font-style: normal;
-  vertical-align: top;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "";
   position: absolute;
   top: 0.37em;
   right: 0.65em;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-family: "dashicons";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  text-align: center;
+  text-decoration: inherit;
+  vertical-align: top;
+  content: "";
   animation: spin 2s linear infinite;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .easyreservations a.button.added::after,
 .easyreservations button.button.added::after,
 .easyreservations input.button.added::after,
 .easyreservations #respond input#submit.added::after {
+  margin-left: 0.53em;
   font-family: "Dashicons";
   font-size: 18px;
-  content: "";
-  margin-left: 0.53em;
   vertical-align: bottom;
+  content: "";
 }
 .easyreservations a.button:hover,
 .easyreservations button.button:hover,
 .easyreservations input.button:hover,
 .easyreservations #respond input#submit:hover {
-  background-color: #dfdcde;
-  text-decoration: none;
-  background-image: none;
   color: #515151;
+  text-decoration: none;
+  background-color: #dfdcde;
+  background-image: none;
 }
 .easyreservations a.button.alt,
 .easyreservations button.button.alt,
 .easyreservations input.button.alt,
 .easyreservations #respond input#submit.alt {
-  background-color: #40a0ff;
   color: white;
+  background-color: #40a0ff;
   -webkit-font-smoothing: antialiased;
 }
 .easyreservations a.button.alt:hover,
 .easyreservations button.button.alt:hover,
 .easyreservations input.button.alt:hover,
 .easyreservations #respond input#submit.alt:hover {
-  background-color: #2793ff;
   color: white;
+  background-color: #2793ff;
 }
 .easyreservations a.button.alt.disabled, .easyreservations a.button.alt:disabled, .easyreservations a.button.alt:disabled[disabled], .easyreservations a.button.alt.disabled:hover, .easyreservations a.button.alt:disabled:hover, .easyreservations a.button.alt:disabled[disabled]:hover,
 .easyreservations button.button.alt.disabled,
@@ -246,8 +246,8 @@
 .easyreservations #respond input#submit.alt.disabled:hover,
 .easyreservations #respond input#submit.alt:disabled:hover,
 .easyreservations #respond input#submit.alt:disabled[disabled]:hover {
-  background-color: #40a0ff;
   color: white;
+  background-color: #40a0ff;
 }
 .easyreservations a.button:disabled, .easyreservations a.button.disabled, .easyreservations a.button:disabled[disabled],
 .easyreservations button.button:disabled,
@@ -259,10 +259,10 @@
 .easyreservations #respond input#submit:disabled,
 .easyreservations #respond input#submit.disabled,
 .easyreservations #respond input#submit:disabled[disabled] {
+  padding: 0.618em 1em;
   color: inherit;
   cursor: not-allowed;
   opacity: 0.5;
-  padding: 0.618em 1em;
 }
 .easyreservations a.button:disabled:hover, .easyreservations a.button.disabled:hover, .easyreservations a.button:disabled[disabled]:hover,
 .easyreservations button.button:disabled:hover,
@@ -282,17 +282,17 @@
   float: none;
 }
 .easyreservations a.added_to_cart {
-  padding-top: 0.5em;
   display: inline-block;
+  padding-top: 0.5em;
 }
 .easyreservations form .easy-form .easy-price {
-  margin-top: 15px;
   display: none;
   padding: 3px;
+  margin-top: 15px;
 }
 .easyreservations form .easy-form .easy-price .easy-price-display {
-  font-weight: bold;
   font-size: 18px;
+  font-weight: bold;
 }
 .easyreservations form .easy-form button[type=submit] {
   margin: 20px 3px;
@@ -310,12 +310,12 @@
   clear: both;
 }
 .easyreservations form .form-row [placeholder]:focus::-webkit-input-placeholder {
-  transition: opacity 0.5s 0.5s ease;
   opacity: 0;
+  transition: opacity 0.5s 0.5s ease;
 }
 .easyreservations form .form-row label {
-  line-height: 2;
   display: block;
+  line-height: 2;
 }
 .easyreservations form .form-row label.inline, .easyreservations form .form-row label.checkbox {
   display: inline;
@@ -324,14 +324,14 @@
   visibility: hidden;
 }
 .easyreservations form .form-row .easyreservations-input-wrapper .description {
-  background: #1e85be;
-  color: #fff;
-  border-radius: 3px;
+  position: relative;
+  display: none;
   padding: 1em;
   margin: 0.5em 0 0;
   clear: both;
-  display: none;
-  position: relative;
+  color: #fff;
+  background: #1e85be;
+  border-radius: 3px;
 }
 .easyreservations form .form-row .easyreservations-input-wrapper .description a {
   color: #fff;
@@ -340,27 +340,27 @@
   box-shadow: none;
 }
 .easyreservations form .form-row .easyreservations-input-wrapper .description::before {
-  left: 50%;
-  top: 0%;
-  margin-top: -4px;
-  transform: translateX(-50%) rotate(180deg);
-  content: "";
   position: absolute;
-  border-width: 4px 6px 0 6px;
-  border-style: solid;
-  border-color: #1e85be transparent transparent transparent;
+  top: 0%;
+  left: 50%;
   z-index: 100;
   display: block;
+  margin-top: -4px;
+  content: "";
+  border-color: #1e85be transparent transparent transparent;
+  border-style: solid;
+  border-width: 4px 6px 0 6px;
+  transform: translateX(-50%) rotate(180deg);
 }
 .easyreservations form .form-row div.content .description {
-  background: #1e85be;
-  color: #fff;
-  border-radius: 3px;
+  position: relative;
+  display: none;
   padding: 1em;
   margin: 0.5em 0 0;
   clear: both;
-  display: none;
-  position: relative;
+  color: #fff;
+  background: #1e85be;
+  border-radius: 3px;
 }
 .easyreservations form .form-row div.content .description a {
   color: #fff;
@@ -369,29 +369,29 @@
   box-shadow: none;
 }
 .easyreservations form .form-row div.content .description::before {
-  left: 50%;
-  top: 0%;
-  margin-top: -4px;
-  transform: translateX(-50%) rotate(180deg);
-  content: "";
   position: absolute;
-  border-width: 4px 6px 0 6px;
-  border-style: solid;
-  border-color: #1e85be transparent transparent transparent;
+  top: 0%;
+  left: 50%;
   z-index: 100;
   display: block;
+  margin-top: -4px;
+  content: "";
+  border-color: #1e85be transparent transparent transparent;
+  border-style: solid;
+  border-width: 4px 6px 0 6px;
+  transform: translateX(-50%) rotate(180deg);
 }
 .easyreservations form .form-row select {
   width: 100%;
-  cursor: pointer;
   margin: 0;
+  cursor: pointer;
 }
 .easyreservations form .form-row .required {
-  color: red;
   font-weight: 700;
-  border: 0 !important;
+  color: red;
   text-decoration: none;
   visibility: hidden;
+  border: 0 !important;
 }
 .easyreservations form .form-row .optional {
   visibility: visible;
@@ -408,15 +408,15 @@
 .easyreservations form .form-row input.input-text,
 .easyreservations form .form-row select,
 .easyreservations form .form-row textarea {
-  box-sizing: border-box;
   width: 100%;
+  box-sizing: border-box;
   margin: 0;
   outline: 0;
 }
 .easyreservations form .form-row textarea {
+  display: block;
   height: 4em;
   line-height: 1.5;
-  display: block;
   box-shadow: none;
 }
 .easyreservations form .form-row .select2-container {
@@ -463,10 +463,10 @@
   clear: both;
 }
 .easyreservations form .password-input {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
   /* Hide the Edge "reveal password" native button */
 }
 .easyreservations form .password-input input[type=password] {
@@ -477,8 +477,8 @@
 }
 .easyreservations form .show-password-input {
   position: absolute;
-  right: 0.7em;
   top: 0.7em;
+  right: 0.7em;
   cursor: pointer;
 }
 .easyreservations form .show-password-input::after {
@@ -510,21 +510,21 @@
 }
 .easyreservations ul.order_details li {
   float: left;
+  padding-right: 2em;
+  padding-left: 0;
   margin-right: 2em;
-  text-transform: uppercase;
+  margin-left: 0;
   font-size: 0.715em;
   line-height: 1;
-  border-right: 1px dashed #d3ced2;
-  padding-right: 2em;
-  margin-left: 0;
-  padding-left: 0;
+  text-transform: uppercase;
   list-style-type: none;
+  border-right: 1px dashed #d3ced2;
 }
 .easyreservations ul.order_details li strong {
   display: block;
   font-size: 1.4em;
-  text-transform: none;
   line-height: 1.5;
+  text-transform: none;
 }
 .easyreservations ul.order_details li:last-of-type {
   border: none;
@@ -533,29 +533,29 @@
   font-weight: bold;
 }
 .easyreservations div.resource {
-  margin-bottom: 0;
   position: relative;
+  margin-bottom: 0;
 }
 .easyreservations div.resource .resource_title {
-  clear: none;
-  margin-top: 0;
   padding: 0;
+  margin-top: 0;
+  clear: none;
 }
 .easyreservations div.resource span.price,
 .easyreservations div.resource p.price {
-  color: #77a464;
   font-size: 1.25em;
+  color: #77a464;
 }
 .easyreservations div.resource span.price ins,
 .easyreservations div.resource p.price ins {
-  background: inherit;
-  font-weight: 700;
   display: inline-block;
+  font-weight: 700;
+  background: inherit;
 }
 .easyreservations div.resource span.price del,
 .easyreservations div.resource p.price del {
-  opacity: 0.5;
   display: inline-block;
+  opacity: 0.5;
 }
 .easyreservations div.resource p.stock {
   font-size: 0.92em;
@@ -567,9 +567,9 @@
   color: red;
 }
 .easyreservations div.resource div.images {
-  margin-bottom: 2em;
   float: left;
   width: 48%;
+  margin-bottom: 2em;
 }
 .easyreservations div.resource div.images img {
   display: block;
@@ -601,9 +601,9 @@
   clear: both;
 }
 .easyreservations div.resource div.images div.thumbnails.columns-1 a {
+  float: none;
   width: 100%;
   margin-right: 0;
-  float: none;
 }
 .easyreservations div.resource div.images div.thumbnails.columns-2 a {
   width: 48%;
@@ -618,9 +618,9 @@
   position: relative;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__wrapper {
-  transition: all cubic-bezier(0.795, -0.035, 0, 1) 0.5s;
-  margin: 0;
   padding: 0;
+  margin: 0;
+  transition: all cubic-bezier(0.795, -0.035, 0, 1) 0.5s;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__wrapper .zoomImg {
   background-color: #fff;
@@ -630,63 +630,63 @@
   border: 1px solid #f2f2f2;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__image:nth-child(n+2) {
-  width: 25%;
   display: inline-block;
+  width: 25%;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__trigger {
   position: absolute;
   top: 0.5em;
   right: 0.5em;
-  font-size: 2em;
   z-index: 9;
   width: 36px;
   height: 36px;
-  background: #fff;
-  text-indent: -9999px;
-  border-radius: 100%;
   box-sizing: content-box;
+  font-size: 2em;
+  text-indent: -9999px;
+  background: #fff;
+  border-radius: 100%;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__trigger::before {
-  content: "";
-  display: block;
-  width: 10px;
-  height: 10px;
-  border: 2px solid #000;
-  border-radius: 100%;
   position: absolute;
   top: 9px;
   left: 9px;
+  display: block;
+  width: 10px;
+  height: 10px;
   box-sizing: content-box;
+  content: "";
+  border: 2px solid #000;
+  border-radius: 100%;
 }
 .easyreservations div.resource div.images .easyreservations-resource-gallery__trigger::after {
-  content: "";
-  display: block;
-  width: 2px;
-  height: 8px;
-  background: #000;
-  border-radius: 6px;
   position: absolute;
   top: 19px;
   left: 22px;
-  transform: rotate(-45deg);
+  display: block;
+  width: 2px;
+  height: 8px;
   box-sizing: content-box;
+  content: "";
+  background: #000;
+  border-radius: 6px;
+  transform: rotate(-45deg);
 }
 .easyreservations div.resource div.images .flex-control-thumbs {
+  padding: 0;
+  margin: 0;
   overflow: hidden;
   zoom: 1;
-  margin: 0;
-  padding: 0;
 }
 .easyreservations div.resource div.images .flex-control-thumbs li {
-  width: 25%;
   float: left;
+  width: 25%;
   margin: 0;
   list-style: none;
 }
 .easyreservations div.resource div.images .flex-control-thumbs li img {
+  margin: 0;
   cursor: pointer;
   opacity: 0.5;
-  margin: 0;
 }
 .easyreservations div.resource div.images .flex-control-thumbs li img.flex-active, .easyreservations div.resource div.images .flex-control-thumbs li img:hover {
   opacity: 1;
@@ -701,14 +701,14 @@
   clear: left;
 }
 .easyreservations div.resource div.summary {
-  margin-bottom: 2em;
   float: right;
   width: 48%;
+  margin-bottom: 2em;
   clear: none;
 }
 .easyreservations div.resource div.social {
-  text-align: right;
   margin: 0 0 1em;
+  text-align: right;
 }
 .easyreservations div.resource div.social span {
   margin: 0 0 0 2px;
@@ -717,18 +717,18 @@
   margin: 0;
 }
 .easyreservations div.resource div.social span .stButton .chicklets {
-  padding-left: 16px;
   width: 0;
+  padding-left: 16px;
 }
 .easyreservations div.resource div.social iframe {
   float: left;
   margin-top: 3px;
 }
 .easyreservations ul.resources {
-  margin: 0 0 1em;
   padding: 0;
-  list-style: none outside;
+  margin: 0 0 1em;
   clear: both;
+  list-style: none outside;
   *zoom: 1;
 }
 .easyreservations ul.resources::before, .easyreservations ul.resources::after {
@@ -739,11 +739,11 @@
   clear: both;
 }
 .easyreservations ul.resources li.resource {
-  float: left;
-  margin: 0 3.8% 2.992em 0;
-  padding: 0;
   position: relative;
+  float: left;
   width: 22.05%;
+  padding: 0;
+  margin: 0 3.8% 2.992em 0;
 }
 .easyreservations ul.resources li.resource .onsale {
   top: 0;
@@ -761,9 +761,9 @@
   text-decoration: none;
 }
 .easyreservations ul.resources li.resource a img {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
   margin: 0 0 1em;
   box-shadow: none;
 }
@@ -777,27 +777,27 @@
   margin-top: 1em;
 }
 .easyreservations ul.resources li.resource .price {
-  color: #77a464;
   display: block;
-  font-weight: normal;
   margin-bottom: 0.5em;
   font-size: 0.857em;
+  font-weight: normal;
+  color: #77a464;
 }
 .easyreservations ul.resources li.resource .price del {
+  display: inline-block;
   color: inherit;
   opacity: 0.5;
-  display: inline-block;
 }
 .easyreservations ul.resources li.resource .price ins {
-  background: none;
-  font-weight: 700;
   display: inline-block;
+  font-weight: 700;
+  background: none;
 }
 .easyreservations ul.resources li.resource .price .from {
-  font-size: 0.67em;
   margin: -2px 0 0 0;
-  text-transform: uppercase;
+  font-size: 0.67em;
   color: rgba(132, 132, 132, 0.5);
+  text-transform: uppercase;
 }
 .easyreservations ul.resources li.first {
   clear: both;
@@ -840,8 +840,8 @@
 .easyreservations-cart table.cart img,
 .easyreservations-checkout table.cart img,
 #add_payment_method table.cart img {
-  height: auto;
   width: 50px;
+  height: auto;
   box-shadow: none;
 }
 .easyreservations-cart table.cart th,
@@ -889,9 +889,9 @@
 #add_payment_method table.cart td.actions .coupon .input-text {
   float: left;
   box-sizing: border-box;
-  border: 1px solid #d3ced2;
   padding: 6px 6px 5px;
   margin: 0 4px 0 0;
+  border: 1px solid #d3ced2;
   outline: 0;
 }
 .easyreservations-cart table.cart td.actions .coupon label,
@@ -928,29 +928,29 @@
 .easyreservations-checkout .er-proceed-to-checkout a.checkout-button,
 #add_payment_method .er-proceed-to-checkout a.checkout-button {
   display: block;
-  text-align: center;
+  padding: 1em;
   margin-bottom: 1em;
   font-size: 1.25em;
-  padding: 1em;
+  text-align: center;
 }
 .easyreservations-cart .er-selection-box,
 .easyreservations-checkout .er-selection-box,
 #add_payment_method .er-selection-box {
-  list-style: none outside;
+  position: relative;
+  box-sizing: border-box;
   padding: 0 1em;
   margin: 0 0 1em 0;
-  border: 1px solid #ebebeb;
-  box-shadow: none;
-  border-radius: 4px;
-  box-sizing: border-box;
   font-size: 1em;
-  position: relative;
+  list-style: none outside;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  box-shadow: none;
 }
 .easyreservations-cart .er-selection-box li,
 .easyreservations-checkout .er-selection-box li,
 #add_payment_method .er-selection-box li {
-  border-bottom: 1px solid #ebebeb;
   padding: 1em 0;
+  border-bottom: 1px solid #ebebeb;
 }
 .easyreservations-cart .er-selection-box li strong,
 .easyreservations-checkout .er-selection-box li strong,
@@ -970,19 +970,19 @@
 .easyreservations-cart .er-selection-box li input,
 .easyreservations-checkout .er-selection-box li input,
 #add_payment_method .er-selection-box li input {
-  margin: -2px 1em 0 0;
   display: inline-block;
+  margin: -2px 1em 0 0;
   vertical-align: middle;
 }
 .easyreservations-cart .er-selection-box li label,
 .easyreservations-checkout .er-selection-box li label,
 #add_payment_method .er-selection-box li label {
+  display: inline-block;
+  max-width: 80%;
   padding: 0 0 0 10px;
   margin: 0;
-  display: inline-block;
   vertical-align: middle;
   cursor: pointer;
-  max-width: 80%;
 }
 .easyreservations-cart .checkout .col-2 .notes,
 .easyreservations-checkout .checkout .col-2 .notes,
@@ -998,8 +998,8 @@
 .easyreservations-checkout .checkout .create-account small,
 #add_payment_method .checkout .create-account small {
   font-size: 11px;
-  color: #777;
   font-weight: normal;
+  color: #777;
 }
 .easyreservations-cart #order_submit,
 .easyreservations-checkout #order_submit,
@@ -1021,9 +1021,9 @@
 .easyreservations-checkout #payment ul.payment_methods,
 #add_payment_method #payment ul.payment_methods {
   *zoom: 1;
-  text-align: left;
   padding: 1em;
   margin: 0;
+  text-align: left;
   list-style: none outside;
   border-bottom: 1px solid #ebebeb;
 }
@@ -1043,10 +1043,10 @@
 .easyreservations-cart #payment ul.payment_methods li,
 .easyreservations-checkout #payment ul.payment_methods li,
 #add_payment_method #payment ul.payment_methods li {
-  line-height: 2;
-  text-align: left;
   margin: 0;
   font-weight: normal;
+  line-height: 2;
+  text-align: left;
 }
 .easyreservations-cart #payment ul.payment_methods li label,
 .easyreservations-checkout #payment ul.payment_methods li label,
@@ -1061,10 +1061,10 @@
 .easyreservations-cart #payment ul.payment_methods li img,
 .easyreservations-checkout #payment ul.payment_methods li img,
 #add_payment_method #payment ul.payment_methods li img {
-  vertical-align: middle;
-  margin: -2px 0 0 0.5em;
-  padding: 0;
   position: relative;
+  padding: 0;
+  margin: -2px 0 0 0.5em;
+  vertical-align: middle;
   box-shadow: none;
 }
 .easyreservations-cart #payment ul.payment_methods li img + img,
@@ -1094,15 +1094,15 @@
 .easyreservations-checkout #payment div.payment_box,
 #add_payment_method #payment div.payment_box {
   position: relative;
-  box-sizing: border-box;
   width: 100%;
+  box-sizing: border-box;
   padding: 1em;
   margin: 1em 0;
   font-size: 0.92em;
-  border-radius: 2px;
   line-height: 1.5;
-  background-color: #dfdcde;
   color: #515151;
+  background-color: #dfdcde;
+  border-radius: 2px;
 }
 .easyreservations-cart #payment div.payment_box input.input-text,
 .easyreservations-cart #payment div.payment_box textarea,
@@ -1136,8 +1136,8 @@
 .easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods,
 .easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods,
 #add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods {
-  list-style: none outside;
   margin: 0;
+  list-style: none outside;
 }
 .easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
 .easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new,
@@ -1158,16 +1158,16 @@
 .easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
 .easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
 #add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput {
-  vertical-align: middle;
-  margin: -3px 1em 0 0;
   position: relative;
+  margin: -3px 1em 0 0;
+  vertical-align: middle;
 }
 .easyreservations-cart #payment div.payment_box .er-credit-card-form,
 .easyreservations-checkout #payment div.payment_box .er-credit-card-form,
 #add_payment_method #payment div.payment_box .er-credit-card-form {
-  border: 0;
   padding: 0;
   margin: 1em 0 0;
+  border: 0;
 }
 .easyreservations-cart #payment div.payment_box .er-credit-card-form .InputElement,
 .easyreservations-checkout #payment div.payment_box .er-credit-card-form .InputElement,
@@ -1183,8 +1183,8 @@
 #add_payment_method #payment div.payment_box .er-credit-card-form-card-number,
 #add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry,
 #add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc {
-  font-size: 1.5em;
   padding: 8px;
+  font-size: 1.5em;
   background-repeat: no-repeat;
   background-position: right 0.618em center;
   background-size: 32px 20px;
@@ -1281,8 +1281,8 @@
 .easyreservations-checkout #payment div.payment_box span.help,
 #add_payment_method #payment div.payment_box span.help {
   font-size: 0.857em;
-  color: #777;
   font-weight: normal;
+  color: #777;
 }
 .easyreservations-cart #payment div.payment_box .form-row,
 .easyreservations-checkout #payment div.payment_box .form-row,
@@ -1297,24 +1297,24 @@
 .easyreservations-cart #payment div.payment_box::before,
 .easyreservations-checkout #payment div.payment_box::before,
 #add_payment_method #payment div.payment_box::before {
-  content: "";
-  display: block;
-  border: 1em solid #dfdcde;
-  /* arrow size / color */
-  border-right-color: transparent;
-  border-left-color: transparent;
-  border-top-color: transparent;
   position: absolute;
   top: -0.75em;
   left: 0;
+  display: block;
   margin: -1em 0 0 2em;
+  content: "";
+  border: 1em solid #dfdcde;
+  /* arrow size / color */
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-left-color: transparent;
 }
 .easyreservations-cart #payment .payment_method_paypal .about_paypal,
 .easyreservations-checkout #payment .payment_method_paypal .about_paypal,
 #add_payment_method #payment .payment_method_paypal .about_paypal {
   float: right;
-  line-height: 52px;
   font-size: 0.83em;
+  line-height: 52px;
 }
 .easyreservations-cart #payment .payment_method_paypal img,
 .easyreservations-checkout #payment .payment_method_paypal img,
@@ -1330,14 +1330,14 @@
 .easyreservations-cart .easyreservations-terms-and-conditions,
 .easyreservations-checkout .easyreservations-terms-and-conditions,
 #add_payment_method .easyreservations-terms-and-conditions {
-  margin-bottom: 1.618em;
   padding: 1.618em;
+  margin-bottom: 1.618em;
 }
 
 .easyreservations-terms-and-conditions {
+  background: rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(0, 0, 0, 0.05);
 }
 
 .easyreservations-invalid #terms {
@@ -1351,16 +1351,16 @@
 .easyreservations-message,
 .easyreservations-error,
 .easyreservations-info {
+  position: relative;
+  width: auto;
   padding: 1em 2em 1em 3.5em;
   margin: 0 0 2em;
-  position: relative;
-  background-color: #f7f6f7;
   color: #515151;
-  border-top: 3px solid #40a0ff;
+  word-wrap: break-word;
   list-style: none outside;
   *zoom: 1;
-  width: auto;
-  word-wrap: break-word;
+  background-color: #f7f6f7;
+  border-top: 3px solid #40a0ff;
 }
 .easyreservations-message::before, .easyreservations-message::after,
 .easyreservations-error::before,
@@ -1378,13 +1378,13 @@
 .easyreservations-message::before,
 .easyreservations-error::before,
 .easyreservations-info::before {
-  font-family: "Dashicons";
-  font-size: 20px;
-  content: "";
-  display: inline-block;
   position: absolute;
   top: 13px;
   left: 1.2em;
+  display: inline-block;
+  font-family: "Dashicons";
+  font-size: 20px;
+  content: "";
 }
 .easyreservations-message .button,
 .easyreservations-error .button,
@@ -1394,18 +1394,18 @@
 .easyreservations-message li,
 .easyreservations-error li,
 .easyreservations-info li {
-  list-style: none outside !important;
   padding-left: 0 !important;
-  margin-left: 0 !important;
   margin-bottom: 8px;
+  margin-left: 0 !important;
+  list-style: none outside !important;
 }
 
 .easyreservations-message {
   border-top-color: #8fae1b;
 }
 .easyreservations-message::before {
-  content: "";
   color: #8fae1b;
+  content: "";
 }
 
 .easyreservations-info {
@@ -1419,25 +1419,25 @@
   border-top-color: #b81c23;
 }
 .easyreservations-error::before {
-  content: "";
   color: #b81c23;
+  content: "";
 }
 
 /* DATE SELECTION */
 .easy-date-selection {
-  user-select: none;
   margin-bottom: 10px;
+  user-select: none;
 }
 .easy-date-selection .header {
-  line-height: 26px;
   width: 99%;
   padding: 0 0 10px 0;
+  line-height: 26px;
   background: #fff;
 }
 .easy-date-selection .header div {
   box-sizing: border-box;
-  text-align: center;
   color: #9a9a9a;
+  text-align: center;
 }
 .easy-date-selection .header div .text {
   display: block;
@@ -1450,8 +1450,8 @@
   cursor: pointer;
 }
 .easy-date-selection .header div.departure {
-  width: 50%;
   float: right;
+  width: 50%;
   border-left: 1px solid #b9b7b7;
 }
 .easy-date-selection .header div.departure.active {
@@ -1560,18 +1560,18 @@
   background: #fbfbfb;
 }
 .easy-date-selection .calendar tr.time-picker > td > div {
-  margin: 7px;
+  display: none;
   padding: 5px 20px 10px;
-  color: #40a0ff;
-  background: #fff;
+  margin: 7px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 2;
+  color: #40a0ff;
   text-align: center;
+  background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.1875rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  font-size: 15px;
-  line-height: 2;
-  display: none;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .easy-button {
   margin: 5px 0;
@@ -1579,12 +1579,12 @@
   font-weight: 600;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option {
-  color: #fff;
-  cursor: pointer;
   display: inline-block;
   min-width: 20%;
   margin: 2px;
   font-size: 13px;
+  color: #fff;
+  cursor: pointer;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option.available {
   background: #53b796;
@@ -1593,25 +1593,25 @@
   background: #40a0ff;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option.unavailable {
-  background: #b75252;
   cursor: default;
+  background: #b75252;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .apply-time {
-  line-height: 12px;
-  cursor: pointer;
   font-size: 14px;
   font-weight: 600;
+  line-height: 12px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 /**
  * Password strength meter
  */
 .easyreservations-password-strength {
-  text-align: center;
-  font-weight: 600;
   padding: 3px 0.5em;
   font-size: 1em;
+  font-weight: 600;
+  text-align: center;
 }
 .easyreservations-password-strength.strong {
   background-color: #c1e1b9;
@@ -1634,8 +1634,8 @@
  * Twenty Fourteen specific styles
  */
 .twentyfourteen .tfer {
-  padding: 12px 10px 0;
   max-width: 474px;
+  padding: 12px 10px 0;
   margin: 0 auto;
 }
 .twentyfourteen .tfer .resource .entry-summary {
@@ -1677,9 +1677,9 @@
  * Twenty Fifteen specific styles
  */
 .twentyfifteen .t15er {
-  padding-left: 7.6923%;
-  padding-right: 7.6923%;
   padding-top: 7.6923%;
+  padding-right: 7.6923%;
+  padding-left: 7.6923%;
   margin-bottom: 7.6923%;
   background: #fff;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
@@ -1690,16 +1690,16 @@
 
 @media screen and (min-width: 38.75em) {
   .twentyfifteen .t15er {
+    margin-top: 8.3333%;
     margin-right: 7.6923%;
     margin-left: 7.6923%;
-    margin-top: 8.3333%;
   }
 }
 @media screen and (min-width: 59.6875em) {
   .twentyfifteen .t15er {
-    margin-left: 8.3333%;
-    margin-right: 8.3333%;
     padding: 10%;
+    margin-right: 8.3333%;
+    margin-left: 8.3333%;
   }
 
   .single-resource .twentyfifteen .entry-summary {

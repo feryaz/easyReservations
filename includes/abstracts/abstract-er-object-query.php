@@ -44,12 +44,14 @@ abstract class ER_Object_Query {
 	 *
 	 * @param string $query_var Query variable to get value for.
 	 * @param mixed  $default Default value if query variable is not set.
+	 *
 	 * @return mixed Query variable value if set, otherwise default.
 	 */
 	public function get( $query_var, $default = '' ) {
 		if ( isset( $this->query_vars[ $query_var ] ) ) {
 			return $this->query_vars[ $query_var ];
 		}
+
 		return $default;
 	}
 
@@ -76,15 +78,15 @@ abstract class ER_Object_Query {
 			'parent_exclude' => '',
 			'exclude'        => '',
 
-			'limit'          => get_option( 'posts_per_page' ),
-			'page'           => 1,
-			'offset'         => '',
-			'paginate'       => false,
+			'limit'    => get_option( 'posts_per_page' ),
+			'page'     => 1,
+			'offset'   => '',
+			'paginate' => false,
 
-			'order'          => 'DESC',
-			'orderby'        => 'date',
+			'order'   => 'DESC',
+			'orderby' => 'date',
 
-			'return'         => 'objects',
+			'return' => 'objects',
 		);
 	}
 }

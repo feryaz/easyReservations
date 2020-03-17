@@ -21,18 +21,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php if ( $checkout->get_checkout_fields() ) : ?>
 
-    <?php do_action( 'easyreservations_checkout_before_customer_details' ); ?>
+	<?php do_action( 'easyreservations_checkout_before_customer_details' ); ?>
 
     <div class="col2-set" id="customer_details">
         <div class="col-1">
-            <?php do_action( 'easyreservations_checkout_address' ); ?>
+			<?php do_action( 'easyreservations_checkout_address' ); ?>
         </div>
 
         <div class="col-2">
-            <?php do_action( 'easyreservations_checkout_additional' ); ?>
+			<?php do_action( 'easyreservations_checkout_additional' ); ?>
         </div>
     </div>
 
-    <?php do_action( 'easyreservations_checkout_after_customer_details' ); ?>
+	<?php do_action( 'easyreservations_checkout_after_customer_details' ); ?>
 
 <?php endif; ?>

@@ -127,28 +127,13 @@ class ER_Email extends ER_Settings_API {
 	 * @var bool
 	 */
 	public $sending;
-
-	/**
-	 * True when the email notification is sent manually only.
-	 *
-	 * @var bool
-	 */
-	protected $manual = false;
-
-	/**
-	 * True when the email notification is sent to customers.
-	 *
-	 * @var bool
-	 */
-	protected $customer_email = false;
-
 	/**
 	 *  List of preg* regular expression patterns to search for,
 	 *  used in conjunction with $plain_replace.
 	 *  https://raw.github.com/ushahidi/wp-silcc/master/class.html2text.inc
 	 *
-	 *  @var array $plain_search
-	 *  @see $plain_replace
+	 * @var array $plain_search
+	 * @see $plain_replace
 	 */
 	public $plain_search = array(
 		"/\r/",                                                  // Non-legal carriage return.
@@ -171,12 +156,11 @@ class ER_Email extends ER_Settings_API {
 		'/&[^&\s;]+;/i',                                         // Unknown/unhandled entities.
 		'/[ ]{2,}/',                                             // Runs of spaces, post-handling.
 	);
-
 	/**
 	 *  List of pattern replacements corresponding to patterns searched.
 	 *
-	 *  @var array $plain_replace
-	 *  @see $plain_search
+	 * @var array $plain_replace
+	 * @see $plain_search
 	 */
 	public $plain_replace = array(
 		'',                                             // Non-legal carriage return.
@@ -199,7 +183,18 @@ class ER_Email extends ER_Settings_API {
 		'',                                             // Unknown/unhandled entities.
 		' ',                                             // Runs of spaces, post-handling.
 	);
-
+	/**
+	 * True when the email notification is sent manually only.
+	 *
+	 * @var bool
+	 */
+	protected $manual = false;
+	/**
+	 * True when the email notification is sent to customers.
+	 *
+	 * @var bool
+	 */
+	protected $customer_email = false;
 	/**
 	 * Strings to find/replace in subjects/headings.
 	 *
@@ -239,7 +234,8 @@ class ER_Email extends ER_Settings_API {
 	/**
 	 * Handle multipart mail.
 	 *
-	 * @param  PHPMailer $mailer PHPMailer object.
+	 * @param PHPMailer $mailer PHPMailer object.
+	 *
 	 * @return PHPMailer
 	 */
 	public function handle_multipart( $mailer ) {
@@ -249,6 +245,7 @@ class ER_Email extends ER_Settings_API {
 			);
 			$this->sending   = false;
 		}
+
 		return $mailer;
 	}
 
@@ -256,6 +253,7 @@ class ER_Email extends ER_Settings_API {
 	 * Format email string.
 	 *
 	 * @param mixed $string Text to replace placeholders in.
+	 *
 	 * @return string
 	 */
 	public function format_string( $string ) {
@@ -274,9 +272,9 @@ class ER_Email extends ER_Settings_API {
 
 	/**
 	 * Set the locale to the store locale for customer emails to make sure emails are in the store language.
-     *
-     * @param string|bool $locale
-     */
+	 *
+	 * @param string|bool $locale
+	 */
 	public function setup_locale( $locale = false ) {
 		if ( $this->is_customer_email() && apply_filters( 'easyreservations_email_setup_locale', true ) ) {
 			er_switch_to_site_locale( $locale );
@@ -328,14 +326,14 @@ class ER_Email extends ER_Settings_API {
 	 */
 	public function get_additional_content() {
 		$content = $this->get_option( 'additional_content', '' );
-        $tags = er_form_template_parser( $content, true );
+		$tags    = er_form_template_parser( $content, true );
 
-        foreach ( $tags as $string ) {
-            $tag              = shortcode_parse_atts( $string );
-            $content = str_replace( '[' . $string . ']', er_reservation_parse_tag( $tag, $this ), $content );
-        }
+		foreach ( $tags as $string ) {
+			$tag     = shortcode_parse_atts( $string );
+			$content = str_replace( '[' . $string . ']', er_reservation_parse_tag( $tag, $this ), $content );
+		}
 
-        return apply_filters( 'easyreservations_email_additional_content_' . $this->id, $this->format_string( $content ), $this->object, $this );
+		return apply_filters( 'easyreservations_email_additional_content_' . $this->id, $this->format_string( $content ), $this->object, $this );
 	}
 
 	/**
@@ -365,6 +363,7 @@ class ER_Email extends ER_Settings_API {
 		$recipient  = apply_filters( 'easyreservations_email_recipient_' . $this->id, $this->recipient, $this->object, $this );
 		$recipients = array_map( 'trim', explode( ',', $recipient ) );
 		$recipients = array_filter( $recipients, 'is_email' );
+
 		return implode( ', ', $recipients );
 	}
 
@@ -408,24 +407,26 @@ class ER_Email extends ER_Settings_API {
 	/**
 	 * Get email content type.
 	 *
-     * @param string $default_content_type Default wp_mail() content type.
-     * @return string
-     */
-    public function get_content_type( $default_content_type = '' ) {
-        switch ( $this->get_email_type() ) {
-            case 'html':
-                $content_type = 'text/html';
-                break;
-            case 'multipart':
-                $content_type = 'multipart/alternative';
-                break;
-            default:
-                $content_type = 'text/plain';
-                break;
-        }
+	 * @param string $default_content_type Default wp_mail() content type.
+	 *
+	 * @return string
+	 */
+	public function get_content_type( $default_content_type = '' ) {
+		switch ( $this->get_email_type() ) {
+			case 'html':
+				$content_type = 'text/html';
+				break;
+			case 'multipart':
+				$content_type = 'multipart/alternative';
+				break;
+			default:
+				$content_type = 'text/plain';
+				break;
+		}
 
-        return apply_filters( 'easyreservations_email_content_type', $content_type, $this, $default_content_type );
-    }
+		return apply_filters( 'easyreservations_email_content_type', $content_type, $this, $default_content_type );
+	}
+
 	/**
 	 * Return the email's title
 	 *
@@ -449,10 +450,12 @@ class ER_Email extends ER_Settings_API {
 	 *
 	 * @param string $key Option key.
 	 * @param mixed  $empty_value Value to use when option is empty.
+	 *
 	 * @return string
 	 */
 	public function get_option( $key, $empty_value = null ) {
 		$value = parent::get_option( $key, $empty_value );
+
 		return apply_filters( 'easyreservations_email_get_option', $value, $this, $value, $key, $empty_value );
 	}
 
@@ -515,6 +518,7 @@ class ER_Email extends ER_Settings_API {
 	 * We only inline CSS for html emails, and to do so we use Emogrifier library (if supported).
 	 *
 	 * @param string|null $content Content that will receive inline styles.
+	 *
 	 * @return string
 	 */
 	public function style_inline( $content ) {
@@ -523,9 +527,9 @@ class ER_Email extends ER_Settings_API {
 			er_get_template( 'emails/email-styles.php' );
 			$css = apply_filters( 'easyreservations_email_styles', ob_get_clean(), $this );
 
-            $emogrifier_class = 'Pelago\\Emogrifier';
+			$emogrifier_class = 'Pelago\\Emogrifier';
 
-            if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
+			if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
 				try {
 					$emogrifier = new $emogrifier_class( $content, $css );
 					$content    = $emogrifier->emogrify();
@@ -556,7 +560,8 @@ class ER_Email extends ER_Settings_API {
 	 * @return string
 	 */
 	public function get_content_plain() {
-		return ''; }
+		return '';
+	}
 
 	/**
 	 * Get the email content in HTML format.
@@ -564,31 +569,35 @@ class ER_Email extends ER_Settings_API {
 	 * @return string
 	 */
 	public function get_content_html() {
-		return ''; }
+		return '';
+	}
 
-    /**
-     * Get the from name for outgoing emails.
-     *
-     * @param string $from_name Default wp_mail() name associated with the "from" email address.
-     * @return string
-     */
-    public function get_from_name( $from_name = '' ) {
-        $from_name = apply_filters( 'easyreservations_email_from_name', get_option( 'reservations_email_from_name' ), $this, $from_name );
+	/**
+	 * Get the from name for outgoing emails.
+	 *
+	 * @param string $from_name Default wp_mail() name associated with the "from" email address.
+	 *
+	 * @return string
+	 */
+	public function get_from_name( $from_name = '' ) {
+		$from_name = apply_filters( 'easyreservations_email_from_name', get_option( 'reservations_email_from_name' ), $this, $from_name );
 
-        return wp_specialchars_decode( esc_html( $from_name ), ENT_QUOTES );
-    }
+		return wp_specialchars_decode( esc_html( $from_name ), ENT_QUOTES );
+	}
 
-    /**
-     * Get the from address for outgoing emails.
-     *
-     * @param string $from_email Default wp_mail() email address to send from.
-     * @return string
-     */
-    public function get_from_address( $from_email = '' ) {
-        $from_email = apply_filters( 'easyreservations_email_from_address', get_option( 'reservations_email_from_address' ), $this, $from_email );
+	/**
+	 * Get the from address for outgoing emails.
+	 *
+	 * @param string $from_email Default wp_mail() email address to send from.
+	 *
+	 * @return string
+	 */
+	public function get_from_address( $from_email = '' ) {
+		$from_email = apply_filters( 'easyreservations_email_from_address', get_option( 'reservations_email_from_address' ), $this, $from_email );
 
-        return sanitize_email( $from_email );
-    }
+		return sanitize_email( $from_email );
+	}
+
 	/**
 	 * Send an email.
 	 *
@@ -597,6 +606,7 @@ class ER_Email extends ER_Settings_API {
 	 * @param string $message Email message.
 	 * @param string $headers Email headers.
 	 * @param array  $attachments Email attachments.
+	 *
 	 * @return bool success
 	 */
 	public function send( $to, $subject, $message, $headers, $attachments ) {
@@ -698,7 +708,8 @@ class ER_Email extends ER_Settings_API {
 	/**
 	 * Get template.
 	 *
-	 * @param  string $type Template type. Can be either 'template_html' or 'template_plain'.
+	 * @param string $type Template type. Can be either 'template_html' or 'template_plain'.
+	 *
 	 * @return string
 	 */
 	public function get_template( $type ) {
@@ -709,6 +720,7 @@ class ER_Email extends ER_Settings_API {
 		} elseif ( 'template_plain' === $type ) {
 			return $this->template_plain;
 		}
+
 		return '';
 	}
 
@@ -745,7 +757,7 @@ class ER_Email extends ER_Settings_API {
 	/**
 	 * Get the template file in the current theme.
 	 *
-	 * @param  string $template Template name.
+	 * @param string $template Template name.
 	 *
 	 * @return string
 	 */
@@ -781,9 +793,9 @@ class ER_Email extends ER_Settings_API {
 				do_action( 'easyreservations_copy_email_template', $template_type, $this );
 
 				?>
-				<div class="updated">
-					<p><?php echo esc_html__( 'Template file copied to theme.', 'easyreservations' ); ?></p>
-				</div>
+                <div class="updated">
+                    <p><?php echo esc_html__( 'Template file copied to theme.', 'easyreservations' ); ?></p>
+                </div>
 				<?php
 			}
 		}
@@ -812,9 +824,9 @@ class ER_Email extends ER_Settings_API {
 					 */
 					do_action( 'easyreservations_delete_email_template', $template_type, $this );
 					?>
-					<div class="updated">
-						<p><?php echo esc_html__( 'Template file deleted from theme.', 'easyreservations' ); ?></p>
-					</div>
+                    <div class="updated">
+                        <p><?php echo esc_html__( 'Template file deleted from theme.', 'easyreservations' ); ?></p>
+                    </div>
 					<?php
 				}
 			}
@@ -859,7 +871,7 @@ class ER_Email extends ER_Settings_API {
 		// Do admin actions.
 		$this->admin_actions();
 		?>
-		<h2><?php echo esc_html( $this->get_title() ); ?> <?php er_back_link( __( 'Return to emails', 'easyReservations' ), admin_url( 'admin.php?page=er-settings&tab=emails' ) ); ?></h2>
+        <h2><?php echo esc_html( $this->get_title() ); ?><?php er_back_link( __( 'Return to emails', 'easyReservations' ), admin_url( 'admin.php?page=er-settings&tab=emails' ) ); ?></h2>
 
 		<?php echo wpautop( wp_kses_post( $this->get_description() ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
 
@@ -872,9 +884,9 @@ class ER_Email extends ER_Settings_API {
 		do_action( 'easyreservations_email_settings_before', $this );
 		?>
 
-		<table class="form-table">
+        <table class="form-table">
 			<?php $this->generate_settings_html(); ?>
-		</table>
+        </table>
 
 		<?php
 		/**
@@ -889,7 +901,7 @@ class ER_Email extends ER_Settings_API {
 
 		if ( current_user_can( 'edit_themes' ) && ( ! empty( $this->template_html ) || ! empty( $this->template_plain ) ) ) {
 			?>
-			<div id="template">
+            <div id="template">
 				<?php
 				$templates = array(
 					'template_html'  => __( 'HTML template', 'easyReservations' ),
@@ -908,37 +920,37 @@ class ER_Email extends ER_Settings_API {
 					$template_file = apply_filters( 'easyreservations_locate_core_template', $core_file, $template, $this->template_base, $this->id );
 					$template_dir  = apply_filters( 'easyreservations_template_directory', 'easyReservations', $template );
 					?>
-					<div class="template <?php echo esc_attr( $template_type ); ?>">
-						<h4><?php echo wp_kses_post( $title ); ?></h4>
+                    <div class="template <?php echo esc_attr( $template_type ); ?>">
+                        <h4><?php echo wp_kses_post( $title ); ?></h4>
 
 						<?php if ( file_exists( $local_file ) ) : ?>
-							<p>
-								<a href="#" class="button toggle_editor"></a>
+                            <p>
+                                <a href="#" class="button toggle_editor"></a>
 
 								<?php if ( is_writable( $local_file ) ) : // phpcs:ignore WordPress.VIP.FileSystemWritesDisallow.file_ops_is_writable ?>
-									<a href="<?php echo esc_url( wp_nonce_url( remove_query_arg( array( 'move_template', 'saved' ), add_query_arg( 'delete_template', $template_type ) ), 'easyreservations_email_template_nonce', '_er_email_nonce' ) ); ?>" class="delete_template button">
+                                    <a href="<?php echo esc_url( wp_nonce_url( remove_query_arg( array( 'move_template', 'saved' ), add_query_arg( 'delete_template', $template_type ) ), 'easyreservations_email_template_nonce', '_er_email_nonce' ) ); ?>" class="delete_template button">
 										<?php esc_html_e( 'Delete template file', 'easyReservations' ); ?>
-									</a>
+                                    </a>
 								<?php endif; ?>
 
 								<?php
 								/* translators: %s: Path to template file */
 								printf( esc_html__( 'This template has been overridden by your theme and can be found in: %s.', 'easyReservations' ), '<code>' . esc_html( trailingslashit( basename( get_stylesheet_directory() ) ) . $template_dir . '/' . $template ) . '</code>' );
 								?>
-							</p>
+                            </p>
 
-							<div class="editor" style="display:none">
+                            <div class="editor" style="display:none">
 								<textarea class="code" cols="25" rows="20"
 								<?php
 								if ( ! is_writable( $local_file ) ) : // phpcs:ignore WordPress.VIP.FileSystemWritesDisallow.file_ops_is_writable
 									?>
-									readonly="readonly" disabled="disabled"
+                                    readonly="readonly" disabled="disabled"
 								<?php else : ?>
-									data-name="<?php echo esc_attr( $template_type ) . '_code'; ?>"<?php endif; ?>><?php echo esc_html( file_get_contents( $local_file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents ?></textarea>
-							</div>
+                                    data-name="<?php echo esc_attr( $template_type ) . '_code'; ?>"<?php endif; ?>><?php echo esc_html( file_get_contents( $local_file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents ?></textarea>
+                            </div>
 						<?php elseif ( file_exists( $template_file ) ) : ?>
-							<p>
-								<a href="#" class="button toggle_editor"></a>
+                            <p>
+                                <a href="#" class="button toggle_editor"></a>
 
 								<?php
 								$emails_dir    = get_stylesheet_directory() . '/' . $template_dir . '/emails';
@@ -955,26 +967,26 @@ class ER_Email extends ER_Settings_API {
 
 								if ( is_writable( $target_dir ) ) : // phpcs:ignore WordPress.VIP.FileSystemWritesDisallow.file_ops_is_writable
 									?>
-									<a href="<?php echo esc_url( wp_nonce_url( remove_query_arg( array( 'delete_template', 'saved' ), add_query_arg( 'move_template', $template_type ) ), 'easyreservations_email_template_nonce', '_er_email_nonce' ) ); ?>" class="button">
+                                    <a href="<?php echo esc_url( wp_nonce_url( remove_query_arg( array( 'delete_template', 'saved' ), add_query_arg( 'move_template', $template_type ) ), 'easyreservations_email_template_nonce', '_er_email_nonce' ) ); ?>" class="button">
 										<?php esc_html_e( 'Copy file to theme', 'easyReservations' ); ?>
-									</a>
+                                    </a>
 								<?php endif; ?>
 
 								<?php
 								/* translators: 1: Path to template file 2: Path to theme folder */
 								printf( esc_html__( 'To override and edit this email template copy %1$s to your theme folder: %2$s.', 'easyReservations' ), '<code>' . esc_html( plugin_basename( $template_file ) ) . '</code>', '<code>' . esc_html( trailingslashit( basename( get_stylesheet_directory() ) ) . $template_dir . '/' . $template ) . '</code>' );
 								?>
-							</p>
+                            </p>
 
-							<div class="editor" style="display:none">
-								<textarea class="code" readonly="readonly" disabled="disabled" cols="25" rows="20"><?php echo esc_html( file_get_contents( $template_file ) );  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents ?></textarea>
-							</div>
+                            <div class="editor" style="display:none">
+                                <textarea class="code" readonly="readonly" disabled="disabled" cols="25" rows="20"><?php echo esc_html( file_get_contents( $template_file ) );  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents ?></textarea>
+                            </div>
 						<?php else : ?>
-							<p><?php esc_html_e( 'File was not found.', 'easyReservations' ); ?></p>
+                            <p><?php esc_html_e( 'File was not found.', 'easyReservations' ); ?></p>
 						<?php endif; ?>
-					</div>
+                    </div>
 				<?php endforeach; ?>
-			</div>
+            </div>
 
 			<?php
 			er_enqueue_js(

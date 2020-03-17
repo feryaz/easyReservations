@@ -12,10 +12,10 @@ if ( ! $tab_exists ) {
 }
 ?>
 <div class="wrap easyreservations easy-ui">
-    <?php do_action( 'easyreservations_before_settings' . $current_tab ); ?>
+	<?php do_action( 'easyreservations_before_settings' . $current_tab ); ?>
 
     <form method="post" id="mainform" action="" enctype="multipart/form-data">
-		<nav class="nav-tab-wrapper er-nav-tab-wrapper">
+        <nav class="nav-tab-wrapper er-nav-tab-wrapper">
 			<?php
 
 			foreach ( $tabs as $slug => $label ) {
@@ -25,21 +25,21 @@ if ( ! $tab_exists ) {
 			do_action( 'easyreservations_settings_tabs' );
 
 			?>
-		</nav>
-		<h1 class="screen-reader-text"><?php echo esc_html( $current_tab_label ); ?></h1>
+        </nav>
+        <h1 class="screen-reader-text"><?php echo esc_html( $current_tab_label ); ?></h1>
 		<?php
-			do_action( 'easyreservations_sections_' . $current_tab );
+		do_action( 'easyreservations_sections_' . $current_tab );
 
-			//self::show_messages();
+		//self::show_messages();
 
-			do_action( 'easyreservations_settings_' . $current_tab );
+		do_action( 'easyreservations_settings_' . $current_tab );
 		?>
-        <?php if ( !isset($GLOBALS['hide_save_button']) ||  empty( $GLOBALS['hide_save_button'] ) ) : ?>
+		<?php if ( ! isset( $GLOBALS['hide_save_button'] ) || empty( $GLOBALS['hide_save_button'] ) ) : ?>
             <p class="submit">
                 <button name="save" class="button-primary easyreservations-save-button" type="submit" value="<?php esc_attr_e( 'Save changes', 'easyreservations' ); ?>"><?php esc_html_e( 'Save changes', 'easyreservations' ); ?></button>
-                <?php wp_nonce_field( 'easyreservations-settings' ); ?>
+				<?php wp_nonce_field( 'easyreservations-settings' ); ?>
             </p>
-        <?php endif; ?>
+		<?php endif; ?>
     </form>
-    <?php do_action( 'easyreservations_after_settings' . $current_tab ); ?>
+	<?php do_action( 'easyreservations_after_settings' . $current_tab ); ?>
 </div>

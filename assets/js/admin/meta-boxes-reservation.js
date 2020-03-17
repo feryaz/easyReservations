@@ -1,9 +1,9 @@
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 	/**
 	 * Reservations Data Panel
 	 */
 	var er_meta_boxes_reservation = {
-		init: function () {
+		init: function() {
 			jQuery( 'li#toplevel_page_reservations, li#toplevel_page_reservations > a' ).addClass( 'wp-has-current-submenu wp-menu-open' ).removeClass( 'wp-not-current-submenu' );
 
 			$( '#resource' ).on( 'change', this.change_resource );
@@ -17,7 +17,7 @@ jQuery( function ( $ ) {
 			er_meta_boxes_reservation.change_resource();
 		},
 
-		change_resource: function ( e ) {
+		change_resource: function( e ) {
 			$( '.resource-space' ).css( 'display', 'none' );
 			$( '.resource-space select' ).prop( "disabled", true );
 
@@ -33,14 +33,14 @@ jQuery( function ( $ ) {
 			}
 		},
 
-		add_to_order: function ( e ) {
+		add_to_order: function( e ) {
 			e.preventDefault();
 			$( this ).ERBackboneModal( {
 				template: 'er-modal-add-to-order'
 			} );
 		},
 
-		remove_from_order: function ( e ) {
+		remove_from_order: function( e ) {
 			e.preventDefault();
 			if ( window.confirm( easyreservations_admin_meta_boxes.i18n_delete_tax ) ) {
 				$( '#easyreservations-reservation-order' ).block();
@@ -56,7 +56,7 @@ jQuery( function ( $ ) {
 					url:      easyreservations_admin_meta_boxes.ajax_url,
 					data:     data,
 					type:     'POST',
-					success:  function ( response ) {
+					success:  function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-reservation-order' ).find( '.inside' ).empty();
 							$( '#easyreservations-reservation-order' ).find( '.inside' ).append( response.data.html );
@@ -65,7 +65,7 @@ jQuery( function ( $ ) {
 						}
 						$( '#easyreservations-reservation-order' ).unblock();
 					},
-					complete: function () {
+					complete: function() {
 					}
 				} );
 			}
@@ -73,12 +73,12 @@ jQuery( function ( $ ) {
 		},
 
 		backbone: {
-			init:     function ( e, target ) {
+			init:     function( e, target ) {
 				if ( 'er-modal-add-to-order' === target ) {
 					$( document.body ).trigger( 'er-enhanced-select-init' );
 				}
 			},
-			response: function ( e, target, data ) {
+			response: function( e, target, data ) {
 				if ( 'er-modal-add-to-order' === target ) {
 					// Build array of data.
 					if ( data.order_id ) {
@@ -96,7 +96,7 @@ jQuery( function ( $ ) {
 							url:      easyreservations_admin_meta_boxes.ajax_url,
 							data:     data,
 							type:     'POST',
-							success:  function ( response ) {
+							success:  function( response ) {
 								if ( response.success ) {
 									$( '#easyreservations-reservation-order' ).find( '.inside' ).empty();
 									$( '#easyreservations-reservation-order' ).find( '.inside' ).append( response.data.html );
@@ -105,7 +105,7 @@ jQuery( function ( $ ) {
 								}
 								$( '#easyreservations-reservation-order' ).unblock();
 							},
-							complete: function () {
+							complete: function() {
 							}
 						} );
 					}

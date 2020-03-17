@@ -6,8 +6,8 @@
 ( function( $, data, wp ) {
 	$( function() {
 
-		if ( ! String.prototype.trim ) {
-			String.prototype.trim = function () {
+		if ( !String.prototype.trim ) {
+			String.prototype.trim = function() {
 				return this.replace( /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '' );
 			};
 		}
@@ -19,71 +19,71 @@
 			$tbody             = $( '#rates' ),
 			$pagination        = $( '#rates-pagination' ),
 			$search_field      = $( '#rates-search .er-tax-rates-search-field' ),
-            $submit = $('.button-primary[name=save]');
+			$submit            = $( '.button-primary[name=save]' );
 
-            ERTaxTableModelConstructor = Backbone.Model.extend({
-				changes: {},
-				setRateAttribute: function( rateID, attribute, value ) {
-					var rates   = _.indexBy( this.get( 'rates' ), 'id' ),
-						changes = {};
+		ERTaxTableModelConstructor = Backbone.Model.extend( {
+			changes:          {},
+			setRateAttribute: function( rateID, attribute, value ) {
+				var rates   = _.indexBy( this.get( 'rates' ), 'id' ),
+					changes = {};
 
-					if ( rates[ rateID ][ attribute ] !== value ) {
-						changes[ rateID ] = {};
-						changes[ rateID ][ attribute ] = value;
-						rates[ rateID ][ attribute ]   = value;
-					}
-
-					this.logChanges( changes );
-				},
-				logChanges: function( changedRows ) {
-					var changes = this.changes || {};
-
-					_.each( changedRows, function( row, id ) {
-						changes[ id ] = _.extend( changes[ id ] || {
-							id : id
-						}, row );
-					} );
-
-					this.changes = changes;
-					this.trigger( 'change:rates' );
-				},
-				getFilteredRates: function() {
-					var rates  = this.get( 'rates' ),
-						search = $search_field.val().toLowerCase();
-
-					if ( search.length ) {
-						rates = _.filter( rates, function( rate ) {
-							var search_text = _.toArray( rate ).join( ' ' ).toLowerCase();
-							return ( -1 !== search_text.indexOf( search ) );
-						} );
-					}
-
-					rates = _.sortBy( rates, function( rate ) {
-						return parseInt( rate.order, 10 );
-					} );
-
-					return rates;
-				},
-				block: function() {
-                    $table.block({
-						message: null,
-						overlayCSS: {
-							background: '#fff',
-							opacity: 0.6
-						}
-					});
-				},
-				unblock: function() {
-                    $table.unblock();
-				},
-				save: function() {
+				if ( rates[ rateID ][ attribute ] !== value ) {
+					changes[ rateID ] = {};
+					changes[ rateID ][ attribute ] = value;
+					rates[ rateID ][ attribute ] = value;
 				}
-			} ),
-			ERTaxTableViewConstructor = Backbone.View.extend({
-				rowTemplate: rowTemplate,
-				per_page: data.limit,
-				page: data.page,
-				initialize: function() {
+
+				this.logChanges( changes );
+			},
+			logChanges:       function( changedRows ) {
+				var changes = this.changes || {};
+
+				_.each( changedRows, function( row, id ) {
+					changes[ id ] = _.extend( changes[ id ] || {
+						id: id
+					}, row );
+				} );
+
+				this.changes = changes;
+				this.trigger( 'change:rates' );
+			},
+			getFilteredRates: function() {
+				var rates  = this.get( 'rates' ),
+					search = $search_field.val().toLowerCase();
+
+				if ( search.length ) {
+					rates = _.filter( rates, function( rate ) {
+						var search_text = _.toArray( rate ).join( ' ' ).toLowerCase();
+						return ( -1 !== search_text.indexOf( search ) );
+					} );
+				}
+
+				rates = _.sortBy( rates, function( rate ) {
+					return parseInt( rate.order, 10 );
+				} );
+
+				return rates;
+			},
+			block:            function() {
+				$table.block( {
+					message:    null,
+					overlayCSS: {
+						background: '#fff',
+						opacity:    0.6
+					}
+				} );
+			},
+			unblock:          function() {
+				$table.unblock();
+			},
+			save:             function() {
+			}
+		} ),
+			ERTaxTableViewConstructor = Backbone.View.extend( {
+				rowTemplate:             rowTemplate,
+				per_page:                data.limit,
+				page:                    data.page,
+				initialize:              function() {
 					var qty_pages = Math.ceil( _.toArray( this.model.get( 'rates' ) ).length / this.per_page );
 
 					this.qty_pages = 0 === qty_pages ? 1 : qty_pages;
@@ -96,14 +96,14 @@
 					$pagination.on( 'click', 'a', { view: this }, this.onPageChange );
 					$pagination.on( 'change', 'input', { view: this }, this.onPageChange );
 					$( window ).on( 'beforeunload', { view: this }, this.unloadConfirmation );
-                    $submit.on('click', {view: this}, this.onSubmit);
+					$submit.on( 'click', { view: this }, this.onSubmit );
 
-                    // Can bind these directly to the buttons, as they won't get overwritten.
+					// Can bind these directly to the buttons, as they won't get overwritten.
 					$table.find( '.insert' ).on( 'click', { view: this }, this.onAddNewRow );
 					$table.find( '.remove_tax_rates' ).on( 'click', { view: this }, this.onDeleteRow );
 					$table.find( '.export' ).on( 'click', { view: this }, this.onExport );
 				},
-				render: function() {
+				render:                  function() {
 					var rates       = this.model.getFilteredRates(),
 						qty_rates   = _.size( rates ),
 						qty_pages   = Math.ceil( qty_rates / this.per_page ),
@@ -136,8 +136,8 @@
 						view.page = 1;
 					}
 				},
-				updateUrl: function() {
-					if ( ! window.history.replaceState ) {
+				updateUrl:               function() {
+					if ( !window.history.replaceState ) {
 						return;
 					}
 
@@ -154,26 +154,26 @@
 
 					window.history.replaceState( {}, '', url );
 				},
-                onSubmit: function (event) {
-                    event.data.view.clearUnloadConfirmation();
-                },
-                onAddNewRow: function( event ) {
+				onSubmit:                function( event ) {
+					event.data.view.clearUnloadConfirmation();
+				},
+				onAddNewRow:             function( event ) {
 					var view    = event.data.view,
 						model   = view.model,
 						rates   = _.indexBy( model.get( 'rates' ), 'id' ),
 						changes = {},
 						size    = _.size( rates ),
 						newRow  = _.extend( {}, data.default_rate, {
-							id: 'new-' + size + '-' + Date.now(),
-							newRow:      true
+							id:     'new-' + size + '-' + Date.now(),
+							newRow: true
 						} ),
 						$current, current_id, current_order, rates_to_reorder, reordered_rates;
 
 					$current = $tbody.children( '.current' );
 
 					if ( $current.length ) {
-                        current_id            = $current.last().data( 'id' );
-                        current_order         = parseInt( rates[ current_id ].order, 10 );
+						current_id = $current.last().data( 'id' );
+						current_order = parseInt( rates[ current_id ].order, 10 );
 						newRow.order = 1 + current_order;
 
 						rates_to_reorder = _.filter( rates, function( rate ) {
@@ -185,13 +185,13 @@
 
 						reordered_rates = _.map( rates_to_reorder, function( rate ) {
 							rate.order++;
-							changes[ rate.id ] = _.extend( changes[ rate.id ] || {}, {order : rate.order } );
+							changes[ rate.id ] = _.extend( changes[ rate.id ] || {}, { order: rate.order } );
 							return rate;
 						} );
 					} else {
 						newRow.order = 1 + _.max(
 							_.pluck( rates, 'order' ),
-							function ( val ) {
+							function( val ) {
 								// Cast them all to integers, because strings compare funky. Sighhh.
 								return parseInt( val, 10 );
 							}
@@ -200,7 +200,7 @@
 						view.page = view.qty_pages;
 					}
 
-					rates[ newRow.id ]   = newRow;
+					rates[ newRow.id ] = newRow;
 					changes[ newRow.id ] = newRow;
 
 					model.set( 'rates', rates );
@@ -208,7 +208,7 @@
 
 					view.render();
 				},
-				onDeleteRow: function( event ) {
+				onDeleteRow:             function( event ) {
 					var view    = event.data.view,
 						model   = view.model,
 						rates   = _.indexBy( model.get( 'rates' ), 'id' ),
@@ -218,13 +218,13 @@
 					event.preventDefault();
 
 					if ( $current = $tbody.children( '.current' ) ) {
-						$current.each(function(){
-							current_id    = $( this ).data('id');
+						$current.each( function() {
+							current_id = $( this ).data( 'id' );
 
 							delete rates[ current_id ];
 
-							changes[ current_id ] = _.extend( changes[ current_id ] || {}, { deleted : 'deleted' } );
-						});
+							changes[ current_id ] = _.extend( changes[ current_id ] || {}, { deleted: 'deleted' } );
+						} );
 
 						model.set( 'rates', rates );
 						model.logChanges( changes );
@@ -234,55 +234,55 @@
 						window.alert( data.strings.no_rows_selected );
 					}
 				},
-				onSearchField: function( event ){
+				onSearchField:           function( event ) {
 					event.data.view.updateUrl();
 					event.data.view.render();
 				},
-				onPageChange: function( event ) {
-					var $target  = $( event.currentTarget );
+				onPageChange:            function( event ) {
+					var $target = $( event.currentTarget );
 
 					event.preventDefault();
 					event.data.view.page = $target.data( 'goto' ) ? $target.data( 'goto' ) : $target.val();
 					event.data.view.render();
 					event.data.view.updateUrl();
 				},
-				onExport: function( event ) {
-					var csv_data = 'data:application/csv;charset=utf-8,' + data.strings.csv_data_cols.join(',') + '\n';
+				onExport:                function( event ) {
+					var csv_data = 'data:application/csv;charset=utf-8,' + data.strings.csv_data_cols.join( ',' ) + '\n';
 
 					$.each( event.data.view.model.getFilteredRates(), function( id, rowData ) {
 						var row = '';
 
-						row += rowData.country  + ',';
-						row += rowData.state    + ',';
-						row += ( rowData.postcode        ? rowData.postcode.join( '; ' ) : '' ) + ',';
-						row += ( rowData.city            ? rowData.city.join( '; ' )     : '' ) + ',';
-						row += rowData.tax_rate          + ',';
-						row += rowData.name     + ',';
+						row += rowData.country + ',';
+						row += rowData.state + ',';
+						row += ( rowData.postcode ? rowData.postcode.join( '; ' ) : '' ) + ',';
+						row += ( rowData.city ? rowData.city.join( '; ' ) : '' ) + ',';
+						row += rowData.tax_rate + ',';
+						row += rowData.name + ',';
 						row += rowData.priority + ',';
 						row += rowData.compound + ',';
 						row += data.current_class;
 
 						csv_data += row + '\n';
-					});
+					} );
 
 					$( this ).attr( 'href', encodeURI( csv_data ) );
 
 					return true;
 				},
-				setUnloadConfirmation: function() {
+				setUnloadConfirmation:   function() {
 					this.needsUnloadConfirm = true;
 				},
 				clearUnloadConfirmation: function() {
 					this.needsUnloadConfirm = false;
 				},
-				unloadConfirmation: function( event ) {
+				unloadConfirmation:      function( event ) {
 					if ( event.data.view.needsUnloadConfirm ) {
 						event.returnValue = data.strings.unload_confirmation_msg;
 						window.event.returnValue = data.strings.unload_confirmation_msg;
 						return data.strings.unload_confirmation_msg;
 					}
 				},
-				updateModelOnChange: function( event ) {
+				updateModelOnChange:     function( event ) {
 					var model     = event.data.view.model,
 						$target   = $( event.target ),
 						id        = $target.closest( 'tr' ).data( 'id' ),
@@ -299,7 +299,7 @@
 
 					model.setRateAttribute( id, attribute, val );
 				},
-				sanitizePage: function( page_num ) {
+				sanitizePage:            function( page_num ) {
 					page_num = parseInt( page_num, 10 );
 					if ( page_num < 1 ) {
 						page_num = 1;
@@ -309,15 +309,15 @@
 					return page_num;
 				}
 			} ),
-			ERTaxTableModelInstance = new ERTaxTableModelConstructor({
+			ERTaxTableModelInstance = new ERTaxTableModelConstructor( {
 				rates: data.rates
 			} ),
-			ERTaxTableInstance = new ERTaxTableViewConstructor({
-				model:    ERTaxTableModelInstance,
-				el:       '#rates'
+			ERTaxTableInstance = new ERTaxTableViewConstructor( {
+				model: ERTaxTableModelInstance,
+				el:    '#rates'
 			} );
 
 		ERTaxTableInstance.render();
 
-	});
-})( jQuery, htmlSettingsTaxLocalizeScript, wp );
+	} );
+} )( jQuery, htmlSettingsTaxLocalizeScript, wp );

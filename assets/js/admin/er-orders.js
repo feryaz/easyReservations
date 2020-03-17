@@ -1,5 +1,5 @@
 /* global er_orders_params */
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 
 	if ( typeof er_orders_params === 'undefined' ) {
 		return false;
@@ -8,7 +8,7 @@ jQuery( function ( $ ) {
 	/**
 	 * EROrdersTable class.
 	 */
-	var EROrdersTable = function () {
+	var EROrdersTable = function() {
 		$( document )
 			.on( 'click', '.post-type-easy_order .wp-list-table tbody td', this.onRowClick )
 			.on( 'click', '.order-preview:not(.disabled)', this.onPreview );
@@ -17,7 +17,7 @@ jQuery( function ( $ ) {
 	/**
 	 * Click a row.
 	 */
-	EROrdersTable.prototype.onRowClick = function ( e ) {
+	EROrdersTable.prototype.onRowClick = function( e ) {
 		if ( $( e.target ).filter( 'a, a *, .no-link, .no-link *, button, button *' ).length ) {
 			return true;
 		}
@@ -43,9 +43,9 @@ jQuery( function ( $ ) {
 	/**
 	 * Preview an order.
 	 */
-	EROrdersTable.prototype.onPreview = function () {
+	EROrdersTable.prototype.onPreview = function() {
 		var $previewButton = $( this ),
-			$order_id = $previewButton.data( 'order-id' );
+			$order_id      = $previewButton.data( 'order-id' );
 
 		if ( $previewButton.data( 'order-data' ) ) {
 			$( this ).ERBackboneModal( {
@@ -56,14 +56,14 @@ jQuery( function ( $ ) {
 			$previewButton.addClass( 'disabled' );
 
 			$.ajax( {
-				url: er_orders_params.ajax_url,
-				data: {
+				url:     er_orders_params.ajax_url,
+				data:    {
 					order_id: $order_id,
-					action: 'easyreservations_get_order_details',
+					action:   'easyreservations_get_order_details',
 					security: er_orders_params.preview_nonce
 				},
-				type: 'GET',
-				success: function ( response ) {
+				type:    'GET',
+				success: function( response ) {
 					$( '.order-preview' ).removeClass( 'disabled' );
 
 					if ( response.success ) {

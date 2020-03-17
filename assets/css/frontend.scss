@@ -5,7 +5,7 @@
  * Utility classes
  */
 .clear {
-  clear: both;
+	clear: both;
 }
 
 /**
@@ -13,879 +13,885 @@
  */
 .easyreservations {
 
-  /**
-   * General layout styles
-   */
-  .col2-set {
-    @include clearfix();
-    width: 100%;
-
-    .col-1 {
-      float: left;
-      width: 48%;
-    }
-    .col-2 {
-      float: right;
-      width: 48%;
-    }
-  }
-
-  a.remove {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    line-height: 13px;
-    font-size: 16px;
-    text-align: center;
-    border-radius: 100%;
-    box-shadow: none !important;
-    border: 1px solid #000;
-    color: #000;
-
-    &:hover {
-      background: #000;
-      color: #fff !important;
-    }
-  }
-
-  table.shop_table {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 0 -1px 24px 0;
-    text-align: left;
-    width: 100%;
-    border-collapse: separate;
-    border-radius: 5px;
-
-    th {
-      font-weight: 700;
-      padding: 9px 12px;
-      line-height: 1.5em;
-      border-right: 0;
-
-    }
-
-    td {
-      border-right:0;
-      padding: 9px 12px;
-      vertical-align: middle;
-      line-height: 1.5em;
-
-      small {
-        font-weight: normal;
-      }
-
-      del {
-        font-weight: normal;
-      }
-    }
-
-    td.actions {
-      text-align: right;
-
-      .input-text {
-        width: 80px;
-      }
-
-      .coupon {
-        float: left;
-
-        label {
-          display: none;
-        }
-      }
-    }
-
-    tbody:first-child tr:first-child {
-      th,
-      td {
-        border-top: 0;
-      }
-    }
-
-    tfoot td,
-    tfoot th,
-    tbody th {
-      font-weight: 700;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-  }
-
-  /**
-   * Buttons
-   */
-  a.button,
-  button.button,
-  input.button,
-  #respond input#submit {
-    font-size: 100%;
-    margin: 0;
-    line-height: 1;
-    cursor: pointer;
-    position: relative;
-    text-decoration: none;
-    overflow: visible;
-    padding: 0.618em 1em;
-    font-weight: 700;
-    border-radius: 3px;
-    left: auto;
-    color: $secondarytext;
-    background-color: $secondary;
-    border: 0;
-    display: inline-block;
-    background-image: none;
-    box-shadow: none;
-    text-shadow: none;
-
-    &.loading {
-      opacity: 0.25;
-      padding-right: 2.618em;
-
-      &::after {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        font-size: 20px;
-        line-height: 1;
-        font-family: "dashicons";
-        text-decoration: inherit;
-        font-weight: normal;
-        font-style: normal;
-        vertical-align: top;
-        text-align: center;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        content: "\f463";
-        position: absolute;
-        top: 0.37em;
-        right: 0.65em;
-        animation: spin 2s linear infinite;
-      }
-    }
-
-    &.added::after {
-      font-family: "Dashicons";
-      font-size: 18px;
-      content: "\f147";
-      margin-left: 0.53em;
-      vertical-align: bottom;
-    }
-
-    &:hover {
-      background-color: darken($secondary, 5%);
-      text-decoration: none;
-      background-image: none;
-      color: $secondarytext;
-    }
-
-    &.alt {
-      background-color: $primary;
-      color: $primarytext;
-      -webkit-font-smoothing: antialiased;
-
-      &:hover {
-        background-color: darken($primary, 5%);
-        color: $primarytext;
-      }
-
-      &.disabled,
-      &:disabled,
-      &:disabled[disabled],
-      &.disabled:hover,
-      &:disabled:hover,
-      &:disabled[disabled]:hover {
-        background-color: $primary;
-        color: $primarytext;
-      }
-    }
-
-    &:disabled,
-    &.disabled,
-    &:disabled[disabled] {
-      color: inherit;
-      cursor: not-allowed;
-      opacity: 0.5;
-      padding: 0.618em 1em;
-
-      &:hover {
-        color: inherit;
-        background-color: $secondary;
-      }
-    }
-  }
-
-  .cart .button,
-  .cart input.button {
-    float: none;
-  }
-
-  a.added_to_cart {
-    padding-top: 0.5em;
-    display: inline-block;
-  }
-
-  /**
-   * Reservation form
-   */
-  form .easy-form {
-    .easy-price {
-      margin-top: 15px;
-      display: none;
-      padding: 3px;
-
-      .easy-price-display {
-        font-weight: bold;
-        font-size: 18px;
-
-      }
-    }
-
-    button[type=submit] {
-      margin: 20px 3px;
-    }
-  }
-
-  /**
-   * Forms
-   */
-  form {
-    .form-row {
-      @include clearfix();
-
-      padding: 3px;
-      margin: 0 0 6px !important;
-
-      [placeholder]:focus::-webkit-input-placeholder {
-        transition: opacity 0.5s 0.5s ease;
-        opacity: 0;
-      }
-
-      label {
-        line-height: 2;
-        display: block;
-
-        &.inline,
-        &.checkbox {
-          display: inline;
-        }
-
-        &.hidden {
-          visibility: hidden;
-        }
-      }
-
-      .easyreservations-input-wrapper {
-
-        .description {
-          background: #1e85be;
-          color: #fff;
-          border-radius: 3px;
-          padding: 1em;
-          margin: 0.5em 0 0;
-          clear: both;
-          display: none;
-          position: relative;
-
-          a {
-            color: #fff;
-            text-decoration: underline;
-            border: 0;
-            box-shadow: none;
-          }
-
-          &::before {
-            left: 50%;
-            top: 0%;
-            margin-top: -4px;
-            transform: translateX(-50%) rotate(180deg);
-            content: "";
-            position: absolute;
-            border-width: 4px 6px 0 6px;
-            border-style: solid;
-            border-color: #1e85be transparent transparent transparent;
-            z-index: 100;
-            display: block;
-          }
-        }
-      }
-
-      div.content {
-        .description {
-          background: #1e85be;
-          color: #fff;
-          border-radius: 3px;
-          padding: 1em;
-          margin: 0.5em 0 0;
-          clear: both;
-          display: none;
-          position: relative;
-
-          a {
-            color: #fff;
-            text-decoration: underline;
-            border: 0;
-            box-shadow: none;
-          }
-
-          &::before {
-            left: 50%;
-            top: 0%;
-            margin-top: -4px;
-            transform: translateX(-50%) rotate(180deg);
-            content: "";
-            position: absolute;
-            border-width: 4px 6px 0 6px;
-            border-style: solid;
-            border-color: #1e85be transparent transparent transparent;
-            z-index: 100;
-            display: block;
-          }
-        }
-      }
-
-      select {
-        width: 100%;
-        cursor: pointer;
-        margin: 0;
-      }
-
-      .required {
-        color: red;
-        font-weight: 700;
-        border: 0 !important;
-        text-decoration: none;
-        visibility: hidden; // Only show optional by default.
-      }
-
-      .optional {
-        visibility: visible;
-      }
-
-      .input-checkbox {
-        display: inline;
-        margin: -2px 8px 0 0;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      input + input {
-        margin-top: 10px;
-      }
-
-      input.input-text,
-      select,
-      textarea {
-        box-sizing: border-box;
-        width: 100%;
-        margin: 0;
-        outline: 0;
-      }
-
-      textarea {
-        height: 4em;
-        line-height: 1.5;
-        display: block;
-        box-shadow: none;
-      }
-
-      .select2-container {
-        width: 100%;
-        line-height: 2em;
-      }
-
-      &.easyreservations-invalid {
-        label {
-          color: $red;
-        }
-
-        .select2-container,
-        input.input-text,
-        select:not(.do-not-validate) {
-          border-color: $red;
-        }
-      }
-
-      &.easyreservations-validated {
-        .select2-container,
-        input.input-text,
-        select:not(.do-not-validate) {
-          border-color: darken($green, 5%);
-        }
-      }
-
-      ::-webkit-input-placeholder {
-        line-height: normal;
-      }
-
-      :-moz-placeholder {
-        line-height: normal;
-      }
-
-      :-ms-input-placeholder {
-        line-height: normal;
-      }
-    }
-
-    .form-row-first,
-    .form-row-last {
-      width: 47%;
-      overflow: visible;
-    }
-
-    .form-row-first {
-      float: left;
-
-      /*rtl:raw:
-      float: right;
-      */
-    }
-
-    .form-row-last {
-      float: right;
-    }
-
-    .form-row-wide {
-      clear: both;
-    }
-
-    .password-input {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-
-      input[type="password"] {
-        padding-right: 2.5rem;
-      }
-
-      /* Hide the Edge "reveal password" native button */
-      input::-ms-reveal {
-        display: none;
-      }
-    }
-
-    .show-password-input {
-      position: absolute;
-      right: 0.7em;
-      top: 0.7em;
-      cursor: pointer;
-    }
-
-    .show-password-input::after {
-
-      @include iconafter("\f177"); // Icon styles and glyph
-    }
-
-    .show-password-input.display-password::after {
-      color: #e8e8e8;
-    }
-  }
-
-  /**
-   * Order page
-   */
-  ul.order_details {
-    @include clearfix();
-    margin: 0 0 3em;
-    list-style: none;
-
-    li {
-      float: left;
-      margin-right: 2em;
-      text-transform: uppercase;
-      font-size: 0.715em;
-      line-height: 1;
-      border-right: 1px dashed darken($secondary, 10%);
-      padding-right: 2em;
-      margin-left: 0;
-      padding-left: 0;
-      list-style-type: none;
-
-      strong {
-        display: block;
-        font-size: 1.4em;
-        text-transform: none;
-        line-height: 1.5;
-      }
-
-      &:last-of-type {
-        border: none;
-      }
-    }
-  }
-
-  .er-bacs-bank-details-account-name {
-    font-weight: bold;
-  }
-
-  /**
-   * Product Page
-   */
-  div.resource {
-    margin-bottom: 0;
-    position: relative;
-
-    .resource_title {
-      clear: none;
-      margin-top: 0;
-      padding: 0;
-    }
-
-    span.price,
-    p.price {
-      color: $highlight;
-      font-size: 1.25em;
-
-      ins {
-        background: inherit;
-        font-weight: 700;
-        display: inline-block;
-      }
-
-      del {
-        opacity: 0.5;
-        display: inline-block;
-      }
-    }
-
-    p.stock {
-      font-size: 0.92em;
-    }
-
-    .stock {
-      color: $highlight;
-    }
-
-    .out-of-stock {
-      color: red;
-    }
-
-    div.images {
-      margin-bottom: 2em;
-      float: left;
-      width: 48%;
-
-      img {
-        display: block;
-        width: 100%;
-        height: auto;
-        box-shadow: none;
-      }
-
-      div.thumbnails {
-        padding-top: 1em;
-        @include clearfix();
-
-        a {
-          float: left;
-          width: 30.75%;
-          margin-right: 3.8%;
-          margin-bottom: 1em;
-        }
-
-        a.last {
-          margin-right: 0;
-        }
-
-        a.first {
-          clear: both;
-        }
-
-        &.columns-1 {
-          a {
-            width: 100%;
-            margin-right: 0;
-            float: none;
-          }
-        }
-
-        &.columns-2 {
-          a {
-            width: 48%;
-          }
-        }
-
-        &.columns-4 {
-          a {
-            width: 22.05%;
-          }
-        }
-
-        &.columns-5 {
-          a {
-            width: 16.9%;
-          }
-        }
-      }
-
-      &.easyreservations-resource-gallery {
-        position: relative;
-      }
-
-      .easyreservations-resource-gallery__wrapper {
-        transition: all cubic-bezier(0.795, -0.035, 0, 1) 0.5s;
-        margin: 0;
-        padding: 0;
-      }
-
-      .easyreservations-resource-gallery__wrapper .zoomImg {
-        background-color: #fff;
-        opacity: 0;
-      }
-
-      .easyreservations-resource-gallery__image--placeholder {
-        border: 1px solid #f2f2f2;
-      }
-
-      .easyreservations-resource-gallery__image:nth-child(n+2) {
-        width: 25%;
-        display: inline-block;
-      }
-
-      .easyreservations-resource-gallery__trigger {
-        position: absolute;
-        top: 0.5em;
-        right: 0.5em;
-        font-size: 2em;
-        z-index: 9;
-        width: 36px;
-        height: 36px;
-        background: #fff;
-        text-indent: -9999px;
-        border-radius: 100%;
-        box-sizing: content-box;
-
-        &::before {
-          content: "";
-          display: block;
-          width: 10px;
-          height: 10px;
-          border: 2px solid #000;
-          border-radius: 100%;
-          position: absolute;
-          top: 9px;
-          left: 9px;
-          box-sizing: content-box;
-        }
-
-        &::after {
-          content: "";
-          display: block;
-          width: 2px;
-          height: 8px;
-          background: #000;
-          border-radius: 6px;
-          position: absolute;
-          top: 19px;
-          left: 22px;
-          transform: rotate(-45deg);
-          box-sizing: content-box;
-        }
-      }
-
-      .flex-control-thumbs {
-        overflow: hidden;
-        zoom: 1;
-        margin: 0;
-        padding: 0;
-
-        li {
-          width: 25%;
-          float: left;
-          margin: 0;
-          list-style: none;
-
-          img {
-            cursor: pointer;
-            opacity: 0.5;
-            margin: 0;
-
-            &.flex-active,
-            &:hover {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-
-    .easyreservations-resource-gallery--columns-3 {
-      .flex-control-thumbs li:nth-child(3n+1) {
-        clear: left;
-      }
-    }
-
-    .easyreservations-resource-gallery--columns-4 {
-
-      .flex-control-thumbs li:nth-child(4n+1) {
-        clear: left;
-      }
-    }
-
-    .easyreservations-resource-gallery--columns-5 {
-
-      .flex-control-thumbs li:nth-child(5n+1) {
-        clear: left;
-      }
-    }
-
-    div.summary {
-      margin-bottom: 2em;
-      float: right;
-      width: 48%;
-      clear: none;
-    }
-
-    div.social {
-      text-align: right;
-      margin: 0 0 1em;
-
-      span {
-        margin: 0 0 0 2px;
-
-        span {
-          margin: 0;
-        }
-
-        .stButton .chicklets {
-          padding-left: 16px;
-          width: 0;
-        }
-      }
-
-      iframe {
-        float: left;
-        margin-top: 3px;
-      }
-    }
-  }
-
-  ul.resources {
-    margin: 0 0 1em;
-    padding: 0;
-    list-style: none outside;
-    clear: both;
-    @include clearfix();
-
-    li.resource {
-      float: left;
-      margin: 0 3.8% 2.992em 0;
-      padding: 0;
-      position: relative;
-      width: 22.05%;
-      .onsale {
-        top: 0;
-        right: 0;
-        left: auto;
-        margin: -0.5em -0.5em 0 0;
-      }
-
-      h3,
-      .easyreservations-loop-resource__title {
-        padding: 0.5em 0;
-        margin: 0;
-        font-size: 1em;
-      }
-
-      a {
-        text-decoration: none;
-      }
-
-      a img {
-        width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 0 1em;
-        box-shadow: none;
-      }
-
-      strong {
-        display: block;
-      }
-
-      .easyreservations-placeholder {
-        border: 1px solid #f2f2f2;
-      }
-
-      .button {
-        margin-top: 1em;
-      }
-
-      .price {
-        color: $highlight;
-        display: block;
-        font-weight: normal;
-        margin-bottom: 0.5em;
-        font-size: 0.857em;
-
-        del {
-          color: inherit;
-          opacity: 0.5;
-          display: inline-block;
-        }
-
-        ins {
-          background: none;
-          font-weight: 700;
-          display: inline-block;
-        }
-
-        .from {
-          font-size: 0.67em;
-          margin: -2px 0 0 0;
-          text-transform: uppercase;
-          color: rgba(desaturate($highlight, 75%), 0.5);
-        }
-      }
-
-    }
-
-    li.first {
-      clear: both;
-    }
-
-    li.last {
-      margin-right: 0;
-    }
-
-    &.columns-1 {
-      li.resource {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-    &.columns-2 {
-      li.resource {
-        width: 48%;
-      }
-    }
-    &.columns-3 {
-      li.resource {
-        width: 30.75%;
-      }
-    }
-    &.columns-5 {
-      li.resource {
-        width: 16.95%;
-      }
-    }
-    &.columns-6 {
-      li.resource {
-        width: 13.5%;
-      }
-    }
-
-  }
-
-  .easyreservations-form-login {
-    .easyreservations-form-login__submit {
-      float: left;
-      margin-right: 1em;
-    }
-
-    .easyreservations-form-login__rememberme {
-      display: inline-block;
-    }
-  }
+	/**
+	 * General layout styles
+	 */
+	.col2-set {
+		@include clearfix();
+		width: 100%;
+
+		.col-1 {
+			float: left;
+			width: 48%;
+		}
+
+		.col-2 {
+			float: right;
+			width: 48%;
+		}
+	}
+
+	a.remove {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		font-size: 16px;
+		line-height: 13px;
+		color: #000;
+		text-align: center;
+		border: 1px solid #000;
+		border-radius: 100%;
+		box-shadow: none !important;
+
+		&:hover {
+			color: #fff !important;
+			background: #000;
+		}
+	}
+
+	table.shop_table {
+		width: 100%;
+		margin: 0 -1px 24px 0;
+		text-align: left;
+		border-collapse: separate;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+
+		th {
+			padding: 9px 12px;
+			font-weight: 700;
+			line-height: 1.5em;
+			border-right: 0;
+
+		}
+
+		td {
+			padding: 9px 12px;
+			line-height: 1.5em;
+			vertical-align: middle;
+			border-right: 0;
+
+			small {
+				font-weight: normal;
+			}
+
+			del {
+				font-weight: normal;
+			}
+		}
+
+		td.actions {
+			text-align: right;
+
+			.input-text {
+				width: 80px;
+			}
+
+			.coupon {
+				float: left;
+
+				label {
+					display: none;
+				}
+			}
+		}
+
+		tbody:first-child tr:first-child {
+			th,
+			td {
+				border-top: 0;
+			}
+		}
+
+		tfoot td,
+		tfoot th,
+		tbody th {
+			font-weight: 700;
+			border-top: 1px solid rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	/**
+	 * Buttons
+	 */
+	a.button,
+	button.button,
+	input.button,
+	#respond input#submit {
+		position: relative;
+		left: auto;
+		display: inline-block;
+		padding: 0.618em 1em;
+		margin: 0;
+		overflow: visible;
+		font-size: 100%;
+		font-weight: 700;
+		line-height: 1;
+		color: $secondarytext;
+		text-decoration: none;
+		text-shadow: none;
+		cursor: pointer;
+		background-color: $secondary;
+		background-image: none;
+		border: 0;
+		border-radius: 3px;
+		box-shadow: none;
+
+		&.loading {
+			padding-right: 2.618em;
+			opacity: 0.25;
+
+			&::after {
+				position: absolute;
+				top: 0.37em;
+				right: 0.65em;
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				font-family: "dashicons";
+				font-size: 20px;
+				font-style: normal;
+				font-weight: normal;
+				line-height: 1;
+				text-align: center;
+				text-decoration: inherit;
+				vertical-align: top;
+				content: "\f463";
+				animation: spin 2s linear infinite;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+		}
+
+		&.added::after {
+			margin-left: 0.53em;
+			font-family: "Dashicons";
+			font-size: 18px;
+			vertical-align: bottom;
+			content: "\f147";
+		}
+
+		&:hover {
+			color: $secondarytext;
+			text-decoration: none;
+			background-color: darken($secondary, 5%);
+			background-image: none;
+		}
+
+		&.alt {
+			color: $primarytext;
+			background-color: $primary;
+			-webkit-font-smoothing: antialiased;
+
+			&:hover {
+				color: $primarytext;
+				background-color: darken($primary, 5%);
+			}
+
+			&.disabled,
+			&:disabled,
+			&:disabled[disabled],
+			&.disabled:hover,
+			&:disabled:hover,
+			&:disabled[disabled]:hover {
+				color: $primarytext;
+				background-color: $primary;
+			}
+		}
+
+		&:disabled,
+		&.disabled,
+		&:disabled[disabled] {
+			padding: 0.618em 1em;
+			color: inherit;
+			cursor: not-allowed;
+			opacity: 0.5;
+
+			&:hover {
+				color: inherit;
+				background-color: $secondary;
+			}
+		}
+	}
+
+	.cart .button,
+	.cart input.button {
+		float: none;
+	}
+
+	a.added_to_cart {
+		display: inline-block;
+		padding-top: 0.5em;
+	}
+
+	/**
+	 * Reservation form
+	 */
+	form .easy-form {
+		.easy-price {
+			display: none;
+			padding: 3px;
+			margin-top: 15px;
+
+			.easy-price-display {
+				font-size: 18px;
+				font-weight: bold;
+
+			}
+		}
+
+		button[type=submit] {
+			margin: 20px 3px;
+		}
+	}
+
+	/**
+	 * Forms
+	 */
+	form {
+		.form-row {
+			@include clearfix();
+
+			padding: 3px;
+			margin: 0 0 6px !important;
+
+			[placeholder]:focus::-webkit-input-placeholder {
+				opacity: 0;
+				transition: opacity 0.5s 0.5s ease;
+			}
+
+			label {
+				display: block;
+				line-height: 2;
+
+				&.inline,
+				&.checkbox {
+					display: inline;
+				}
+
+				&.hidden {
+					visibility: hidden;
+				}
+			}
+
+			.easyreservations-input-wrapper {
+
+				.description {
+					position: relative;
+					display: none;
+					padding: 1em;
+					margin: 0.5em 0 0;
+					clear: both;
+					color: #fff;
+					background: #1e85be;
+					border-radius: 3px;
+
+					a {
+						color: #fff;
+						text-decoration: underline;
+						border: 0;
+						box-shadow: none;
+					}
+
+					&::before {
+						position: absolute;
+						top: 0%;
+						left: 50%;
+						z-index: 100;
+						display: block;
+						margin-top: -4px;
+						content: "";
+						border-color: #1e85be transparent transparent transparent;
+						border-style: solid;
+						border-width: 4px 6px 0 6px;
+						transform: translateX(-50%) rotate(180deg);
+					}
+				}
+			}
+
+			div.content {
+				.description {
+					position: relative;
+					display: none;
+					padding: 1em;
+					margin: 0.5em 0 0;
+					clear: both;
+					color: #fff;
+					background: #1e85be;
+					border-radius: 3px;
+
+					a {
+						color: #fff;
+						text-decoration: underline;
+						border: 0;
+						box-shadow: none;
+					}
+
+					&::before {
+						position: absolute;
+						top: 0%;
+						left: 50%;
+						z-index: 100;
+						display: block;
+						margin-top: -4px;
+						content: "";
+						border-color: #1e85be transparent transparent transparent;
+						border-style: solid;
+						border-width: 4px 6px 0 6px;
+						transform: translateX(-50%) rotate(180deg);
+					}
+				}
+			}
+
+			select {
+				width: 100%;
+				margin: 0;
+				cursor: pointer;
+			}
+
+			.required {
+				font-weight: 700;
+				color: red;
+				text-decoration: none;
+				visibility: hidden; // Only show optional by default.
+				border: 0 !important;
+			}
+
+			.optional {
+				visibility: visible;
+			}
+
+			.input-checkbox {
+				display: inline;
+				margin: -2px 8px 0 0;
+				text-align: center;
+				vertical-align: middle;
+			}
+
+			input + input {
+				margin-top: 10px;
+			}
+
+			input.input-text,
+			select,
+			textarea {
+				width: 100%;
+				box-sizing: border-box;
+				margin: 0;
+				outline: 0;
+			}
+
+			textarea {
+				display: block;
+				height: 4em;
+				line-height: 1.5;
+				box-shadow: none;
+			}
+
+			.select2-container {
+				width: 100%;
+				line-height: 2em;
+			}
+
+			&.easyreservations-invalid {
+				label {
+					color: $red;
+				}
+
+				.select2-container,
+				input.input-text,
+				select:not(.do-not-validate) {
+					border-color: $red;
+				}
+			}
+
+			&.easyreservations-validated {
+				.select2-container,
+				input.input-text,
+				select:not(.do-not-validate) {
+					border-color: darken($green, 5%);
+				}
+			}
+
+			::-webkit-input-placeholder {
+				line-height: normal;
+			}
+
+			:-moz-placeholder {
+				line-height: normal;
+			}
+
+			:-ms-input-placeholder {
+				line-height: normal;
+			}
+		}
+
+		.form-row-first,
+		.form-row-last {
+			width: 47%;
+			overflow: visible;
+		}
+
+		.form-row-first {
+			float: left;
+
+			/*rtl:raw:
+			float: right;
+			*/
+		}
+
+		.form-row-last {
+			float: right;
+		}
+
+		.form-row-wide {
+			clear: both;
+		}
+
+		.password-input {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			input[type="password"] {
+				padding-right: 2.5rem;
+			}
+
+			/* Hide the Edge "reveal password" native button */
+			input::-ms-reveal {
+				display: none;
+			}
+		}
+
+		.show-password-input {
+			position: absolute;
+			top: 0.7em;
+			right: 0.7em;
+			cursor: pointer;
+		}
+
+		.show-password-input::after {
+
+			@include iconafter("\f177"); // Icon styles and glyph
+		}
+
+		.show-password-input.display-password::after {
+			color: #e8e8e8;
+		}
+	}
+
+	/**
+	 * Order page
+	 */
+	ul.order_details {
+		@include clearfix();
+		margin: 0 0 3em;
+		list-style: none;
+
+		li {
+			float: left;
+			padding-right: 2em;
+			padding-left: 0;
+			margin-right: 2em;
+			margin-left: 0;
+			font-size: 0.715em;
+			line-height: 1;
+			text-transform: uppercase;
+			list-style-type: none;
+			border-right: 1px dashed darken($secondary, 10%);
+
+			strong {
+				display: block;
+				font-size: 1.4em;
+				line-height: 1.5;
+				text-transform: none;
+			}
+
+			&:last-of-type {
+				border: none;
+			}
+		}
+	}
+
+	.er-bacs-bank-details-account-name {
+		font-weight: bold;
+	}
+
+	/**
+	 * Product Page
+	 */
+	div.resource {
+		position: relative;
+		margin-bottom: 0;
+
+		.resource_title {
+			padding: 0;
+			margin-top: 0;
+			clear: none;
+		}
+
+		span.price,
+		p.price {
+			font-size: 1.25em;
+			color: $highlight;
+
+			ins {
+				display: inline-block;
+				font-weight: 700;
+				background: inherit;
+			}
+
+			del {
+				display: inline-block;
+				opacity: 0.5;
+			}
+		}
+
+		p.stock {
+			font-size: 0.92em;
+		}
+
+		.stock {
+			color: $highlight;
+		}
+
+		.out-of-stock {
+			color: red;
+		}
+
+		div.images {
+			float: left;
+			width: 48%;
+			margin-bottom: 2em;
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+				box-shadow: none;
+			}
+
+			div.thumbnails {
+				padding-top: 1em;
+				@include clearfix();
+
+				a {
+					float: left;
+					width: 30.75%;
+					margin-right: 3.8%;
+					margin-bottom: 1em;
+				}
+
+				a.last {
+					margin-right: 0;
+				}
+
+				a.first {
+					clear: both;
+				}
+
+				&.columns-1 {
+					a {
+						float: none;
+						width: 100%;
+						margin-right: 0;
+					}
+				}
+
+				&.columns-2 {
+					a {
+						width: 48%;
+					}
+				}
+
+				&.columns-4 {
+					a {
+						width: 22.05%;
+					}
+				}
+
+				&.columns-5 {
+					a {
+						width: 16.9%;
+					}
+				}
+			}
+
+			&.easyreservations-resource-gallery {
+				position: relative;
+			}
+
+			.easyreservations-resource-gallery__wrapper {
+				padding: 0;
+				margin: 0;
+				transition: all cubic-bezier(0.795, -0.035, 0, 1) 0.5s;
+			}
+
+			.easyreservations-resource-gallery__wrapper .zoomImg {
+				background-color: #fff;
+				opacity: 0;
+			}
+
+			.easyreservations-resource-gallery__image--placeholder {
+				border: 1px solid #f2f2f2;
+			}
+
+			.easyreservations-resource-gallery__image:nth-child(n+2) {
+				display: inline-block;
+				width: 25%;
+			}
+
+			.easyreservations-resource-gallery__trigger {
+				position: absolute;
+				top: 0.5em;
+				right: 0.5em;
+				z-index: 9;
+				width: 36px;
+				height: 36px;
+				box-sizing: content-box;
+				font-size: 2em;
+				text-indent: -9999px;
+				background: #fff;
+				border-radius: 100%;
+
+				&::before {
+					position: absolute;
+					top: 9px;
+					left: 9px;
+					display: block;
+					width: 10px;
+					height: 10px;
+					box-sizing: content-box;
+					content: "";
+					border: 2px solid #000;
+					border-radius: 100%;
+				}
+
+				&::after {
+					position: absolute;
+					top: 19px;
+					left: 22px;
+					display: block;
+					width: 2px;
+					height: 8px;
+					box-sizing: content-box;
+					content: "";
+					background: #000;
+					border-radius: 6px;
+					transform: rotate(-45deg);
+				}
+			}
+
+			.flex-control-thumbs {
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+				zoom: 1;
+
+				li {
+					float: left;
+					width: 25%;
+					margin: 0;
+					list-style: none;
+
+					img {
+						margin: 0;
+						cursor: pointer;
+						opacity: 0.5;
+
+						&.flex-active,
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+
+		.easyreservations-resource-gallery--columns-3 {
+			.flex-control-thumbs li:nth-child(3n+1) {
+				clear: left;
+			}
+		}
+
+		.easyreservations-resource-gallery--columns-4 {
+
+			.flex-control-thumbs li:nth-child(4n+1) {
+				clear: left;
+			}
+		}
+
+		.easyreservations-resource-gallery--columns-5 {
+
+			.flex-control-thumbs li:nth-child(5n+1) {
+				clear: left;
+			}
+		}
+
+		div.summary {
+			float: right;
+			width: 48%;
+			margin-bottom: 2em;
+			clear: none;
+		}
+
+		div.social {
+			margin: 0 0 1em;
+			text-align: right;
+
+			span {
+				margin: 0 0 0 2px;
+
+				span {
+					margin: 0;
+				}
+
+				.stButton .chicklets {
+					width: 0;
+					padding-left: 16px;
+				}
+			}
+
+			iframe {
+				float: left;
+				margin-top: 3px;
+			}
+		}
+	}
+
+	ul.resources {
+		padding: 0;
+		margin: 0 0 1em;
+		clear: both;
+		list-style: none outside;
+		@include clearfix();
+
+		li.resource {
+			position: relative;
+			float: left;
+			width: 22.05%;
+			padding: 0;
+			margin: 0 3.8% 2.992em 0;
+
+			.onsale {
+				top: 0;
+				right: 0;
+				left: auto;
+				margin: -0.5em -0.5em 0 0;
+			}
+
+			h3,
+			.easyreservations-loop-resource__title {
+				padding: 0.5em 0;
+				margin: 0;
+				font-size: 1em;
+			}
+
+			a {
+				text-decoration: none;
+			}
+
+			a img {
+				display: block;
+				width: 100%;
+				height: auto;
+				margin: 0 0 1em;
+				box-shadow: none;
+			}
+
+			strong {
+				display: block;
+			}
+
+			.easyreservations-placeholder {
+				border: 1px solid #f2f2f2;
+			}
+
+			.button {
+				margin-top: 1em;
+			}
+
+			.price {
+				display: block;
+				margin-bottom: 0.5em;
+				font-size: 0.857em;
+				font-weight: normal;
+				color: $highlight;
+
+				del {
+					display: inline-block;
+					color: inherit;
+					opacity: 0.5;
+				}
+
+				ins {
+					display: inline-block;
+					font-weight: 700;
+					background: none;
+				}
+
+				.from {
+					margin: -2px 0 0 0;
+					font-size: 0.67em;
+					color: rgba(desaturate($highlight, 75%), 0.5);
+					text-transform: uppercase;
+				}
+			}
+
+		}
+
+		li.first {
+			clear: both;
+		}
+
+		li.last {
+			margin-right: 0;
+		}
+
+		&.columns-1 {
+			li.resource {
+				width: 100%;
+				margin-right: 0;
+			}
+		}
+
+		&.columns-2 {
+			li.resource {
+				width: 48%;
+			}
+		}
+
+		&.columns-3 {
+			li.resource {
+				width: 30.75%;
+			}
+		}
+
+		&.columns-5 {
+			li.resource {
+				width: 16.95%;
+			}
+		}
+
+		&.columns-6 {
+			li.resource {
+				width: 13.5%;
+			}
+		}
+
+	}
+
+	.easyreservations-form-login {
+		.easyreservations-form-login__submit {
+			float: left;
+			margin-right: 1em;
+		}
+
+		.easyreservations-form-login__rememberme {
+			display: inline-block;
+		}
+	}
 }
 
 /**
@@ -894,371 +900,371 @@
 .easyreservations-cart,
 .easyreservations-checkout,
 #add_payment_method {
-  table.cart {
-    .resource-thumbnail {
-      min-width: 50px;
-    }
-
-    img {
-      height: auto;
-      width: 50px;
-      box-shadow: none;
-    }
-
-    th,
-    td {
-      vertical-align: middle;
-    }
-
-    th.remove, th.thumbnail {
-      width: 100px;
-    }
-
-    th.amount {
-      width: 150px;
-    }
-
-    td.entry-remove {
-      text-align: center;
-    }
-
-    td.actions {
-      text-align: right;
-
-      .input-text {
-        width: 80px;
-      }
-
-      .coupon {
-        float: left;
-
-        .input-text {
-          float: left;
-          box-sizing: border-box;
-          border: 1px solid darken($secondary, 10%);
-          padding: 6px 6px 5px;
-          margin: 0 4px 0 0;
-          outline: 0;
-        }
-
-        label {
-          display: none;
-        }
-      }
-    }
-
-    input {
-      margin: 0;
-      vertical-align: middle;
-    }
-  }
-
-  .er-proceed-to-checkout {
-    @include clearfix();
-    padding: 1em 0;
-
-    a.checkout-button {
-      display: block;
-      text-align: center;
-      margin-bottom: 1em;
-      font-size: 1.25em;
-      padding: 1em;
-    }
-  }
-
-  .er-selection-box {
-    list-style: none outside;
-    padding: 0 1em;
-    margin: 0 0 1em 0;
-    border: 1px solid $innerborder;
-    box-shadow: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
-    position: relative;
-
-    li {
-      border-bottom: 1px solid $innerborder;
-      padding: 1em 0;
-
-      strong {
-        display: block;
-      }
-
-      small {
-        color: #77a464;
-      }
-
-      &:last-child {
-        border-bottom: 0;
-      }
-
-      input {
-        margin: -2px 1em 0 0;
-        display: inline-block;
-        vertical-align: middle;
-      }
-
-      label {
-        padding: 0 0 0 10px;
-        margin: 0;
-        display: inline-block;
-        vertical-align: middle;
-        cursor: pointer;
-        max-width: 80%;
-      }
-    }
-  }
-
-  .checkout {
-
-    .col-2 {
-      .notes {
-        clear: left;
-      }
-
-      .form-row-first {
-        clear: left;
-      }
-    }
-
-    .create-account small {
-      font-size: 11px;
-      color: $subtext;
-      font-weight: normal;
-    }
-  }
-
-  #order_submit {
-    background: $secondary;
-    border-radius: 5px;
-
-    div.form-row {
-      padding: 1em;
-    }
-  }
-
-  #payment {
-    .form-row {
-      select {
-        width: auto;
-      }
-    }
-
-    ul.payment_methods {
-      @include clearfix();
-      text-align: left;
-      padding: 1em;
-      margin: 0;
-      list-style: none outside;
-      border-bottom: 1px solid $innerborder;
-
-      li {
-        line-height: 2;
-        text-align: left;
-        margin: 0;
-        font-weight: normal;
-
-        label {
-          display: inline;
-        }
-
-        input {
-          margin: 0 1em 0 0;
-        }
-
-        img {
-          vertical-align: middle;
-          margin: -2px 0 0 0.5em;
-          padding: 0;
-          position: relative;
-          box-shadow: none;
-        }
-
-        img + img {
-          margin-left: 2px;
-        }
-      }
-
-      li:not(.easyreservations-notice) {
-        @include clearfix;
-      }
-    }
-
-    div.payment_box {
-      position: relative;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 1em;
-      margin: 1em 0;
-      font-size: 0.92em;
-      border-radius: 2px;
-      line-height: 1.5;
-      background-color: darken($secondary, 5%);
-      color: $secondarytext;
-
-      input.input-text,
-      textarea {
-        border-color: darken($secondary, 15%);
-        border-top-color: darken($secondary, 20%);
-      }
-
-      ::-webkit-input-placeholder {
-        color: darken($secondary, 20%);
-      }
-
-      :-moz-placeholder {
-        color: darken($secondary, 20%);
-      }
-
-      :-ms-input-placeholder {
-        color: darken($secondary, 20%);
-      }
-
-      .ElementsApp input {
-        background: #fff;
-      }
-
-      .easyreservations-SavedPaymentMethods {
-        list-style: none outside;
-        margin: 0;
-
-        .easyreservations-SavedPaymentMethods-token,
-        .easyreservations-SavedPaymentMethods-new {
-          margin: 0 0 0.5em;
-
-          label {
-            cursor: pointer;
-          }
-        }
-
-        .easyreservations-SavedPaymentMethods-tokenInput {
-          vertical-align: middle;
-          margin: -3px 1em 0 0;
-          position: relative;
-        }
-      }
-
-      .er-credit-card-form {
-        border: 0;
-        padding: 0;
-        margin: 1em 0 0;
-
-        .InputElement {
-          background: #efefef;
-
-          &.is-invalid {
-
-          }
-        }
-      }
-
-      .er-credit-card-form-card-number,
-      .er-credit-card-form-card-expiry,
-      .er-credit-card-form-card-cvc {
-        font-size: 1.5em;
-        padding: 8px;
-        background-repeat: no-repeat;
-        background-position: right 0.618em center;
-        background-size: 32px 20px;
-
-        &.visa {
-          background-image: url("../images/icons/credit-cards/visa.svg");
-        }
-
-        &.mastercard {
-          background-image: url("../images/icons/credit-cards/mastercard.svg");
-        }
-
-        &.laser {
-          background-image: url("../images/icons/credit-cards/laser.svg");
-        }
-
-        &.dinersclub {
-          background-image: url("../images/icons/credit-cards/diners.svg");
-        }
-
-        &.maestro {
-          background-image: url("../images/icons/credit-cards/maestro.svg");
-        }
-
-        &.jcb {
-          background-image: url("../images/icons/credit-cards/jcb.svg");
-        }
-
-        &.amex {
-          background-image: url("../images/icons/credit-cards/amex.svg");
-        }
-
-        &.discover {
-          background-image: url("../images/icons/credit-cards/discover.svg");
-        }
-      }
-
-      span.help {
-        font-size: 0.857em;
-        color: $subtext;
-        font-weight: normal;
-      }
-
-      .form-row {
-        margin: 0 0 1em;
-      }
-
-      p:last-child {
-        margin-bottom: 0;
-      }
-
-      &::before {
-        content: "";
-        display: block;
-        border: 1em solid darken($secondary, 5%); /* arrow size / color */
-        border-right-color: transparent;
-        border-left-color: transparent;
-        border-top-color: transparent;
-        position: absolute;
-        top: -0.75em;
-        left: 0;
-        margin: -1em 0 0 2em;
-      }
-    }
-
-    .payment_method_paypal {
-
-      .about_paypal {
-        float: right;
-        line-height: 52px;
-        font-size: 0.83em;
-      }
-
-      img {
-        max-height: 52px;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  #place_order {
-    float: right;
-  }
-
-  .easyreservations-terms-and-conditions {
-    margin-bottom: 1.618em;
-    padding: 1.618em;
-  }
+	table.cart {
+		.resource-thumbnail {
+			min-width: 50px;
+		}
+
+		img {
+			width: 50px;
+			height: auto;
+			box-shadow: none;
+		}
+
+		th,
+		td {
+			vertical-align: middle;
+		}
+
+		th.remove, th.thumbnail {
+			width: 100px;
+		}
+
+		th.amount {
+			width: 150px;
+		}
+
+		td.entry-remove {
+			text-align: center;
+		}
+
+		td.actions {
+			text-align: right;
+
+			.input-text {
+				width: 80px;
+			}
+
+			.coupon {
+				float: left;
+
+				.input-text {
+					float: left;
+					box-sizing: border-box;
+					padding: 6px 6px 5px;
+					margin: 0 4px 0 0;
+					border: 1px solid darken($secondary, 10%);
+					outline: 0;
+				}
+
+				label {
+					display: none;
+				}
+			}
+		}
+
+		input {
+			margin: 0;
+			vertical-align: middle;
+		}
+	}
+
+	.er-proceed-to-checkout {
+		@include clearfix();
+		padding: 1em 0;
+
+		a.checkout-button {
+			display: block;
+			padding: 1em;
+			margin-bottom: 1em;
+			font-size: 1.25em;
+			text-align: center;
+		}
+	}
+
+	.er-selection-box {
+		position: relative;
+		box-sizing: border-box;
+		padding: 0 1em;
+		margin: 0 0 1em 0;
+		font-size: 1em;
+		list-style: none outside;
+		border: 1px solid $innerborder;
+		border-radius: 4px;
+		box-shadow: none;
+
+		li {
+			padding: 1em 0;
+			border-bottom: 1px solid $innerborder;
+
+			strong {
+				display: block;
+			}
+
+			small {
+				color: #77a464;
+			}
+
+			&:last-child {
+				border-bottom: 0;
+			}
+
+			input {
+				display: inline-block;
+				margin: -2px 1em 0 0;
+				vertical-align: middle;
+			}
+
+			label {
+				display: inline-block;
+				max-width: 80%;
+				padding: 0 0 0 10px;
+				margin: 0;
+				vertical-align: middle;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.checkout {
+
+		.col-2 {
+			.notes {
+				clear: left;
+			}
+
+			.form-row-first {
+				clear: left;
+			}
+		}
+
+		.create-account small {
+			font-size: 11px;
+			font-weight: normal;
+			color: $subtext;
+		}
+	}
+
+	#order_submit {
+		background: $secondary;
+		border-radius: 5px;
+
+		div.form-row {
+			padding: 1em;
+		}
+	}
+
+	#payment {
+		.form-row {
+			select {
+				width: auto;
+			}
+		}
+
+		ul.payment_methods {
+			@include clearfix();
+			padding: 1em;
+			margin: 0;
+			text-align: left;
+			list-style: none outside;
+			border-bottom: 1px solid $innerborder;
+
+			li {
+				margin: 0;
+				font-weight: normal;
+				line-height: 2;
+				text-align: left;
+
+				label {
+					display: inline;
+				}
+
+				input {
+					margin: 0 1em 0 0;
+				}
+
+				img {
+					position: relative;
+					padding: 0;
+					margin: -2px 0 0 0.5em;
+					vertical-align: middle;
+					box-shadow: none;
+				}
+
+				img + img {
+					margin-left: 2px;
+				}
+			}
+
+			li:not(.easyreservations-notice) {
+				@include clearfix;
+			}
+		}
+
+		div.payment_box {
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
+			padding: 1em;
+			margin: 1em 0;
+			font-size: 0.92em;
+			line-height: 1.5;
+			color: $secondarytext;
+			background-color: darken($secondary, 5%);
+			border-radius: 2px;
+
+			input.input-text,
+			textarea {
+				border-color: darken($secondary, 15%);
+				border-top-color: darken($secondary, 20%);
+			}
+
+			::-webkit-input-placeholder {
+				color: darken($secondary, 20%);
+			}
+
+			:-moz-placeholder {
+				color: darken($secondary, 20%);
+			}
+
+			:-ms-input-placeholder {
+				color: darken($secondary, 20%);
+			}
+
+			.ElementsApp input {
+				background: #fff;
+			}
+
+			.easyreservations-SavedPaymentMethods {
+				margin: 0;
+				list-style: none outside;
+
+				.easyreservations-SavedPaymentMethods-token,
+				.easyreservations-SavedPaymentMethods-new {
+					margin: 0 0 0.5em;
+
+					label {
+						cursor: pointer;
+					}
+				}
+
+				.easyreservations-SavedPaymentMethods-tokenInput {
+					position: relative;
+					margin: -3px 1em 0 0;
+					vertical-align: middle;
+				}
+			}
+
+			.er-credit-card-form {
+				padding: 0;
+				margin: 1em 0 0;
+				border: 0;
+
+				.InputElement {
+					background: #efefef;
+
+					&.is-invalid {
+
+					}
+				}
+			}
+
+			.er-credit-card-form-card-number,
+			.er-credit-card-form-card-expiry,
+			.er-credit-card-form-card-cvc {
+				padding: 8px;
+				font-size: 1.5em;
+				background-repeat: no-repeat;
+				background-position: right 0.618em center;
+				background-size: 32px 20px;
+
+				&.visa {
+					background-image: url("../images/icons/credit-cards/visa.svg");
+				}
+
+				&.mastercard {
+					background-image: url("../images/icons/credit-cards/mastercard.svg");
+				}
+
+				&.laser {
+					background-image: url("../images/icons/credit-cards/laser.svg");
+				}
+
+				&.dinersclub {
+					background-image: url("../images/icons/credit-cards/diners.svg");
+				}
+
+				&.maestro {
+					background-image: url("../images/icons/credit-cards/maestro.svg");
+				}
+
+				&.jcb {
+					background-image: url("../images/icons/credit-cards/jcb.svg");
+				}
+
+				&.amex {
+					background-image: url("../images/icons/credit-cards/amex.svg");
+				}
+
+				&.discover {
+					background-image: url("../images/icons/credit-cards/discover.svg");
+				}
+			}
+
+			span.help {
+				font-size: 0.857em;
+				font-weight: normal;
+				color: $subtext;
+			}
+
+			.form-row {
+				margin: 0 0 1em;
+			}
+
+			p:last-child {
+				margin-bottom: 0;
+			}
+
+			&::before {
+				position: absolute;
+				top: -0.75em;
+				left: 0;
+				display: block;
+				margin: -1em 0 0 2em;
+				content: "";
+				border: 1em solid darken($secondary, 5%); /* arrow size / color */
+				border-top-color: transparent;
+				border-right-color: transparent;
+				border-left-color: transparent;
+			}
+		}
+
+		.payment_method_paypal {
+
+			.about_paypal {
+				float: right;
+				font-size: 0.83em;
+				line-height: 52px;
+			}
+
+			img {
+				max-height: 52px;
+				vertical-align: middle;
+			}
+		}
+	}
+
+	#place_order {
+		float: right;
+	}
+
+	.easyreservations-terms-and-conditions {
+		padding: 1.618em;
+		margin-bottom: 1.618em;
+	}
 }
 
 .easyreservations-terms-and-conditions {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(0, 0, 0, 0.05);
+	background: rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .easyreservations-invalid {
-  #terms {
-    outline: 2px solid red;
-    outline-offset: 2px;
-  }
+	#terms {
+		outline: 2px solid red;
+		outline-offset: 2px;
+	}
 }
 
 /**
@@ -1267,519 +1273,520 @@
 .easyreservations-message,
 .easyreservations-error,
 .easyreservations-info {
-  padding: 1em 2em 1em 3.5em;
-  margin: 0 0 2em;
-  position: relative;
-  background-color: lighten($secondary, 5%);
-  color: $secondarytext;
-  border-top: 3px solid $primary;
-  list-style: none outside;
+	position: relative;
+	width: auto;
+	padding: 1em 2em 1em 3.5em;
+	margin: 0 0 2em;
+	color: $secondarytext;
+	word-wrap: break-word;
+	list-style: none outside;
 
-  @include clearfix();
-  width: auto;
-  word-wrap: break-word;
+	@include clearfix();
+	background-color: lighten($secondary, 5%);
+	border-top: 3px solid $primary;
 
-  &::before {
-    font-family: "Dashicons";
-    font-size: 20px;
-    content: "\f123";
-    display: inline-block;
-    position: absolute;
-    top: 13px;
-    left: 1.2em;
-  }
+	&::before {
+		position: absolute;
+		top: 13px;
+		left: 1.2em;
+		display: inline-block;
+		font-family: "Dashicons";
+		font-size: 20px;
+		content: "\f123";
+	}
 
-  .button {
-    float: right;
-  }
+	.button {
+		float: right;
+	}
 
-  li {
-    list-style: none outside !important; // Required for default theme compatibility
-    padding-left: 0 !important; // Required for default theme compatibility
-    margin-left: 0 !important; // Required for default theme compatibility
-    margin-bottom: 8px;
-  }
+	li {
+		padding-left: 0 !important; // Required for default theme compatibility
+		margin-bottom: 8px;
+		margin-left: 0 !important; // Required for default theme compatibility
+		list-style: none outside !important; // Required for default theme compatibility
+	}
 }
 
 .easyreservations-message {
-  border-top-color: #8fae1b;
+	border-top-color: #8fae1b;
 
-  &::before {
-    content: "\f12a";
-    color: #8fae1b;
-  }
+	&::before {
+		color: #8fae1b;
+		content: "\f12a";
+	}
 }
 
 .easyreservations-info {
-  border-top-color: #1e85be;
+	border-top-color: #1e85be;
 
-  &::before {
-    color: #1e85be;
-  }
+	&::before {
+		color: #1e85be;
+	}
 }
 
 .easyreservations-error {
-  border-top-color: #b81c23;
+	border-top-color: #b81c23;
 
-  &::before {
-    content: "\f348";
-    color: #b81c23;
-  }
+	&::before {
+		color: #b81c23;
+		content: "\f348";
+	}
 }
 
 /* DATE SELECTION */
 .easy-date-selection {
-  user-select: none;
-  margin-bottom: 10px;
+	margin-bottom: 10px;
+	user-select: none;
 
-  .header {
-    line-height: 26px;
-    width: 99%;
-    padding: 0 0 10px 0;
-    background: $contentbg;
+	.header {
+		width: 99%;
+		padding: 0 0 10px 0;
+		line-height: 26px;
+		background: $contentbg;
 
-    div {
-      box-sizing: border-box;
-      text-align: center;
-      color: #9a9a9a;
+		div {
+			box-sizing: border-box;
+			color: #9a9a9a;
+			text-align: center;
 
-      .text {
-        display: block;
-        color: #333;
+			.text {
+				display: block;
+				color: #333;
 
-        .important {
-          color: $primary;
-        }
-      }
+				.important {
+					color: $primary;
+				}
+			}
 
-      &.arrival {
-        cursor: pointer;
-      }
+			&.arrival {
+				cursor: pointer;
+			}
 
-      &.departure {
-        width: 50%;
-        float: right;
-        border-left: 1px solid #b9b7b7;
+			&.departure {
+				float: right;
+				width: 50%;
+				border-left: 1px solid #b9b7b7;
 
-        &.active {
-          cursor: pointer;
-        }
-      }
-    }
+				&.active {
+					cursor: pointer;
+				}
+			}
+		}
 
-    .departure + .arrival {
-      width: 50%;
-    }
-  }
+		.departure + .arrival {
+			width: 50%;
+		}
+	}
 
-  .calendar {
-    position: relative;
-    display: none;
+	.calendar {
+		position: relative;
+		display: none;
 
-    .datepicker {
-      border: 1px solid $outerborder;
+		.datepicker {
+			border: 1px solid $outerborder;
 
-      .easy-datepicker {
-        width: 100%;
-      }
-    }
+			.easy-datepicker {
+				width: 100%;
+			}
+		}
 
-    .calendar-prev,
-    .calendar-next {
-      position: absolute;
-      z-index: 2;
-      width: 20px;
-      margin: 16px;
+		.calendar-prev,
+		.calendar-next {
+			position: absolute;
+			z-index: 2;
+			width: 20px;
+			margin: 16px;
 
-      .ui-icon {
-        position: static;
-        font-size: 20px;
-        cursor: pointer;
-      }
+			.ui-icon {
+				position: static;
+				font-size: 20px;
+				cursor: pointer;
+			}
 
-      &:hover {
-        color: #fff;
-        cursor: pointer;
-      }
-    }
+			&:hover {
+				color: #fff;
+				cursor: pointer;
+			}
+		}
 
-    .calendar-next {
-      right: 0;
-    }
+		.calendar-next {
+			right: 0;
+		}
 
-    .ui-widget-content {
-      border: 0;
+		.ui-widget-content {
+			border: 0;
 
-      .ui-widget-header {
-        border-top: 0;
+			.ui-widget-header {
+				border-top: 0;
 
-        .ui-datepicker-title {
-          line-height: 30px;
-        }
-      }
-    }
+				.ui-datepicker-title {
+					line-height: 30px;
+				}
+			}
+		}
 
-    .ui-datepicker-group-first .ui-datepicker-calendar {
-      border-right: 1px solid $innerborder;
-    }
+		.ui-datepicker-group-first .ui-datepicker-calendar {
+			border-right: 1px solid $innerborder;
+		}
 
-    .ui-datepicker-inline {
-      .ui-datepicker-prev.ui-state-hover,
-      .ui-datepicker-next.ui-state-hover {
-        background-color: transparent;
-      }
+		.ui-datepicker-inline {
+			.ui-datepicker-prev.ui-state-hover,
+			.ui-datepicker-next.ui-state-hover {
+				background-color: transparent;
+			}
 
-      th {
-        padding: 0;
-        font-weight: 500;
-        text-transform: uppercase;
-      }
+			th {
+				padding: 0;
+				font-weight: 500;
+				text-transform: uppercase;
+			}
 
-      td {
-        background: #53b796;
-        border-right-color: #fff;
-        border-bottom-color: #fff;
+			td {
+				background: #53b796;
+				border-right-color: #fff;
+				border-bottom-color: #fff;
 
-        &.ui-state-disabled {
-          background: #f6f7f8;
-          opacity: 1;
+				&.ui-state-disabled {
+					background: #f6f7f8;
+					opacity: 1;
 
-          span {
-            color: #c1c1c3;
-          }
-        }
+					span {
+						color: #c1c1c3;
+					}
+				}
 
-        &.unavailable {
-          background: #b55250;
-          opacity:1;
+				&.unavailable {
+					background: #b55250;
+					opacity: 1;
 
-          span {
-            color: #fff;
-          }
-        }
+					span {
+						color: #fff;
+					}
+				}
 
-        &.rule {
-          background: #ebecef;
-          opacity: 1;
+				&.rule {
+					background: #ebecef;
+					opacity: 1;
 
-          span {
-            color: #a6a6a8;
-          }
-        }
+					span {
+						color: #a6a6a8;
+					}
+				}
 
-        &.partially {
-          background: #87ccb4;
+				&.partially {
+					background: #87ccb4;
 
-          a {
-            color: #fff;
-          }
+					a {
+						color: #fff;
+					}
 
-        }
+				}
 
-        &.available {
-          a {
-            color: #fff;
-          }
-        }
+				&.available {
+					a {
+						color: #fff;
+					}
+				}
 
-        &.ui-datepicker-other-month {
-          background: #fff;
-        }
+				&.ui-datepicker-other-month {
+					background: #fff;
+				}
 
-        .ui-state-active {
-          background: $primary;
-        }
+				.ui-state-active {
+					background: $primary;
+				}
 
-        a.ui-state-hover:not(.ui-state-active) {
-          background: #2b8f6e;
-        }
-      }
-    }
+				a.ui-state-hover:not(.ui-state-active) {
+					background: #2b8f6e;
+				}
+			}
+		}
 
-    tr.time-picker > td {
-      background: $contenth1;
+		tr.time-picker > td {
+			background: $contenth1;
 
-      > div {
-        margin: 7px;
-        padding: 5px 20px 10px;
-        color: $primary;
-        background: $contentbg;
-        font-weight: 600;
-        text-align: center;
+			> div {
+				display: none;
+				padding: 5px 20px 10px;
+				margin: 7px;
+				font-size: 15px;
+				font-weight: 600;
+				line-height: 2;
 
-        border: 1px solid rgba(0, 0, 0, .2);
-        border-radius: .1875rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+				color: $primary;
+				text-align: center;
+				background: $contentbg;
 
-        font-size: 15px;
-        line-height: 2;
-        display: none;
+				border: 1px solid rgba(0, 0, 0, .2);
+				border-radius: .1875rem;
+				box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 
-        .easy-button {
-          margin: 5px 0;
-          font-size: 14px;
-          font-weight: 600;
-        }
+				.easy-button {
+					margin: 5px 0;
+					font-size: 14px;
+					font-weight: 600;
+				}
 
-        .time-option {
-          color: #fff;
-          cursor: pointer;
-          display: inline-block;
-          min-width: 20%;
-          margin: 2px;
-          font-size: 13px;
+				.time-option {
+					display: inline-block;
+					min-width: 20%;
+					margin: 2px;
+					font-size: 13px;
+					color: #fff;
+					cursor: pointer;
 
-          &.available {
-            background: #53b796;
+					&.available {
+						background: #53b796;
 
-            &:hover {
-              background: $primary;
-            }
-          }
+						&:hover {
+							background: $primary;
+						}
+					}
 
-          &.unavailable {
-            background: #b75252;
-            cursor: default;
-          }
-        }
+					&.unavailable {
+						cursor: default;
+						background: #b75252;
+					}
+				}
 
-        .apply-time {
-          line-height: 12px;
-          cursor: pointer;
-          font-size: 14px;
-          font-weight: 600;
-          vertical-align: middle;
-        }
-      }
-    }
-  }
+				.apply-time {
+					font-size: 14px;
+					font-weight: 600;
+					line-height: 12px;
+					vertical-align: middle;
+					cursor: pointer;
+				}
+			}
+		}
+	}
 }
 
 /**
  * Password strength meter
  */
 .easyreservations-password-strength {
-  text-align: center;
-  font-weight: 600;
-  padding: 3px 0.5em;
-  font-size: 1em;
+	padding: 3px 0.5em;
+	font-size: 1em;
+	font-weight: 600;
+	text-align: center;
 
-  &.strong {
-    background-color: #c1e1b9;
-    border-color: #83c373;
-  }
+	&.strong {
+		background-color: #c1e1b9;
+		border-color: #83c373;
+	}
 
-  &.short {
-    background-color: #f1adad;
-    border-color: #e35b5b;
-  }
+	&.short {
+		background-color: #f1adad;
+		border-color: #e35b5b;
+	}
 
-  &.bad {
-    background-color: #fbc5a9;
-    border-color: #f78b53;
-  }
+	&.bad {
+		background-color: #fbc5a9;
+		border-color: #f78b53;
+	}
 
-  &.good {
-    background-color: #ffe399;
-    border-color: #ffc733;
-  }
+	&.good {
+		background-color: #ffe399;
+		border-color: #ffc733;
+	}
 }
 
 /**
  * Twenty Fourteen specific styles
  */
 .twentyfourteen {
-  .tfer {
-    padding: 12px 10px 0;
-    max-width: 474px;
-    margin: 0 auto;
+	.tfer {
+		max-width: 474px;
+		padding: 12px 10px 0;
+		margin: 0 auto;
 
-    .resource .entry-summary {
-      padding: 0 !important;
-      margin: 0 0 1.618em !important;
-    }
+		.resource .entry-summary {
+			padding: 0 !important;
+			margin: 0 0 1.618em !important;
+		}
 
-    div.resource.hentry.has-post-thumbnail {
-      margin-top: 0;
-    }
-  }
+		div.resource.hentry.has-post-thumbnail {
+			margin-top: 0;
+		}
+	}
 }
 
 @media screen and (min-width: 673px) {
-  .twentyfourteen {
-    .tfer {
-      padding-right: 30px;
-      padding-left: 30px;
-    }
-  }
+	.twentyfourteen {
+		.tfer {
+			padding-right: 30px;
+			padding-left: 30px;
+		}
+	}
 }
 
 @media screen and (min-width: 1040px) {
-  .twentyfourteen {
-    .tfer {
-      padding-right: 15px;
-      padding-left: 15px;
-    }
-  }
+	.twentyfourteen {
+		.tfer {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+	}
 }
 
 @media screen and (min-width: 1110px) {
-  .twentyfourteen {
-    .tfer {
-      padding-right: 30px;
-      padding-left: 30px;
-    }
-  }
+	.twentyfourteen {
+		.tfer {
+			padding-right: 30px;
+			padding-left: 30px;
+		}
+	}
 }
 
 @media screen and (min-width: 1218px) {
-  .twentyfourteen {
-    .tfer {
-      margin-right: 54px;
-    }
-  }
-  .full-width {
-    .twentyfourteen {
-      .tfer {
-        margin-right: auto;
-      }
-    }
-  }
+	.twentyfourteen {
+		.tfer {
+			margin-right: 54px;
+		}
+	}
+	.full-width {
+		.twentyfourteen {
+			.tfer {
+				margin-right: auto;
+			}
+		}
+	}
 }
 
 /**
  * Twenty Fifteen specific styles
  */
 .twentyfifteen {
-  .t15er {
-    padding-left: 7.6923%;
-    padding-right: 7.6923%;
-    padding-top: 7.6923%;
-    margin-bottom: 7.6923%;
-    background: #fff;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+	.t15er {
+		padding-top: 7.6923%;
+		padding-right: 7.6923%;
+		padding-left: 7.6923%;
+		margin-bottom: 7.6923%;
+		background: #fff;
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
 
-    .page-title {
-      margin-left: 0;
-    }
-  }
+		.page-title {
+			margin-left: 0;
+		}
+	}
 }
 
 @media screen and (min-width: 38.75em) {
-  .twentyfifteen {
-    .t15er {
-      margin-right: 7.6923%;
-      margin-left: 7.6923%;
-      margin-top: 8.3333%;
-    }
-  }
+	.twentyfifteen {
+		.t15er {
+			margin-top: 8.3333%;
+			margin-right: 7.6923%;
+			margin-left: 7.6923%;
+		}
+	}
 }
 
 @media screen and (min-width: 59.6875em) {
-  .twentyfifteen {
-    .t15er {
-      margin-left: 8.3333%;
-      margin-right: 8.3333%;
-      padding: 10%;
-    }
-  }
+	.twentyfifteen {
+		.t15er {
+			padding: 10%;
+			margin-right: 8.3333%;
+			margin-left: 8.3333%;
+		}
+	}
 
-  .single-resource {
-    .twentyfifteen {
-      .entry-summary {
-        padding: 0 !important;
-      }
-    }
-  }
+	.single-resource {
+		.twentyfifteen {
+			.entry-summary {
+				padding: 0 !important;
+			}
+		}
+	}
 }
 
 /**
  * Twenty Sixteen specific styles
  */
 .twentysixteen {
-  .site-main {
-    margin-right: 7.6923%;
-    margin-left: 7.6923%;
-  }
+	.site-main {
+		margin-right: 7.6923%;
+		margin-left: 7.6923%;
+	}
 
-  .entry-summary {
-    margin-right: 0;
-    margin-left: 0;
-  }
+	.entry-summary {
+		margin-right: 0;
+		margin-left: 0;
+	}
 }
 
 .easyreservations-no-js {
-  form.easyreservations-form-login,
-  form.easyreservations-form-coupon {
-    display: block !important;
-  }
+	form.easyreservations-form-login,
+	form.easyreservations-form-coupon {
+		display: block !important;
+	}
 
-  .easyreservations-form-login-toggle,
-  .easyreservations-form-coupon-toggle,
-  .showcoupon {
-    display: none !important;
-  }
+	.easyreservations-form-login-toggle,
+	.easyreservations-form-coupon-toggle,
+	.showcoupon {
+		display: none !important;
+	}
 }
 
 #content {
-  .twentysixteen {
-    div.resource {
-      div.images,
-      div.summary {
-        width: 46.42857%;
-      }
-    }
-  }
+	.twentysixteen {
+		div.resource {
+			div.images,
+			div.summary {
+				width: 46.42857%;
+			}
+		}
+	}
 }
 
 @media screen and (min-width: 44.375em) {
-  .twentysixteen {
-    .site-main {
-      margin-right: 23.0769%;
-    }
-  }
+	.twentysixteen {
+		.site-main {
+			margin-right: 23.0769%;
+		}
+	}
 }
 
 @media screen and (min-width: 56.875em) {
-  .twentysixteen {
-    .site-main {
-      margin-right: 0;
-      margin-left: 0;
-    }
-  }
+	.twentysixteen {
+		.site-main {
+			margin-right: 0;
+			margin-left: 0;
+		}
+	}
 
-  .no-sidebar {
-    .twentysixteen {
-      .site-main {
-        margin-right: 15%;
-        margin-left: 15%;
-      }
+	.no-sidebar {
+		.twentysixteen {
+			.site-main {
+				margin-right: 15%;
+				margin-left: 15%;
+			}
 
-      .entry-summary {
-        margin-right: 0;
-        margin-left: 0;
-      }
-    }
-  }
+			.entry-summary {
+				margin-right: 0;
+				margin-left: 0;
+			}
+		}
+	}
 }
 
 /**
  * RTL styles.
  */
 .rtl {
-  .easyreservations, .easyreservations {
-    .col2-set {
-      .col-1 {
-        float: right;
-      }
-      .col-2 {
-        float: left;
-      }
-    }
-  }
+	.easyreservations, .easyreservations {
+		.col2-set {
+			.col-1 {
+				float: right;
+			}
+
+			.col-2 {
+				float: left;
+			}
+		}
+	}
 }
 
 //Fix for AIT Themes
 .sbSelector, .sbHolder {
-  display: none;
+	display: none;
 }

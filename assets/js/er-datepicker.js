@@ -1,5 +1,5 @@
 /*global er_date_picker_params */
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 	// er_date_picker_params is required to continue, ensure the object exists
 	if ( typeof er_date_picker_params === 'undefined' ) {
 		return false;
@@ -8,23 +8,23 @@ jQuery( function ( $ ) {
 	var default_args = er_datepicker_get_args();
 
 	function init() {
-		$( '.er-datepicker' ).each( function () {
+		$( '.er-datepicker' ).each( function() {
 			$( this ).attr( 'autocomplete', 'off' );
 
 			var data_target = $( this ).attr( 'data-target' ),
 				data_format = $( this ).attr( 'data-format' ),
-				args = $.extend( {
+				args        = $.extend( {
 					changeMonth: true,
-					changeYear: true,
-					showAnim: 'slideDown',
-					beforeShow: function ( _, inst ) {
+					changeYear:  true,
+					showAnim:    'slideDown',
+					beforeShow:  function( _, inst ) {
 						console.log( 13 );
 
 						inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 					},
 				}, default_args );
 
-			if( $( this ).is('div') ){
+			if ( $( this ).is( 'div' ) ) {
 				$( this ).removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 			}
 
@@ -33,7 +33,7 @@ jQuery( function ( $ ) {
 			}
 
 			if ( data_target && typeof data_target !== "undefined" ) {
-				args.onSelect = function ( selectedDate ) {
+				args.onSelect = function( selectedDate ) {
 					var instance = $( this ).data( "datepicker" );
 					var date = $.datepicker.parseDate( instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
 					$( '#' + data_target ).datepicker( "option", "minDate", date );
@@ -46,7 +46,7 @@ jQuery( function ( $ ) {
 
 	init();
 
-	$( document ).on( 'er-init-datepicker', function () {
+	$( document ).on( 'er-init-datepicker', function() {
 		init();
 	} )
 } );
@@ -84,19 +84,19 @@ function er_datepicker_get_args() {
 	day_names_min.length = 7;
 
 	var args = {
-		dateFormat: date_format,
-		dayNames: day_names,
-		dayNamesShort: day_names_short,
-		dayNamesMin: day_names_min,
-		monthNames: er_date_picker_params.month_names,
+		dateFormat:      date_format,
+		dayNames:        day_names,
+		dayNamesShort:   day_names_short,
+		dayNamesMin:     day_names_min,
+		monthNames:      er_date_picker_params.month_names,
 		monthNamesShort: er_date_picker_params.month_names_short,
-		prevText: '',
-		nextText: '',
+		prevText:        '',
+		nextText:        '',
 	};
 
 	if ( er_date_picker_params.is_frontend_request === 'yes' ) {
 		var earliest_possible = parseInt( er_date_picker_params.earliest_possible, 10 ) / 86400;
-		if( earliest_possible >= 1 ){
+		if ( earliest_possible >= 1 ) {
 			args.minDate = earliest_possible;
 		}
 	}

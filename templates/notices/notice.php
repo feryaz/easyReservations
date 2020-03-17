@@ -17,13 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( !$notices ) {
+if ( ! $notices ) {
 	return;
 }
 ?>
 
 <?php foreach ( $notices as $notice ) : ?>
     <div class="easyreservations-info"<?php echo er_get_notice_data_attr( $notice ); ?>>
-        <?php echo er_kses_notice( $notice['notice'] ); ?>
+		<?php echo er_kses_notice( $notice['notice'] ); ?>
     </div>
 <?php endforeach; ?>

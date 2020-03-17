@@ -87,29 +87,31 @@ class ER_Meta_Box_Order_Data {
 		global $theorder;
 
 		if ( ! is_object( $theorder ) ) {
-            $theorder = er_get_order( absint( $post->ID ) );
+			$theorder = er_get_order( absint( $post->ID ) );
 		}
 
-        $order = $theorder;
+		$order = $theorder;
 
 		self::init_address_fields();
 
-        $payment_gateways = ER()->payment_gateways()->payment_gateways();
+		$payment_gateways = ER()->payment_gateways()->payment_gateways();
 
 		$payment_method = $order->get_payment_method();
 
-        $order_type_object = get_post_type_object( $post->post_type );
+		$order_type_object = get_post_type_object( $post->post_type );
 		wp_nonce_field( 'easyreservations_save_data', 'easyreservations_meta_nonce' );
 		?>
-		<style type="text/css">
-			#post-body-content, #titlediv { display:none }
-		</style>
-		<div class="panel-wrap easyreservations">
-			<input name="object_id" id="object_id" type="hidden" value="<?php echo esc_attr( $post->ID ); ?>" />
-			<input name="post_title" type="hidden" value="<?php echo empty( $post->post_title ) ? esc_attr__( 'Order', 'easyReservations' ) : esc_attr( $post->post_title ); ?>" />
-			<input name="post_status" type="hidden" value="<?php echo esc_attr( $post->post_status ); ?>" />
-			<div id="order_data" class="panel easyreservations-order-data">
-				<h2 class="easyreservations-order-data__heading">
+        <style type="text/css">
+            #post-body-content, #titlediv {
+                display: none
+            }
+        </style>
+        <div class="panel-wrap easyreservations">
+            <input name="object_id" id="object_id" type="hidden" value="<?php echo esc_attr( $post->ID ); ?>"/>
+            <input name="post_title" type="hidden" value="<?php echo empty( $post->post_title ) ? esc_attr__( 'Order', 'easyReservations' ) : esc_attr( $post->post_title ); ?>"/>
+            <input name="post_status" type="hidden" value="<?php echo esc_attr( $post->post_status ); ?>"/>
+            <div id="order_data" class="panel easyreservations-order-data">
+                <h2 class="easyreservations-order-data__heading">
 					<?php
 
 					/* translators: 1: order type 2: order number */
@@ -120,8 +122,8 @@ class ER_Meta_Box_Order_Data {
 					);
 
 					?>
-				</h2>
-				<p class="easyreservations-order-data__meta order_number">
+                </h2>
+                <p class="easyreservations-order-data__meta order_number">
 					<?php
 
 					$meta_list = array();
@@ -156,21 +158,21 @@ class ER_Meta_Box_Order_Data {
 					echo wp_kses_post( implode( '. ', $meta_list ) );
 
 					?>
-				</p>
-				<div class="order_data_column_container">
-					<div class="order_data_column">
-						<h3><?php esc_html_e( 'General', 'easyReservations' ); ?></h3>
+                </p>
+                <div class="order_data_column_container">
+                    <div class="order_data_column">
+                        <h3><?php esc_html_e( 'General', 'easyReservations' ); ?></h3>
 
-						<p class="form-field form-field-wide">
-							<label for="order_date"><?php esc_html_e( 'Date created:', 'easyReservations' ); ?></label>
-							<input type="text" class="er-datepicker date-created" name="order_date" maxlength="10" data-format="yy-mm-dd" value="<?php echo esc_attr( date_i18n( 'Y-m-d', strtotime( $post->post_date ) ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>" />@
-							<input type="number" class="hour" placeholder="<?php esc_attr_e( 'h', 'easyReservations' ); ?>" name="order_date_hour" min="0" max="23" step="1" value="<?php echo esc_attr( date_i18n( 'H', strtotime( $post->post_date ) ) ); ?>" pattern="([01]?[0-9]{1}|2[0-3]{1})" />:
-							<input type="number" class="minute" placeholder="<?php esc_attr_e( 'm', 'easyReservations' ); ?>" name="order_date_minute" min="0" max="59" step="1" value="<?php echo esc_attr( date_i18n( 'i', strtotime( $post->post_date ) ) ); ?>" pattern="[0-5]{1}[0-9]{1}" />
-							<input type="hidden" name="order_date_second" value="<?php echo esc_attr( date_i18n( 's', strtotime( $post->post_date ) ) ); ?>" />
-						</p>
+                        <p class="form-field form-field-wide">
+                            <label for="order_date"><?php esc_html_e( 'Date created:', 'easyReservations' ); ?></label>
+                            <input type="text" class="er-datepicker date-created" name="order_date" maxlength="10" data-format="yy-mm-dd" value="<?php echo esc_attr( date_i18n( 'Y-m-d', strtotime( $post->post_date ) ) ); ?>" pattern="<?php echo esc_attr( apply_filters( 'easyreservations_date_input_html_pattern', '[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])' ) ); ?>"/>@
+                            <input type="number" class="hour" placeholder="<?php esc_attr_e( 'h', 'easyReservations' ); ?>" name="order_date_hour" min="0" max="23" step="1" value="<?php echo esc_attr( date_i18n( 'H', strtotime( $post->post_date ) ) ); ?>" pattern="([01]?[0-9]{1}|2[0-3]{1})"/>:
+                            <input type="number" class="minute" placeholder="<?php esc_attr_e( 'm', 'easyReservations' ); ?>" name="order_date_minute" min="0" max="59" step="1" value="<?php echo esc_attr( date_i18n( 'i', strtotime( $post->post_date ) ) ); ?>" pattern="[0-5]{1}[0-9]{1}"/>
+                            <input type="hidden" name="order_date_second" value="<?php echo esc_attr( date_i18n( 's', strtotime( $post->post_date ) ) ); ?>"/>
+                        </p>
 
-						<p class="form-field form-field-wide er-order-status">
-							<label for="order_status">
+                        <p class="form-field form-field-wide er-order-status">
+                            <label for="order_status">
 								<?php
 								esc_html_e( 'Status:', 'easyReservations' );
 								if ( true ) {
@@ -181,18 +183,18 @@ class ER_Meta_Box_Order_Data {
 									);
 								}
 								?>
-							</label>
-							<select id="order_status" name="order_status" class="er-enhanced-select">
+                            </label>
+                            <select id="order_status" name="order_status" class="er-enhanced-select">
 								<?php
 								foreach ( ER_Order_Status::get_statuses() as $status => $status_name ) {
 									echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status, $order->get_status(), false ) . '>' . esc_html( $status_name ) . '</option>';
 								}
 								?>
-							</select>
-						</p>
+                            </select>
+                        </p>
 
-						<p class="form-field form-field-wide er-customer-user">
-							<label for="customer_user">
+                        <p class="form-field form-field-wide er-customer-user">
+                            <label for="customer_user">
 								<?php
 								esc_html_e( 'Customer:', 'easyReservations' );
 								if ( $order->get_user_id() ) {
@@ -213,7 +215,7 @@ class ER_Meta_Box_Order_Data {
 									);
 								}
 								?>
-							</label>
+                            </label>
 							<?php
 							$user_string = '';
 							$user_id     = '';
@@ -229,28 +231,28 @@ class ER_Meta_Box_Order_Data {
 								);
 							}
 							?>
-							<select class="er-customer-search" id="customer_user" name="customer_user" data-placeholder="<?php esc_attr_e( 'Guest', 'easyReservations' ); ?>" data-allow_clear="true">
-								<option value="<?php echo esc_attr( $user_id ); ?>" selected="selected"><?php echo htmlspecialchars( wp_kses_post( $user_string ) ); // htmlspecialchars to prevent XSS when rendered by selectWoo. ?></option>
-							</select>
-							<!--/email_off-->
-						</p>
+                            <select class="er-customer-search" id="customer_user" name="customer_user" data-placeholder="<?php esc_attr_e( 'Guest', 'easyReservations' ); ?>" data-allow_clear="true">
+                                <option value="<?php echo esc_attr( $user_id ); ?>" selected="selected"><?php echo htmlspecialchars( wp_kses_post( $user_string ) ); // htmlspecialchars to prevent XSS when rendered by selectWoo. ?></option>
+                            </select>
+                            <!--/email_off-->
+                        </p>
 
                         <p class="form-field form-field-wide">
                             <label for="amount_paid"><?php esc_html_e( 'Paid:', 'easyReservations' ); ?></label>
                             <input type="text" class="er_input_price" id="amount_paid" name="amount_paid" value="<?php echo esc_attr( $order->get_paid( 'edit' ) ? $order->get_paid( 'edit' ) : 0 ); ?>">
                         </p>
 
-                        <?php do_action( 'easyreservations_admin_order_data_after_order_details', $order ); ?>
-					</div>
-					<div class="order_data_column">
-						<h3>
+						<?php do_action( 'easyreservations_admin_order_data_after_order_details', $order ); ?>
+                    </div>
+                    <div class="order_data_column">
+                        <h3>
 							<?php esc_html_e( 'Address', 'easyReservations' ); ?>
-							<a href="#" class="edit_address"><?php esc_html_e( 'Edit', 'easyReservations' ); ?></a>
-							<span>
+                            <a href="#" class="edit_address"><?php esc_html_e( 'Edit', 'easyReservations' ); ?></a>
+                            <span>
 								<a href="#" class="load_customer" style="display:none;"><?php esc_html_e( 'Load address', 'easyReservations' ); ?></a>
 							</span>
-						</h3>
-						<div class="address">
+                        </h3>
+                        <div class="address">
 							<?php
 							// Display values.
 							if ( $order->get_formatted_address() ) {
@@ -283,9 +285,9 @@ class ER_Meta_Box_Order_Data {
 								}
 							}
 							?>
-						</div>
+                        </div>
 
-						<div class="edit_address">
+                        <div class="edit_address">
 							<?php
 
 							// Display form.
@@ -307,18 +309,18 @@ class ER_Meta_Box_Order_Data {
 
 								switch ( $field['type'] ) {
 									case 'select':
-                                        easyreservations_wp_select( $field );
+										easyreservations_wp_select( $field );
 										break;
 									default:
-                                        easyreservations_wp_text_input( $field );
+										easyreservations_wp_text_input( $field );
 										break;
 								}
 							}
 							?>
-							<p class="form-field form-field-wide">
-								<label><?php esc_html_e( 'Payment method:', 'easyReservations' ); ?></label>
-								<select name="_payment_method" id="_payment_method" class="first">
-									<option value=""><?php esc_html_e( 'N/A', 'easyReservations' ); ?></option>
+                            <p class="form-field form-field-wide">
+                                <label><?php esc_html_e( 'Payment method:', 'easyReservations' ); ?></label>
+                                <select name="_payment_method" id="_payment_method" class="first">
+                                    <option value=""><?php esc_html_e( 'N/A', 'easyReservations' ); ?></option>
 									<?php
 									$found_method = false;
 
@@ -337,8 +339,8 @@ class ER_Meta_Box_Order_Data {
 										echo '<option value="other">' . esc_html__( 'Other', 'easyReservations' ) . '</option>';
 									}
 									?>
-								</select>
-							</p>
+                                </select>
+                            </p>
 							<?php
 
 							easyreservations_wp_text_input(
@@ -350,30 +352,30 @@ class ER_Meta_Box_Order_Data {
 							);
 							?>
 
-						</div>
+                        </div>
 						<?php do_action( 'easyreservations_admin_order_data_after_address', $order ); ?>
-					</div>
+                    </div>
                     <div class="order_data_column">
                         <h3>
-                            <?php esc_html_e( 'Custom data', 'easyReservations' ); ?>
+							<?php esc_html_e( 'Custom data', 'easyReservations' ); ?>
                             <a href="#" class="edit_custom"><?php esc_html_e( 'Edit', 'easyReservations' ); ?></a>
                             <span>
 								<a href="#" class="add_custom" style="display:none;"><?php esc_html_e( 'Add custom data', 'easyReservations' ); ?></a>
 							</span>
                         </h3>
                         <div class="custom_data_container">
-                        <?php
-                        $object = $order;
+							<?php
+							$object = $order;
 
-                        include 'views/html-custom-data.php';
-                        ?>
+							include 'views/html-custom-data.php';
+							?>
                         </div>
-                        <?php do_action( 'easyreservations_admin_order_data_after_custom', $order ); ?>
+						<?php do_action( 'easyreservations_admin_order_data_after_custom', $order ); ?>
                     </div>
                 </div>
-				<div class="clear"></div>
-			</div>
-		</div>
+                <div class="clear"></div>
+            </div>
+        </div>
 		<?php
 	}
 
@@ -393,18 +395,18 @@ class ER_Meta_Box_Order_Data {
 
 		// Create order key.
 		if ( ! $order->get_order_key() ) {
-            $order->set_order_key( er_generate_order_key() );
+			$order->set_order_key( er_generate_order_key() );
 		}
 
 		// Update customer.
 		$customer_id = isset( $_POST['customer_user'] ) ? absint( $_POST['customer_user'] ) : 0;
 		if ( $customer_id !== $order->get_user_id() ) {
-		    $order->set_customer_id( $customer_id );
+			$order->set_customer_id( $customer_id );
 		}
 
-        // Update billing fields.
+		// Update billing fields.
 		if ( ! empty( self::$address_fields ) ) {
-            foreach ( self::$address_fields as $key => $field ) {
+			foreach ( self::$address_fields as $key => $field ) {
 				if ( ! isset( $field['id'] ) ) {
 					$field['id'] = '_' . $key;
 				}
@@ -413,16 +415,16 @@ class ER_Meta_Box_Order_Data {
 					continue;
 				}
 
-                $order->set_address_prop( $key, er_clean( wp_unslash( $_POST[$field['id']] ) ) );
-            }
+				$order->set_address_prop( $key, er_clean( wp_unslash( $_POST[ $field['id'] ] ) ) );
+			}
 		}
 
 		if ( isset( $_POST['_transaction_id'] ) ) {
-            $order->set_transaction_id( er_clean( wp_unslash( $_POST['_transaction_id'] ) ) );
+			$order->set_transaction_id( er_clean( wp_unslash( $_POST['_transaction_id'] ) ) );
 		}
 
 		if ( isset( $_POST['amount_paid'] ) ) {
-            $order->set_paid( er_clean( wp_unslash( $_POST['amount_paid'] ) ) );
+			$order->set_paid( er_clean( wp_unslash( $_POST['amount_paid'] ) ) );
 		}
 
 		// Payment method handling.
@@ -435,8 +437,8 @@ class ER_Meta_Box_Order_Data {
 				$payment_method_title = $methods[ $payment_method ]->get_title();
 			}
 
-            $order->set_payment_method( $payment_method );
-            $order->set_payment_method_title( $payment_method_title );
+			$order->set_payment_method( $payment_method );
+			$order->set_payment_method_title( $payment_method_title );
 		}
 
 		// Update date.
@@ -448,15 +450,15 @@ class ER_Meta_Box_Order_Data {
 
 		$order->set_date_created( $date );
 
-        // Set created via prop if new post.
-        if ( isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'auto-draft' ) {
-            $order->set_created_via( 'admin' );
-        }
+		// Set created via prop if new post.
+		if ( isset( $_POST['original_post_status'] ) && $_POST['original_post_status'] === 'auto-draft' ) {
+			$order->set_created_via( 'admin' );
+		}
 
-        // Save order data.
+		// Save order data.
 		$order->set_status( er_clean( wp_unslash( $_POST['order_status'] ) ), '', true );
 
-        $order = apply_filters('easyreservations_save_order_data', $order);
+		$order = apply_filters( 'easyreservations_save_order_data', $order );
 
 		$order->save();
 	}

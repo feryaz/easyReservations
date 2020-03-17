@@ -22,6 +22,6 @@ global $resource;
 
 ?>
 <p class="<?php echo esc_attr( apply_filters( 'easyreservations_resource_price_class', 'price' ) ); ?>">
-    <?php esc_html_e('From:', 'easyReservations'); ?> <?php echo $resource->get_price_html(); ?>
+	<?php esc_html_e( 'From:', 'easyReservations' ); ?><?php echo $resource->get_price_html(); ?>
 </p>
 <hr>

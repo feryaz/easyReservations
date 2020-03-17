@@ -39,7 +39,7 @@
   margin: 0;
 }
 .ui-widget-content a {
-  color: #222222;
+  color: #222;
 }
 .ui-widget-content .ui-widget-header {
   background: #fbfbfb;
@@ -55,7 +55,7 @@
   z-index: 4;
 }
 .ui-widget-content .ui-widget-header a {
-  color: #333333;
+  color: #333;
 }
 .ui-widget-content .ui-widget-header .ui-icon {
   background-image: none;
@@ -66,7 +66,7 @@
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   border: none;
   border-radius: 0;
-  color: #333333;
+  color: #333;
 }
 
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
@@ -88,7 +88,7 @@
 }
 
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
-  color: #cc0000;
+  color: #c00;
   text-decoration: none;
 }
 
@@ -99,7 +99,7 @@
 /* Interaction Cues
 ----------------------------------*/
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
-  border: 1px solid #cc0000;
+  border: 1px solid #c00;
   background: #f3d8d8;
   color: #2e2e2e;
 }
@@ -223,7 +223,7 @@
 .easy-datepicker table th {
   text-align: center;
   border: 0;
-  color: #333333;
+  color: #333;
   text-transform: none;
   font-size: 13px;
   padding: 4px 0 !important;
@@ -240,7 +240,7 @@
   border: 0;
   border-bottom: 1px solid #ebebeb;
   border-right: 1px solid #ebebeb;
-  color: #333333;
+  color: #333;
 }
 .easy-datepicker table tr td span,
 .easy-datepicker table tr td a {
@@ -376,7 +376,7 @@
 .ui-datepicker-cover {
   display: none;
   /*sorry for IE5*/
-  display/**/: block;
+  display: block;
   /*sorry for IE5*/
   position: absolute;
   /*must have*/

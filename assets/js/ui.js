@@ -1,31 +1,31 @@
-jQuery( document ).ready( function ( $ ) {
+jQuery( document ).ready( function( $ ) {
 	$( '.sbHolder' ).remove();
 
 	var target      = '.easy-ui .together',
 		invert      = ':not(' + target + ')',
 		breakpoints = $( '.easy-ui > *' + invert + ',.easy-ui > div.content > *' + invert );
 
-	breakpoints.each( function () {
+	breakpoints.each( function() {
 		$( this ).nextUntil( invert ).wrapAll( '<span class="together-wrapper">' );
 	} );
 
 	breakpoints.first().prevUntil( invert ).wrapAll( '<span class="together-wrapper">' );
 
-	$( 'select[name$="minute"]' ).each( function ( k, v ) {
+	$( 'select[name$="minute"]' ).each( function( k, v ) {
 		$( '<span class="input-box"><span class="dashicons dashicons-clock"></span></span>' ).insertAfter( this );
 		$( this ).add( $( this ).prev() ).add( $( this ).next() ).wrapAll( '<span class="input-wrapper">' );
 	} );
 
 	var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
 	if ( window.CSS && window.CSS.supports && window.CSS.supports( '--a', 0 ) && ( isIE11 === undefined || !isIE11 ) ) {
-		$( '.input-wrapper select[name$="hour"]' ).each( function ( k, v ) {
+		$( '.input-wrapper select[name$="hour"]' ).each( function( k, v ) {
 			var twelve_hours = false;
-			var hideHoursInSelect = function ( ele, test ) {
+			var hideHoursInSelect = function( ele, test ) {
 				var select = $( this );
 				if ( test ) {
 					select = ele;
 				}
-				select.find( 'option' ).each( function ( k, t ) {
+				select.find( 'option' ).each( function( k, t ) {
 					if ( !twelve_hours && ( t.text.indexOf( "AM" ) >= 0 || t.text.indexOf( "am" ) >= 0 || t.text.indexOf( "PM" ) >= 0 || t.text.indexOf( "pm" ) >= 0 ) ) {
 						twelve_hours = true;
 					}
@@ -53,8 +53,8 @@ jQuery( document ).ready( function ( $ ) {
 
 			hideHoursInSelect( $( this ), 1 );
 
-			$( this ).bind( 'focusin click', function () {
-				$( this ).find( 'option' ).each( function ( k, t ) {
+			$( this ).bind( 'focusin click', function() {
+				$( this ).find( 'option' ).each( function( k, t ) {
 					var orig = $( t ).attr( 'data-text' );
 					t.label = orig;
 					t.text = orig;
@@ -63,7 +63,7 @@ jQuery( document ).ready( function ( $ ) {
 		} );
 	}
 
-	$( '.input-box.clickable' ).bind( 'click', function ( t ) {
+	$( '.input-box.clickable' ).bind( 'click', function( t ) {
 		if ( $( this ).next().length > 0 ) {
 			$( this ).next().focus()
 		} else {
@@ -72,7 +72,7 @@ jQuery( document ).ready( function ( $ ) {
 	} );
 
 	function register_slider() {
-		$( '.easy-slider-input:not(.generated)' ).each( function () {
+		$( '.easy-slider-input:not(.generated)' ).each( function() {
 			var form_field = $( this ),
 				slider     = $( '<div id="slider" class="easy-slider"><div id="custom-handle" class="ui-slider-handle"><label><span class="dashicons dashicons-arrow-left-alt2"></span><span class="text"></span><span class="dashicons dashicons-arrow-right-alt2"></label></div></div>' );
 
@@ -84,10 +84,18 @@ jQuery( document ).ready( function ( $ ) {
 				step   = parseFloat( form_field.attr( 'data-step' ) ),
 				label  = form_field.attr( 'data-label' );
 
-			if ( min === undefined ) min = 1;
-			if ( max === undefined ) max = 100;
-			if ( step === undefined ) step = 1;
-			if ( label === undefined ) label = '';
+			if ( min === undefined ) {
+				min = 1;
+			}
+			if ( max === undefined ) {
+				max = 100;
+			}
+			if ( step === undefined ) {
+				step = 1;
+			}
+			if ( label === undefined ) {
+				label = '';
+			}
 
 			slider.slider( {
 				range:  "min",
@@ -95,15 +103,15 @@ jQuery( document ).ready( function ( $ ) {
 				max:    max,
 				step:   step,
 				value:  form_field.val(),
-				create: function () {
+				create: function() {
 					handle.text( $( this ).slider( "value" ) + ' ' + label );
 					form_field.val( $( this ).slider( "value" ) );
 				},
-				slide:  function ( event, ui ) {
+				slide:  function( event, ui ) {
 					handle.text( ui.value + ' ' + label );
 					form_field.val( ui.value );
 				},
-				stop:   function ( event, ui ) {
+				stop:   function( event, ui ) {
 					form_field.val( ui.value ).trigger( 'change' );
 				}
 			} );
@@ -113,20 +121,20 @@ jQuery( document ).ready( function ( $ ) {
 	register_slider();
 	$( document.body ).on( 'er_generated_custom_field', register_slider );
 
-    $( document ).on( 'click', function( e ) {
-        $('.er-dropdown .dropdown-menu' ).hide();
-    });
-
-    $( '.er-dropdown .dropdown-toggle' ).bind( 'click', function ( e ) {
-        $( this ).parent().find( '.dropdown-menu' ).toggle();
-        e.stopPropagation();
+	$( document ).on( 'click', function( e ) {
+		$( '.er-dropdown .dropdown-menu' ).hide();
 	} );
 
-	$.fn.easyNavigation = function ( options ) {
+	$( '.er-dropdown .dropdown-toggle' ).bind( 'click', function( e ) {
+		$( this ).parent().find( '.dropdown-menu' ).toggle();
+		e.stopPropagation();
+	} );
+
+	$.fn.easyNavigation = function( options ) {
 		var all_links = $( this ).find( 'a.nav-tab' );
 		var current_target = options[ 'value' ];
 
-		all_links.bind( 'click', function ( e ) {
+		all_links.bind( 'click', function( e ) {
 			e.preventDefault();
 
 			if ( !$( this ).hasClass( 'active' ) ) {

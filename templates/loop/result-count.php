@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 	if ( 1 === $total ) {
 		esc_html_e( 'Showing the single result', 'easyReservations' );
-	} elseif ( $total <= $per_page || -1 === $per_page ) {
+	} elseif ( $total <= $per_page || - 1 === $per_page ) {
 		/* translators: %d: total results */
 		printf( _n( 'Showing all %d result', 'Showing all %d results', $total, 'easyReservations' ), $total );
 	} else {

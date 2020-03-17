@@ -9,5 +9,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div id="message" class="updated easyreservations-message">
-	<p><?php esc_html_e( '<strong>Welcome to easyReservations</strong> &#8211; You&lsquo;re almost ready to start selling :)', 'easyReservations' ); ?></p>
+    <p><?php esc_html_e( '<strong>Welcome to easyReservations</strong> &#8211; You&lsquo;re almost ready to start selling :)', 'easyReservations' ); ?></p>
 </div>

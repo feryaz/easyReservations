@@ -20,9 +20,9 @@ if ( is_user_logged_in() || 'no' === get_option( 'reservations_enable_checkout_l
 }
 
 ?>
-<div class="easyreservations-form-login-toggle">
-	<?php er_print_notice( apply_filters( 'easyreservations_checkout_login_message', __( 'Returning customer?', 'easyReservations' ) ) . ' <a href="#" class="showlogin">' . __( 'Click here to login', 'easyReservations' ) . '</a>', 'notice' ); ?>
-</div>
+    <div class="easyreservations-form-login-toggle">
+		<?php er_print_notice( apply_filters( 'easyreservations_checkout_login_message', __( 'Returning customer?', 'easyReservations' ) ) . ' <a href="#" class="showlogin">' . __( 'Click here to login', 'easyReservations' ) . '</a>', 'notice' ); ?>
+    </div>
 <?php
 
 easyreservations_login_form(

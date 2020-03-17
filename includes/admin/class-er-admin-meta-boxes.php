@@ -15,18 +15,17 @@ defined( 'ABSPATH' ) || exit;
 class ER_Admin_Meta_Boxes {
 
 	/**
-	 * Is meta boxes saved once?
-	 *
-	 * @var boolean
-	 */
-	private static $saved_meta_boxes = false;
-
-	/**
 	 * Meta box error messages.
 	 *
 	 * @var array
 	 */
 	public static $meta_box_errors = array();
+	/**
+	 * Is meta boxes saved once?
+	 *
+	 * @var boolean
+	 */
+	private static $saved_meta_boxes = false;
 
 	/**
 	 * Constructor.
@@ -100,14 +99,14 @@ class ER_Admin_Meta_Boxes {
 	public function add_meta_boxes() {
 		add_meta_box( 'easyreservations-resource-images', __( 'Resource gallery', 'easyReservations' ), 'ER_Meta_Box_Resource_Images::output', 'easy-rooms', 'side', 'low' );
 
-        // Orders.
-		foreach ( array('easy_order', 'easy_order_refund') as $type ) {
+		// Orders.
+		foreach ( array( 'easy_order', 'easy_order_refund' ) as $type ) {
 			$order_type_object = get_post_type_object( $type );
-            /* Translators: %s order type name. */
+			/* Translators: %s order type name. */
 			add_meta_box( 'easyreservations-order-data', sprintf( __( '%s data', 'easyReservations' ), $order_type_object->labels->singular_name ), 'ER_Meta_Box_Order_Data::output', $type, 'normal', 'high' );
 
-            add_meta_box( 'easyreservations-order-items', __( 'Receipt', 'easyReservations' ), 'ER_Meta_Box_Receipt_Items::output', $type, 'normal', 'high' );
-            /* Translators: %s order type name. */
+			add_meta_box( 'easyreservations-order-items', __( 'Receipt', 'easyReservations' ), 'ER_Meta_Box_Receipt_Items::output', $type, 'normal', 'high' );
+			/* Translators: %s order type name. */
 			add_meta_box( 'easyreservations-order-notes', sprintf( __( '%s notes', 'easyReservations' ), $order_type_object->labels->singular_name ), 'ER_Meta_Box_Order_Notes::output', $type, 'side', 'default' );
 			/* Translators: %s order type name. */
 			add_meta_box( 'easyreservations-order-actions', sprintf( __( '%s actions', 'easyReservations' ), $order_type_object->labels->singular_name ), 'ER_Meta_Box_Order_Actions::output', $type, 'side', 'high' );
@@ -118,7 +117,7 @@ class ER_Admin_Meta_Boxes {
 	 * Remove bloat.
 	 */
 	public function remove_meta_boxes() {
-        foreach ( array( 'easy_order', 'easy_order_refund' ) as $type ) {
+		foreach ( array( 'easy_order', 'easy_order_refund' ) as $type ) {
 			remove_meta_box( 'commentsdiv', $type, 'normal' );
 			remove_meta_box( 'woothemes-settings', $type, 'normal' );
 			remove_meta_box( 'commentstatusdiv', $type, 'normal' );
@@ -130,13 +129,13 @@ class ER_Admin_Meta_Boxes {
 	/**
 	 * Check if we're saving, the trigger an action based on the post type.
 	 *
-	 * @param  int    $post_id Post ID.
-	 * @param  WP_Post $post Post object.
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post Post object.
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 		$post_id = absint( $post_id );
 
-        // $post_id and $post are required
+		// $post_id and $post are required
 		if ( empty( $post_id ) || empty( $post ) || self::$saved_meta_boxes ) {
 			return;
 		}
@@ -151,7 +150,7 @@ class ER_Admin_Meta_Boxes {
 			return;
 		}
 
-        // Check the post being saved == the $post_id to prevent triggering this call for other save_post events.
+		// Check the post being saved == the $post_id to prevent triggering this call for other save_post events.
 		if ( empty( $_POST['post_ID'] ) || absint( $_POST['post_ID'] ) !== $post_id ) {
 			return;
 		}
@@ -169,7 +168,7 @@ class ER_Admin_Meta_Boxes {
 
 		// Check the post type.
 		if ( in_array( $post->post_type, array( 'easy_order', 'easy-rooms', 'easy_coupon' ), true ) ) {
-            do_action( 'easyreservations_process_' . $post->post_type . '_meta', $post_id, $post );
+			do_action( 'easyreservations_process_' . $post->post_type . '_meta', $post_id, $post );
 		}
 	}
 }

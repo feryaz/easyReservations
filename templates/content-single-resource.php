@@ -25,6 +25,7 @@ do_action( 'easyreservations_before_single_resource' );
 
 if ( post_password_required() ) {
 	echo get_the_password_form(); // WPCS: XSS ok.
+
 	return;
 }
 
@@ -39,10 +40,10 @@ global $resource;
 	 *
 	 * @hooked easyreservations_show_resource_images - 20
 	 */
-    do_action( 'easyreservations_before_single_resource_summary' );
-    ?>
+	do_action( 'easyreservations_before_single_resource_summary' );
+	?>
 
-	<div class="summary entry-summary">
+    <div class="summary entry-summary">
 		<?php
 		/**
 		 * Hook: easyreservations_single_resource_summary.
@@ -54,7 +55,7 @@ global $resource;
 		 */
 		do_action( 'easyreservations_single_resource_summary' );
 		?>
-	</div>
+    </div>
 
 	<?php
 	/**

@@ -23,7 +23,7 @@ $heading = apply_filters( 'easyreservations_resource_description_heading', __( '
 ?>
 
 <?php if ( $heading ) : ?>
-	<h2><?php echo esc_html( $heading ); ?></h2>
+    <h2><?php echo esc_html( $heading ); ?></h2>
 <?php endif; ?>
 
 <?php the_content(); ?>

@@ -25,14 +25,13 @@ echo sprintf( esc_html__( 'Hi %s,', 'easyReservations' ), esc_html( $order->get_
 
 if ( $order->has_status( 'pending' ) ) {
 	echo wp_kses_post(
-		sprintf(
-			/* translators: %1$s: Site title, %2$s: Order pay link */
-			__( 'An order has been created for you on %1$s. Your invoice is below, with a link to make payment when you’re ready: %2$s', 'easyReservations' ),
-			esc_html( get_bloginfo( 'name', 'display' ) ),
-			esc_url( $order->get_checkout_payment_url() )
-		)
-	) . "\n\n";
-
+		     sprintf(
+		     /* translators: %1$s: Site title, %2$s: Order pay link */
+			     __( 'An order has been created for you on %1$s. Your invoice is below, with a link to make payment when you’re ready: %2$s', 'easyReservations' ),
+			     esc_html( get_bloginfo( 'name', 'display' ) ),
+			     esc_url( $order->get_checkout_payment_url() )
+		     )
+	     ) . "\n\n";
 } else {
 	/* translators: %s: Order date */
 	echo sprintf( esc_html__( 'Here are the details of your order placed on %s:', 'easyReservations' ), esc_html( er_format_datetime( $order->get_date_created() ) ) ) . "\n\n";

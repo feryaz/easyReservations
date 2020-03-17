@@ -21,14 +21,14 @@ class ER_Shortcode_Resources {
 	 */
 	protected $type = 'resources';
 
-    /**
-     * Set custom visibility.
-     *
-     * @var   bool
-     */
-    protected $custom_visibility = false;
+	/**
+	 * Set custom visibility.
+	 *
+	 * @var   bool
+	 */
+	protected $custom_visibility = false;
 
-    /**
+	/**
 	 * Attributes.
 	 *
 	 * @var   array
@@ -46,7 +46,7 @@ class ER_Shortcode_Resources {
 	 * Initialize shortcode.
 	 *
 	 * @param array  $attributes Shortcode attributes.
-	 * @param string $type       Shortcode type.
+	 * @param string $type Shortcode type.
 	 */
 	public function __construct( $attributes = array(), $type = 'resources' ) {
 		$this->type       = $type;
@@ -93,23 +93,24 @@ class ER_Shortcode_Resources {
 	/**
 	 * Parse attributes.
 	 *
-	 * @param  array $attributes Shortcode attributes.
+	 * @param array $attributes Shortcode attributes.
+	 *
 	 * @return array
 	 */
 	protected function parse_attributes( $attributes ) {
 		$attributes = shortcode_atts(
 			array(
-				'limit'          => '-1',      // Results limit.
-				'columns'        => '',        // Number of columns.
-				'rows'           => '',        // Number of rows. If defined, limit will be ignored.
-				'orderby'        => 'title',   // menu_order, title, date, rand, relevance, or ID.
-				'order'          => '',        // ASC or DESC.
-				'ids'            => '',        // Comma separated IDs.
-				'class'          => '',        // HTML class.
-				'page'           => 1,         // Page for pagination.
-				'paginate'       => false,     // Should results be paginated.
-                'visibility' => 'visible',     // Resource visibility setting. Possible values are 'visible', 'catalog', 'search', 'hidden'.
-                'cache'          => true,      // Should shortcode output be cached.
+				'limit'      => '-1',      // Results limit.
+				'columns'    => '',        // Number of columns.
+				'rows'       => '',        // Number of rows. If defined, limit will be ignored.
+				'orderby'    => 'title',   // menu_order, title, date, rand, relevance, or ID.
+				'order'      => '',        // ASC or DESC.
+				'ids'        => '',        // Comma separated IDs.
+				'class'      => '',        // HTML class.
+				'page'       => 1,         // Page for pagination.
+				'paginate'   => false,     // Should results be paginated.
+				'visibility' => 'visible',     // Resource visibility setting. Possible values are 'visible', 'catalog', 'search', 'hidden'.
+				'cache'      => true,      // Should shortcode output be cached.
 			),
 			$attributes,
 			$this->type
@@ -160,8 +161,8 @@ class ER_Shortcode_Resources {
 		// IDs.
 		$this->set_ids_query_args( $query_args );
 
-        // Visibility.
-        $this->set_visibility_query_args( $query_args );
+		// Visibility.
+		$this->set_visibility_query_args( $query_args );
 
 		// Set specific types query args.
 		if ( method_exists( $this, "set_{$this->type}_query_args" ) ) {
@@ -176,109 +177,110 @@ class ER_Shortcode_Resources {
 		return $query_args;
 	}
 
-    /**
-     * Set visibility as hidden.
-     *
-     * @param array $query_args Query args.
-     */
-    protected function set_visibility_hidden_query_args( &$query_args ) {
-        $this->custom_visibility   = true;
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => array( 'exclude-from-catalog', 'exclude-from-search' ),
-            'field'            => 'name',
-            'operator'         => 'AND',
-            'include_children' => false,
-        );
-    }
+	/**
+	 * Set visibility as hidden.
+	 *
+	 * @param array $query_args Query args.
+	 */
+	protected function set_visibility_hidden_query_args( &$query_args ) {
+		$this->custom_visibility   = true;
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => array( 'exclude-from-catalog', 'exclude-from-search' ),
+			'field'            => 'name',
+			'operator'         => 'AND',
+			'include_children' => false,
+		);
+	}
 
-    /**
-     * Set visibility as catalog.
-     *
-     * @param array $query_args Query args.
-     */
-    protected function set_visibility_catalog_query_args( &$query_args ) {
-        $this->custom_visibility   = true;
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => 'exclude-from-search',
-            'field'            => 'name',
-            'operator'         => 'IN',
-            'include_children' => false,
-        );
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => 'exclude-from-catalog',
-            'field'            => 'name',
-            'operator'         => 'NOT IN',
-            'include_children' => false,
-        );
-    }
+	/**
+	 * Set visibility as catalog.
+	 *
+	 * @param array $query_args Query args.
+	 */
+	protected function set_visibility_catalog_query_args( &$query_args ) {
+		$this->custom_visibility   = true;
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => 'exclude-from-search',
+			'field'            => 'name',
+			'operator'         => 'IN',
+			'include_children' => false,
+		);
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => 'exclude-from-catalog',
+			'field'            => 'name',
+			'operator'         => 'NOT IN',
+			'include_children' => false,
+		);
+	}
 
-    /**
-     * Set visibility as search.
-     *
-     * @param array $query_args Query args.
-     */
-    protected function set_visibility_search_query_args( &$query_args ) {
-        $this->custom_visibility   = true;
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => 'exclude-from-catalog',
-            'field'            => 'name',
-            'operator'         => 'IN',
-            'include_children' => false,
-        );
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => 'exclude-from-search',
-            'field'            => 'name',
-            'operator'         => 'NOT IN',
-            'include_children' => false,
-        );
-    }
+	/**
+	 * Set visibility as search.
+	 *
+	 * @param array $query_args Query args.
+	 */
+	protected function set_visibility_search_query_args( &$query_args ) {
+		$this->custom_visibility   = true;
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => 'exclude-from-catalog',
+			'field'            => 'name',
+			'operator'         => 'IN',
+			'include_children' => false,
+		);
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => 'exclude-from-search',
+			'field'            => 'name',
+			'operator'         => 'NOT IN',
+			'include_children' => false,
+		);
+	}
 
-    /**
-     * Set visibility as featured.
-     *
-     * @param array $query_args Query args.
-     */
-    protected function set_visibility_featured_query_args( &$query_args ) {
-        $query_args['tax_query'] = array_merge( $query_args['tax_query'], ER()->query->get_tax_query() ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+	/**
+	 * Set visibility as featured.
+	 *
+	 * @param array $query_args Query args.
+	 */
+	protected function set_visibility_featured_query_args( &$query_args ) {
+		$query_args['tax_query'] = array_merge( $query_args['tax_query'], ER()->query->get_tax_query() ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 
-        $query_args['tax_query'][] = array(
-            'taxonomy'         => 'resource_visibility',
-            'terms'            => 'featured',
-            'field'            => 'name',
-            'operator'         => 'IN',
-            'include_children' => false,
-        );
-    }
+		$query_args['tax_query'][] = array(
+			'taxonomy'         => 'resource_visibility',
+			'terms'            => 'featured',
+			'field'            => 'name',
+			'operator'         => 'IN',
+			'include_children' => false,
+		);
+	}
 
-    /**
-     * Set visibility query args.
-     *
-     * @param array $query_args Query args.
-     */
-    protected function set_visibility_query_args( &$query_args ) {
-        if ( method_exists( $this, 'set_visibility_' . $this->attributes['visibility'] . '_query_args' ) ) {
-            $this->{'set_visibility_' . $this->attributes['visibility'] . '_query_args'}( $query_args );
-        } else {
-            $query_args['tax_query'] = array_merge( $query_args['tax_query'], ER()->query->get_tax_query() ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-        }
-    }
+	/**
+	 * Set visibility query args.
+	 *
+	 * @param array $query_args Query args.
+	 */
+	protected function set_visibility_query_args( &$query_args ) {
+		if ( method_exists( $this, 'set_visibility_' . $this->attributes['visibility'] . '_query_args' ) ) {
+			$this->{'set_visibility_' . $this->attributes['visibility'] . '_query_args'}( $query_args );
+		} else {
+			$query_args['tax_query'] = array_merge( $query_args['tax_query'], ER()->query->get_tax_query() ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		}
+	}
 
-    /**
-     * Set resource as visible when quering for hidden resources.
-     *
-     * @param  bool $visibility Resource visibility.
-     * @return bool
-     */
-    public function set_resource_as_visible( $visibility ) {
-        return $this->custom_visibility ? true : $visibility;
-    }
+	/**
+	 * Set resource as visible when quering for hidden resources.
+	 *
+	 * @param bool $visibility Resource visibility.
+	 *
+	 * @return bool
+	 */
+	public function set_resource_as_visible( $visibility ) {
+		return $this->custom_visibility ? true : $visibility;
+	}
 
-    /**
+	/**
 	 * Set ids query args.
 	 *
 	 * @param array $query_args Query args.
@@ -298,7 +300,8 @@ class ER_Shortcode_Resources {
 	/**
 	 * Get wrapper classes.
 	 *
-	 * @param  array $columns Number of columns.
+	 * @param array $columns Number of columns.
+	 *
 	 * @return array
 	 */
 	protected function get_wrapper_classes( $columns ) {
@@ -323,7 +326,7 @@ class ER_Shortcode_Resources {
 
 		if ( 'rand' === $this->query_args['orderby'] ) {
 			// When using rand, we'll cache a number of random queries and pull those to avoid querying rand on each page load.
-			$rand_index      = wp_rand( 0, max( 1, absint( apply_filters( 'easyreservations_resource_query_max_rand_cache_count', 5 ) ) ) );
+			$rand_index     = wp_rand( 0, max( 1, absint( apply_filters( 'easyreservations_resource_query_max_rand_cache_count', 5 ) ) ) );
 			$transient_name .= $rand_index;
 		}
 
@@ -344,7 +347,7 @@ class ER_Shortcode_Resources {
 		if ( isset( $transient_value['value'], $transient_value['version'] ) && $transient_value['version'] === $transient_version ) {
 			$results = $transient_value['value'];
 		} else {
-            $query = new WP_Query( $this->query_args );
+			$query = new WP_Query( $this->query_args );
 
 			$paginated = ! $query->get( 'no_found_rows' );
 
@@ -365,14 +368,14 @@ class ER_Shortcode_Resources {
 			}
 		}
 
-        /**
-         * Filter shortcode products query results.
-         *
-         * @param stdClass              $results Query results.
-         * @param ER_Shortcode_Resources $this ER_Shortcode_Resources instance.
-         */
-        return apply_filters( 'easyreservations_shortcode_products_query_results', $results, $this );
-    }
+		/**
+		 * Filter shortcode products query results.
+		 *
+		 * @param stdClass               $results Query results.
+		 * @param ER_Shortcode_Resources $this ER_Shortcode_Resources instance.
+		 */
+		return apply_filters( 'easyreservations_shortcode_products_query_results', $results, $this );
+	}
 
 	/**
 	 * Loop over found resources.
@@ -380,20 +383,20 @@ class ER_Shortcode_Resources {
 	 * @return string
 	 */
 	protected function resource_loop() {
-		$columns  = absint( $this->attributes['columns'] );
-		$classes  = $this->get_wrapper_classes( $columns );
+		$columns   = absint( $this->attributes['columns'] );
+		$classes   = $this->get_wrapper_classes( $columns );
 		$resources = $this->get_query_results();
 
-        ob_start();
+		ob_start();
 
-        if ( $resources && $resources->ids ) {
+		if ( $resources && $resources->ids ) {
 			// Prime caches to reduce future queries.
 			if ( is_callable( '_prime_post_caches' ) ) {
 				_prime_post_caches( $resources->ids );
 			}
 
 			// Setup the loop.
-            er_setup_loop(
+			er_setup_loop(
 				array(
 					'columns'      => $columns,
 					'name'         => $this->type,
@@ -416,7 +419,7 @@ class ER_Shortcode_Resources {
 				do_action( 'easyreservations_before_shop_loop' );
 			}
 
-            easyreservations_resource_loop_start();
+			easyreservations_resource_loop_start();
 
 			if ( er_get_loop_prop( 'total' ) ) {
 				foreach ( $resources->ids as $resource_id ) {
@@ -427,7 +430,7 @@ class ER_Shortcode_Resources {
 					add_action( 'easyreservations_resource_is_visible', array( $this, 'set_resource_as_visible' ) );
 
 					// Render resource template.
-                    er_get_template_part( 'content', 'resource' );
+					er_get_template_part( 'content', 'resource' );
 
 					// Restore resource visibility.
 					remove_action( 'easyreservations_resource_is_visible', array( $this, 'set_resource_as_visible' ) );
@@ -435,7 +438,7 @@ class ER_Shortcode_Resources {
 			}
 
 			$GLOBALS['post'] = $original_post; // WPCS: override ok.
-            easyreservations_resource_loop_end();
+			easyreservations_resource_loop_end();
 
 			// Fire standard shop loop hooks when paginating results so we can show result counts and so on.
 			if ( er_string_to_bool( $this->attributes['paginate'] ) ) {

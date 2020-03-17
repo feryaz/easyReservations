@@ -44,18 +44,21 @@ class ER_Comments {
 	 *
 	 * The frontend view order pages get around this filter by using remove_filter('comments_clauses', array( 'ER_Comments' ,'exclude_order_comments'), 10, 1 );
 	 *
-	 * @param  array $clauses A compacted array of comment query clauses.
+	 * @param array $clauses A compacted array of comment query clauses.
+	 *
 	 * @return array
 	 */
 	public static function exclude_order_comments( $clauses ) {
 		$clauses['where'] .= ( $clauses['where'] ? ' AND ' : '' ) . " comment_type != 'er_order_note' ";
+
 		return $clauses;
 	}
 
 	/**
 	 * Exclude order comments from queries and RSS.
 	 *
-	 * @param  string $where The WHERE clause of the query.
+	 * @param string $where The WHERE clause of the query.
+	 *
 	 * @return string
 	 */
 	public static function exclude_order_comments_from_feed_where( $where ) {
@@ -65,18 +68,21 @@ class ER_Comments {
 	/**
 	 * Exclude webhook comments from queries and RSS.
 	 *
-	 * @param  array $clauses A compacted array of comment query clauses.
+	 * @param array $clauses A compacted array of comment query clauses.
+	 *
 	 * @return array
 	 */
 	public static function exclude_webhook_comments( $clauses ) {
 		$clauses['where'] .= ( $clauses['where'] ? ' AND ' : '' ) . " comment_type != 'webhook_delivery' ";
+
 		return $clauses;
 	}
 
 	/**
 	 * Exclude webhook comments from queries and RSS.
 	 *
-	 * @param  string $where The WHERE clause of the query.
+	 * @param string $where The WHERE clause of the query.
+	 *
 	 * @return string
 	 */
 	public static function exclude_webhook_comments_from_feed_where( $where ) {
@@ -96,8 +102,9 @@ class ER_Comments {
 	/**
 	 * Remove order notes and webhook delivery logs from wp_count_comments().
 	 *
-	 * @param  object $stats   Comment stats.
-	 * @param  int    $post_id Post ID.
+	 * @param object $stats Comment stats.
+	 * @param int    $post_id Post ID.
+	 *
 	 * @return object
 	 */
 	public static function wp_count_comments( $stats, $post_id ) {

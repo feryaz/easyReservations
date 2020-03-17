@@ -55,7 +55,7 @@ class ER_Session_Handler extends ER_Session {
 	public function __construct() {
 		$this->_cookie = apply_filters( 'easyreservations_cookie', 'wp_easyreservations_session_' . COOKIEHASH );
 		$this->_table  = $GLOBALS['wpdb']->prefix . 'reservations_sessions';
-    }
+	}
 
 	/**
 	 * Init hooks and session data.
@@ -87,8 +87,8 @@ class ER_Session_Handler extends ER_Session {
 
 			// If the user logs in, update session.
 			if ( is_user_logged_in() && strval( get_current_user_id() ) !== $this->_customer_id ) {
-                $guest_session_id   = $this->_customer_id;
-                $this->_customer_id = strval( get_current_user_id() );
+				$guest_session_id   = $this->_customer_id;
+				$this->_customer_id = strval( get_current_user_id() );
 				$this->_dirty       = true;
 				$this->save_data( $guest_session_id );
 				$this->set_customer_session_cookie( true );
@@ -221,15 +221,15 @@ class ER_Session_Handler extends ER_Session {
 	 * @return string
 	 */
 	private function get_cache_prefix() {
-        // Get cache key - uses cache key er_orders_cache_prefix to invalidate when needed.
-        $prefix = wp_cache_get( 'er_' . RESERVATIONS_SESSION_CACHE_GROUP . '_cache_prefix', RESERVATIONS_SESSION_CACHE_GROUP );
+		// Get cache key - uses cache key er_orders_cache_prefix to invalidate when needed.
+		$prefix = wp_cache_get( 'er_' . RESERVATIONS_SESSION_CACHE_GROUP . '_cache_prefix', RESERVATIONS_SESSION_CACHE_GROUP );
 
-        if ( false === $prefix ) {
-            $prefix = 1;
-            wp_cache_set( 'er_' . RESERVATIONS_SESSION_CACHE_GROUP . '_cache_prefix', $prefix, RESERVATIONS_SESSION_CACHE_GROUP );
-        }
+		if ( false === $prefix ) {
+			$prefix = 1;
+			wp_cache_set( 'er_' . RESERVATIONS_SESSION_CACHE_GROUP . '_cache_prefix', $prefix, RESERVATIONS_SESSION_CACHE_GROUP );
+		}
 
-        return 'er_cache_' . $prefix . '_';
+		return 'er_cache_' . $prefix . '_';
 	}
 
 	/**
@@ -250,7 +250,7 @@ class ER_Session_Handler extends ER_Session {
 				)
 			);
 
-			$test = wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, RESERVATIONS_SESSION_CACHE_GROUP, $this->_session_expiration - time() );
+			$test         = wp_cache_set( $this->get_cache_prefix() . $this->_customer_id, $this->_data, RESERVATIONS_SESSION_CACHE_GROUP, $this->_session_expiration - time() );
 			$this->_dirty = false;
 		}
 	}
@@ -267,7 +267,7 @@ class ER_Session_Handler extends ER_Session {
 	 * Forget all session data without destroying it.
 	 */
 	public function forget_session() {
-        er_set_cookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
+		er_set_cookie( $this->_cookie, '', time() - YEAR_IN_SECONDS, $this->use_secure_cookie(), true );
 
 		er_empty_cart();
 
@@ -280,6 +280,7 @@ class ER_Session_Handler extends ER_Session {
 	 * When a user is logged out, ensure they have a unique nonce by using the customer/session ID.
 	 *
 	 * @param int $uid User ID.
+	 *
 	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
@@ -293,7 +294,7 @@ class ER_Session_Handler extends ER_Session {
 		global $wpdb;
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE session_expiry < %d", time() ) ); // @codingStandardsIgnoreLine.
 
-        er_invalidate_cache_group( RESERVATIONS_SESSION_CACHE_GROUP );
+		er_invalidate_cache_group( RESERVATIONS_SESSION_CACHE_GROUP );
 	}
 
 	/**
@@ -301,6 +302,7 @@ class ER_Session_Handler extends ER_Session {
 	 *
 	 * @param string $customer_id Custo ID.
 	 * @param mixed  $default Default session value.
+	 *
 	 * @return string|array
 	 */
 	public function get_session( $customer_id, $default = false ) {
@@ -310,7 +312,7 @@ class ER_Session_Handler extends ER_Session {
 			return false;
 		}
 
-        // Try to get it from the cache, it will return false if not present or if object cache not in use.
+		// Try to get it from the cache, it will return false if not present or if object cache not in use.
 		$value = wp_cache_get( $this->get_cache_prefix() . $customer_id, RESERVATIONS_SESSION_CACHE_GROUP );
 
 		if ( false === $value ) {

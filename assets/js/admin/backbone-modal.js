@@ -10,7 +10,7 @@
 	$.fn.ERBackboneModal = function( options ) {
 		return this.each( function() {
 			( new $.ERBackboneModal( $( this ), options ) );
-		});
+		} );
 	};
 
 	/**
@@ -24,10 +24,10 @@
 		var settings = $.extend( {}, $.ERBackboneModal.defaultOptions, options );
 
 		if ( settings.template ) {
-			new $.ERBackboneModal.View({
+			new $.ERBackboneModal.View( {
 				target: settings.template,
 				string: settings.variable
-			});
+			} );
 		}
 	};
 
@@ -46,70 +46,64 @@
 	 *
 	 * @return {null}
 	 */
-	$.ERBackboneModal.View = Backbone.View.extend({
-		tagName: 'div',
-		id: 'er-backbone-modal-dialog',
-		_target: undefined,
-		_string: undefined,
-		events: {
+	$.ERBackboneModal.View = Backbone.View.extend( {
+		tagName:         'div',
+		id:              'er-backbone-modal-dialog',
+		_target:         undefined,
+		_string:         undefined,
+		events:          {
 			'click .modal-close': 'closeButton',
-			'click #btn-ok'     : 'addButton',
+			'click #btn-ok':      'addButton',
 			'touchstart #btn-ok': 'addButton',
-			'keydown'           : 'keyboardActions'
+			'keydown':            'keyboardActions'
 		},
-		resizeContent: function() {
-			var $content  = $( '.er-backbone-modal-content' ).find( 'article' );
-			var max_h     = $( window ).height() * 0.75;
+		resizeContent:   function() {
+			var $content = $( '.er-backbone-modal-content' ).find( 'article' );
+			var max_h = $( window ).height() * 0.75;
 
-			$content.css({
-				'max-height': max_h + 'px'
-			});
+			$content.css( 'max-height', max_h + 'px' );
 		},
-		initialize: function( data ) {
-			var view     = this;
+		initialize:      function( data ) {
+			var view = this;
 			this._target = data.target;
 			this._string = data.string;
 			_.bindAll( this, 'render' );
 			this.render();
 
-			$( window ).resize(function() {
+			$( window ).resize( function() {
 				view.resizeContent();
-			});
+			} );
 		},
-		render: function() {
+		render:          function() {
 			var template = wp.template( this._target );
 
 			this.$el.append(
 				template( this._string )
 			);
 
-			$( document.body ).css({
-				'overflow': 'hidden'
-			}).append( this.$el );
+			$( document.body ).css( 'overflow', 'hidden' ).append( this.$el );
 
 			this.resizeContent();
-			this.$( '.er-backbone-modal-content' ).attr( 'tabindex' , '0' ).focus();
+			this.$( '.er-backbone-modal-content' ).attr( 'tabindex', '0' ).focus();
 
 			$( document.body ).trigger( 'init_tooltips' );
 
 			$( document.body ).trigger( 'er_backbone_modal_loaded', this._target );
 		},
-		closeButton: function( e ) {
+		closeButton:     function( e ) {
 			e.preventDefault();
 			$( document.body ).trigger( 'er_backbone_modal_before_remove', this._target );
 			this.undelegateEvents();
 			$( document ).off( 'focusin' );
-			$( document.body ).css({
-				'overflow': 'auto'
-			});
+			$( document.body ).css( 'overflow', 'auto' );
 			this.remove();
 			$( document.body ).trigger( 'er_backbone_modal_removed', this._target );
 		},
-		addButton: function( e ) {
-			$( document.body ).trigger( 'er_backbone_modal_response', [ this._target, this.getFormData() ] );
+		addButton:       function( e ) {
+			$( document.body ).trigger( 'er_backbone_modal_response', [this._target, this.getFormData()] );
 			this.closeButton( e );
 		},
-		getFormData: function() {
+		getFormData:     function() {
 			var data = {};
 
 			$( document.body ).trigger( 'er_backbone_modal_before_update', this._target );
@@ -122,7 +116,7 @@
 				} else {
 					data[ item.name ] = item.value;
 				}
-			});
+			} );
 
 			return data;
 		},
@@ -130,7 +124,7 @@
 			var button = e.keyCode || e.which;
 
 			// Enter key
-			if ( 13 === button && ! ( e.target.tagName && ( e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea' ) ) ) {
+			if ( 13 === button && !( e.target.tagName && ( e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea' ) ) ) {
 				this.addButton( e );
 			}
 
@@ -139,6 +133,6 @@
 				this.closeButton( e );
 			}
 		}
-	});
+	} );
 
-}( jQuery, Backbone, _ ));
+}( jQuery, Backbone, _ ) );

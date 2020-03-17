@@ -18,5 +18,5 @@ do_action( 'easyreservations_cart_is_empty' );
 
 ?>
 <p class="cart-empty easyreservations-info">
-    <?php echo wp_kses_post( apply_filters( 'easyreservations_empty_cart_message', __( 'Your cart is currently empty.', 'easyReservations' ) ) ); ?>
+	<?php echo wp_kses_post( apply_filters( 'easyreservations_empty_cart_message', __( 'Your cart is currently empty.', 'easyReservations' ) ) ); ?>
 </p>

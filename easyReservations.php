@@ -10,8 +10,9 @@ License:GPL2
 */
 
 //Prevent direct access to file
-if(!defined('ABSPATH'))
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
 
 if ( ! defined( 'RESERVATIONS_PLUGIN_FILE' ) ) {
 	define( 'RESERVATIONS_PLUGIN_FILE', __FILE__ );

@@ -24,12 +24,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'easyreservations_email_header', $email_heading, $email ); ?>
 
 <?php /* translators: %s: Customer first name */ ?>
-<p><?php printf( esc_html__( 'Hi %s,', 'easyReservations' ), esc_html( $order->get_first_name() ) ); ?></p>
-<p><?php esc_html_e( 'The following note has been added to your order:', 'easyReservations' ); ?></p>
+    <p><?php printf( esc_html__( 'Hi %s,', 'easyReservations' ), esc_html( $order->get_first_name() ) ); ?></p>
+    <p><?php esc_html_e( 'The following note has been added to your order:', 'easyReservations' ); ?></p>
 
-<blockquote><?php echo wpautop( wptexturize( make_clickable( $customer_note ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></blockquote>
+    <blockquote><?php echo wpautop( wptexturize( make_clickable( $customer_note ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></blockquote>
 
-<p><?php esc_html_e( 'As a reminder, here are your order details:', 'easyReservations' ); ?></p>
+    <p><?php esc_html_e( 'As a reminder, here are your order details:', 'easyReservations' ); ?></p>
 
 <?php
 

@@ -64,19 +64,19 @@ class ER_Admin_Post_Types {
 		switch ( $screen_id ) {
 			case 'edit-easy_order':
 				include_once 'list-tables/class-er-admin-list-table-orders.php';
-                $er_list_table = new ER_Admin_List_Table_Orders();
+				$er_list_table = new ER_Admin_List_Table_Orders();
 				break;
 			case 'edit-easy_reservation':
 				include_once 'list-tables/class-er-admin-list-table-reservations.php';
-                $er_list_table = new ER_Admin_List_Table_Reservations();
+				$er_list_table = new ER_Admin_List_Table_Reservations();
 				break;
 			case 'edit-easy-rooms':
 				include_once 'list-tables/class-er-admin-list-table-resources.php';
-                $er_list_table = new ER_Admin_List_Table_Resources();
-                break;
-            case 'edit-easy_coupon':
-                do_action( 'easyreservations_load_coupon_list_table' );
-                break;
+				$er_list_table = new ER_Admin_List_Table_Resources();
+				break;
+			case 'edit-easy_coupon':
+				do_action( 'easyreservations_load_coupon_list_table' );
+				break;
 		}
 
 		// Ensure the table handler is only loaded once. Prevents multiple loads if a plugin calls check_ajax_referer many times.
@@ -92,7 +92,6 @@ class ER_Admin_Post_Types {
 		if ( isset( $_POST['wp_screen_options'] ) && is_array( $_POST['wp_screen_options'] ) ) {
 			check_admin_referer( 'screen-options-nonce', 'screenoptionnonce' );
 
-
 			switch ( sanitize_key( $_POST['wp_screen_options']['option'] ) ) {
 				case 'edit_easy_reservation_per_page':
 					update_user_meta( get_current_user_id(), 'timeline_hourly', isset( $_POST['timeline_hourly'] ) ? 'on' : 'off' );
@@ -106,7 +105,8 @@ class ER_Admin_Post_Types {
 	/**
 	 * Change messages when a post type is updated.
 	 *
-	 * @param  array $messages Array of messages.
+	 * @param array $messages Array of messages.
+	 *
 	 * @return array
 	 */
 	public function post_updated_messages( $messages ) {
@@ -126,7 +126,7 @@ class ER_Admin_Post_Types {
 			/* translators: %s: resource url */
 			8  => sprintf( __( 'Resource submitted. <a target="_blank" href="%s">Preview resource</a>', 'easyReservations' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),
 			9  => sprintf(
-				/* translators: 1: date 2: resource url */
+			/* translators: 1: date 2: resource url */
 				__( 'Resource scheduled for: %1$s. <a target="_blank" href="%2$s">Preview resource</a>', 'easyReservations' ),
 				'<strong>' . date_i18n( __( 'M j, Y @ G:i', 'easyReservations' ), strtotime( $post->post_date ) ),
 				esc_url( get_permalink( $post->ID ) ) . '</strong>'
@@ -146,7 +146,7 @@ class ER_Admin_Post_Types {
 			7  => __( 'Order saved.', 'easyReservations' ),
 			8  => __( 'Order submitted.', 'easyReservations' ),
 			9  => sprintf(
-				/* translators: %s: date */
+			/* translators: %s: date */
 				__( 'Order scheduled for: %s.', 'easyReservations' ),
 				'<strong>' . date_i18n( __( 'M j, Y @ G:i', 'easyReservations' ), strtotime( $post->post_date ) ) . '</strong>'
 			),
@@ -165,7 +165,7 @@ class ER_Admin_Post_Types {
 			7  => __( 'Coupon saved.', 'easyReservations' ),
 			8  => __( 'Coupon submitted.', 'easyReservations' ),
 			9  => sprintf(
-				/* translators: %s: date */
+			/* translators: %s: date */
 				__( 'Coupon scheduled for: %s.', 'easyReservations' ),
 				'<strong>' . date_i18n( __( 'M j, Y @ G:i', 'easyReservations' ), strtotime( $post->post_date ) ) . '</strong>'
 			),
@@ -178,8 +178,9 @@ class ER_Admin_Post_Types {
 	/**
 	 * Specify custom bulk actions messages for different post types.
 	 *
-	 * @param  array $bulk_messages Array of messages.
-	 * @param  array $bulk_counts Array of how many objects were updated.
+	 * @param array $bulk_messages Array of messages.
+	 * @param array $bulk_counts Array of how many objects were updated.
+	 *
 	 * @return array
 	 */
 	public function bulk_post_updated_messages( $bulk_messages, $bulk_counts ) {
@@ -250,6 +251,7 @@ class ER_Admin_Post_Types {
 	 *
 	 * @param string  $text Text to shown.
 	 * @param WP_Post $post Current post object.
+	 *
 	 * @return string
 	 */
 	public function enter_title_here( $text, $post ) {
@@ -258,28 +260,30 @@ class ER_Admin_Post_Types {
 				$text = esc_html__( 'Resource name', 'easyReservations' );
 				break;
 		}
+
 		return $text;
 	}
 
-    /**
-     * When editing the shop page, we should hide templates.
-     *
-     * @param array   $page_templates Templates array.
-     * @param string  $theme Classname.
-     * @param WP_Post $post The current post object.
-     * @return array
-     */
-    public function hide_cpt_archive_templates( $page_templates, $theme, $post ) {
-        $shop_page_id = er_get_page_id( 'shop' );
+	/**
+	 * When editing the shop page, we should hide templates.
+	 *
+	 * @param array   $page_templates Templates array.
+	 * @param string  $theme Classname.
+	 * @param WP_Post $post The current post object.
+	 *
+	 * @return array
+	 */
+	public function hide_cpt_archive_templates( $page_templates, $theme, $post ) {
+		$shop_page_id = er_get_page_id( 'shop' );
 
-        if ( $post && absint( $post->ID ) === $shop_page_id ) {
-            $page_templates = array();
-        }
+		if ( $post && absint( $post->ID ) === $shop_page_id ) {
+			$page_templates = array();
+		}
 
-        return $page_templates;
-    }
+		return $page_templates;
+	}
 
-    /**
+	/**
 	 * Show a notice above the CPT archive.
 	 *
 	 * @param WP_Post $post The current post object.
@@ -299,7 +303,7 @@ class ER_Admin_Post_Types {
 	 * Add a post display state for special ER pages in the page list table.
 	 *
 	 * @param array   $post_states An array of post display states.
-	 * @param WP_Post $post        The current post object.
+	 * @param WP_Post $post The current post object.
 	 */
 	public function add_display_post_states( $post_states, $post ) {
 		if ( er_get_page_id( 'shop' ) === $post->ID ) {

@@ -73,13 +73,13 @@ if ( ! class_exists( 'ER_Email_Cancelled_Order', false ) ) :
 		 * @param ER_Order|false $order Order object.
 		 */
 		public function trigger( $order_id, $order = false ) {
-            if ( $order_id && ! is_a( $order, 'ER_Order' ) ) {
+			if ( $order_id && ! is_a( $order, 'ER_Order' ) ) {
 				$order = er_get_order( $order_id );
 			}
 
-            $this->setup_locale( $order->get_locale() );
+			$this->setup_locale( $order->get_locale() );
 
-            if ( is_a( $order, 'ER_Order' ) ) {
+			if ( is_a( $order, 'ER_Order' ) ) {
 				$this->object                                    = $order;
 				$this->placeholders['{order_date}']              = er_format_datetime( $this->object->get_date_created() );
 				$this->placeholders['{order_number}']            = $this->object->get_order_number();

@@ -3,12 +3,13 @@
  * Loads resources once
  */
 
-if(!defined('ABSPATH'))
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
 
 class ER_Resources {
 
-    /**
+	/**
 	 * The single instance of the class.
 	 *
 	 * @var ER_Resources|null
@@ -20,6 +21,7 @@ class ER_Resources {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
@@ -30,76 +32,77 @@ class ER_Resources {
 	 *
 	 * @return ER_Resource[]|ER_Resource|bool
 	 */
-	public function get($id = false){
+	public function get( $id = false ) {
 		if ( is_null( $this->resources ) ) {
 			$this->resources = $this->prepare();
 		}
 
-        if(is_a($id, 'WP_Post')){
-		    $id = $id->ID;
-        }
-
-        $id = absint( $id );
-
-        if ( $id ) {
-            if ( isset( $this->resources[$id] ) ) {
-                return $this->resources[$id];
-            }
-
-            return false;
-        }
-
-        return $this->resources;
-	}
-
-    /**
-     * Get only resource accessible by the current user
-     *
-     * @return ER_Resource[]
-     */
-	public function get_accessible(){
-        $return = array();
-
-        foreach ( $this->get() as $id => $resource ) {
-            $get_role = get_post_meta( $resource->get_id(), 'easy-resource-permission', true );
-            if ( $resource->is_visible() && ( empty( $get_role ) || current_user_can( $get_role ) ) ) {
-                $return[$id] = $resource;
-            }
-        }
-
-        return $return;
-    }
-
-    /**
-     * Get only resource visible for the current user
-     *
-     * @return ER_Resource[]
-     */
-	public function get_visible(){
-        $return = array();
-
-        foreach ( $this->get() as $id => $resource ) {
-            if ( $resource->is_visible() ) {
-                $return[$id] = $resource;
-            }
-        }
-
-        return $return;
-    }
-
-	protected function prepare(){
-		return $this->cast($this->query());
-	}
-
-	protected function cast($resources_post_data){
-		$return = array();
-		foreach($resources_post_data as $post_data){
-			$return[$post_data->ID] = new ER_Resource($post_data);
+		if ( is_a( $id, 'WP_Post' ) ) {
+			$id = $id->ID;
 		}
+
+		$id = absint( $id );
+
+		if ( $id ) {
+			if ( isset( $this->resources[ $id ] ) ) {
+				return $this->resources[ $id ];
+			}
+
+			return false;
+		}
+
+		return $this->resources;
+	}
+
+	/**
+	 * Get only resource accessible by the current user
+	 *
+	 * @return ER_Resource[]
+	 */
+	public function get_accessible() {
+		$return = array();
+
+		foreach ( $this->get() as $id => $resource ) {
+			$get_role = get_post_meta( $resource->get_id(), 'easy-resource-permission', true );
+			if ( $resource->is_visible() && ( empty( $get_role ) || current_user_can( $get_role ) ) ) {
+				$return[ $id ] = $resource;
+			}
+		}
+
 		return $return;
 	}
 
-	protected function query(){
+	/**
+	 * Get only resource visible for the current user
+	 *
+	 * @return ER_Resource[]
+	 */
+	public function get_visible() {
+		$return = array();
+
+		foreach ( $this->get() as $id => $resource ) {
+			if ( $resource->is_visible() ) {
+				$return[ $id ] = $resource;
+			}
+		}
+
+		return $return;
+	}
+
+	protected function prepare() {
+		return $this->cast( $this->query() );
+	}
+
+	protected function cast( $resources_post_data ) {
+		$return = array();
+		foreach ( $resources_post_data as $post_data ) {
+			$return[ $post_data->ID ] = new ER_Resource( $post_data );
+		}
+
+		return $return;
+	}
+
+	protected function query() {
 		global $wpdb;
 
 		//TODO get posts instead

@@ -79,12 +79,14 @@ class ER_Meta_Data implements JsonSerializable {
 	 * Returns the value of any property.
 	 *
 	 * @param string $key Key to get.
+	 *
 	 * @return mixed Property value or NULL if it does not exists
 	 */
 	public function __get( $key ) {
 		if ( array_key_exists( $key, $this->current_data ) ) {
 			return $this->current_data[ $key ];
 		}
+
 		return null;
 	}
 
@@ -100,6 +102,7 @@ class ER_Meta_Data implements JsonSerializable {
 				$changes[ $id ] = $value;
 			}
 		}
+
 		return $changes;
 	}
 

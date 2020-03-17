@@ -36,28 +36,29 @@ class ER_Customizer_Control_Cropping extends WP_Customize_Control {
 		$custom_height = $this->value( 'custom_height' );
 		?>
 
-		<span class="customize-control-title">
+        <span class="customize-control-title">
 			<?php echo esc_html( $this->label ); ?>
 		</span>
 
 		<?php if ( ! empty( $this->description ) ) : ?>
-			<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+            <span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
 		<?php endif; ?>
 
-		<ul id="input_<?php echo esc_attr( $this->id ); ?>" class="easyreservations-cropping-control">
+        <ul id="input_<?php echo esc_attr( $this->id ); ?>" class="easyreservations-cropping-control">
 			<?php foreach ( $this->choices as $key => $radio ) : ?>
-				<li>
-					<input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $this->id . $key ); ?>" <?php $this->link( 'cropping' ); ?> <?php checked( $value, $key ); ?> />
-					<label for="<?php echo esc_attr( $this->id . $key ); ?>"><?php echo esc_html( $radio['label'] ); ?><br/><span class="description"><?php echo esc_html( $radio['description'] ); ?></span></label>
+                <li>
+                    <input type="radio" name="<?php echo esc_attr( $this->id ); ?>" value="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $this->id . $key ); ?>" <?php $this->link( 'cropping' ); ?> <?php checked( $value, $key ); ?> />
+                    <label for="<?php echo esc_attr( $this->id . $key ); ?>"><?php echo esc_html( $radio['label'] ); ?>
+                        <br/><span class="description"><?php echo esc_html( $radio['description'] ); ?></span></label>
 
 					<?php if ( 'custom' === $key ) : ?>
-						<span class="easyreservations-cropping-control-aspect-ratio">
+                        <span class="easyreservations-cropping-control-aspect-ratio">
 							<input type="text" pattern="\d*" size="3" value="<?php echo esc_attr( $custom_width ); ?>" <?php $this->link( 'custom_width' ); ?> /> : <input type="text" pattern="\d*" size="3" value="<?php echo esc_attr( $custom_height ); ?>" <?php $this->link( 'custom_height' ); ?> />
 						</span>
 					<?php endif; ?>
-				</li>
+                </li>
 			<?php endforeach; ?>
-		</ul>
+        </ul>
 		<?php
 	}
 }

@@ -6,44 +6,44 @@
  * @package easyReservations\Admin
  */
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
 }
 
 $custom_data = $object->get_items( 'custom' );
 ?>
 <div class="custom_data">
-    <?php
-        if ( $custom_data ) {
-            echo '<p>';
+	<?php
+	if ( $custom_data ) {
+		echo '<p>';
 
-            foreach($custom_data as $custom_item){
-                echo esc_html( $custom_item->get_name() ) . ': ' . esc_html( $custom_item->get_custom_display() ) . '<br>';
-            }
+		foreach ( $custom_data as $custom_item ) {
+			echo esc_html( $custom_item->get_name() ) . ': ' . esc_html( $custom_item->get_custom_display() ) . '<br>';
+		}
 
-            echo '</p>';
-        } else {
-            echo '<p class="none_set">' . esc_html__( 'No custom data set.', 'easyReservations' ) . '</p>';
-        }
-    ?>
+		echo '</p>';
+	} else {
+		echo '<p class="none_set">' . esc_html__( 'No custom data set.', 'easyReservations' ) . '</p>';
+	}
+	?>
 </div>
 <div class="edit_custom_data">
-    <?php
-    if ( $custom_data ) {
-        foreach ( $custom_data as $custom_item ) { ?>
+	<?php
+	if ( $custom_data ) {
+		foreach ( $custom_data as $custom_item ) { ?>
             <p class="form-field form-field-wide">
-                <input type="hidden" name="custom_data[]" value="<?php echo esc_attr( $custom_item->get_id() ); ?>">
-                <input type="hidden" name="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>-title" value="<?php echo esc_attr( $custom_item->get_name() ); ?>">
-                <input type="hidden" name="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>-display" value="<?php echo esc_attr( $custom_item->get_custom_display() ); ?>">
-                <label for="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>">
-                    <?php esc_html_e( $custom_item->get_name() ); ?>
-                    <a class="delete-custom" href="#" data-receipt_item_id="<?php echo esc_attr( $custom_item->get_id() ); ?>"></a>
-                </label>
-                <?php echo ER_Custom_Data::generate( $custom_item->get_custom_id(), array( 'value' => $custom_item->get_custom_value() ) ); ?>
+            <input type="hidden" name="custom_data[]" value="<?php echo esc_attr( $custom_item->get_id() ); ?>">
+            <input type="hidden" name="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>-title" value="<?php echo esc_attr( $custom_item->get_name() ); ?>">
+            <input type="hidden" name="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>-display" value="<?php echo esc_attr( $custom_item->get_custom_display() ); ?>">
+            <label for="er-custom-<?php echo esc_attr( $custom_item->get_custom_id() ); ?>">
+				<?php esc_html_e( $custom_item->get_name() ); ?>
+                <a class="delete-custom" href="#" data-receipt_item_id="<?php echo esc_attr( $custom_item->get_id() ); ?>"></a>
+            </label>
+			<?php echo ER_Custom_Data::generate( $custom_item->get_custom_id(), array( 'value' => $custom_item->get_custom_value() ) ); ?>
             </p><?php
-        }
-    }
-    ?>
+		}
+	}
+	?>
 </div>
 
 <script type="text/template" id="tmpl-er-modal-add-custom">
@@ -62,13 +62,13 @@ $custom_data = $object->get_items( 'custom' );
                             <label for="custom_field"><?php esc_html_e( 'Type', 'easyReservations' ); ?></label>
                             <select name="custom_field" id="custom_field" class="er-custom-field">
                                 <option value=""><?php esc_html_e( 'Select custom data to add', 'easyReservations' ); ?></option>
-                                <?php
-                                foreach ( ER_Custom_Data::get_settings() as $custom_field ) {
-                                    echo '<option value="' . esc_attr( $custom_field['id'] ) . '">';
-                                    echo esc_html( $custom_field['title'] );
-                                    echo '</option>';
-                                }
-                                ?>
+								<?php
+								foreach ( ER_Custom_Data::get_settings() as $custom_field ) {
+									echo '<option value="' . esc_attr( $custom_field['id'] ) . '">';
+									echo esc_html( $custom_field['title'] );
+									echo '</option>';
+								}
+								?>
                             </select>
                         </p>
                         <div id="custom_field_data" style="display:none">
@@ -79,7 +79,7 @@ $custom_data = $object->get_items( 'custom' );
                             <div>
                                 <label for="custom_field_fee">
                                     <input type="checkbox" name="custom_field_fee" id="custom_field_fee">
-                                    <?php esc_html_e( 'Add fee and recalculate receipt', 'easyReservations' ); ?>
+									<?php esc_html_e( 'Add fee and recalculate receipt', 'easyReservations' ); ?>
                                 </label>
                             </div>
                         </div>
@@ -95,12 +95,12 @@ $custom_data = $object->get_items( 'custom' );
     </div>
     <div class="er-backbone-modal-backdrop modal-close"></div>
     <div style="display: none">
-        <?php
-        foreach ( ER_Custom_Data::get_settings() as $custom_field ) {
-            echo '<div id="prototype-custom-' . esc_attr( $custom_field['id'] ) .'">';
-            echo ER_Custom_Data::generate( $custom_field['id'], array() );
-            echo '</div>';
-        }
-        ?>
+		<?php
+		foreach ( ER_Custom_Data::get_settings() as $custom_field ) {
+			echo '<div id="prototype-custom-' . esc_attr( $custom_field['id'] ) . '">';
+			echo ER_Custom_Data::generate( $custom_field['id'], array() );
+			echo '</div>';
+		}
+		?>
     </div>
 </script>

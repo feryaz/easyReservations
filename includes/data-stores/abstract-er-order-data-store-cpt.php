@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstract Order Data Store: Stored in CPT.
  */
-abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data_Store implements ER_Object_Data_Store_Interface, ER_Abstract_Order_Data_Store_Interface {
+abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data_Store implements
+	ER_Object_Data_Store_Interface, ER_Abstract_Order_Data_Store_Interface {
 
 	/**
 	 * Internal meta type used to store order data.
@@ -45,25 +46,25 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 	 * @param ER_Order $order Order object.
 	 */
 	public function create( &$order ) {
-	    if( !$order->get_date_created() ){
-            $order->set_date_created( time() );
-        }
+		if ( ! $order->get_date_created() ) {
+			$order->set_date_created( time() );
+		}
 
 		$id = wp_insert_post(
 			apply_filters(
-                'easyreservations_new_order_data',
-                array(
-                    'post_date'     => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getOffsetTimestamp() ),
-                    'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getTimestamp() ),
-                    'post_type'     => $order->get_type(),
-                    'post_status'   => $order->get_status( 'edit' ),
-                    'ping_status'   => 'closed',
-                    'post_parent'   => $order->get_parent_id() ? $order->get_parent_id() : 0,
-                    'post_author'   => $order->get_user_id() ? $order->get_user_id() : 1,
-                    'post_title'    => $this->get_post_title(),
-                    'post_password' => er_generate_order_key(),
-                    'post_excerpt'  => $this->get_post_excerpt( $order ),
-                )
+				'easyreservations_new_order_data',
+				array(
+					'post_date'     => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getOffsetTimestamp() ),
+					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getTimestamp() ),
+					'post_type'     => $order->get_type(),
+					'post_status'   => $order->get_status( 'edit' ),
+					'ping_status'   => 'closed',
+					'post_parent'   => $order->get_parent_id() ? $order->get_parent_id() : 0,
+					'post_author'   => $order->get_user_id() ? $order->get_user_id() : 1,
+					'post_title'    => $this->get_post_title(),
+					'post_password' => er_generate_order_key(),
+					'post_excerpt'  => $this->get_post_excerpt( $order ),
+				)
 			),
 			true
 		);
@@ -85,29 +86,29 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 	 * @throws Exception If passed order is invalid.
 	 */
 	public function read( &$order ) {
-        $order->set_defaults();
-        $post_object = get_post( $order->get_id() );
+		$order->set_defaults();
+		$post_object = get_post( $order->get_id() );
 
-        if ( !$order->get_id() || !$post_object || !in_array( $post_object->post_type, array(
-                'easy_order',
-                'easy_order_refund'
-            ), true ) ) {
-            throw new Exception( __( 'Invalid order.', 'easyReservations' ) );
-        }
+		if ( ! $order->get_id() || ! $post_object || ! in_array( $post_object->post_type, array(
+				'easy_order',
+				'easy_order_refund'
+			), true ) ) {
+			throw new Exception( __( 'Invalid order.', 'easyReservations' ) );
+		}
 
-        $order->set_props(
-            array(
-                'parent_id'     => $post_object->post_parent,
-                'date_created'  => 0 < $post_object->post_date_gmt ? er_string_to_timestamp( $post_object->post_date_gmt ) : null,
-                'date_modified' => 0 < $post_object->post_modified_gmt ? er_string_to_timestamp( $post_object->post_modified_gmt ) : null,
-                'status'        => $post_object->post_status,
-            )
-        );
+		$order->set_props(
+			array(
+				'parent_id'     => $post_object->post_parent,
+				'date_created'  => 0 < $post_object->post_date_gmt ? er_string_to_timestamp( $post_object->post_date_gmt ) : null,
+				'date_modified' => 0 < $post_object->post_modified_gmt ? er_string_to_timestamp( $post_object->post_modified_gmt ) : null,
+				'status'        => $post_object->post_status,
+			)
+		);
 
-        $this->read_order_data( $order, $post_object );
-        $order->read_meta_data();
-        $order->set_object_read( true );
-    }
+		$this->read_order_data( $order, $post_object );
+		$order->read_meta_data();
+		$order->set_object_read( true );
+	}
 
 	/**
 	 * Method to update an order in the database.
@@ -198,7 +199,8 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 	/**
 	 * Excerpt for post.
 	 *
-	 * @param  ER_order $order Order object.
+	 * @param ER_order $order Order object.
+	 *
 	 * @return string
 	 */
 	protected function get_post_excerpt( $order ) {
@@ -228,12 +230,12 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 
 		$order->set_props(
 			array(
-                'discount_total'     => get_post_meta( $id, '_discount', true ),
-                'discount_tax'       => get_post_meta( $id, '_discount_tax', true ),
-                'total_tax'          => get_post_meta( $id, '_order_tax', true ),
-                'total'              => get_post_meta( $id, '_order_total', true ),
-                'prices_include_tax' => metadata_exists( 'post', $id, '_prices_include_tax' ) ? 'yes' === get_post_meta( $id, '_prices_include_tax', true ) : er_prices_include_tax(),
-            )
+				'discount_total'     => get_post_meta( $id, '_discount', true ),
+				'discount_tax'       => get_post_meta( $id, '_discount_tax', true ),
+				'total_tax'          => get_post_meta( $id, '_order_tax', true ),
+				'total'              => get_post_meta( $id, '_order_total', true ),
+				'prices_include_tax' => metadata_exists( 'post', $id, '_prices_include_tax' ) ? 'yes' === get_post_meta( $id, '_prices_include_tax', true ) : er_prices_include_tax(),
+			)
 		);
 
 		// Gets extra data associated with the order if needed.
@@ -253,12 +255,12 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 	protected function update_post_meta( &$order ) {
 		$updated_props     = array();
 		$meta_key_to_props = array(
-            '_discount'           => 'discount_total',
-            '_discount_tax'       => 'discount_tax',
-            '_order_tax'          => 'total_tax',
-            '_order_total'        => 'total',
-            '_prices_include_tax' => 'prices_include_tax',
-        );
+			'_discount'           => 'discount_total',
+			'_discount_tax'       => 'discount_tax',
+			'_order_tax'          => 'total_tax',
+			'_order_total'        => 'total',
+			'_prices_include_tax' => 'prices_include_tax',
+		);
 
 		$props_to_update = $this->get_props_to_update( $order, $meta_key_to_props );
 
@@ -295,10 +297,12 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 	 * Get token ids for an order.
 	 *
 	 * @param ER_Order $order Order object.
+	 *
 	 * @return array
 	 */
 	public function get_payment_token_ids( $order ) {
 		$token_ids = array_filter( (array) get_post_meta( $order->get_id(), '_payment_tokens', true ) );
+
 		return $token_ids;
 	}
 

@@ -1,6 +1,6 @@
 <?php
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 $resources = ER()->resources()->get_accessible();
@@ -98,8 +98,12 @@ $resources = ER()->resources()->get_accessible();
                             <a role="menuitem" class="start-add" data-target="reservation" tabindex="-1" href="#"><?php esc_html_e( 'Reservation', 'easyReservations' ); ?></a>
                         </li>
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" class="start-add" data-target="resource" tabindex="-1" href="#"><?php esc_html_e( 'Block resource', 'easyReservations' ); ?></a></li>
-                        <li role="presentation"><a role="menuitem" class="start-add" data-target="global" tabindex="-1" href="#"><?php esc_html_e( 'Block global', 'easyReservations' ); ?></a></li>
+                        <li role="presentation">
+                            <a role="menuitem" class="start-add" data-target="resource" tabindex="-1" href="#"><?php esc_html_e( 'Block resource', 'easyReservations' ); ?></a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" class="start-add" data-target="global" tabindex="-1" href="#"><?php esc_html_e( 'Block global', 'easyReservations' ); ?></a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -110,9 +114,9 @@ $resources = ER()->resources()->get_accessible();
                     <div class="absolute"></div>
                 </div>
                 <div class="vertical-scroll">
-                <table>
-                    <?php foreach ( $resources as $resource ): ?>
-                        <thead class="resource">
+                    <table>
+						<?php foreach ( $resources as $resource ): ?>
+                            <thead class="resource">
                             <tr>
                                 <th>
                                     <div>
@@ -121,16 +125,16 @@ $resources = ER()->resources()->get_accessible();
                                     </div>
                                 </th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i++ ): ?>
+                            </thead>
+                            <tbody>
+							<?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i ++ ): ?>
                                 <tr>
                                     <td data-resource="<?php echo esc_attr( $resource->get_id() ); ?>" data-space="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $resource->get_space_name( $i ) ); ?></td>
                                 </tr>
-                            <?php endfor; ?>
-                        </tbody>
-                    <?php endforeach; ?>
-                </table>
+							<?php endfor; ?>
+                            </tbody>
+						<?php endforeach; ?>
+                    </table>
                 </div>
             </div>
             <div class="timeline-container">
@@ -140,27 +144,27 @@ $resources = ER()->resources()->get_accessible();
                     <div class="horizontal-scroll">
                         <table>
                             <thead class="main">
-                                <tr>
+                            <tr>
 
-                                </tr>
+                            </tr>
                             </thead>
                         </table>
                     </div>
                     <div class="vertical-scroll">
                         <div class="horizontal-scroll">
                             <table>
-                                <?php foreach ( $resources as $resource ): ?>
+								<?php foreach ( $resources as $resource ): ?>
                                     <thead class="resource">
-                                        <tr>
-                                        </tr>
+                                    <tr>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i++ ): ?>
-                                            <tr>
-                                            </tr>
-                                        <?php endfor; ?>
+									<?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i ++ ): ?>
+                                        <tr>
+                                        </tr>
+									<?php endfor; ?>
                                     </tbody>
-                                <?php endforeach; ?>
+								<?php endforeach; ?>
                             </table>
                         </div>
                     </div>

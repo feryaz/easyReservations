@@ -11,14 +11,14 @@
  * @package easyReservations/Templates
  * @version 1.0
  */
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 ?>
 <hr>
 <div class="easy-ui easyreservations-checkout-form">
-    <?php do_action( 'easyreservations_checkout_form' ); ?>
+	<?php do_action( 'easyreservations_checkout_form' ); ?>
 </div>
 
 <?php do_action( 'easyreservations_checkout_before_order_review_heading' ); ?>
@@ -28,15 +28,15 @@ if ( !defined( 'ABSPATH' ) ) {
 <?php do_action( 'easyreservations_checkout_before_order_review' ); ?>
 
 <div id="order_review" class="easyreservations-checkout-review-order">
-    <?php do_action( 'easyreservations_checkout_order_review' ); ?>
+	<?php do_action( 'easyreservations_checkout_order_review' ); ?>
 </div>
 
 <div id="order_submit">
     <div class="form-row place-order">
-        <?php do_action( 'easyreservations_checkout_order_submit' ); ?>
+		<?php do_action( 'easyreservations_checkout_order_submit' ); ?>
     </div>
 
-    <?php do_action( 'easyreservations_checkout_after_order_submit' ); ?>
+	<?php do_action( 'easyreservations_checkout_after_order_submit' ); ?>
 </div>
 
 <?php do_action( 'easyreservations_checkout_after' ); ?>

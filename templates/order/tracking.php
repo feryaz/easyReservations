@@ -25,7 +25,7 @@ $notes = $order->get_customer_order_notes();
 		apply_filters(
 			'easyreservations_order_tracking_status',
 			sprintf(
-				/* translators: 1: order number 2: order date 3: order status */
+			/* translators: 1: order number 2: order date 3: order status */
 				__( 'Order #%1$s was placed on %2$s and is currently %3$s.', 'easyReservations' ),
 				'<mark class="order-number">' . $order->get_order_number() . '</mark>',
 				'<mark class="order-date">' . er_format_datetime( $order->get_date_created() ) . '</mark>',
@@ -37,23 +37,23 @@ $notes = $order->get_customer_order_notes();
 </p>
 
 <?php if ( $notes ) : ?>
-	<h2><?php esc_html_e( 'Order updates', 'easyReservations' ); ?></h2>
-	<ol class="commentlist notes">
+    <h2><?php esc_html_e( 'Order updates', 'easyReservations' ); ?></h2>
+    <ol class="commentlist notes">
 		<?php foreach ( $notes as $note ) : ?>
-		<li class="comment note">
-			<div class="comment_container">
-				<div class="comment-text">
-					<p class="meta"><?php echo date_i18n( esc_html__( 'l jS \o\f F Y, h:ia', 'easyReservations' ), strtotime( $note->comment_date ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-					<div class="description">
-						<?php echo wpautop( wptexturize( $note->comment_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</div>
-					<div class="clear"></div>
-				</div>
-				<div class="clear"></div>
-			</div>
-		</li>
+            <li class="comment note">
+                <div class="comment_container">
+                    <div class="comment-text">
+                        <p class="meta"><?php echo date_i18n( esc_html__( 'l jS \o\f F Y, h:ia', 'easyReservations' ), strtotime( $note->comment_date ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+                        <div class="description">
+							<?php echo wpautop( wptexturize( $note->comment_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </li>
 		<?php endforeach; ?>
-	</ol>
+    </ol>
 <?php endif; ?>
 
 <?php do_action( 'easyreservations_view_order', $order->get_id() ); ?>

@@ -50,6 +50,7 @@ class ER_HTTPS {
 	 * Force https for urls.
 	 *
 	 * @param mixed $content
+	 *
 	 * @return string
 	 */
 	public static function force_https_url( $content ) {
@@ -60,6 +61,7 @@ class ER_HTTPS {
 				$content = str_replace( 'http:', 'https:', $content );
 			}
 		}
+
 		return $content;
 	}
 
@@ -67,7 +69,7 @@ class ER_HTTPS {
 	 * Force a post link to be SSL if needed.
 	 *
 	 * @param string $link
-	 * @param int $page_id
+	 * @param int    $page_id
 	 *
 	 * @return string
 	 */
@@ -77,6 +79,7 @@ class ER_HTTPS {
 		} elseif ( 'yes' === get_option( 'reservations_unforce_ssl_checkout' ) && ! er_site_is_https() ) {
 			$link = str_replace( 'https:', 'http:', $link );
 		}
+
 		return $link;
 	}
 
@@ -104,7 +107,7 @@ class ER_HTTPS {
 			return;
 		}
 
-		if ( ! er_site_is_https() && is_ssl() && $_SERVER['REQUEST_URI'] && ! is_easyreservations_checkout() && !is_easyreservations_ajax() && !is_easyreservations_account_page() && apply_filters( 'easyreservations_unforce_ssl_checkout', true ) ) {
+		if ( ! er_site_is_https() && is_ssl() && $_SERVER['REQUEST_URI'] && ! is_easyreservations_checkout() && ! is_easyreservations_ajax() && ! is_easyreservations_account_page() && apply_filters( 'easyreservations_unforce_ssl_checkout', true ) ) {
 
 			if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
 				wp_safe_redirect( preg_replace( '|^https://|', 'http://', $_SERVER['REQUEST_URI'] ) );
@@ -123,7 +126,7 @@ class ER_HTTPS {
 	 *        https://www.paypal-knowledge.com/infocenter/index?page=content&widgetview=true&id=FAQ1914&viewlocale=en_US
 	 *
 	 * @param string $handle
-	 * @param mixed $r
+	 * @param mixed  $r
 	 * @param string $url
 	 */
 	public static function http_api_curl( $handle, $r, $url ) {

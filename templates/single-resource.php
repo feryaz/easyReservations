@@ -20,37 +20,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header( 'shop' ); ?>
 
-	<?php
-		/**
-		 * easyreservations_before_main_content hook.
-		 *
-		 * @hooked easyreservations_output_content_wrapper - 10 (outputs opening divs for the content)
-		 */
-		do_action( 'easyreservations_before_main_content' );
-	?>
+<?php
+/**
+ * easyreservations_before_main_content hook.
+ *
+ * @hooked easyreservations_output_content_wrapper - 10 (outputs opening divs for the content)
+ */
+do_action( 'easyreservations_before_main_content' );
+?>
 
-		<?php while ( have_posts() ) : the_post(); ?>
+<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php er_get_template_part( 'content', 'single-resource' ); ?>
+	<?php er_get_template_part( 'content', 'single-resource' ); ?>
 
-		<?php endwhile; // end of the loop. ?>
+<?php endwhile; // end of the loop. ?>
 
-	<?php
-		/**
-		 * easyreservations_after_main_content hook.
-		 *
-		 * @hooked easyreservations_output_content_wrapper_end - 10 (outputs closing divs for the content)
-		 */
-		do_action( 'easyreservations_after_main_content' );
-	?>
+<?php
+/**
+ * easyreservations_after_main_content hook.
+ *
+ * @hooked easyreservations_output_content_wrapper_end - 10 (outputs closing divs for the content)
+ */
+do_action( 'easyreservations_after_main_content' );
+?>
 
-	<?php
-		/**
-		 * easyreservations_sidebar hook.
-		 *
-		 * @hooked easyreservations_get_sidebar - 10
-		 */
-		do_action( 'easyreservations_sidebar' );
-	?>
+<?php
+/**
+ * easyreservations_sidebar hook.
+ *
+ * @hooked easyreservations_get_sidebar - 10
+ */
+do_action( 'easyreservations_sidebar' );
+?>
 
 <?php get_footer( 'shop' );

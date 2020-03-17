@@ -26,12 +26,12 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		parent::__construct();
 		add_action( 'admin_notices', array( $this, 'bulk_admin_notices' ) );
 		add_action( 'admin_footer', array( $this, 'order_preview_template' ) );
-        add_action( 'parse_query', array( $this, 'search_custom_fields' ) );
-        add_filter( 'get_search_query', array( $this, 'search_label' ) );
+		add_action( 'parse_query', array( $this, 'search_custom_fields' ) );
+		add_filter( 'get_search_query', array( $this, 'search_label' ) );
 		add_filter( 'query_vars', array( $this, 'add_custom_query_var' ) );
-    }
+	}
 
-    /**
+	/**
 	 * Render blank state.
 	 */
 	protected function render_blank_state() {
@@ -55,11 +55,12 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		return 'order_number';
 	}
 
-    /**
+	/**
 	 * Get row actions to show in the list table.
 	 *
 	 * @param array   $actions Array of actions.
 	 * @param WP_Post $post Current post object.
+	 *
 	 * @return array
 	 */
 	protected function get_row_actions( $actions, $post ) {
@@ -82,6 +83,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Define which columns are sortable.
 	 *
 	 * @param array $columns Existing columns.
+	 *
 	 * @return array
 	 */
 	public function define_sortable_columns( $columns ) {
@@ -99,18 +101,19 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Define which columns to show on this screen.
 	 *
 	 * @param array $columns Existing columns.
+	 *
 	 * @return array
 	 */
 	public function define_columns( $columns ) {
-		$show_columns                     = array();
-		$show_columns['cb']               = $columns['cb'];
-		$show_columns['order_number']     = __( 'Order', 'easyReservations' );
-		$show_columns['order_date']       = __( 'Date', 'easyReservations' );
-		$show_columns['order_status']     = __( 'Status', 'easyReservations' );
-		$show_columns['order_customer']          = __( 'Customer', 'easyReservations' );
-		$show_columns['address']          = __( 'Address', 'easyReservations' );
-		$show_columns['order_total']      = __( 'Total', 'easyReservations' );
-		$show_columns['er_actions']       = __( 'Actions', 'easyReservations' );
+		$show_columns                   = array();
+		$show_columns['cb']             = $columns['cb'];
+		$show_columns['order_number']   = __( 'Order', 'easyReservations' );
+		$show_columns['order_date']     = __( 'Date', 'easyReservations' );
+		$show_columns['order_status']   = __( 'Status', 'easyReservations' );
+		$show_columns['order_customer'] = __( 'Customer', 'easyReservations' );
+		$show_columns['address']        = __( 'Address', 'easyReservations' );
+		$show_columns['order_total']    = __( 'Total', 'easyReservations' );
+		$show_columns['er_actions']     = __( 'Actions', 'easyReservations' );
 
 		wp_enqueue_script( 'er-orders' );
 
@@ -121,6 +124,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Define bulk actions.
 	 *
 	 * @param array $actions Existing actions.
+	 *
 	 * @return array
 	 */
 	public function define_bulk_actions( $actions ) {
@@ -227,13 +231,14 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 
 		if ( ! $order_timestamp ) {
 			echo '&ndash;';
+
 			return;
 		}
 
 		// Check if the order was created within the last 24 hours, and not in the future.
 		if ( $order_timestamp > strtotime( '-1 day', time() ) && $order_timestamp <= time() ) {
 			$show_date = sprintf(
-				/* translators: %s: human-readable time difference */
+			/* translators: %s: human-readable time difference */
 				_x( '%s ago', '%s = human-readable time difference', 'easyReservations' ),
 				human_time_diff( $this->object->get_date_created()->getTimestamp(), time() )
 			);
@@ -266,26 +271,26 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	protected function render_order_customer_column() {
 		if ( $this->object->get_user_id() ) {
 
-            $user = get_user_by( 'id', $this->object->get_user_id() );
+			$user = get_user_by( 'id', $this->object->get_user_id() );
 
-            $user_string = sprintf(
-            /* translators: 1: user display name 2: user ID 3: user email */
-                esc_html__( '%1$s (#%2$s &ndash; %3$s)', 'easyReservations' ),
-                $user->display_name,
-                absint( $user->ID ),
-                $user->user_email
-            );
+			$user_string = sprintf(
+			/* translators: 1: user display name 2: user ID 3: user email */
+				esc_html__( '%1$s (#%2$s &ndash; %3$s)', 'easyReservations' ),
+				$user->display_name,
+				absint( $user->ID ),
+				$user->user_email
+			);
 
-            /* translators: %s: method */
-            printf(
-                '<a href="%s">%s</a>',
-                esc_url( add_query_arg( array(
-                    'post_status'    => 'all',
-                    'post_type'      => 'easy_order',
-                    '_customer_user' => $this->object->get_user_id(),
-                ), admin_url( 'edit.php' ) ) ),
-                $user_string
-            );
+			/* translators: %s: method */
+			printf(
+				'<a href="%s">%s</a>',
+				esc_url( add_query_arg( array(
+					'post_status'    => 'all',
+					'post_type'      => 'easy_order',
+					'_customer_user' => $this->object->get_user_id(),
+				), admin_url( 'edit.php' ) ) ),
+				$user_string
+			);
 		}
 	}
 
@@ -329,40 +334,41 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 */
 	public function order_preview_template() {
 		?>
-		<script type="text/template" id="tmpl-er-modal-view-order">
-			<div class="er-backbone-modal er-order-preview">
-				<div class="er-backbone-modal-content">
-					<section class="er-backbone-modal-main" role="main">
-						<header class="er-backbone-modal-header">
-							<mark class="order-status status-{{ data.status }}"><span>{{ data.status_name }}</span></mark>
+        <script type="text/template" id="tmpl-er-modal-view-order">
+            <div class="er-backbone-modal er-order-preview">
+                <div class="er-backbone-modal-content">
+                    <section class="er-backbone-modal-main" role="main">
+                        <header class="er-backbone-modal-header">
+                            <mark class="order-status status-{{ data.status }}"><span>{{ data.status_name }}</span>
+                            </mark>
 							<?php /* translators: %s: order ID */ ?>
-							<h1><?php echo esc_html( sprintf( __( 'Order #%s', 'easyReservations' ), '{{ data.order_number }}' ) ); ?></h1>
-							<button class="modal-close modal-close-link dashicons dashicons-no-alt">
-								<span class="screen-reader-text"><?php esc_html_e( 'Close modal panel', 'easyReservations' ); ?></span>
-							</button>
-						</header>
-						<article>
+                            <h1><?php echo esc_html( sprintf( __( 'Order #%s', 'easyReservations' ), '{{ data.order_number }}' ) ); ?></h1>
+                            <button class="modal-close modal-close-link dashicons dashicons-no-alt">
+                                <span class="screen-reader-text"><?php esc_html_e( 'Close modal panel', 'easyReservations' ); ?></span>
+                            </button>
+                        </header>
+                        <article>
 							<?php do_action( 'easyreservations_admin_order_preview_start' ); ?>
 
-							<div class="er-order-preview-addresses">
+                            <div class="er-order-preview-addresses">
 
                                 <div class="er-order-preview-address">
                                     <h2><?php esc_html_e( 'Order details', 'easyReservations' ); ?></h2>
                                     {{{ data.formatted_address }}}
 
                                     <# if ( data.data.address.email ) { #>
-                                        <strong><?php esc_html_e( 'Email', 'easyReservations' ); ?></strong>
-                                        <a href="mailto:{{ data.data.address.email }}">{{ data.data.address.email }}</a>
+                                    <strong><?php esc_html_e( 'Email', 'easyReservations' ); ?></strong>
+                                    <a href="mailto:{{ data.data.address.email }}">{{ data.data.address.email }}</a>
                                     <# } #>
 
                                     <# if ( data.data.address.phone ) { #>
-                                        <strong><?php esc_html_e( 'Phone', 'easyReservations' ); ?></strong>
-                                        <a href="tel:{{ data.data.address.phone }}">{{ data.data.address.phone }}</a>
+                                    <strong><?php esc_html_e( 'Phone', 'easyReservations' ); ?></strong>
+                                    <a href="tel:{{ data.data.address.phone }}">{{ data.data.address.phone }}</a>
                                     <# } #>
 
                                     <# if ( data.payment_via ) { #>
-                                        <strong><?php esc_html_e( 'Payment via', 'easyReservations' ); ?></strong>
-                                        {{{ data.payment_via }}}
+                                    <strong><?php esc_html_e( 'Payment via', 'easyReservations' ); ?></strong>
+                                    {{{ data.payment_via }}}
                                     <# } #>
                                 </div>
 
@@ -379,29 +385,30 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
                                 <# } #>
                             </div>
 
-							{{{ data.item_html }}}
+                            {{{ data.item_html }}}
 
 							<?php do_action( 'easyreservations_admin_order_preview_end' ); ?>
-						</article>
-						<footer>
-							<div class="inner">
-								{{{ data.actions_html }}}
+                        </article>
+                        <footer>
+                            <div class="inner">
+                                {{{ data.actions_html }}}
 
-								<a class="button button-primary button-large" aria-label="<?php esc_attr_e( 'Edit this order', 'easyReservations' ); ?>" href="<?php echo esc_url( admin_url( 'post.php?action=edit' ) ); ?>&post={{ data.data.id }}"><?php esc_html_e( 'Edit', 'easyReservations' ); ?></a>
-							</div>
-						</footer>
-					</section>
-				</div>
-			</div>
-			<div class="er-backbone-modal-backdrop modal-close"></div>
-		</script>
+                                <a class="button button-primary button-large" aria-label="<?php esc_attr_e( 'Edit this order', 'easyReservations' ); ?>" href="<?php echo esc_url( admin_url( 'post.php?action=edit' ) ); ?>&post={{ data.data.id }}"><?php esc_html_e( 'Edit', 'easyReservations' ); ?></a>
+                            </div>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+            <div class="er-backbone-modal-backdrop modal-close"></div>
+        </script>
 		<?php
 	}
 
 	/**
 	 * Get items to display in the preview as HTML.
 	 *
-	 * @param  ER_Order $order Order object.
+	 * @param ER_Order $order Order object.
+	 *
 	 * @return string
 	 */
 	public static function get_order_preview_item_html( $order ) {
@@ -422,8 +429,8 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			'easyreservations_admin_order_preview_line_item_columns',
 			array(
 				'item'  => __( 'Item', 'easyReservations' ),
-				'tax'      => __( 'Tax', 'easyReservations' ),
-				'total'    => __( 'Total', 'easyReservations' ),
+				'tax'   => __( 'Tax', 'easyReservations' ),
+				'total' => __( 'Total', 'easyReservations' ),
 			),
 			$order
 		);
@@ -449,7 +456,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		foreach ( $line_items as $item_id => $item ) {
 
 			$resource_object = is_callable( array( $item, 'get_resource' ) ) ? $item->get_resource() : null;
-			$row_class      = apply_filters( 'easyreservations_admin_html_order_preview_item_class', '', $item, $order );
+			$row_class       = apply_filters( 'easyreservations_admin_html_order_preview_item_class', '', $item, $order );
 
 			$html .= '<tr class="er-order-preview-table__item er-order-preview-table__item--' . esc_attr( $item_id ) . ( $row_class ? ' ' . esc_attr( $row_class ) : '' ) . '">';
 
@@ -504,7 +511,8 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	/**
 	 * Get actions to display in the preview as HTML.
 	 *
-	 * @param  ER_Order $order Order object.
+	 * @param ER_Order $order Order object.
+	 *
 	 * @return string
 	 */
 	public static function get_order_preview_actions_html( $order ) {
@@ -551,7 +559,8 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	/**
 	 * Get order details to send to the ajax endpoint for previews.
 	 *
-	 * @param  ER_Order $order Order object.
+	 * @param ER_Order $order Order object.
+	 *
 	 * @return array
 	 */
 	public static function order_preview_get_order_details( $order ) {
@@ -559,42 +568,42 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			return array();
 		}
 
-        $payment_gateways = ER()->payment_gateways()->payment_gateways();
-        $payment_via      = $order->get_payment_method_title();
-        $payment_method   = $order->get_payment_method();
-        $transaction_id   = $order->get_transaction_id();
-        $address          = $order->get_formatted_address();
-        $custom = $order->get_formatted_custom();
+		$payment_gateways = ER()->payment_gateways()->payment_gateways();
+		$payment_via      = $order->get_payment_method_title();
+		$payment_method   = $order->get_payment_method();
+		$transaction_id   = $order->get_transaction_id();
+		$address          = $order->get_formatted_address();
+		$custom           = $order->get_formatted_custom();
 
-        if ( $transaction_id ) {
-            $url = isset( $payment_gateways[$payment_method] ) ? $payment_gateways[$payment_method]->get_transaction_url( $order ) : false;
+		if ( $transaction_id ) {
+			$url = isset( $payment_gateways[ $payment_method ] ) ? $payment_gateways[ $payment_method ]->get_transaction_url( $order ) : false;
 
-            if ( $url ) {
-                $payment_via .= ' (<a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $transaction_id ) . '</a>)';
-            } else {
-                $payment_via .= ' (' . esc_html( $transaction_id ) . ')';
-            }
-        }
+			if ( $url ) {
+				$payment_via .= ' (<a href="' . esc_url( $url ) . '" target="_blank">' . esc_html( $transaction_id ) . '</a>)';
+			} else {
+				$payment_via .= ' (' . esc_html( $transaction_id ) . ')';
+			}
+		}
 
-        return apply_filters(
+		return apply_filters(
 			'easyreservations_admin_order_preview_get_order_details',
 			array(
-                'data'              => $order->get_data(),
-                'order_number'      => $order->get_order_number(),
-                'item_html'         => self::get_order_preview_item_html( $order ),
-                'actions_html'      => self::get_order_preview_actions_html( $order ),
-                'formatted_address' => $address ? $address : __( 'N/A', 'easyReservations' ),
-                'formatted_custom' => er_display_meta( $custom, array(
-                    'before'    => '',
-                    'separator' => ', ',
-                    'after'     => '',
-                    'echo'      => false,
-                    'autop'     => false,
-                ) ),
-                'payment_via'       => $payment_via,
-                'status'            => $order->get_status(),
-                'status_name'       => ER_Order_Status::get_title( $order->get_status() ),
-            ),
+				'data'              => $order->get_data(),
+				'order_number'      => $order->get_order_number(),
+				'item_html'         => self::get_order_preview_item_html( $order ),
+				'actions_html'      => self::get_order_preview_actions_html( $order ),
+				'formatted_address' => $address ? $address : __( 'N/A', 'easyReservations' ),
+				'formatted_custom'  => er_display_meta( $custom, array(
+					'before'    => '',
+					'separator' => ', ',
+					'after'     => '',
+					'echo'      => false,
+					'autop'     => false,
+				) ),
+				'payment_via'       => $payment_via,
+				'status'            => $order->get_status(),
+				'status_name'       => ER_Order_Status::get_title( $order->get_status() ),
+			),
 			$order
 		);
 	}
@@ -602,9 +611,10 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	/**
 	 * Handle bulk actions.
 	 *
-	 * @param  string $redirect_to URL to redirect to.
-	 * @param  string $action      Action name.
-	 * @param  array  $ids         List of ids.
+	 * @param string $redirect_to URL to redirect to.
+	 * @param string $action Action name.
+	 * @param array  $ids List of ids.
+	 *
 	 * @return string
 	 */
 	public function handle_bulk_actions( $redirect_to, $action, $ids ) {
@@ -619,7 +629,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 
 				if ( $order ) {
 					do_action( 'easyreservations_remove_order_personal_data', $order );
-					$changed++;
+					$changed ++;
 				}
 			}
 		} elseif ( false !== strpos( $action, 'mark_' ) ) {
@@ -633,7 +643,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 					$order = er_get_order( $id );
 					$order->update_status( $new_status, __( 'Order status changed by bulk edit:', 'easyReservations' ), true );
 					do_action( 'easyreservations_order_edit_status', $id, $new_status );
-					$changed++;
+					$changed ++;
 				}
 			}
 		}
@@ -664,8 +674,8 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			return;
 		}
 
-        $order_statuses = ER_Order_Status::get_statuses();
-        $number         = isset( $_REQUEST['changed'] ) ? absint( $_REQUEST['changed'] ) : 0; // WPCS: input var ok, CSRF ok.
+		$order_statuses = ER_Order_Status::get_statuses();
+		$number         = isset( $_REQUEST['changed'] ) ? absint( $_REQUEST['changed'] ) : 0; // WPCS: input var ok, CSRF ok.
 		$bulk_action    = er_clean( wp_unslash( $_REQUEST['bulk_action'] ) ); // WPCS: input var ok, CSRF ok.
 
 		// Check if any status changes happened.
@@ -692,7 +702,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		global $typenow;
 
 		//if ( in_array( $typenow, wc_get_order_types( 'order-meta-boxes' ), true ) ) {
-        $this->render_filters();
+		$this->render_filters();
 		//}
 	}
 
@@ -708,7 +718,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			$user    = get_user_by( 'id', $user_id );
 
 			$user_string = sprintf(
-				/* translators: 1: user display name 2: user ID 3: user email */
+			/* translators: 1: user display name 2: user ID 3: user email */
 				esc_html__( '%1$s (#%2$s &ndash; %3$s)', 'easyReservations' ),
 				$user->display_name,
 				absint( $user->ID ),
@@ -716,9 +726,10 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			);
 		}
 		?>
-		<select class="er-customer-search" name="_customer_user" data-placeholder="<?php esc_attr_e( 'Filter by registered customer', 'easyReservations' ); ?>" data-allow_clear="true" style="width:220px">
-			<option value="<?php echo esc_attr( $user_id ); ?>" selected="selected"><?php echo htmlspecialchars( wp_kses_post( $user_string ) ); // htmlspecialchars to prevent XSS when rendered by selectWoo. ?><option>
-		</select>
+        <select class="er-customer-search" name="_customer_user" data-placeholder="<?php esc_attr_e( 'Filter by registered customer', 'easyReservations' ); ?>" data-allow_clear="true" style="width:220px">
+            <option value="<?php echo esc_attr( $user_id ); ?>" selected="selected"><?php echo htmlspecialchars( wp_kses_post( $user_string ) ); // htmlspecialchars to prevent XSS when rendered by selectWoo. ?>
+            <option>
+        </select>
 		<?php
 	}
 
@@ -726,13 +737,14 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Handle any filters.
 	 *
 	 * @param array $query_vars Query vars.
+	 *
 	 * @return array
 	 */
 	public function request_query( $query_vars ) {
 		global $typenow;
 
 		//if ( in_array( $typenow, wc_get_order_types( 'order-meta-boxes' ), true ) ) {
-			return $this->query_filters( $query_vars );
+		return $this->query_filters( $query_vars );
 		//}
 
 		//return $query_vars;
@@ -742,6 +754,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Handle any custom filters.
 	 *
 	 * @param array $query_vars Query vars.
+	 *
 	 * @return array
 	 */
 	protected function query_filters( $query_vars ) {
@@ -765,8 +778,8 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			if ( 'order_total' === $query_vars['orderby'] ) {
 				// @codingStandardsIgnoreStart
 				$query_vars = array_merge( $query_vars, array(
-					'meta_key'  => 'total',
-					'orderby'   => 'meta_value_num',
+					'meta_key' => 'total',
+					'orderby'  => 'meta_value_num',
 				) );
 				// @codingStandardsIgnoreEnd
 			}
@@ -784,6 +797,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 
 			$query_vars['post_status'] = array_keys( $post_statuses );
 		}
+
 		return $query_vars;
 	}
 
@@ -791,6 +805,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Change the label when searching orders.
 	 *
 	 * @param mixed $query Current search query.
+	 *
 	 * @return string
 	 */
 	public function search_label( $query ) {
@@ -807,10 +822,12 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	 * Query vars for custom searches.
 	 *
 	 * @param mixed $public_query_vars Array of query vars.
+	 *
 	 * @return array
 	 */
 	public function add_custom_query_var( $public_query_vars ) {
 		$public_query_vars[] = 'easy_order_search';
+
 		return $public_query_vars;
 	}
 

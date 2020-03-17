@@ -60,7 +60,7 @@ abstract class ER_Admin_List_Table {
 			unset( $counts['auto-draft'] );
 			$count = array_sum( $counts );
 
-            if ( 0 < $count ) {
+			if ( 0 < $count ) {
 				return;
 			}
 
@@ -73,18 +73,21 @@ abstract class ER_Admin_List_Table {
 	/**
 	 * Render blank state. Extend to add content.
 	 */
-	protected function render_blank_state() {}
+	protected function render_blank_state() {
+	}
 
 	/**
 	 * Removes this type from list of post types that support "View Mode" switching.
 	 * View mode is seen on posts where you can switch between list or excerpt. Our post types don't support
 	 * it, so we want to hide the useless UI from the screen options tab.
 	 *
-	 * @param  array $post_types Array of post types supporting view mode.
+	 * @param array $post_types Array of post types supporting view mode.
+	 *
 	 * @return array             Array of post types supporting view mode, without this type.
 	 */
 	public function disable_view_mode( $post_types ) {
 		unset( $post_types[ $this->list_table_type ] );
+
 		return $post_types;
 	}
 
@@ -103,6 +106,7 @@ abstract class ER_Admin_List_Table {
 	 * Handle any filters.
 	 *
 	 * @param array $query_vars Query vars.
+	 *
 	 * @return array
 	 */
 	public function request_query( $query_vars ) {
@@ -118,12 +122,14 @@ abstract class ER_Admin_List_Table {
 	/**
 	 * Render any custom filters and search inputs for the list table.
 	 */
-	protected function render_filters() {}
+	protected function render_filters() {
+	}
 
 	/**
 	 * Handle any custom filters.
 	 *
 	 * @param array $query_vars Query vars.
+	 *
 	 * @return array
 	 */
 	protected function query_filters( $query_vars ) {
@@ -135,12 +141,14 @@ abstract class ER_Admin_List_Table {
 	 *
 	 * @param array   $actions Array of actions.
 	 * @param WP_Post $post Current post object.
+	 *
 	 * @return array
 	 */
 	public function row_actions( $actions, $post ) {
 		if ( $this->list_table_type === $post->post_type ) {
 			return $this->get_row_actions( $actions, $post );
 		}
+
 		return $actions;
 	}
 
@@ -149,6 +157,7 @@ abstract class ER_Admin_List_Table {
 	 *
 	 * @param array   $actions Array of actions.
 	 * @param WP_Post $post Current post object.
+	 *
 	 * @return array
 	 */
 	protected function get_row_actions( $actions, $post ) {
@@ -160,26 +169,30 @@ abstract class ER_Admin_List_Table {
 	 *
 	 * @param array  $hidden Current hidden columns.
 	 * @param object $screen Current screen.
+	 *
 	 * @return array
 	 */
 	public function default_hidden_columns( $hidden, $screen ) {
 		if ( isset( $screen->id ) && 'edit-' . $this->list_table_type === $screen->id ) {
 			$hidden = array_merge( $hidden, $this->define_hidden_columns() );
 		}
+
 		return $hidden;
 	}
 
 	/**
 	 * Set list table primary column.
 	 *
-	 * @param  string $default Default value.
-	 * @param  string $screen_id Current screen ID.
+	 * @param string $default Default value.
+	 * @param string $screen_id Current screen ID.
+	 *
 	 * @return string
 	 */
 	public function list_table_primary_column( $default, $screen_id ) {
 		if ( 'edit-' . $this->list_table_type === $screen_id && $this->get_primary_column() ) {
 			return $this->get_primary_column();
 		}
+
 		return $default;
 	}
 
@@ -205,6 +218,7 @@ abstract class ER_Admin_List_Table {
 	 * Define which columns are sortable.
 	 *
 	 * @param array $columns Existing columns.
+	 *
 	 * @return array
 	 */
 	public function define_sortable_columns( $columns ) {
@@ -215,6 +229,7 @@ abstract class ER_Admin_List_Table {
 	 * Define which columns to show on this screen.
 	 *
 	 * @param array $columns Existing columns.
+	 *
 	 * @return array
 	 */
 	public function define_columns( $columns ) {
@@ -225,6 +240,7 @@ abstract class ER_Admin_List_Table {
 	 * Define bulk actions.
 	 *
 	 * @param array $actions Existing actions.
+	 *
 	 * @return array
 	 */
 	public function define_bulk_actions( $actions ) {
@@ -236,7 +252,8 @@ abstract class ER_Admin_List_Table {
 	 *
 	 * @param int $post_id Post ID being shown.
 	 */
-	protected function prepare_row_data( $post_id ) {}
+	protected function prepare_row_data( $post_id ) {
+	}
 
 	/**
 	 * Render individual columns.
@@ -247,7 +264,7 @@ abstract class ER_Admin_List_Table {
 	public function render_columns( $column, $post_id ) {
 		$this->prepare_row_data( $post_id );
 
-        if ( ! $this->object ) {
+		if ( ! $this->object ) {
 			return;
 		}
 
@@ -259,9 +276,10 @@ abstract class ER_Admin_List_Table {
 	/**
 	 * Handle bulk actions.
 	 *
-	 * @param  string $redirect_to URL to redirect to.
-	 * @param  string $action      Action name.
-	 * @param  array  $ids         List of ids.
+	 * @param string $redirect_to URL to redirect to.
+	 * @param string $action Action name.
+	 * @param array  $ids List of ids.
+	 *
 	 * @return string
 	 */
 	public function handle_bulk_actions( $redirect_to, $action, $ids ) {

@@ -4,140 +4,145 @@
  */
 
 //Prevent direct access to file
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class ER_Admin_Reservation {
 
-    /**
-     * ER_Admin_Reservation constructor.
-     */
-    public function __construct() {
-        add_action( 'wp_loaded', array( $this, 'init' ) );
-        add_filter( 'parent_file', array( $this, 'highlight_admin_menu' ) );
-    }
+	/**
+	 * ER_Admin_Reservation constructor.
+	 */
+	public function __construct() {
+		add_action( 'wp_loaded', array( $this, 'init' ) );
+		add_filter( 'parent_file', array( $this, 'highlight_admin_menu' ) );
+	}
 
-    /**
-     * Highlight correct submenu item
-     *
-     * @param string $parent_file
-     * @return string
-     */
-    public function highlight_admin_menu( $parent_file ) {
-        global $submenu_file;
+	/**
+	 * Handle submit
+	 */
+	public function init() {
+		$reservation_id = 0;
 
-        $submenu_file = 'edit.php?post_type=easy_reservation';
+		if ( isset( $_GET['reservation'] ) ) {
+			$reservation_id = absint( $_GET['reservation'] );
 
-        return $parent_file;
-    }
+			$reservation = ER()->reservation_manager()->get( $reservation_id );
 
-    /**
-     * Handle submit
-     */
-    public function init() {
-        $reservation_id = 0;
+			if ( ! $reservation ) {
+				ER_Admin_Notices::add_temporary_error( __( 'Invalid reservation', 'easyReservations' ) );
 
-        if ( isset( $_GET['reservation'] ) ) {
-            $reservation_id = absint( $_GET['reservation'] );
+				return;
+			}
+		}
 
-            $reservation = ER()->reservation_manager()->get( $reservation_id );
+		if ( isset( $_GET['action'] ) && ( $_GET['action'] === 'move_to_trash' || $_GET['action'] === 'delete_permanently' ) ) {
+			if ( ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'easyreservations-delete-reservation' ) ) {
+				wp_die();
+			}
 
-            if(!$reservation ){
-                ER_Admin_Notices::add_temporary_error( __( 'Invalid reservation', 'easyReservations' ) );
-                return;
-            }
-        }
+			$reservation = ER()->reservation_manager()->get( $reservation_id );
 
-        if ( isset( $_GET['action'] ) && ( $_GET['action'] === 'move_to_trash' || $_GET['action'] === 'delete_permanently' ) ) {
-            if ( !wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'easyreservations-delete-reservation' ) ) {
-                wp_die();
-            }
+			if ( $reservation && $reservation->is_editable() ) {
+				$reservation->delete( $_GET['action'] === 'delete_permanently' );
+				wp_safe_redirect( admin_url( 'edit.php?post_type=easy_reservation&changed=1&bulk_action=' . ( $_GET['action'] === 'delete_permanently' ? 'deleted_permanently' : 'moved_to_trash' ) ) );
+				exit;
+			} else {
+				ER_Admin_Notices::add_temporary_error( __( 'Invalid reservation', 'easyReservations' ) );
+			}
+		}
 
-            $reservation = ER()->reservation_manager()->get( $reservation_id );
+		if ( isset( $_POST['arrival'], $_POST['resource'] ) ) {
+			ER_Meta_Box_Reservation_Data::save( $reservation_id );
+			ER_Meta_Box_Custom_Data::save( $reservation_id );
+			ER_Meta_Box_Receipt_Items::save( $reservation_id, true );
+		} elseif ( isset( $_POST['reservation_status'] ) ) {
+			$reservation = ER()->reservation_manager()->get( $reservation_id );
 
-            if( $reservation && $reservation->is_editable() ){
-                $reservation->delete( $_GET['action'] === 'delete_permanently' );
-                wp_safe_redirect( admin_url( 'edit.php?post_type=easy_reservation&changed=1&bulk_action=' . ( $_GET['action'] === 'delete_permanently' ? 'deleted_permanently' : 'moved_to_trash' ) ) );
-                exit;
-            } else {
-                ER_Admin_Notices::add_temporary_error( __( 'Invalid reservation', 'easyReservations' ) );
-            }
-        }
+			$reservation->update_status( sanitize_key( $_POST['reservation_status'] ), '', true );
 
-        if ( isset( $_POST['arrival'], $_POST['resource'] ) ) {
-            ER_Meta_Box_Reservation_Data::save( $reservation_id );
-            ER_Meta_Box_Custom_Data::save( $reservation_id );
-            ER_Meta_Box_Receipt_Items::save( $reservation_id, true );
-        } elseif( isset( $_POST['reservation_status'] )){
-            $reservation = ER()->reservation_manager()->get( $reservation_id );
+			ER_Admin_Notices::add_temporary_error( __( 'Status of reservation changed.', 'easyReservations' ) );
+		} elseif ( isset( $_POST['er_reservation_action'] ) ) {
+			ER_Meta_Box_Reservation_Actions::save( $reservation_id );
+		}
+	}
 
-            $reservation->update_status( sanitize_key( $_POST['reservation_status'] ), '', true );
+	/**
+	 * Highlight correct submenu item
+	 *
+	 * @param string $parent_file
+	 *
+	 * @return string
+	 */
+	public function highlight_admin_menu( $parent_file ) {
+		global $submenu_file;
 
-            ER_Admin_Notices::add_temporary_error( __( 'Status of reservation changed.', 'easyReservations' ) );
-        } elseif( isset( $_POST['er_reservation_action'] )){
-            ER_Meta_Box_Reservation_Actions::save( $reservation_id );
-        }
-    }
+		$submenu_file = 'edit.php?post_type=easy_reservation';
 
-    /**
-     * Output add/edit reservation page
-     */
-    public static function output() {
-        if ( isset( $_GET['reservation'] ) ) {
-            $reservation_id = absint( $_GET['reservation'] );
-        } else {
-            //create and save a reservation so custom fields work
-            $reservation = new ER_Reservation( 0 );
-            $now = er_get_datetime();
-            $now->setTime(0, 0, 0, 0);
-	        $reservation->set_arrival( $now );
-	        $reservation->set_departure( $now );
-	        $reservation->save();
-            $reservation_id = $reservation->get_id();
-        }
+		return $parent_file;
+	}
 
-        $reservation = er_get_reservation( $reservation_id );
+	/**
+	 * Output add/edit reservation page
+	 */
+	public static function output() {
+		if ( isset( $_GET['reservation'] ) ) {
+			$reservation_id = absint( $_GET['reservation'] );
+		} else {
+			//create and save a reservation so custom fields work
+			$reservation = new ER_Reservation( 0 );
+			$now         = er_get_datetime();
+			$now->setTime( 0, 0, 0, 0 );
+			$reservation->set_arrival( $now );
+			$reservation->set_departure( $now );
+			$reservation->save();
+			$reservation_id = $reservation->get_id();
+		}
 
-        if( !$reservation ){
-            return;
-        }
+		$reservation = er_get_reservation( $reservation_id );
 
-        wp_enqueue_script( 'er-admin-reservation-meta-boxes' );
-        wp_enqueue_style( 'er-datepicker' );
-        wp_enqueue_style( 'edit' );
+		if ( ! $reservation ) {
+			return;
+		}
 
-        ?>
+		wp_enqueue_script( 'er-admin-reservation-meta-boxes' );
+		wp_enqueue_style( 'er-datepicker' );
+		wp_enqueue_style( 'edit' );
+
+		?>
         <div class="wrap">
             <h1 class="wp-heading-inline">
-                <?php
-                if( isset( $_GET['reservation'] ) ){
-                    esc_html_e( 'Edit reservation', 'easyReservations' );
-                } else {
-                    esc_html_e( 'Add new reservation', 'easyReservations' );
-                }
-                ?>
+				<?php
+				if ( isset( $_GET['reservation'] ) ) {
+					esc_html_e( 'Edit reservation', 'easyReservations' );
+				} else {
+					esc_html_e( 'Add new reservation', 'easyReservations' );
+				}
+				?>
             </h1>
-            <?php if( isset( $_GET['reservation'] ) ): ?>
+			<?php if ( isset( $_GET['reservation'] ) ): ?>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=reservation&new' ) ); ?>" class="page-title-action"><?php esc_html_e( 'Add reservation', 'easyReservations' ); ?></a>
-            <?php endif; ?>
+			<?php endif; ?>
             <hr class="wp-header-end">
 
-            <form name="post" method="post" id="post" action="<?php echo esc_url( admin_url('admin.php?page=reservation&reservation=' . $reservation->get_id() . '&action=edit' ) ); ?>">
+            <form name="post" method="post" id="post" action="<?php echo esc_url( admin_url( 'admin.php?page=reservation&reservation=' . $reservation->get_id() . '&action=edit' ) ); ?>">
                 <div id="poststuff">
                     <div id="post-body" class="metabox-holder columns-2">
                         <div id="postbox-container-1" class="postbox-container">
                             <div id="normal-sortables" class="meta-box-sortables ui-sortable">
                                 <div id="easyreservations-order-actions" class="postbox ">
-                                    <h2 class="hndle ui-sortable-handle"><span><?php esc_html_e( 'Reservation actions', 'easyReservations' ); ?></span></h2>
+                                    <h2 class="hndle ui-sortable-handle">
+                                        <span><?php esc_html_e( 'Reservation actions', 'easyReservations' ); ?></span>
+                                    </h2>
                                     <div class="inside">
-                                        <?php ER_Meta_Box_Reservation_Actions::output( $reservation ); ?>
+										<?php ER_Meta_Box_Reservation_Actions::output( $reservation ); ?>
                                     </div>
                                 </div>
                                 <div id="easyreservations-reservation-order" class="postbox ">
-                                    <h2 class="hndle ui-sortable-handle"><span><?php esc_html_e( 'Order', 'easyReservations' ); ?></span></h2>
+                                    <h2 class="hndle ui-sortable-handle">
+                                        <span><?php esc_html_e( 'Order', 'easyReservations' ); ?></span></h2>
                                     <div class="inside">
-                                        <?php ER_Meta_Box_Reservation_Order::output( $reservation ); ?>
+										<?php ER_Meta_Box_Reservation_Order::output( $reservation ); ?>
                                     </div>
                                 </div>
                             </div>
@@ -146,12 +151,12 @@ class ER_Admin_Reservation {
                             <div id="normal-sortables" class="meta-box-sortables ui-sortable">
                                 <div id="easyreservations-order-data" class="postbox ">
                                     <div class="inside">
-                                        <?php ER_Meta_Box_Reservation_Data::output( $reservation ); ?>
+										<?php ER_Meta_Box_Reservation_Data::output( $reservation ); ?>
                                     </div>
                                 </div>
                                 <div id="easyreservations-order-items" class="postbox ">
                                     <div class="inside">
-                                        <?php ER_Meta_Box_Receipt_Items::output( $reservation ); ?>
+										<?php ER_Meta_Box_Receipt_Items::output( $reservation ); ?>
                                     </div>
                                 </div>
                             </div>
@@ -160,8 +165,8 @@ class ER_Admin_Reservation {
                 </div>
             </form>
         </div>
-        <?php
-    }
+		<?php
+	}
 }
 
 return new ER_Admin_Reservation();

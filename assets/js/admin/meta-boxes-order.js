@@ -1,5 +1,5 @@
 /*global easyreservations_admin_meta_boxes, er_admin_params, accounting, easyreservations_admin_meta_boxes_order */
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 
 	/**
 	 * Order Data Panel
@@ -8,17 +8,17 @@ jQuery( function ( $ ) {
 		states: null,
 
 		init: function() {
-			if ( ! ( typeof easyreservations_admin_meta_boxes_order === 'undefined' || typeof easyreservations_admin_meta_boxes_order.countries === 'undefined' ) ) {
+			if ( !( typeof easyreservations_admin_meta_boxes_order === 'undefined' || typeof easyreservations_admin_meta_boxes_order.countries === 'undefined' ) ) {
 				/* State/Country select boxes */
 				this.states = $.parseJSON( easyreservations_admin_meta_boxes_order.countries.replace( /&quot;/g, '"' ) );
 			}
 
 			$( '.js_field-country' ).selectWoo().change( this.change_country );
-			$( '.js_field-country' ).trigger( 'change', [ true ] );
+			$( '.js_field-country' ).trigger( 'change', [true] );
 			$( document.body ).on( 'change', 'select.js_field-state', this.change_state );
-			$( '#easyreservations-order-actions input, #easyreservations-order-actions a' ).click(function() {
+			$( '#easyreservations-order-actions input, #easyreservations-order-actions a' ).click( function() {
 				window.onbeforeunload = '';
-			});
+			} );
 			$( 'a.edit_address' ).click( this.edit_address );
 			$( 'a.load_customer' ).on( 'click', this.load_address );
 			$( '#customer_user' ).on( 'change', this.change_customer_user );
@@ -26,35 +26,35 @@ jQuery( function ( $ ) {
 
 		change_country: function( e, stickValue ) {
 			// Check for stickValue before using it
-			if ( typeof stickValue === 'undefined' ){
+			if ( typeof stickValue === 'undefined' ) {
 				stickValue = false;
 			}
 
 			// Prevent if we don't have the metabox data
-			if ( er_meta_boxes_order.states === null ){
+			if ( er_meta_boxes_order.states === null ) {
 				return;
 			}
 
-			var $this = $( this ),
-				country = $this.val(),
-				$state = $this.parents( 'div.edit_address' ).find( ':input.js_field-state' ),
-				$parent = $state.parent(),
-				stateValue = $state.val(),
-				input_name = $state.attr( 'name' ),
-				input_id = $state.attr( 'id' ),
-				value = $this.data( 'easyreservations.stickState-' + country ) ? $this.data( 'easyreservations.stickState-' + country ) : stateValue,
+			var $this       = $( this ),
+				country     = $this.val(),
+				$state      = $this.parents( 'div.edit_address' ).find( ':input.js_field-state' ),
+				$parent     = $state.parent(),
+				stateValue  = $state.val(),
+				input_name  = $state.attr( 'name' ),
+				input_id    = $state.attr( 'id' ),
+				value       = $this.data( 'easyreservations.stickState-' + country ) ? $this.data( 'easyreservations.stickState-' + country ) : stateValue,
 				placeholder = $state.attr( 'placeholder' ),
 				$newstate;
 
-			if ( stickValue ){
+			if ( stickValue ) {
 				$this.data( 'easyreservations.stickState-' + country, value );
 			}
 
 			// Remove the previous DOM element
 			$parent.show().find( '.select2-container' ).remove();
 
-			if ( ! $.isEmptyObject( er_meta_boxes_order.states[ country ] ) ) {
-				var state = er_meta_boxes_order.states[ country ],
+			if ( !$.isEmptyObject( er_meta_boxes_order.states[ country ] ) ) {
+				var state          = er_meta_boxes_order.states[ country ],
 					$defaultOption = $( '<option value=""></option>' )
 						.text( easyreservations_admin_meta_boxes_order.i18n_select_state_text );
 
@@ -97,15 +97,15 @@ jQuery( function ( $ ) {
 
 		change_state: function() {
 			// Here we will find if state value on a select has changed and stick it to the country data
-			var $this = $( this ),
-				state = $this.val(),
+			var $this    = $( this ),
+				state    = $this.val(),
 				$country = $this.parents( 'div.edit_address' ).find( ':input.js_field-country' ),
-				country = $country.val();
+				country  = $country.val();
 
 			$country.data( 'easyreservations.stickState-' + country, state );
 		},
 
-		edit_address: function(e) {
+		edit_address: function( e ) {
 			e.preventDefault();
 
 			var $this          = $( this ),
@@ -118,7 +118,7 @@ jQuery( function ( $ ) {
 			$address.hide();
 			$this.parent().find( 'a' ).toggle();
 
-			if ( ! $country_input.val() ) {
+			if ( !$country_input.val() ) {
 				$country_input.val( easyreservations_admin_meta_boxes_order.default_country ).change();
 				$state_input.val( easyreservations_admin_meta_boxes_order.default_state ).change();
 			}
@@ -127,7 +127,7 @@ jQuery( function ( $ ) {
 		},
 
 		change_customer_user: function() {
-			if ( ! $( '#_billing_country' ).val() ) {
+			if ( !$( '#_billing_country' ).val() ) {
 				$( 'a.edit_address' ).click();
 				er_meta_boxes_order.load_address( true );
 			}
@@ -139,38 +139,38 @@ jQuery( function ( $ ) {
 				// Get user ID to load data for
 				var user_id = $( '#customer_user' ).val();
 
-				if ( ! user_id ) {
+				if ( !user_id ) {
 					window.alert( easyreservations_admin_meta_boxes.no_customer_selected );
 					return false;
 				}
 
 				var data = {
-					user_id : user_id,
-					action  : 'easyreservations_get_customer_details',
+					user_id:  user_id,
+					action:   'easyreservations_get_customer_details',
 					security: easyreservations_admin_meta_boxes.get_customer_details_nonce
 				};
 
-				$( 'div.edit_address' ).block({
-					message: null,
+				$( 'div.edit_address' ).block( {
+					message:    null,
 					overlayCSS: {
 						background: '#fff',
-						opacity: 0.6
+						opacity:    0.6
 					}
-				});
+				} );
 
-				$.ajax({
-					url: easyreservations_admin_meta_boxes.ajax_url,
-					data: data,
-					type: 'POST',
+				$.ajax( {
+					url:     easyreservations_admin_meta_boxes.ajax_url,
+					data:    data,
+					type:    'POST',
 					success: function( response ) {
 						if ( response && response.billing ) {
 							$.each( response.billing, function( key, data ) {
 								$( ':input#_' + key ).val( data ).change();
-							});
+							} );
 						}
 						$( 'div.edit_address' ).unblock();
 					}
-				});
+				} );
 			}
 			return false;
 		},
@@ -188,17 +188,17 @@ jQuery( function ( $ ) {
 		},
 
 		add_order_note: function() {
-			if ( ! $( 'textarea#add_order_note' ).val() ) {
+			if ( !$( 'textarea#add_order_note' ).val() ) {
 				return;
 			}
 
-			$( '#easyreservations-order-notes' ).block({
-				message: null,
+			$( '#easyreservations-order-notes' ).block( {
+				message:    null,
 				overlayCSS: {
 					background: '#fff',
-					opacity: 0.6
+					opacity:    0.6
 				}
-			});
+			} );
 
 			var data = {
 				action:    'easyreservations_add_order_note',
@@ -212,7 +212,7 @@ jQuery( function ( $ ) {
 				$( 'ul.order_notes' ).prepend( response );
 				$( '#easyreservations-order-notes' ).unblock();
 				$( '#add_order_note' ).val( '' );
-			});
+			} );
 
 			return false;
 		},
@@ -221,13 +221,13 @@ jQuery( function ( $ ) {
 			if ( window.confirm( easyreservations_admin_meta_boxes.i18n_delete_note ) ) {
 				var note = $( this ).closest( 'li.note' );
 
-				$( note ).block({
-					message: null,
+				$( note ).block( {
+					message:    null,
 					overlayCSS: {
 						background: '#fff',
-						opacity: 0.6
+						opacity:    0.6
 					}
-				});
+				} );
 
 				var data = {
 					action:   'easyreservations_delete_order_note',
@@ -237,7 +237,7 @@ jQuery( function ( $ ) {
 
 				$.post( easyreservations_admin_meta_boxes.ajax_url, data, function() {
 					$( note ).remove();
-				});
+				} );
 			}
 
 			return false;
@@ -246,4 +246,4 @@ jQuery( function ( $ ) {
 
 	er_meta_boxes_order.init();
 	er_meta_boxes_order_notes.init();
-});
+} );

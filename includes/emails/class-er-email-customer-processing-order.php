@@ -77,9 +77,9 @@ if ( ! class_exists( 'ER_Email_Customer_Processing_Order', false ) ) :
 				$order = er_get_order( $order_id );
 			}
 
-            $this->setup_locale( $order->get_locale() );
+			$this->setup_locale( $order->get_locale() );
 
-            if ( is_a( $order, 'ER_Order' ) ) {
+			if ( is_a( $order, 'ER_Order' ) ) {
 				$this->object                         = $order;
 				$this->recipient                      = $this->object->get_email();
 				$this->placeholders['{order_date}']   = er_format_datetime( $this->object->get_date_created() );

@@ -19,4 +19,6 @@ defined( 'ABSPATH' ) || exit;
 
 <?php do_action( 'easyreservations_cart_has_errors' ); ?>
 
-<p><a class="button er-backward" href="<?php echo esc_url( er_get_cart_url() ); ?>"><?php esc_html_e( 'Return to cart', 'easyReservations' ); ?></a></p>
+<p>
+    <a class="button er-backward" href="<?php echo esc_url( er_get_cart_url() ); ?>"><?php esc_html_e( 'Return to cart', 'easyReservations' ); ?></a>
+</p>

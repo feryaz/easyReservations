@@ -1,9 +1,11 @@
 function easyFormatDate( date, format ) {
-	if ( !format ) format = er_both_params.date_format;
-	if( format === 'full' ){
+	if ( !format ) {
+		format = er_both_params.date_format;
+	}
+	if ( format === 'full' ) {
 		format = er_both_params.date_format;
 
-		if( er_both_params.use_time ){
+		if ( er_both_params.use_time ) {
 			format += ' ' + er_both_params.time_format;
 		}
 	}
@@ -11,10 +13,12 @@ function easyFormatDate( date, format ) {
 	var year   = date instanceof Date ? date.getYear() : date.year(),
 		month  = date instanceof Date ? date.getMonth() + 1 : date.month() + 1,
 		day    = date instanceof Date ? date.getDate() : date.date(),
-		hour   = date instanceof Date ?  date.getHours() : date.hour(),
+		hour   = date instanceof Date ? date.getHours() : date.hour(),
 		minute = date instanceof Date ? date.getMinutes() : date.minute();
 
-	if ( year < 999 ) year += 1900;
+	if ( year < 999 ) {
+		year += 1900;
+	}
 
 	format = format.replace( "Y", year );
 	format = format.replace( "m", easyAddZero( month ) );
@@ -25,7 +29,9 @@ function easyFormatDate( date, format ) {
 }
 
 function easyFormatTime( hour, minute, format ) {
-	if ( !format ) format = er_both_params.time_format;
+	if ( !format ) {
+		format = er_both_params.time_format;
+	}
 	if ( !minute ) {
 		minute = easyAddZero( hour instanceof Date ? hour.getMinutes() : hour.minute() );
 		hour = hour instanceof Date ? hour.getHours() : hour.hour();
@@ -42,10 +48,15 @@ function easyFormatTime( hour, minute, format ) {
 
 function easyStringToDate( string ) {
 	var regex = "/(?<day>\d{2}).(?<month>\d{2}).(?<year>\d{4})/";
-	if ( er_both_params.date_format == 'Y/m/d' ) regex = "/(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/";
-	else if ( er_both_params.date_format == 'm/d/Y' ) regex = "/(?<month>\d{2})\/(?<day>\d{2})\/(?<year>\d{4})/";
-	else if ( er_both_params.date_format == 'Y-m-d' ) regex = "/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/";
-	else if ( er_both_params.date_format == 'd-m-Y' ) regex = "/(?<day>\d{2})-(?<month>\d{2})-(?<year>\d{4})/";
+	if ( er_both_params.date_format == 'Y/m/d' ) {
+		regex = "/(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/";
+	} else if ( er_both_params.date_format == 'm/d/Y' ) {
+		regex = "/(?<month>\d{2})\/(?<day>\d{2})\/(?<year>\d{4})/";
+	} else if ( er_both_params.date_format == 'Y-m-d' ) {
+		regex = "/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/";
+	} else if ( er_both_params.date_format == 'd-m-Y' ) {
+		regex = "/(?<day>\d{2})-(?<month>\d{2})-(?<year>\d{4})/";
+	}
 
 	var hour = 0;
 	var minute = 0;
@@ -67,6 +78,8 @@ function easyStringToDate( string ) {
 
 function easyAddZero( nr ) {
 	nr = parseInt( nr, 10 );
-	if ( nr < 10 ) nr = '0' + nr;
+	if ( nr < 10 ) {
+		nr = '0' + nr;
+	}
 	return nr;
 }

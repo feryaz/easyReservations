@@ -13,25 +13,23 @@ defined( 'ABSPATH' ) || exit;
 class ER_Query {
 
 	/**
-	 * Query vars to add to wp.
-	 *
-	 * @var array
-	 */
-	public $query_vars = array();
-
-	/**
 	 * Reference to the main resource query on the page.
 	 *
 	 * @var array
 	 */
 	private static $resource_query;
-
 	/**
 	 * Stores chosen attributes.
 	 *
 	 * @var array
 	 */
 	private static $_chosen_attributes;
+	/**
+	 * Query vars to add to wp.
+	 *
+	 * @var array
+	 */
+	public $query_vars = array();
 
 	/**
 	 * Constructor for the query class. Hooks in methods.
@@ -60,18 +58,18 @@ class ER_Query {
 		}
 	}
 
-    /**
-     * Prevent woocommerce from 404 because of similar endpoints when it's our account or checkout page
-     *
-     * @return bool
-     */
-	public function check_for_er_endpoint_url(){
-        if( is_er_endpoint_url() && ( is_easyreservations_account_page() || is_easyreservations_checkout() ) ){
-            return false;
-        }
+	/**
+	 * Prevent woocommerce from 404 because of similar endpoints when it's our account or checkout page
+	 *
+	 * @return bool
+	 */
+	public function check_for_er_endpoint_url() {
+		if ( is_er_endpoint_url() && ( is_easyreservations_account_page() || is_easyreservations_checkout() ) ) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * Init query vars by loading options.
@@ -80,20 +78,20 @@ class ER_Query {
 		// Query vars to add to WP.
 		$this->query_vars = array(
 			// Checkout actions.
-            'order-payment'              => get_option( 'reservations_checkout_pay_endpoint', 'order-payment' ),
-            'order-received'             => get_option( 'reservations_checkout_order_received_endpoint', 'order-received' ),
-            // My account actions.
-            'my-orders'                  => get_option( 'reservations_myaccount_orders_endpoint', 'my-orders' ),
-            'view-order'                 => get_option( 'reservations_myaccount_view_order_endpoint', 'view-order' ),
-            'edit-account'               => get_option( 'reservations_myaccount_edit_account_endpoint', 'edit-account' ),
-            'edit-address'               => get_option( 'reservations_myaccount_edit_address_endpoint', 'edit-address' ),
-            'payment-methods'            => get_option( 'reservations_myaccount_payment_methods_endpoint', 'payment-methods' ),
-            'lost-password'              => get_option( 'reservations_myaccount_lost_password_endpoint', 'lost-password' ),
-            'customer-logout'            => get_option( 'reservations_logout_endpoint', 'customer-logout' ),
-            'add-payment-method'         => get_option( 'reservations_myaccount_add_payment_method_endpoint', 'add-payment-method' ),
-            'delete-payment-method'      => get_option( 'reservations_myaccount_delete_payment_method_endpoint', 'delete-payment-method' ),
-            'set-default-payment-method' => get_option( 'reservations_myaccount_set_default_payment_method_endpoint', 'set-default-payment-method' ),
-        );
+			'order-payment'              => get_option( 'reservations_checkout_pay_endpoint', 'order-payment' ),
+			'order-received'             => get_option( 'reservations_checkout_order_received_endpoint', 'order-received' ),
+			// My account actions.
+			'my-orders'                  => get_option( 'reservations_myaccount_orders_endpoint', 'my-orders' ),
+			'view-order'                 => get_option( 'reservations_myaccount_view_order_endpoint', 'view-order' ),
+			'edit-account'               => get_option( 'reservations_myaccount_edit_account_endpoint', 'edit-account' ),
+			'edit-address'               => get_option( 'reservations_myaccount_edit_address_endpoint', 'edit-address' ),
+			'payment-methods'            => get_option( 'reservations_myaccount_payment_methods_endpoint', 'payment-methods' ),
+			'lost-password'              => get_option( 'reservations_myaccount_lost_password_endpoint', 'lost-password' ),
+			'customer-logout'            => get_option( 'reservations_logout_endpoint', 'customer-logout' ),
+			'add-payment-method'         => get_option( 'reservations_myaccount_add_payment_method_endpoint', 'add-payment-method' ),
+			'delete-payment-method'      => get_option( 'reservations_myaccount_delete_payment_method_endpoint', 'delete-payment-method' ),
+			'set-default-payment-method' => get_option( 'reservations_myaccount_set_default_payment_method_endpoint', 'set-default-payment-method' ),
+		);
 	}
 
 	/**
@@ -123,7 +121,7 @@ class ER_Query {
 
 		foreach ( $this->get_query_vars() as $key => $var ) {
 			if ( ! empty( $var ) ) {
-                add_rewrite_endpoint( $var, $mask );
+				add_rewrite_endpoint( $var, $mask );
 			}
 		}
 	}
@@ -132,12 +130,14 @@ class ER_Query {
 	 * Add query vars.
 	 *
 	 * @param array $vars Query vars.
+	 *
 	 * @return array
 	 */
 	public function add_query_vars( $vars ) {
 		foreach ( $this->get_query_vars() as $key => $var ) {
 			$vars[] = $key;
 		}
+
 		return $vars;
 	}
 
@@ -164,6 +164,7 @@ class ER_Query {
 				return $key;
 			}
 		}
+
 		return '';
 	}
 
@@ -176,9 +177,9 @@ class ER_Query {
 		// Map query vars to their keys, or get them if endpoints are not supported.
 		foreach ( $this->get_query_vars() as $key => $var ) {
 
-            if ( isset( $_GET[ $var ] ) ) { // WPCS: input var ok, CSRF ok.
+			if ( isset( $_GET[ $var ] ) ) { // WPCS: input var ok, CSRF ok.
 				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) ); // WPCS: input var ok, CSRF ok.
-            } elseif ( isset( $wp->query_vars[ $var ] ) ) {
+			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
 			}
 		}
@@ -188,15 +189,18 @@ class ER_Query {
 	 * Are we currently on the front page?
 	 *
 	 * @param WP_Query $q Query instance.
+	 *
 	 * @return bool
 	 */
 	private function is_showing_page_on_front( $q ) {
-        return ( $q->is_home() && !$q->is_posts_page ) && 'page' === get_option( 'show_on_front' );
-    }
+		return ( $q->is_home() && ! $q->is_posts_page ) && 'page' === get_option( 'show_on_front' );
+	}
+
 	/**
 	 * Is the front page a page we define?
 	 *
 	 * @param int $page_id Page ID.
+	 *
 	 * @return bool
 	 */
 	private function page_on_front_is( $page_id ) {
@@ -246,8 +250,8 @@ class ER_Query {
 				}
 			} elseif ( ! empty( $_GET['orderby'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 				$q->set( 'page_id', (int) get_option( 'page_on_front' ) );
-				$q->is_page = true;
-				$q->is_home = false;
+				$q->is_page     = true;
+				$q->is_home     = false;
 				$q->is_singular = true;
 			}
 		}
@@ -355,81 +359,84 @@ class ER_Query {
 	/**
 	 * Appends meta queries to an array.
 	 *
-	 * @param  array $meta_query Meta query.
-	 * @param  bool  $main_query If is main query.
+	 * @param array $meta_query Meta query.
+	 * @param bool  $main_query If is main query.
+	 *
 	 * @return array
 	 */
 	public function get_meta_query( $meta_query = array(), $main_query = false ) {
 		if ( ! is_array( $meta_query ) ) {
 			$meta_query = array();
 		}
+
 		return array_filter( apply_filters( 'easyreservations_resource_query_meta_query', $meta_query, $this ) );
 	}
 
-    /**
-     * Appends tax queries to an array.
-     *
-     * @param  array $tax_query Tax query.
-     * @param  bool  $main_query If is main query.
-     * @return array
-     */
-    public function get_tax_query( $tax_query = array(), $main_query = false ) {
-        if ( !is_array( $tax_query ) ) {
-            $tax_query = array(
-                'relation' => 'AND',
-            );
-        }
+	/**
+	 * Appends tax queries to an array.
+	 *
+	 * @param array $tax_query Tax query.
+	 * @param bool  $main_query If is main query.
+	 *
+	 * @return array
+	 */
+	public function get_tax_query( $tax_query = array(), $main_query = false ) {
+		if ( ! is_array( $tax_query ) ) {
+			$tax_query = array(
+				'relation' => 'AND',
+			);
+		}
 
-        // Layered nav filters on terms.
-        if ( $main_query ) {
-            /*
-            foreach ( $this->get_layered_nav_chosen_attributes() as $taxonomy => $data ) {
-                $tax_query[] = array(
-                    'taxonomy'         => $taxonomy,
-                    'field'            => 'slug',
-                    'terms'            => $data['terms'],
-                    'operator'         => 'and' === $data['query_type'] ? 'AND' : 'IN',
-                    'include_children' => false,
-                );
-            }*/
-        }
+		// Layered nav filters on terms.
+		if ( $main_query ) {
+			/*
+			foreach ( $this->get_layered_nav_chosen_attributes() as $taxonomy => $data ) {
+				$tax_query[] = array(
+					'taxonomy'         => $taxonomy,
+					'field'            => 'slug',
+					'terms'            => $data['terms'],
+					'operator'         => 'and' === $data['query_type'] ? 'AND' : 'IN',
+					'include_children' => false,
+				);
+			}*/
+		}
 
-        $resource_visibility_terms  = er_get_resource_visibility_term_ids();
-        $resource_visibility_not_in = array( is_search() && $main_query ? $resource_visibility_terms['exclude-from-search'] : $resource_visibility_terms['exclude-from-catalog'] );
+		$resource_visibility_terms  = er_get_resource_visibility_term_ids();
+		$resource_visibility_not_in = array( is_search() && $main_query ? $resource_visibility_terms['exclude-from-search'] : $resource_visibility_terms['exclude-from-catalog'] );
 
-        // Filter by rating.
-        if ( isset( $_GET['rating_filter'] ) ) { // WPCS: input var ok, CSRF ok.
-            $rating_filter = array_filter( array_map( 'absint', explode( ',', $_GET['rating_filter'] ) ) ); // WPCS: input var ok, CSRF ok, Sanitization ok.
-            $rating_terms  = array();
-            for ( $i = 1; $i <= 5; $i++ ) {
-                if ( in_array( $i, $rating_filter, true ) && isset( $resource_visibility_terms['rated-' . $i] ) ) {
-                    $rating_terms[] = $resource_visibility_terms['rated-' . $i];
-                }
-            }
-            if ( !empty( $rating_terms ) ) {
-                $tax_query[] = array(
-                    'taxonomy'      => 'resource_visibility',
-                    'field'         => 'term_taxonomy_id',
-                    'terms'         => $rating_terms,
-                    'operator'      => 'IN',
-                    'rating_filter' => true,
-                );
-            }
-        }
+		// Filter by rating.
+		if ( isset( $_GET['rating_filter'] ) ) { // WPCS: input var ok, CSRF ok.
+			$rating_filter = array_filter( array_map( 'absint', explode( ',', $_GET['rating_filter'] ) ) ); // WPCS: input var ok, CSRF ok, Sanitization ok.
+			$rating_terms  = array();
+			for ( $i = 1; $i <= 5; $i ++ ) {
+				if ( in_array( $i, $rating_filter, true ) && isset( $resource_visibility_terms[ 'rated-' . $i ] ) ) {
+					$rating_terms[] = $resource_visibility_terms[ 'rated-' . $i ];
+				}
+			}
+			if ( ! empty( $rating_terms ) ) {
+				$tax_query[] = array(
+					'taxonomy'      => 'resource_visibility',
+					'field'         => 'term_taxonomy_id',
+					'terms'         => $rating_terms,
+					'operator'      => 'IN',
+					'rating_filter' => true,
+				);
+			}
+		}
 
-        if ( !empty( $resource_visibility_not_in ) ) {
-            $tax_query[] = array(
-                'taxonomy' => 'resource_visibility',
-                'field'    => 'term_taxonomy_id',
-                'terms'    => $resource_visibility_not_in,
-                'operator' => 'NOT IN',
-            );
-        }
+		if ( ! empty( $resource_visibility_not_in ) ) {
+			$tax_query[] = array(
+				'taxonomy' => 'resource_visibility',
+				'field'    => 'term_taxonomy_id',
+				'terms'    => $resource_visibility_not_in,
+				'operator' => 'NOT IN',
+			);
+		}
 
-        return array_filter( apply_filters( 'easyreservations_resource_query_tax_query', $tax_query, $this ) );
-    }
+		return array_filter( apply_filters( 'easyreservations_resource_query_tax_query', $tax_query, $this ) );
+	}
 
-    /**
+	/**
 	 * Get the main query which resource queries ran against.
 	 *
 	 * @return array
@@ -499,6 +506,7 @@ class ER_Query {
 	 * Remove the add-to-cart param from pagination urls.
 	 *
 	 * @param string $url URL.
+	 *
 	 * @return string
 	 */
 	public function remove_add_to_cart_pagination( $url ) {

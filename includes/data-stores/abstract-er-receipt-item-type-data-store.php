@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * ER Receipt Item Data Store
  */
-abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP implements ER_Object_Data_Store_Interface {
+abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP implements
+	ER_Object_Data_Store_Interface {
 
 	/**
 	 * Meta type. This should match up with
@@ -40,10 +41,10 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 
 		$wpdb->insert(
 			$wpdb->prefix . 'receipt_items', array(
-                'receipt_item_name'   => $item->get_name(),
-                'receipt_item_type'   => $item->get_type(),
-                'receipt_object_type' => $item->get_object_type(),
-                'receipt_object_id'   => $item->get_object_id(),
+				'receipt_item_name'   => $item->get_name(),
+				'receipt_item_type'   => $item->get_type(),
+				'receipt_object_type' => $item->get_object_type(),
+				'receipt_object_id'   => $item->get_object_id(),
 			)
 		);
 		$item->set_id( $wpdb->insert_id );
@@ -68,11 +69,11 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 		if ( array_intersect( array( 'name', 'object_id', 'object_type', 'type' ), array_keys( $changes ) ) ) {
 			$wpdb->update(
 				$wpdb->prefix . 'receipt_items', array(
-                    'receipt_item_name'   => $item->get_name(),
-                    'receipt_item_type'   => $item->get_type(),
-                    'receipt_object_type' => $item->get_object_type(),
-                    'receipt_object_id'   => $item->get_object_id(),
-                ), array( 'receipt_item_id' => $item->get_id() )
+				'receipt_item_name'   => $item->get_name(),
+				'receipt_item_type'   => $item->get_type(),
+				'receipt_object_type' => $item->get_object_type(),
+				'receipt_object_id'   => $item->get_object_id(),
+			), array( 'receipt_item_id' => $item->get_id() )
 			);
 		}
 
@@ -88,7 +89,7 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 	 * Remove an order item from the database.
 	 *
 	 * @param ER_Receipt_Item $item Order item object.
-	 * @param array         $args Array of args to pass to the delete method.
+	 * @param array           $args Array of args to pass to the delete method.
 	 */
 	public function delete( &$item, $args = array() ) {
 		if ( $item->get_id() ) {
@@ -117,8 +118,8 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 		$data = wp_cache_get( 'item-' . $item->get_id(), 'receipt-items' );
 
 		if ( false === $data ) {
-            $data = $wpdb->get_row( $wpdb->prepare( "SELECT receipt_object_id, receipt_object_type, receipt_item_id, receipt_item_name, receipt_item_type FROM {$wpdb->prefix}receipt_items WHERE receipt_item_id = %d LIMIT 1;", $item->get_id() ) );
-            wp_cache_set( 'item-' . $item->get_id(), $data, 'receipt-items' );
+			$data = $wpdb->get_row( $wpdb->prepare( "SELECT receipt_object_id, receipt_object_type, receipt_item_id, receipt_item_name, receipt_item_type FROM {$wpdb->prefix}receipt_items WHERE receipt_item_id = %d LIMIT 1;", $item->get_id() ) );
+			wp_cache_set( 'item-' . $item->get_id(), $data, 'receipt-items' );
 		}
 
 		if ( ! $data ) {
@@ -127,11 +128,11 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 
 		$item->set_props(
 			array(
-                'object_id'   => $data->receipt_object_id,
-                'object_type' => $data->receipt_object_type,
-                'name'        => $data->receipt_item_name,
-                'type'        => $data->receipt_item_type,
-            )
+				'object_id'   => $data->receipt_object_id,
+				'object_type' => $data->receipt_object_type,
+				'name'        => $data->receipt_item_name,
+				'type'        => $data->receipt_item_type,
+			)
 		);
 		$item->read_meta_data();
 	}
@@ -142,7 +143,8 @@ abstract class Abstract_ER_Receipt_Item_Type_Data_Store extends ER_Data_Store_WP
 	 *
 	 * @param ER_Receipt_Item $item Order item object.
 	 */
-	public function save_item_data( &$item ) {}
+	public function save_item_data( &$item ) {
+	}
 
 	/**
 	 * Clear meta cache.

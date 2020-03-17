@@ -21,35 +21,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php do_action( 'easyreservations_before_cart_totals' ); ?>
 
-	<h2><?php esc_html_e( 'Cart totals', 'easyReservations' ); ?></h2>
+    <h2><?php esc_html_e( 'Cart totals', 'easyReservations' ); ?></h2>
 
-	<table cellspacing="0" class="">
+    <table cellspacing="0" class="">
 
-		<tr class="cart-subtotal">
-			<th><?php esc_html_e( 'Subtotal', 'easyReservations' ); ?></th>
-			<td data-title="<?php esc_attr_e( 'Subtotal', 'easyReservations' ); ?>"><?php er_cart_totals_subtotal_html(); ?></td>
-		</tr>
+        <tr class="cart-subtotal">
+            <th><?php esc_html_e( 'Subtotal', 'easyReservations' ); ?></th>
+            <td data-title="<?php esc_attr_e( 'Subtotal', 'easyReservations' ); ?>"><?php er_cart_totals_subtotal_html(); ?></td>
+        </tr>
 
-        <?php do_action( 'easyreservations_cart_totals_after_order_subtotal' ); ?>
+		<?php do_action( 'easyreservations_cart_totals_after_order_subtotal' ); ?>
 
-        <?php foreach ( ER()->cart->get_fees() as $fee ) : ?>
+		<?php foreach ( ER()->cart->get_fees() as $fee ) : ?>
             <tr class="fee">
                 <th><?php echo esc_html( $fee->get_name() ); ?></th>
                 <td data-title="<?php echo esc_attr( $fee->get_name() ); ?>"><?php er_cart_totals_fee_html( $fee ); ?></td>
             </tr>
-        <?php endforeach; ?>
+		<?php endforeach; ?>
 
-        <?php if ( er_tax_enabled() && !ER()->cart->display_prices_including_tax() ) :
+		<?php if ( er_tax_enabled() && ! ER()->cart->display_prices_including_tax() ) :
 			if ( 'itemized' === get_option( 'reservations_tax_total_display' ) ) : ?>
 				<?php foreach ( ER()->cart->get_tax_totals() as $code => $tax ) : ?>
-					<tr class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?>">
+                    <tr class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?>">
                         <th><?php echo esc_html( $tax->label ); ?></th>
                         <td data-title="<?php echo esc_attr( $tax->label ); ?>"><?php echo wp_kses_post( $tax->formatted_amount ); ?></td>
                     </tr>
 				<?php endforeach; ?>
 			<?php else : ?>
-				<tr class="tax-total">
-					<th><?php echo esc_html( ER()->countries->tax_or_vat() ); ?></th>
+                <tr class="tax-total">
+                    <th><?php echo esc_html( ER()->countries->tax_or_vat() ); ?></th>
                     <td data-title="<?php echo esc_attr( ER()->countries->tax_or_vat() ); ?>"><?php er_cart_totals_taxes_total_html(); ?></td>
                 </tr>
 			<?php endif; ?>
@@ -57,18 +57,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php do_action( 'easyreservations_cart_totals_before_order_total' ); ?>
 
-		<tr class="order-total">
-			<th><?php esc_html_e( 'Total', 'easyReservations' ); ?></th>
-			<td data-title="<?php esc_attr_e( 'Total', 'easyReservations' ); ?>"><?php er_cart_totals_order_total_html(); ?></td>
-		</tr>
+        <tr class="order-total">
+            <th><?php esc_html_e( 'Total', 'easyReservations' ); ?></th>
+            <td data-title="<?php esc_attr_e( 'Total', 'easyReservations' ); ?>"><?php er_cart_totals_order_total_html(); ?></td>
+        </tr>
 
 		<?php do_action( 'easyreservations_cart_totals_after_order_total' ); ?>
 
-	</table>
+    </table>
 
-	<div class="er-proceed-to-checkout">
+    <div class="er-proceed-to-checkout">
 		<?php do_action( 'easyreservations_proceed_to_checkout' ); ?>
-	</div>
+    </div>
 
 	<?php do_action( 'easyreservations_after_cart_totals' ); ?>
 

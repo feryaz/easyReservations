@@ -42,13 +42,13 @@ switch ( $template ) {
 	case 'twentysixteen':
 		echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
 		break;
-    case 'twentyseventeen':
-        echo '<div class="wrap"><div id="primary" class="content-area twentyseventeen"><main id="main" class="site-main" role="main">';
-        break;
-    case 'twentynineteen':
-        echo '<section id="primary" class="content-area"><main id="main" class="site-main">';
-        break;
-    default :
+	case 'twentyseventeen':
+		echo '<div class="wrap"><div id="primary" class="content-area twentyseventeen"><main id="main" class="site-main" role="main">';
+		break;
+	case 'twentynineteen':
+		echo '<section id="primary" class="content-area"><main id="main" class="site-main">';
+		break;
+	default :
 		echo '<div id="primary" class="content-area"><main id="main" class="site-main" role="main">';
 		break;
 }

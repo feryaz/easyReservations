@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( !$notices ) {
+if ( ! $notices ) {
 	return;
 }
 
@@ -25,6 +25,6 @@ if ( !$notices ) {
 
 <?php foreach ( $notices as $notice ) : ?>
     <div class="easyreservations-message"<?php echo er_get_notice_data_attr( $notice ); ?> role="alert">
-        <?php echo er_kses_notice( $notice['notice'] ); ?>
+		<?php echo er_kses_notice( $notice['notice'] ); ?>
     </div>
 <?php endforeach; ?>

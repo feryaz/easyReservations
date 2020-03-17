@@ -16,15 +16,15 @@ defined( 'ABSPATH' ) || exit;
 
 $form_class = 'easy-ui easy-ui-container border';
 
-if($atts['inline']){
-    $form_class = 'easy-ui inline';
+if ( $atts['inline'] ) {
+	$form_class = 'easy-ui inline';
 }
 
 ?>
 <form id="easyreservations-form-<?php echo esc_attr( $form_hash ); ?>" rel="js-easy-form">
-    <?php wp_nonce_field( 'easyreservations-form', 'easy-form-nonce' ); ?>
-    <?php wp_nonce_field( 'easyreservations-process-reservation', 'easyreservations-process-reservation-nonce' ); ?>
+	<?php wp_nonce_field( 'easyreservations-form', 'easy-form-nonce' ); ?>
+	<?php wp_nonce_field( 'easyreservations-process-reservation', 'easyreservations-process-reservation-nonce' ); ?>
     <input type="hidden" name="easy_form_id" value="<?php echo esc_attr( $form_id ); ?>">
     <input type="hidden" name="easy_form_hash" value="<?php echo esc_attr( $form_hash ); ?>">
     <input type="hidden" name="redirect" value="<?php echo esc_url( $atts['redirect'] ); ?>">
-    <div class="easy-ui easy-form <?php echo esc_attr($form_class); ?>">
+    <div class="easy-ui easy-form <?php echo esc_attr( $form_class ); ?>">

@@ -28,15 +28,15 @@ function easyreservations_wp_text_input( $field ) {
 	switch ( $data_type ) {
 		case 'price':
 			$field['class'] .= ' er_input_price';
-			$field['value']  = er_format_localized_price( $field['value'] );
+			$field['value'] = er_format_localized_price( $field['value'] );
 			break;
 		case 'decimal':
 			$field['class'] .= ' er_input_decimal';
-			$field['value']  = er_format_localized_decimal( $field['value'] );
+			$field['value'] = er_format_localized_decimal( $field['value'] );
 			break;
 		case 'url':
 			$field['class'] .= ' er_input_url';
-			$field['value']  = esc_url( $field['value'] );
+			$field['value'] = esc_url( $field['value'] );
 			break;
 
 		default:
@@ -210,22 +210,22 @@ function easyreservations_wp_select( $field ) {
 	$tooltip     = ! empty( $field['description'] ) && false !== $field['desc_tip'] ? $field['description'] : '';
 	$description = ! empty( $field['description'] ) && false === $field['desc_tip'] ? $field['description'] : '';
 	?>
-	<p <?php echo er_implode_html_attributes( $wrapper_attributes ); // WPCS: XSS ok. ?>>
-		<label <?php echo er_implode_html_attributes( $label_attributes ); // WPCS: XSS ok. ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
+    <p <?php echo er_implode_html_attributes( $wrapper_attributes ); // WPCS: XSS ok. ?>>
+        <label <?php echo er_implode_html_attributes( $label_attributes ); // WPCS: XSS ok. ?>><?php echo wp_kses_post( $field['label'] ); ?></label>
 		<?php if ( $tooltip ) : ?>
 			<?php echo er_get_help( $tooltip ); // WPCS: XSS ok. ?>
 		<?php endif; ?>
-		<select <?php echo er_implode_html_attributes( $field_attributes ); // WPCS: XSS ok. ?>>
+        <select <?php echo er_implode_html_attributes( $field_attributes ); // WPCS: XSS ok. ?>>
 			<?php
 			foreach ( $field['options'] as $key => $value ) {
 				echo '<option value="' . esc_attr( $key ) . '"' . er_selected( $key, $field['value'] ) . '>' . esc_html( $value ) . '</option>';
 			}
 			?>
-		</select>
+        </select>
 		<?php if ( $description ) : ?>
-			<span class="description"><?php echo wp_kses_post( $description ); ?></span>
+            <span class="description"><?php echo wp_kses_post( $description ); ?></span>
 		<?php endif; ?>
-	</p>
+    </p>
 	<?php
 }
 
@@ -278,7 +278,7 @@ function easyreservations_wp_radio( $field ) {
  * Template for reservation preview.
  */
 function er_reservation_preview_template() {
-    ?>
+	?>
     <script type="text/template" id="tmpl-er-modal-view-reservation">
         <div class="er-backbone-modal er-order-preview">
             <div class="er-backbone-modal-content">
@@ -286,14 +286,14 @@ function er_reservation_preview_template() {
                     <header class="er-backbone-modal-header">
                         <mark class="order-status status-{{ data.status }}"><span>{{ data.status_name }}</span>
                         </mark>
-                        <?php /* translators: %s: order ID */ ?>
+						<?php /* translators: %s: order ID */ ?>
                         <h1><?php echo esc_html( sprintf( __( 'Reservation #%s', 'easyReservations' ), '{{ data.reservation_id }}' ) ); ?></h1>
                         <button class="modal-close modal-close-link dashicons dashicons-no-alt">
                             <span class="screen-reader-text"><?php esc_html_e( 'Close modal panel', 'easyReservations' ); ?></span>
                         </button>
                     </header>
                     <article>
-                        <?php do_action( 'easyreservations_admin_reservation_preview_start' ); ?>
+						<?php do_action( 'easyreservations_admin_reservation_preview_start' ); ?>
 
                         <div class="er-order-preview-addresses">
 
@@ -346,7 +346,7 @@ function er_reservation_preview_template() {
 
                         {{{ data.item_html }}}
 
-                        <?php do_action( 'easyreservations_admin_reservation_preview_end' ); ?>
+						<?php do_action( 'easyreservations_admin_reservation_preview_end' ); ?>
                     </article>
                     <footer>
                         <div class="inner">
@@ -360,5 +360,5 @@ function er_reservation_preview_template() {
         </div>
         <div class="er-backbone-modal-backdrop modal-close"></div>
     </script>
-    <?php
+	<?php
 }

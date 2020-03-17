@@ -14,8 +14,8 @@
  * @version 1.0
  */
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /*
@@ -24,7 +24,7 @@ if ( !defined( 'ABSPATH' ) ) {
 do_action( 'easyreservations_email_header', $email_heading, $email ); ?>
 
 <?php /* translators: %s: Customer billing full name */ ?>
-<p><?php printf( esc_html__( 'You’ve received the following order from %s:', 'easyReservations' ), $order->get_formatted_full_name() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+    <p><?php printf( esc_html__( 'You’ve received the following order from %s:', 'easyReservations' ), $order->get_formatted_full_name() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 
 <?php
 

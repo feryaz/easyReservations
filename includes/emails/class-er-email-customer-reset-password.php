@@ -104,10 +104,10 @@ if ( ! class_exists( 'ER_Email_Customer_Reset_Password', false ) ) :
 				$this->user_email = stripslashes( $this->object->user_email );
 				$this->recipient  = $this->user_email;
 
-                $this->setup_locale( get_user_locale( $this->object->ID ) );
-            } else {
-                $this->setup_locale();
-            }
+				$this->setup_locale( get_user_locale( $this->object->ID ) );
+			} else {
+				$this->setup_locale();
+			}
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
 				$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );

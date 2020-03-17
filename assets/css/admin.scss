@@ -3099,9 +3099,9 @@ table.er_emails {
 .er-timeline {
 	display: none;
 	height: 100%;
+	margin-top: 10px;
 	user-select: none;
 	align-items: stretch;
-	margin-top: 10px;
 
 	.sidebar {
 		overflow: hidden;
@@ -3382,10 +3382,10 @@ table.er_emails {
 				.pending {
 					position: relative;
 					display: inline-block;
-					cursor: pointer;
 					font-size: 20px;
 					color: $subtext;
 					vertical-align: middle;
+					cursor: pointer;
 
 					span {
 						position: absolute;
@@ -3410,11 +3410,11 @@ table.er_emails {
 
 				.expand-sidebar,
 				.contract-sidebar {
-					display: inline-flex;
-					vertical-align: middle;
 					position: relative;
+					display: inline-flex;
 					font-size: 20px;
 					color: $subtext;
+					vertical-align: middle;
 					cursor: pointer;
 				}
 
@@ -3556,9 +3556,9 @@ table.er_emails {
 								font-size: 12px;
 								font-weight: 400;
 								line-height: 25px;
+								text-align: left;
 								text-decoration: none;
 								vertical-align: middle;
-								text-align: left;
 								background: #fff;
 							}
 						}

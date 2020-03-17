@@ -10,46 +10,46 @@
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 function easyreservations_delete_plugin() {
-    global $wpdb, $wp_version;
+	global $wpdb, $wp_version;
 
-    wp_clear_scheduled_hook( 'easyreservations_scheduled_sales' );
-    wp_clear_scheduled_hook( 'easyreservations_cancel_unpaid_orders' );
-    wp_clear_scheduled_hook( 'easyreservations_cleanup_sessions' );
-    wp_clear_scheduled_hook( 'easyreservations_cleanup_personal_data' );
-    wp_clear_scheduled_hook( 'easyreservations_cleanup_logs' );
+	wp_clear_scheduled_hook( 'easyreservations_scheduled_sales' );
+	wp_clear_scheduled_hook( 'easyreservations_cancel_unpaid_orders' );
+	wp_clear_scheduled_hook( 'easyreservations_cleanup_sessions' );
+	wp_clear_scheduled_hook( 'easyreservations_cleanup_personal_data' );
+	wp_clear_scheduled_hook( 'easyreservations_cleanup_logs' );
 
-    $remove_all_data = get_option( 'reservations_uninstall', 'no' );
+	$remove_all_data = get_option( 'reservations_uninstall', 'no' );
 
-	if( $remove_all_data === 'yes' ){
-        include_once dirname( __FILE__ ) . '/includes/class-er-install.php';
+	if ( $remove_all_data === 'yes' ) {
+		include_once dirname( __FILE__ ) . '/includes/class-er-install.php';
 
-        ER_Install::remove_roles();
+		ER_Install::remove_roles();
 
-        // Pages.
-        wp_trash_post( get_option( 'reservations_shop_page_id' ) );
-        wp_trash_post( get_option( 'reservations_cart_page_id' ) );
-        wp_trash_post( get_option( 'reservations_checkout_page_id' ) );
-        wp_trash_post( get_option( 'reservations_myaccount_page_id' ) );
-        wp_trash_post( get_option( 'reservations_edit_address_page_id' ) );
-        wp_trash_post( get_option( 'reservations_view_order_page_id' ) );
-        wp_trash_post( get_option( 'reservations_change_password_page_id' ) );
-        wp_trash_post( get_option( 'reservations_logout_page_id' ) );
+		// Pages.
+		wp_trash_post( get_option( 'reservations_shop_page_id' ) );
+		wp_trash_post( get_option( 'reservations_cart_page_id' ) );
+		wp_trash_post( get_option( 'reservations_checkout_page_id' ) );
+		wp_trash_post( get_option( 'reservations_myaccount_page_id' ) );
+		wp_trash_post( get_option( 'reservations_edit_address_page_id' ) );
+		wp_trash_post( get_option( 'reservations_view_order_page_id' ) );
+		wp_trash_post( get_option( 'reservations_change_password_page_id' ) );
+		wp_trash_post( get_option( 'reservations_logout_page_id' ) );
 
-        //Options
-        delete_option( 'reservations_version' );
+		//Options
+		delete_option( 'reservations_version' );
 		delete_option( 'reservations_db_version' );
 		delete_option( 'reservations_enable_taxes' );
-        delete_option( 'reservations_prices_include_tax' );
-        delete_option( 'reservations_tax_display_cart' );
-        delete_option( 'reservations_tax_display_shop' );
+		delete_option( 'reservations_prices_include_tax' );
+		delete_option( 'reservations_tax_display_cart' );
+		delete_option( 'reservations_tax_display_shop' );
 		delete_option( 'reservations_tax_total_display' );
 		delete_option( 'reservations_tax_round_at_subtotal' );
 		delete_option( 'reservations_registration_generate_username' );
 		delete_option( 'reservations_registration_generate_password' );
-        delete_option( 'reservations_registration_privacy_policy_text' );
-        delete_option( 'reservations_checkout_terms_and_conditions_checkbox_text' );
-        delete_option( 'reservations_checkout_privacy_policy_text' );
-        delete_option( 'reservations_checkout_address_2_field' );
+		delete_option( 'reservations_registration_privacy_policy_text' );
+		delete_option( 'reservations_checkout_terms_and_conditions_checkbox_text' );
+		delete_option( 'reservations_checkout_privacy_policy_text' );
+		delete_option( 'reservations_checkout_address_2_field' );
 		delete_option( 'reservations_checkout_company_field' );
 		delete_option( 'reservations_checkout_phone_field' );
 		delete_option( 'reservations_email_background_color' );
@@ -97,8 +97,8 @@ function easyreservations_delete_plugin() {
 		delete_option( 'reservations_earliest_arrival' );
 		delete_option( 'reservations_price_thousand_sep' );
 		delete_option( 'reservations_price_decimal_sep' );
-        delete_option( 'reservations_price_decimals' );
-        delete_option( 'reservations_currency_pos' );
+		delete_option( 'reservations_price_decimals' );
+		delete_option( 'reservations_currency_pos' );
 		delete_option( 'reservations_currency' );
 		delete_option( 'reservations_single_image_width' );
 		delete_option( 'reservations_thumbnail_image_width' );
@@ -121,16 +121,16 @@ function easyreservations_delete_plugin() {
 		delete_option( 'reservations_enable_order_comments' );
 		delete_option( 'reservations_calc_discounts_sequentially' );
 		delete_option( 'reservations_deposit' );
-        delete_option( 'reservations_deposit_options' );
-        delete_option( 'reservations_deposit_optional' );
-        delete_option( 'reservations_sync_import_past' );
-        delete_option( 'reservations_sync_import_sources' );
-        delete_option( 'reservations_enable_coupons' );
-        delete_option( 'reservations_stripe_settings' );
-        delete_option( 'reservations_paypal_settings' );
-        delete_option( 'default_resource_cat' );
+		delete_option( 'reservations_deposit_options' );
+		delete_option( 'reservations_deposit_optional' );
+		delete_option( 'reservations_sync_import_past' );
+		delete_option( 'reservations_sync_import_sources' );
+		delete_option( 'reservations_enable_coupons' );
+		delete_option( 'reservations_stripe_settings' );
+		delete_option( 'reservations_paypal_settings' );
+		delete_option( 'default_resource_cat' );
 
-        delete_option( 'reservations_backgroundiffull' );
+		delete_option( 'reservations_backgroundiffull' );
 		delete_option( 'reservations_border_bottom' );
 		delete_option( 'reservations_border_side' );
 		delete_option( 'reservations_colorbackgroundfree' );
@@ -164,11 +164,11 @@ function easyreservations_delete_plugin() {
 		delete_option( 'reservations_email_to_user_edited' );
 		delete_option( 'reservations_email_to_admin_paypal' );
 		delete_option( 'reservations_email_to_user_paypal' );
-        delete_option( 'reservations_overview_size' );
-        delete_option( 'reservations_currency' );
-        delete_option( 'reservations_room_category' );
-        delete_option( 'reservations_special_offer_cat' );
-        delete_option( 'reservations_regular_guests' );
+		delete_option( 'reservations_overview_size' );
+		delete_option( 'reservations_currency' );
+		delete_option( 'reservations_room_category' );
+		delete_option( 'reservations_special_offer_cat' );
+		delete_option( 'reservations_regular_guests' );
 		delete_option( 'reservations_paypal_options' );
 		delete_option( 'reservations_authorize_options' );
 		delete_option( 'reservations_wallet_options' );
@@ -206,53 +206,53 @@ function easyreservations_delete_plugin() {
 		delete_option( 'reservations_woo_product_ids' );
 		delete_option( 'easyreservations_successful_script' );
 
-        // Delete Tables.
-        $table_name = $wpdb->prefix."reservations";
+		// Delete Tables.
+		$table_name = $wpdb->prefix . "reservations";
 		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-		$table_name = $wpdb->prefix."reservationsmeta";
+		$table_name = $wpdb->prefix . "reservationsmeta";
 		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-		$table_name = $wpdb->prefix."reservations_sessions";
+		$table_name = $wpdb->prefix . "reservations_sessions";
 		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-        $table_name = $wpdb->prefix . "receipt_items";
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+		$table_name = $wpdb->prefix . "receipt_items";
+		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-        $table_name = $wpdb->prefix . "reservations_payment_tokens";
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+		$table_name = $wpdb->prefix . "reservations_payment_tokens";
+		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-        $table_name = $wpdb->prefix . "payment_tokenmeta";
-        $wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+		$table_name = $wpdb->prefix . "payment_tokenmeta";
+		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-        // Delete posts + data.
-        $wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'easy-rooms', 'easy_order', 'easy_order_refund', 'easy_coupon' );" );
-        $wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
+		// Delete posts + data.
+		$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'easy-rooms', 'easy_order', 'easy_order_refund', 'easy_coupon' );" );
+		$wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
 
-        $wpdb->query( "DELETE FROM {$wpdb->comments} WHERE comment_type IN ( 'er_order_note' );" );
-        $wpdb->query( "DELETE meta FROM {$wpdb->commentmeta} meta LEFT JOIN {$wpdb->comments} comments ON comments.comment_ID = meta.comment_id WHERE comments.comment_ID IS NULL;" );
+		$wpdb->query( "DELETE FROM {$wpdb->comments} WHERE comment_type IN ( 'er_order_note' );" );
+		$wpdb->query( "DELETE meta FROM {$wpdb->commentmeta} meta LEFT JOIN {$wpdb->comments} comments ON comments.comment_ID = meta.comment_id WHERE comments.comment_ID IS NULL;" );
 
-        // Delete terms
-        foreach ( array( 'resource_cat', 'resource_tag' ) as $taxonomy ) {
-            $wpdb->delete(
-                $wpdb->term_taxonomy,
-                array(
-                    'taxonomy' => $taxonomy,
-                )
-            );
-        }
+		// Delete terms
+		foreach ( array( 'resource_cat', 'resource_tag' ) as $taxonomy ) {
+			$wpdb->delete(
+				$wpdb->term_taxonomy,
+				array(
+					'taxonomy' => $taxonomy,
+				)
+			);
+		}
 
-        // Delete orphan relationships.
-        $wpdb->query( "DELETE tr FROM {$wpdb->term_relationships} tr LEFT JOIN {$wpdb->posts} posts ON posts.ID = tr.object_id WHERE posts.ID IS NULL;" );
+		// Delete orphan relationships.
+		$wpdb->query( "DELETE tr FROM {$wpdb->term_relationships} tr LEFT JOIN {$wpdb->posts} posts ON posts.ID = tr.object_id WHERE posts.ID IS NULL;" );
 
-        // Delete orphan terms.
-        $wpdb->query( "DELETE t FROM {$wpdb->terms} t LEFT JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
+		// Delete orphan terms.
+		$wpdb->query( "DELETE t FROM {$wpdb->terms} t LEFT JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
 
-        // Delete orphan term meta.
-        if ( !empty( $wpdb->termmeta ) ) {
-            $wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
-        }
-    }
+		// Delete orphan term meta.
+		if ( ! empty( $wpdb->termmeta ) ) {
+			$wpdb->query( "DELETE tm FROM {$wpdb->termmeta} tm LEFT JOIN {$wpdb->term_taxonomy} tt ON tm.term_id = tt.term_id WHERE tt.term_id IS NULL;" );
+		}
+	}
 }
 
 easyreservations_delete_plugin();

@@ -1,4 +1,4 @@
-( function () {
+( function() {
 	var el = wp.element.createElement;
 	//TODO insert svg icon
 	const iconEl = el( 'svg', { width: 24, height: 24 },
@@ -7,21 +7,21 @@
 	wp.blocks.updateCategory( 'easy-reservations', { icon: iconEl } );
 
 	wp.blocks.registerBlockType( 'easy-reservations/form', {
-		title: wp.i18n.__( 'Form', 'easyReservations' ),
-		icon: 'format-aside',
+		title:    wp.i18n.__( 'Form', 'easyReservations' ),
+		icon:     'format-aside',
 		category: 'easy-reservations',
 
 		attributes: {
-			content: { type: 'string' },
-			color: { type: 'string' },
+			content:       { type: 'string' },
+			color:         { type: 'string' },
 			form_template: { type: 'string' },
-			redirect: { type: 'string' },
+			redirect:      { type: 'string' },
 			//direct_checkout: {type: 'bool'},
-			price: { type: 'bool' },
-			inline: { type: 'bool' }
+			price:         { type: 'bool' },
+			inline:        { type: 'bool' }
 		},
 
-		edit: function ( props ) {
+		edit: function( props ) {
 
 			return el(
 				"div",
@@ -49,13 +49,13 @@
 								"div",
 								{ className: "components-base-control" },
 								el( wp.components.SelectControl, {
-									label: wp.i18n.__( 'Form template', 'easyReservations' ),
+									label:     wp.i18n.__( 'Form template', 'easyReservations' ),
 									className: "components-text-control__input",
-									value: props.attributes.form_template,
-									onChange: function ( value ) {
+									value:     props.attributes.form_template,
+									onChange:  function( value ) {
 										props.setAttributes( { form_template: value } )
 									},
-									options: easy_data.form_templates
+									options:   easy_data.form_templates
 								} )
 							)
 						),
@@ -63,13 +63,13 @@
 							"div",
 							{ className: "easyreservations-block-list-element" },
 							el( wp.components.SelectControl, {
-								label: wp.i18n.__( 'After submit redirect to', 'easyReservations' ),
+								label:     wp.i18n.__( 'After submit redirect to', 'easyReservations' ),
 								className: "components-text-control__input",
-								value: props.attributes.redirect,
-								onChange: function ( value ) {
+								value:     props.attributes.redirect,
+								onChange:  function( value ) {
 									props.setAttributes( { redirect: value } )
 								},
-								options: easy_data.pages.slice( 1 )
+								options:   easy_data.pages.slice( 1 )
 							} )
 						),
 						el(
@@ -87,9 +87,9 @@
 								}
 							}),*/
 							el( wp.components.CheckboxControl, {
-								label: wp.i18n.__( 'Inline style', 'easyReservations' ),
-								checked: props.attributes.inline,
-								onChange: function ( val ) {
+								label:    wp.i18n.__( 'Inline style', 'easyReservations' ),
+								checked:  props.attributes.inline,
+								onChange: function( val ) {
 									if ( val ) {
 										props.setAttributes( { inline: true } )
 									} else {
@@ -98,9 +98,9 @@
 								}
 							} ),
 							el( wp.components.CheckboxControl, {
-								label: wp.i18n.__( 'Display price', 'easyReservations' ),
-								checked: props.attributes.price,
-								onChange: function ( val ) {
+								label:    wp.i18n.__( 'Display price', 'easyReservations' ),
+								checked:  props.attributes.price,
+								onChange: function( val ) {
 									if ( val ) {
 										props.setAttributes( { price: true } )
 									} else {
@@ -113,10 +113,10 @@
 				)
 			);
 		},
-		save: function ( props ) {
+		save: function( props ) {
 			var shortcode = '[easy_form';
 
-			if( props.attributes && props.attributes.form_template !== 'undefined' && props.attributes.form_template !== undefined && props.attributes.form_template) {
+			if ( props.attributes && props.attributes.form_template !== 'undefined' && props.attributes.form_template !== undefined && props.attributes.form_template ) {
 				shortcode += ' ' + props.attributes.form_template;
 			}
 
@@ -143,18 +143,18 @@
 } )();
 
 function easy_data_preparation() {
-	this.form_templates = function () {
+	this.form_templates = function() {
 		let opts = [];
-		jQuery.each( er_blocks_params.form_templates, function ( k, v ) {
+		jQuery.each( er_blocks_params.form_templates, function( k, v ) {
 			opts.push( { value: k, label: v } );
 		} );
 		easy_data.form_templates = opts;
 	};
 
-	this.pages = function () {
-		let opts = [ { value: 'res', label: wp.i18n.__( 'Resources page', 'easyReservations' ) } ];
+	this.pages = function() {
+		let opts = [{ value: 'res', label: wp.i18n.__( 'Resources page', 'easyReservations' ) }];
 
-		jQuery.each( er_blocks_params.pages, function ( k, v ) {
+		jQuery.each( er_blocks_params.pages, function( k, v ) {
 			opts.push( { value: k, label: v } );
 		} );
 

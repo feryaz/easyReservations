@@ -24,31 +24,31 @@ jQuery( function( $ ) {
 
 		// Pick functionality to initialize...
 		this.flexslider_enabled = $.isFunction( $.fn.flexslider ) && er_single_resource_params.flexslider_enabled;
-		this.zoom_enabled       = $.isFunction( $.fn.zoom ) && er_single_resource_params.zoom_enabled;
+		this.zoom_enabled = $.isFunction( $.fn.zoom ) && er_single_resource_params.zoom_enabled;
 		this.photoswipe_enabled = typeof PhotoSwipe !== 'undefined' && er_single_resource_params.photoswipe_enabled;
 
-        // ...also taking args into account.
+		// ...also taking args into account.
 		if ( args ) {
 			this.flexslider_enabled = false === args.flexslider_enabled ? false : this.flexslider_enabled;
-			this.zoom_enabled       = false === args.zoom_enabled ? false : this.zoom_enabled;
+			this.zoom_enabled = false === args.zoom_enabled ? false : this.zoom_enabled;
 			this.photoswipe_enabled = false === args.photoswipe_enabled ? false : this.photoswipe_enabled;
 		}
 
-        // ...and what is in the gallery.
+		// ...and what is in the gallery.
 		if ( 1 === this.$images.length ) {
 			this.flexslider_enabled = false;
 		}
 
 		// Bind functions to this.
-		this.initFlexslider       = this.initFlexslider.bind( this );
-		this.initZoom             = this.initZoom.bind( this );
-		this.initZoomForTarget    = this.initZoomForTarget.bind( this );
-		this.initPhotoswipe       = this.initPhotoswipe.bind( this );
+		this.initFlexslider = this.initFlexslider.bind( this );
+		this.initZoom = this.initZoom.bind( this );
+		this.initZoomForTarget = this.initZoomForTarget.bind( this );
+		this.initPhotoswipe = this.initPhotoswipe.bind( this );
 		this.onResetSlidePosition = this.onResetSlidePosition.bind( this );
-		this.getGalleryItems      = this.getGalleryItems.bind( this );
-		this.openPhotoswipe       = this.openPhotoswipe.bind( this );
+		this.getGalleryItems = this.getGalleryItems.bind( this );
+		this.openPhotoswipe = this.openPhotoswipe.bind( this );
 
-        if ( this.flexslider_enabled ) {
+		if ( this.flexslider_enabled ) {
 			this.initFlexslider( args.flexslider );
 			$target.on( 'easyreservations_gallery_reset_slide_position', this.onResetSlidePosition );
 		} else {
@@ -74,10 +74,10 @@ jQuery( function( $ ) {
 
 		var options = $.extend( {
 			selector: '.easyreservations-resource-gallery__wrapper > .easyreservations-resource-gallery__image',
-			start: function() {
+			start:    function() {
 				$target.css( 'opacity', 1 );
 			},
-			after: function( slider ) {
+			after:    function( slider ) {
 				gallery.initZoomForTarget( gallery.$images.eq( slider.currentSlide ) );
 			}
 		}, args );
@@ -116,7 +116,7 @@ jQuery( function( $ ) {
 	 * Init zoom.
 	 */
 	ProductGallery.prototype.initZoomForTarget = function( zoomTarget ) {
-		if ( ! this.zoom_enabled ) {
+		if ( !this.zoom_enabled ) {
 			return false;
 		}
 
@@ -146,7 +146,7 @@ jQuery( function( $ ) {
 			zoomTarget.zoom( zoom_options );
 
 			setTimeout( function() {
-				if ( zoomTarget.find(':hover').length ) {
+				if ( zoomTarget.find( ':hover' ).length ) {
 					zoomTarget.trigger( 'mouseover' );
 				}
 			}, 100 );
@@ -162,10 +162,10 @@ jQuery( function( $ ) {
 			this.$target.on( 'click', '.easyreservations-resource-gallery__trigger', this.openPhotoswipe );
 			this.$target.on( 'click', '.easyreservations-resource-gallery__image a', function( e ) {
 				e.preventDefault();
-			});
+			} );
 
 			// If flexslider is disabled, gallery images also need to trigger photoswipe on click.
-			if ( ! this.flexslider_enabled ) {
+			if ( !this.flexslider_enabled ) {
 				this.$target.on( 'click', '.easyreservations-resource-gallery__image a', this.openPhotoswipe );
 			}
 		} else {
@@ -196,9 +196,9 @@ jQuery( function( $ ) {
 						large_image_w   = img.attr( 'data-large_image_width' ),
 						large_image_h   = img.attr( 'data-large_image_height' ),
 						item            = {
-							src  : large_image_src,
-							w    : large_image_w,
-							h    : large_image_h,
+							src:   large_image_src,
+							w:     large_image_w,
+							h:     large_image_h,
 							title: img.attr( 'data-caption' ) ? img.attr( 'data-caption' ) : img.attr( 'title' )
 						};
 					items.push( item );
@@ -215,7 +215,7 @@ jQuery( function( $ ) {
 	ProductGallery.prototype.openPhotoswipe = function( e ) {
 		e.preventDefault();
 
-		var pswpElement = $( '.pswp' )[0],
+		var pswpElement = $( '.pswp' )[ 0 ],
 			items       = this.getGalleryItems(),
 			eventTarget = $( e.target ),
 			clicked;
@@ -227,13 +227,13 @@ jQuery( function( $ ) {
 		}
 
 		var options = $.extend( {
-			index: $( clicked ).index(),
+			index:            $( clicked ).index(),
 			addCaptionHTMLFn: function( item, captionEl ) {
-				if ( ! item.title ) {
-					captionEl.children[0].textContent = '';
+				if ( !item.title ) {
+					captionEl.children[ 0 ].textContent = '';
 					return false;
 				}
-				captionEl.children[0].textContent = item.title;
+				captionEl.children[ 0 ].textContent = item.title;
 				return true;
 			}
 		}, er_single_resource_params.photoswipe_options );
@@ -256,28 +256,28 @@ jQuery( function( $ ) {
 	 */
 	$( '.easyreservations-resource-gallery' ).each( function() {
 
-		$( this ).trigger( 'er-resource-gallery-before-init', [ this, er_single_resource_params ] );
+		$( this ).trigger( 'er-resource-gallery-before-init', [this, er_single_resource_params] );
 
 		$( this ).er_resource_gallery( er_single_resource_params );
 
-		$( this ).trigger( 'er-resource-gallery-after-init', [ this, er_single_resource_params ] );
+		$( this ).trigger( 'er-resource-gallery-after-init', [this, er_single_resource_params] );
 
 	} );
 
 	var resource_select = $( '.entry-summary  select#resource' );
-	if(resource_select.length > 0){
-        resource_select.closest('.form-row').remove();
+	if ( resource_select.length > 0 ) {
+		resource_select.closest( '.form-row' ).remove();
 	}
 
-    resource_select = $('.entry-summary  #resource');
-	if(resource_select.length === 0){
-        $('<input>').attr({
-            type: 'hidden',
-            id: 'resource',
-            name: 'resource',
+	resource_select = $( '.entry-summary  #resource' );
+	if ( resource_select.length === 0 ) {
+		$( '<input>' ).attr( {
+			type:  'hidden',
+			id:    'resource',
+			name:  'resource',
 			value: er_single_resource_params.resource_id
-        }).appendTo('.entry-summary form');
-    } else {
-        resource_select.val( er_single_resource_params.resource_id );
+		} ).appendTo( '.entry-summary form' );
+	} else {
+		resource_select.val( er_single_resource_params.resource_id );
 	}
 } );

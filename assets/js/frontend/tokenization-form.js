@@ -5,21 +5,21 @@ jQuery( function( $ ) {
 	 * ERTokenizationForm class.
 	 */
 	var TokenizationForm = function( $target ) {
-		this.$target   = $target;
+		this.$target = $target;
 		this.$formWrap = $target.closest( '.payment_box' );
 
 		// Params.
 		this.params = $.extend( {}, {
 			'is_registration_required': false,
-			'is_logged_in'            : false
+			'is_logged_in':             false
 		}, er_tokenization_form_params );
 
 		// Bind functions to this.
-		this.onDisplay             = this.onDisplay.bind( this );
-		this.hideForm              = this.hideForm.bind( this );
-		this.showForm              = this.showForm.bind( this );
-		this.showSaveNewCheckbox   = this.showSaveNewCheckbox.bind( this );
-		this.hideSaveNewCheckbox   = this.hideSaveNewCheckbox.bind( this );
+		this.onDisplay = this.onDisplay.bind( this );
+		this.hideForm = this.hideForm.bind( this );
+		this.showForm = this.showForm.bind( this );
+		this.showSaveNewCheckbox = this.showSaveNewCheckbox.bind( this );
+		this.hideSaveNewCheckbox = this.hideSaveNewCheckbox.bind( this );
 
 		// When a radio button is changed, make sure to show/hide our new CC info area.
 		this.$target.on( 'click change', ':input.easyreservations-SavedPaymentMethods-tokenInput', { tokenizationForm: this }, this.onTokenChange );

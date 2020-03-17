@@ -1,5 +1,5 @@
 /* global jQuery, easyreservations_admin_system_status, erSetClipboard, erClearClipboard */
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 
 	/**
 	 * Users country and state fields
@@ -37,8 +37,8 @@ jQuery( function ( $ ) {
 					report = report + '\n### ' + $.trim( label ) + ' ###\n\n';
 				} else {
 					$( 'tr', $( this ) ).each( function() {
-						var label       = $( this ).find( 'td:eq(0)' ).data( 'export-label' ) || $( this ).find( 'td:eq(0)' ).text();
-						var the_name    = $.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
+						var label = $( this ).find( 'td:eq(0)' ).data( 'export-label' ) || $( this ).find( 'td:eq(0)' ).text();
+						var the_name = $.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
 
 						// Find value
 						var $value_html = $( this ).find( 'td:eq(2)' ).clone();
@@ -47,24 +47,24 @@ jQuery( function ( $ ) {
 						$value_html.find( '.dashicons-no-alt, .dashicons-warning' ).replaceWith( '&#10060;' );
 
 						// Format value
-						var the_value   = $.trim( $value_html.text() );
+						var the_value = $.trim( $value_html.text() );
 						var value_array = the_value.split( ', ' );
 
 						if ( value_array.length > 1 ) {
 							// If value have a list of plugins ','.
 							// Split to add new line.
-							var temp_line ='';
+							var temp_line = '';
 							$.each( value_array, function( key, line ) {
 								temp_line = temp_line + line + '\n';
-							});
+							} );
 
 							the_value = temp_line;
 						}
 
 						report = report + '' + the_name + ': ' + the_value + '\n';
-					});
+					} );
 				}
-			});
+			} );
 
 			try {
 				$( '#debug-report' ).slideDown();
@@ -94,13 +94,13 @@ jQuery( function ( $ ) {
 		 * Display a "Copied!" tip when success copying
 		 */
 		copySuccess: function() {
-			$( '#copy-for-support' ).tipTip({
+			$( '#copy-for-support' ).tipTip( {
 				'attribute':  'data-tip',
 				'activation': 'focus',
 				'fadeIn':     50,
 				'fadeOut':    50,
 				'delay':      0
-			}).focus();
+			} ).focus();
 		},
 
 		/**
@@ -116,6 +116,6 @@ jQuery( function ( $ ) {
 
 	$( '#log-viewer-select' ).on( 'click', 'h2 a.page-title-action', function( evt ) {
 		evt.stopImmediatePropagation();
-		return window.confirm(easyreservations_admin_system_status.delete_log_confirmation );
-	});
-});
+		return window.confirm( easyreservations_admin_system_status.delete_log_confirmation );
+	} );
+} );

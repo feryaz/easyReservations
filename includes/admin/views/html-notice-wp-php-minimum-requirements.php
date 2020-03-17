@@ -8,9 +8,9 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div id="message" class="updated easyreservations-message">
-	<a class="easyreservations-message-close notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'er-hide-notice', RESERVATIONS_PHP_MIN_REQUIREMENTS_NOTICE ), 'easyreservations_hide_notices_nonce', '_er_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'easyReservations' ); ?></a>
+    <a class="easyreservations-message-close notice-dismiss" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'er-hide-notice', RESERVATIONS_PHP_MIN_REQUIREMENTS_NOTICE ), 'easyreservations_hide_notices_nonce', '_er_notice_nonce' ) ); ?>"><?php esc_html_e( 'Dismiss', 'easyReservations' ); ?></a>
 
-	<p>
+    <p>
 		<?php
 		echo wp_kses_post(
 			sprintf(
@@ -27,5 +27,5 @@ defined( 'ABSPATH' ) || exit;
 			)
 		);
 		?>
-	</p>
+    </p>
 </div>

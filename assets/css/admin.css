@@ -3202,9 +3202,9 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline {
   display: none;
   height: 100%;
+  margin-top: 10px;
   user-select: none;
   align-items: stretch;
-  margin-top: 10px;
 }
 .er-timeline .sidebar {
   overflow: hidden;
@@ -3438,10 +3438,10 @@ table.er_emails .er-email-settings-table-status .tips {
 .er-timeline > .content div.header .left .pending {
   position: relative;
   display: inline-block;
-  cursor: pointer;
   font-size: 20px;
   color: #777;
   vertical-align: middle;
+  cursor: pointer;
 }
 .er-timeline > .content div.header .left .pending span {
   position: absolute;
@@ -3470,17 +3470,17 @@ table.er_emails .er-email-settings-table-status .tips {
 }
 .er-timeline > .content div.header .left .expand-sidebar,
 .er-timeline > .content div.header .left .contract-sidebar {
-  display: inline-flex;
-  vertical-align: middle;
   position: relative;
+  display: inline-flex;
   font-size: 20px;
   color: #777;
+  vertical-align: middle;
   cursor: pointer;
 }
 .er-timeline > .content div.header .left .pending:hover,
 .er-timeline > .content div.header .left .expand-sidebar:hover,
 .er-timeline > .content div.header .left .contract-sidebar:hover {
-  color: #333333;
+  color: #333;
 }
 .er-timeline > .content div.header .left .expand-sidebar::after {
   font-family: "Dashicons";
@@ -3624,9 +3624,9 @@ table.er_emails .er-email-settings-table-status .tips {
   font-size: 12px;
   font-weight: 400;
   line-height: 25px;
+  text-align: left;
   text-decoration: none;
   vertical-align: middle;
-  text-align: left;
   background: #fff;
 }
 .er-timeline > .content .container .resources table tbody tr td {

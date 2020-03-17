@@ -17,7 +17,7 @@ if ( apply_filters( 'easyreservations_checkout_show_terms', true ) && function_e
 	do_action( 'easyreservations_checkout_before_terms_and_conditions' );
 
 	?>
-	<div class="easyreservations-terms-and-conditions-wrapper">
+    <div class="easyreservations-terms-and-conditions-wrapper">
 		<?php
 		/**
 		 * Terms and conditions hook used to inject content.
@@ -29,15 +29,15 @@ if ( apply_filters( 'easyreservations_checkout_show_terms', true ) && function_e
 		?>
 
 		<?php if ( er_terms_and_conditions_checkbox_enabled() ) : ?>
-			<p class="form-row validate-required">
-				<label class="easyreservations-form__label easyreservations-form__label-for-checkbox checkbox">
-				<input type="checkbox" class="easyreservations-form__input easyreservations-form__input-checkbox input-checkbox" name="terms" <?php checked( apply_filters( 'easyreservations_terms_is_checked_default', isset( $_POST['terms'] ) ), true ); // WPCS: input var ok, csrf ok. ?> id="terms" />
-					<span class="easyreservations-terms-and-conditions-checkbox-text"><?php er_terms_and_conditions_checkbox_text(); ?></span>&nbsp;<span class="required">*</span>
-				</label>
-				<input type="hidden" name="terms-field" value="1" />
-			</p>
+            <p class="form-row validate-required">
+                <label class="easyreservations-form__label easyreservations-form__label-for-checkbox checkbox">
+                    <input type="checkbox" class="easyreservations-form__input easyreservations-form__input-checkbox input-checkbox" name="terms" <?php checked( apply_filters( 'easyreservations_terms_is_checked_default', isset( $_POST['terms'] ) ), true ); // WPCS: input var ok, csrf ok. ?> id="terms"/>
+                    <span class="easyreservations-terms-and-conditions-checkbox-text"><?php er_terms_and_conditions_checkbox_text(); ?></span>&nbsp;<span class="required">*</span>
+                </label>
+                <input type="hidden" name="terms-field" value="1"/>
+            </p>
 		<?php endif; ?>
-	</div>
+    </div>
 	<?php
 
 	do_action( 'easyreservations_checkout_after_terms_and_conditions' );

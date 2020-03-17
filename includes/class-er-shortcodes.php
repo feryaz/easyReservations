@@ -17,15 +17,15 @@ class ER_Shortcodes {
 	 */
 	public static function init() {
 		$shortcodes = array(
-            'resource'        => __CLASS__ . '::resource',
-            'resource_page'   => __CLASS__ . '::resource_page',
-            'resources'       => __CLASS__ . '::resources',
-            'easy_messages'   => __CLASS__ . '::messages',
-            'easy_cart'       => __CLASS__ . '::cart',
-            'easy_checkout'   => __CLASS__ . '::checkout',
-            'easy_form'       => __CLASS__ . '::form',
-            'easy_my_account' => __CLASS__ . '::my_account',
-        );
+			'resource'        => __CLASS__ . '::resource',
+			'resource_page'   => __CLASS__ . '::resource_page',
+			'resources'       => __CLASS__ . '::resources',
+			'easy_messages'   => __CLASS__ . '::messages',
+			'easy_cart'       => __CLASS__ . '::cart',
+			'easy_checkout'   => __CLASS__ . '::checkout',
+			'easy_form'       => __CLASS__ . '::form',
+			'easy_my_account' => __CLASS__ . '::my_account',
+		);
 
 		foreach ( $shortcodes as $shortcode => $function ) {
 			add_shortcode( apply_filters( "{$shortcode}_shortcode_tag", $shortcode ), $function );
@@ -36,8 +36,8 @@ class ER_Shortcodes {
 	 * Shortcode Wrapper.
 	 *
 	 * @param callable $function Callback function.
-	 * @param array    $atts     Attributes. Default to empty array.
-	 * @param array    $wrapper  Customer wrapper data.
+	 * @param array    $atts Attributes. Default to empty array.
+	 * @param array    $wrapper Customer wrapper data.
 	 *
 	 * @return string
 	 */
@@ -56,6 +56,7 @@ class ER_Shortcodes {
 		echo empty( $wrapper['before'] ) ? '<div class="' . esc_attr( $wrapper['class'] ) . '">' : $wrapper['before'];
 		call_user_func( $function, $atts );
 		echo empty( $wrapper['after'] ) ? '</div>' : $wrapper['after'];
+
 		// @codingStandardsIgnoreEnd
 
 		return ob_get_clean();
@@ -74,6 +75,7 @@ class ER_Shortcodes {
 	 * Checkout page shortcode.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function checkout( $atts ) {
@@ -84,6 +86,7 @@ class ER_Shortcodes {
 	 * Form page shortcode.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function form( $atts ) {
@@ -94,6 +97,7 @@ class ER_Shortcodes {
 	 * My account page shortcode.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function my_account( $atts ) {
@@ -104,6 +108,7 @@ class ER_Shortcodes {
 	 * List multiple resources shortcode.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function resources( $atts ) {
@@ -118,6 +123,7 @@ class ER_Shortcodes {
 	 * Display a single resource.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function resource( $atts ) {
@@ -136,6 +142,7 @@ class ER_Shortcodes {
 	 * Show a single resource page.
 	 *
 	 * @param array $atts Attributes.
+	 *
 	 * @return string
 	 */
 	public static function resource_page( $atts ) {
@@ -167,7 +174,7 @@ class ER_Shortcodes {
 		// Change form action to avoid redirect.
 		add_filter( 'easyreservations_add_to_cart_form_action', '__return_empty_string' );
 
-        $single_resource = new WP_Query( $args );
+		$single_resource = new WP_Query( $args );
 
 		$preselected_id = '0';
 
@@ -181,22 +188,21 @@ class ER_Shortcodes {
 		// Backup query object so following loops think this is a resource page.
 		$previous_wp_query = $wp_query;
 		// @codingStandardsIgnoreStart
-		$wp_query          = $single_resource;
+		$wp_query = $single_resource;
 		// @codingStandardsIgnoreEnd
 
-        while ( $single_resource->have_posts() ) {
+		while ( $single_resource->have_posts() ) {
 
-            $single_resource->the_post();
+			$single_resource->the_post();
 
 			?>
-			<div class="single-resource" data-resource-page-preselected-id="<?php echo esc_attr( $preselected_id ); ?>">
+            <div class="single-resource" data-resource-page-preselected-id="<?php echo esc_attr( $preselected_id ); ?>">
 				<?php er_get_template_part( 'content', 'single-resource' ); ?>
-			</div>
+            </div>
 			<?php
+		}
 
-        }
-
-        // Restore $previous_wp_query and reset post data.
+		// Restore $previous_wp_query and reset post data.
 		// @codingStandardsIgnoreStart
 		$wp_query = $previous_wp_query;
 		// @codingStandardsIgnoreEnd

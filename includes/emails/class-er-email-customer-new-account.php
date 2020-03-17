@@ -92,9 +92,9 @@ if ( ! class_exists( 'ER_Email_Customer_New_Account', false ) ) :
 		 */
 		public function trigger( $user_id, $user_pass = '', $password_generated = false ) {
 			if ( $user_id ) {
-                $this->setup_locale( get_user_locale( $user_id ) );
+				$this->setup_locale( get_user_locale( $user_id ) );
 
-                $this->object = new WP_User( $user_id );
+				$this->object = new WP_User( $user_id );
 
 				$this->user_pass          = $user_pass;
 				$this->user_login         = stripslashes( $this->object->user_login );
@@ -102,8 +102,8 @@ if ( ! class_exists( 'ER_Email_Customer_New_Account', false ) ) :
 				$this->recipient          = $this->user_email;
 				$this->password_generated = $password_generated;
 			} else {
-                $this->setup_locale();
-            }
+				$this->setup_locale();
+			}
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
 				$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );

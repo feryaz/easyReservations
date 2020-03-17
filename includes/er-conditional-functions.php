@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function is_easyreservations() {
-    return apply_filters( 'is_easyreservations', is_easyreservations_shop() || is_easyreservations_resource() );
+	return apply_filters( 'is_easyreservations', is_easyreservations_shop() || is_easyreservations_resource() );
 }
 
 /**
@@ -16,27 +16,29 @@ function is_easyreservations() {
  * @return bool
  */
 function is_easyreservations_shop() {
-    return ( is_post_type_archive( 'easy-rooms' ) || is_page( er_get_page_id( 'shop' ) ) );
+	return ( is_post_type_archive( 'easy-rooms' ) || is_page( er_get_page_id( 'shop' ) ) );
 }
 
 /**
  * is_easyreservations_resource_category - Returns true when viewing a resource category.
  *
- * @param  string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+ * @param string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+ *
  * @return bool
  */
 function is_easyreservations_resource_category( $term = '' ) {
-    return is_tax( 'easy_resource_cat', $term );
+	return is_tax( 'easy_resource_cat', $term );
 }
 
 /**
  * is_easyreservations_resource_tag - Returns true when viewing a resource tag.
  *
- * @param  string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+ * @param string $term (default: '') The term slug your checking for. Leave blank to return true on any.
+ *
  * @return bool
  */
 function is_easyreservations_resource_tag( $term = '' ) {
-    return is_tax( 'easy_resource_tag', $term );
+	return is_tax( 'easy_resource_tag', $term );
 }
 
 /**
@@ -45,7 +47,7 @@ function is_easyreservations_resource_tag( $term = '' ) {
  * @return bool
  */
 function is_easyreservations_resource() {
-    return is_singular( array( 'easy-rooms' ) );
+	return is_singular( array( 'easy-rooms' ) );
 }
 
 /**
@@ -54,7 +56,7 @@ function is_easyreservations_resource() {
  * @return bool
  */
 function is_easyreservations_ajax() {
-    return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : defined( 'DOING_AJAX' );
+	return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : defined( 'DOING_AJAX' );
 }
 
 /**
@@ -63,11 +65,11 @@ function is_easyreservations_ajax() {
  * @return bool
  */
 function is_easyreservations_order_received_page() {
-    global $wp;
+	global $wp;
 
-    $page_id = er_get_page_id( 'checkout' );
+	$page_id = er_get_page_id( 'checkout' );
 
-    return apply_filters( 'easyreservations_is_order_received_page', ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['order-received'] ) ) );
+	return apply_filters( 'easyreservations_is_order_received_page', ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['order-received'] ) ) );
 }
 
 /**
@@ -76,11 +78,11 @@ function is_easyreservations_order_received_page() {
  * @return bool
  */
 function is_easyreservations_add_payment_method_page() {
-    global $wp;
+	global $wp;
 
-    $page_id = er_get_page_id( 'myaccount' );
+	$page_id = er_get_page_id( 'myaccount' );
 
-    return ( $page_id && is_page( $page_id ) && ( isset( $wp->query_vars['payment-methods'] ) || isset( $wp->query_vars['add-payment-method'] ) ) );
+	return ( $page_id && is_page( $page_id ) && ( isset( $wp->query_vars['payment-methods'] ) || isset( $wp->query_vars['add-payment-method'] ) ) );
 }
 
 /**
@@ -89,9 +91,9 @@ function is_easyreservations_add_payment_method_page() {
  * @return bool
  */
 function is_easyreservations_cart() {
-    $page_id = er_get_page_id( 'cart' );
+	$page_id = er_get_page_id( 'cart' );
 
-    return ( $page_id && is_page( $page_id ) ) || defined( 'EASYRESERVATIONS_CART' ) || er_post_content_has_shortcode( 'easy_cart' );
+	return ( $page_id && is_page( $page_id ) ) || defined( 'EASYRESERVATIONS_CART' ) || er_post_content_has_shortcode( 'easy_cart' );
 }
 
 /**
@@ -100,9 +102,9 @@ function is_easyreservations_cart() {
  * @return bool
  */
 function is_easyreservations_checkout() {
-    $page_id = er_get_page_id( 'checkout' );
+	$page_id = er_get_page_id( 'checkout' );
 
-    return ( $page_id && is_page( $page_id ) ) || er_post_content_has_shortcode( 'easy_checkout' ) || apply_filters( 'easyreservations_is_checkout', false ) || defined( 'RESERVATIONS_CHECKOUT' );
+	return ( $page_id && is_page( $page_id ) ) || er_post_content_has_shortcode( 'easy_checkout' ) || apply_filters( 'easyreservations_is_checkout', false ) || defined( 'RESERVATIONS_CHECKOUT' );
 }
 
 /**
@@ -111,9 +113,9 @@ function is_easyreservations_checkout() {
  * @return bool
  */
 function is_easyreservations_account_page() {
-    $page_id = er_get_page_id( 'myaccount' );
+	$page_id = er_get_page_id( 'myaccount' );
 
-    return ( $page_id && is_page( $page_id ) ) || er_post_content_has_shortcode( 'easy_my_account' ) || apply_filters( 'easyreservations_is_account_page', false );
+	return ( $page_id && is_page( $page_id ) ) || er_post_content_has_shortcode( 'easy_my_account' ) || apply_filters( 'easyreservations_is_account_page', false );
 }
 
 /**
@@ -122,61 +124,63 @@ function is_easyreservations_account_page() {
  * @return bool
  */
 function is_easyreservations_checkout_pay_page() {
-    global $wp;
+	global $wp;
 
-    return is_easyreservations_checkout() && !empty( $wp->query_vars['order-payment'] );
+	return is_easyreservations_checkout() && ! empty( $wp->query_vars['order-payment'] );
 }
 
 /**
  * Is_er_endpoint_url - Check if an endpoint is showing.
  *
  * @param string|false $endpoint Whether endpoint.
+ *
  * @return bool
  */
 function is_er_endpoint_url( $endpoint = false ) {
-    global $wp;
+	global $wp;
 
-    $er_endpoints = ER()->query->get_query_vars();
+	$er_endpoints = ER()->query->get_query_vars();
 
-    if ( false !== $endpoint ) {
-        if ( !isset( $er_endpoints[$endpoint] ) ) {
-            return false;
-        } else {
-            $endpoint_var = $er_endpoints[$endpoint];
-        }
+	if ( false !== $endpoint ) {
+		if ( ! isset( $er_endpoints[ $endpoint ] ) ) {
+			return false;
+		} else {
+			$endpoint_var = $er_endpoints[ $endpoint ];
+		}
 
-        return isset( $wp->query_vars[$endpoint_var] );
-    } else {
-        foreach ( $er_endpoints as $key => $value ) {
-            if ( isset( $wp->query_vars[$key] ) ) {
-                return true;
-            }
-        }
+		return isset( $wp->query_vars[ $endpoint_var ] );
+	} else {
+		foreach ( $er_endpoints as $key => $value ) {
+			if ( isset( $wp->query_vars[ $key ] ) ) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
 
 /**
  * Simple check for validating a URL, it must start with http:// or https://.
  * and pass FILTER_VALIDATE_URL validation.
  *
- * @param  string $url to check.
+ * @param string $url to check.
+ *
  * @return bool
  */
 function er_is_valid_url( $url ) {
 
-    // Must start with http:// or https://.
-    if ( 0 !== strpos( $url, 'http://' ) && 0 !== strpos( $url, 'https://' ) ) {
-        return false;
-    }
+	// Must start with http:// or https://.
+	if ( 0 !== strpos( $url, 'http://' ) && 0 !== strpos( $url, 'https://' ) ) {
+		return false;
+	}
 
-    // Must pass validation.
-    if ( !filter_var( $url, FILTER_VALIDATE_URL ) ) {
-        return false;
-    }
+	// Must pass validation.
+	if ( ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 /**
@@ -185,7 +189,7 @@ function er_is_valid_url( $url ) {
  * @return bool
  */
 function er_site_is_https() {
-    return false !== strstr( get_option( 'home' ), 'https:' );
+	return false !== strstr( get_option( 'home' ), 'https:' );
 }
 
 /**
@@ -194,17 +198,18 @@ function er_site_is_https() {
  * @return bool
  */
 function er_checkout_is_https() {
-    return er_site_is_https() || 'yes' === get_option( 'reservations_force_ssl_checkout' ) || class_exists( 'WordPressHTTPS' ) || strstr( er_get_page_permalink( 'checkout' ), 'https:' );
+	return er_site_is_https() || 'yes' === get_option( 'reservations_force_ssl_checkout' ) || class_exists( 'WordPressHTTPS' ) || strstr( er_get_page_permalink( 'checkout' ), 'https:' );
 }
 
 /**
  * Checks whether the content passed contains a specific short code.
  *
- * @param  string $tag Shortcode tag to check.
+ * @param string $tag Shortcode tag to check.
+ *
  * @return bool
  */
 function er_post_content_has_shortcode( $tag = '' ) {
-    global $post;
+	global $post;
 
-    return is_singular() && is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, $tag );
+	return is_singular() && is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, $tag );
 }

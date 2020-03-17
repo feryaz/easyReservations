@@ -47,6 +47,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 		 * Get email subject.
 		 *
 		 * @param bool $paid Whether the order has been paid or not.
+		 *
 		 * @return string
 		 */
 		public function get_default_subject( $paid = false ) {
@@ -61,6 +62,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 		 * Get email heading.
 		 *
 		 * @param bool $paid Whether the order has been paid or not.
+		 *
 		 * @return string
 		 */
 		public function get_default_heading( $paid = false ) {
@@ -84,6 +86,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 			}
 
 			$subject = $this->get_option( 'subject', $this->get_default_subject() );
+
 			return apply_filters( 'easyreservations_email_subject_customer_invoice', $this->format_string( $subject ), $this->object, $this );
 		}
 
@@ -95,10 +98,12 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 		public function get_heading() {
 			if ( $this->object->has_status( er_get_is_paid_statuses() ) ) {
 				$heading = $this->get_option( 'heading_paid', $this->get_default_heading( true ) );
+
 				return apply_filters( 'easyreservations_email_heading_customer_invoice_paid', $this->format_string( $heading ), $this->object, $this );
 			}
 
 			$heading = $this->get_option( 'heading', $this->get_default_heading() );
+
 			return apply_filters( 'easyreservations_email_heading_customer_invoice', $this->format_string( $heading ), $this->object, $this );
 		}
 
@@ -122,9 +127,9 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 				$order = er_get_order( $order_id );
 			}
 
-            $this->setup_locale( $order->get_locale() );
+			$this->setup_locale( $order->get_locale() );
 
-            if ( is_a( $order, 'ER_Order' ) ) {
+			if ( is_a( $order, 'ER_Order' ) ) {
 				$this->object                         = $order;
 				$this->recipient                      = $this->object->get_email();
 				$this->placeholders['{order_date}']   = er_format_datetime( $this->object->get_date_created() );
@@ -183,7 +188,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 			/* translators: %s: list of placeholders */
 			$placeholder_text  = sprintf( __( 'Available placeholders: %s', 'easyReservations' ), '<code>' . esc_html( implode( '</code>, <code>', array_keys( $this->placeholders ) ) ) . '</code>' );
 			$this->form_fields = array(
-				'subject'      => array(
+				'subject'            => array(
 					'title'       => __( 'Subject', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -191,7 +196,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 					'placeholder' => $this->get_default_subject(),
 					'default'     => '',
 				),
-				'heading'      => array(
+				'heading'            => array(
 					'title'       => __( 'Email heading', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -199,7 +204,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 					'placeholder' => $this->get_default_heading(),
 					'default'     => '',
 				),
-				'subject_paid' => array(
+				'subject_paid'       => array(
 					'title'       => __( 'Subject (paid)', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -207,7 +212,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 					'placeholder' => $this->get_default_subject( true ),
 					'default'     => '',
 				),
-				'heading_paid' => array(
+				'heading_paid'       => array(
 					'title'       => __( 'Email heading (paid)', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -224,7 +229,7 @@ if ( ! class_exists( 'ER_Email_Customer_Invoice', false ) ) :
 					'default'     => $this->get_default_additional_content(),
 					'desc_tip'    => true,
 				),
-				'email_type'   => array(
+				'email_type'         => array(
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),

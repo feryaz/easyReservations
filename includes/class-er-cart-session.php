@@ -24,8 +24,9 @@ final class ER_Cart_Session {
 	/**
 	 * Sets up the items provided, and calculate totals.
 	 *
-	 * @throws Exception If missing ER_Cart object.
 	 * @param ER_Cart $cart Cart object to calculate totals for.
+	 *
+	 * @throws Exception If missing ER_Cart object.
 	 */
 	public function __construct( &$cart ) {
 		if ( ! is_a( $cart, 'ER_Cart' ) ) {
@@ -61,63 +62,62 @@ final class ER_Cart_Session {
 	public function get_cart_from_session() {
 		do_action( 'easyreservations_load_cart_from_session' );
 
-        $this->cart->set_totals( ER()->session->get( 'cart_totals', null ) );
-        $this->cart->set_applied_coupons( ER()->session->get( 'applied_coupons', array() ) );
-        $this->cart->set_removed_cart_contents( ER()->session->get( 'removed_cart_contents', array() ) );
+		$this->cart->set_totals( ER()->session->get( 'cart_totals', null ) );
+		$this->cart->set_applied_coupons( ER()->session->get( 'applied_coupons', array() ) );
+		$this->cart->set_removed_cart_contents( ER()->session->get( 'removed_cart_contents', array() ) );
 
-        $update_cart_session = false;
-        $cart                = ER()->session->get( 'cart', null );
+		$update_cart_session = false;
+		$cart                = ER()->session->get( 'cart', null );
 
-        $merge_saved_cart    = (bool) get_user_meta( get_current_user_id(), '_easyreservations_load_saved_cart_after_login', true );
-        if ( is_null( $cart ) || $merge_saved_cart ) {
-            $saved_cart          = $this->get_saved_cart();
-            $cart                = is_null( $cart ) ? array() : $cart;
-            $cart                = array_merge( $saved_cart, $cart );
-            $update_cart_session = true;
+		$merge_saved_cart = (bool) get_user_meta( get_current_user_id(), '_easyreservations_load_saved_cart_after_login', true );
+		if ( is_null( $cart ) || $merge_saved_cart ) {
+			$saved_cart          = $this->get_saved_cart();
+			$cart                = is_null( $cart ) ? array() : $cart;
+			$cart                = array_merge( $saved_cart, $cart );
+			$update_cart_session = true;
 
-            delete_user_meta( get_current_user_id(), '_easyreservations_load_saved_cart_after_login' );
-        }
+			delete_user_meta( get_current_user_id(), '_easyreservations_load_saved_cart_after_login' );
+		}
 
-        $cart_contents = array();
-        $reservation_manager = ER()->reservation_manager();
+		$cart_contents       = array();
+		$reservation_manager = ER()->reservation_manager();
 
-        foreach ( $cart as $key => $values ) {
-            if ( !is_customize_preview() && 'customize-preview' === $key ) {
-                continue;
-            }
+		foreach ( $cart as $key => $values ) {
+			if ( ! is_customize_preview() && 'customize-preview' === $key ) {
+				continue;
+			}
 
-            //Custom fields are not integer and do not get checked at this point
-            if ( !is_integer( $values ) ){
-                $cart_contents[$key] = apply_filters( 'easyreservations_get_cart_item_custom_from_session', $values, $key );
-            } else {
-                $reservation = $reservation_manager->get( absint( $values ) );
+			//Custom fields are not integer and do not get checked at this point
+			if ( ! is_integer( $values ) ) {
+				$cart_contents[ $key ] = apply_filters( 'easyreservations_get_cart_item_custom_from_session', $values, $key );
+			} else {
+				$reservation = $reservation_manager->get( absint( $values ) );
 
-                if ( apply_filters( 'easyreservations_pre_remove_cart_item_from_session', false, $key, $values ) ) {
-                    $update_cart_session = true;
-                    do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
-                } elseif ( !$reservation || empty( $reservation ) ) {
-                    $update_cart_session = true;
-                    er_add_notice( __( 'A reservation has been removed from your cart due to inactivity. Please reserve again.', 'easyReservations' ), 'notice' );
-                    do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
-                } elseif ( !$reservation->get_resource() || empty( $reservation->get_resource() ) ) {
-                    $update_cart_session = true;
-                    er_add_notice( __( 'A reservation has been removed from your cart because the resource has since been deleted. Please reserve again.', 'easyReservations' ), 'notice' );
-                    do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
-                } else {
-                    $cart_contents[$key] = apply_filters( 'easyreservations_get_cart_item_custom_from_session', $values, $key );
-                }
-            }
+				if ( apply_filters( 'easyreservations_pre_remove_cart_item_from_session', false, $key, $values ) ) {
+					$update_cart_session = true;
+					do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
+				} elseif ( ! $reservation || empty( $reservation ) ) {
+					$update_cart_session = true;
+					er_add_notice( __( 'A reservation has been removed from your cart due to inactivity. Please reserve again.', 'easyReservations' ), 'notice' );
+					do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
+				} elseif ( ! $reservation->get_resource() || empty( $reservation->get_resource() ) ) {
+					$update_cart_session = true;
+					er_add_notice( __( 'A reservation has been removed from your cart because the resource has since been deleted. Please reserve again.', 'easyReservations' ), 'notice' );
+					do_action( 'easyreservations_remove_cart_item_from_session', $key, $values );
+				} else {
+					$cart_contents[ $key ] = apply_filters( 'easyreservations_get_cart_item_custom_from_session', $values, $key );
+				}
+			}
+		}
 
-        }
+		$this->cart->set_cart_contents( $cart_contents );
 
-        $this->cart->set_cart_contents( $cart_contents );
+		do_action( 'easyreservations_cart_loaded_from_session', $this->cart );
 
-        do_action( 'easyreservations_cart_loaded_from_session', $this->cart );
-
-        if ( $update_cart_session || is_null( ER()->session->get( 'cart', null ) ) ) {
-            ER()->session->set( 'cart', $this->get_cart_for_session() );
-            $this->cart->calculate_totals();
-        }
+		if ( $update_cart_session || is_null( ER()->session->get( 'cart', null ) ) ) {
+			ER()->session->set( 'cart', $this->get_cart_for_session() );
+			$this->cart->calculate_totals();
+		}
 	}
 
 	/**
@@ -126,9 +126,9 @@ final class ER_Cart_Session {
 	public function destroy_cart_session() {
 		ER()->session->set( 'cart', null );
 		ER()->session->set( 'cart_totals', null );
-        ER()->session->set( 'applied_coupons', null );
-        ER()->session->set( 'removed_cart_contents', null );
-        ER()->session->set( 'order_awaiting_payment', null );
+		ER()->session->set( 'applied_coupons', null );
+		ER()->session->set( 'removed_cart_contents', null );
+		ER()->session->set( 'order_awaiting_payment', null );
 	}
 
 	/**
@@ -148,10 +148,10 @@ final class ER_Cart_Session {
 	 * Sets the php session data for the cart and coupons.
 	 */
 	public function set_session() {
-        ER()->session->set( 'cart', $this->get_cart_for_session() );
-        ER()->session->set( 'cart_totals', $this->cart->get_totals() );
-        ER()->session->set( 'applied_coupons', $this->cart->get_applied_coupons() );
-        ER()->session->set( 'removed_cart_contents', $this->cart->get_removed_cart_contents() );
+		ER()->session->set( 'cart', $this->get_cart_for_session() );
+		ER()->session->set( 'cart_totals', $this->cart->get_totals() );
+		ER()->session->set( 'applied_coupons', $this->cart->get_applied_coupons() );
+		ER()->session->set( 'removed_cart_contents', $this->cart->get_removed_cart_contents() );
 
 		do_action( 'easyreservations_cart_updated' );
 	}
@@ -162,10 +162,11 @@ final class ER_Cart_Session {
 	 * @return array contents of the cart
 	 */
 	public function get_cart_for_session() {
-	    $array = array();
-	    foreach( $this->cart->get_cart() as $key => $cart_content){
-            $array[$key] = $cart_content;
-        }
+		$array = array();
+		foreach ( $this->cart->get_cart() as $key => $cart_content ) {
+			$array[ $key ] = $cart_content;
+		}
+
 		return $array;
 	}
 
@@ -207,7 +208,7 @@ final class ER_Cart_Session {
 
 			foreach ( $setcookies as $name => $value ) {
 				if ( ! isset( $_COOKIE[ $name ] ) || $_COOKIE[ $name ] !== $value ) {
-                    er_set_cookie( $name, $value );
+					er_set_cookie( $name, $value );
 				}
 			}
 		} else {
@@ -218,7 +219,7 @@ final class ER_Cart_Session {
 
 			foreach ( $unsetcookies as $name ) {
 				if ( isset( $_COOKIE[ $name ] ) ) {
-                    er_set_cookie( $name, 0, time() - HOUR_IN_SECONDS );
+					er_set_cookie( $name, 0, time() - HOUR_IN_SECONDS );
 					unset( $_COOKIE[ $name ] );
 				}
 			}

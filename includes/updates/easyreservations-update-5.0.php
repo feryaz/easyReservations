@@ -1,6 +1,6 @@
 <?php
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 global $wpdb;
@@ -30,112 +30,112 @@ $new_custom_fields = array();
 
 $reservations = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}reservations" );
 foreach ( $reservations as $reservation ) {
-    $customs = maybe_unserialize( $reservation->custom );
-    if ( !empty( $customs ) ) {
-        foreach ( $customs as $custom ) {
-            $type = 'custom';
-            if ( $custom["type"] == 'cstm' ) {
-                if ( !isset( $custom['id'] ) ) {
-                    if ( !isset( $new_custom_fields[$custom['title']] ) ) {
-                        if ( isset( $custom_fields['id'] ) ) {
-                            $custom_fields['id'] = $custom_fields['id'] + 1;
-                        } else {
-                            $custom_fields['id'] = 1;
-                        }
+	$customs = maybe_unserialize( $reservation->custom );
+	if ( ! empty( $customs ) ) {
+		foreach ( $customs as $custom ) {
+			$type = 'custom';
+			if ( $custom["type"] == 'cstm' ) {
+				if ( ! isset( $custom['id'] ) ) {
+					if ( ! isset( $new_custom_fields[ $custom['title'] ] ) ) {
+						if ( isset( $custom_fields['id'] ) ) {
+							$custom_fields['id'] = $custom_fields['id'] + 1;
+						} else {
+							$custom_fields['id'] = 1;
+						}
 
-                        $custom_fields['fields'][$custom_fields['id']] = array(
-                            'title'  => $custom['title'],
-                            'type'   => 'text',
-                            'value'  => '',
-                            'unused' => ''
-                        );
-                        $new_custom_fields[$custom['title']]           = $custom_fields['id'];
-                        $custom['id']                                  = $custom_fields['id'];
-                    } else {
-                        $custom['id'] = $new_custom_fields[$custom['title']];
-                    }
-                    unset( $custom['title'] );
-                }
-                unset( $custom['mode'] );
-            } else {
-                $type = $custom['type'];
-            }
-            unset( $custom['type'] );
+						$custom_fields['fields'][ $custom_fields['id'] ] = array(
+							'title'  => $custom['title'],
+							'type'   => 'text',
+							'value'  => '',
+							'unused' => ''
+						);
+						$new_custom_fields[ $custom['title'] ]           = $custom_fields['id'];
+						$custom['id']                                    = $custom_fields['id'];
+					} else {
+						$custom['id'] = $new_custom_fields[ $custom['title'] ];
+					}
+					unset( $custom['title'] );
+				}
+				unset( $custom['mode'] );
+			} else {
+				$type = $custom['type'];
+			}
+			unset( $custom['type'] );
 
-            add_reservation_meta( $reservation->id, $type, $custom );
-        }
-        $wpdb->query( "UPDATE {$wpdb->prefix}reservations SET custom='' WHERE id='$reservation->id' " );
-    }
+			add_reservation_meta( $reservation->id, $type, $custom );
+		}
+		$wpdb->query( "UPDATE {$wpdb->prefix}reservations SET custom='' WHERE id='$reservation->id' " );
+	}
 
-    $customs = maybe_unserialize( $reservation->customp );
+	$customs = maybe_unserialize( $reservation->customp );
 
-    if ( !empty( $customs ) ) {
-        foreach ( $customs as $custom ) {
-            $type = 'custom';
-            if ( $custom["type"] == 'cstm' ) {
-                if ( !isset( $custom['id'] ) ) {
-                    if ( !isset( $new_custom_fields[$custom['title']] ) ) {
-                        if ( isset( $custom_fields['id'] ) ) {
-                            $custom_fields['id'] = $custom_fields['id'] + 1;
-                        } else {
-                            $custom_fields['id'] = 1;
-                        }
+	if ( ! empty( $customs ) ) {
+		foreach ( $customs as $custom ) {
+			$type = 'custom';
+			if ( $custom["type"] == 'cstm' ) {
+				if ( ! isset( $custom['id'] ) ) {
+					if ( ! isset( $new_custom_fields[ $custom['title'] ] ) ) {
+						if ( isset( $custom_fields['id'] ) ) {
+							$custom_fields['id'] = $custom_fields['id'] + 1;
+						} else {
+							$custom_fields['id'] = 1;
+						}
 
-                        $uid = uniqid();
+						$uid = uniqid();
 
-                        $custom_fields['fields'][$custom_fields['id']] = array(
-                            'title'   => $custom['title'],
-                            'type'    => 'select',
-                            'value'   => '',
-                            'unused'  => '',
-                            'price'   => 1,
-                            'options' =>
-                                array(
-                                    $uid =>
-                                        array(
-                                            'value' => $custom['value'],
-                                            'price' => $custom['amount']
-                                        )
-                                )
-                        );
-                        $custom['value']                               = $uid;
-                        $new_custom_fields[$custom['title']]           = $custom_fields['id'];
-                        $custom['id']                                  = $custom_fields['id'];
-                    } else {
-                        $uid = uniqid();
+						$custom_fields['fields'][ $custom_fields['id'] ] = array(
+							'title'   => $custom['title'],
+							'type'    => 'select',
+							'value'   => '',
+							'unused'  => '',
+							'price'   => 1,
+							'options' =>
+								array(
+									$uid =>
+										array(
+											'value' => $custom['value'],
+											'price' => $custom['amount']
+										)
+								)
+						);
+						$custom['value']                                 = $uid;
+						$new_custom_fields[ $custom['title'] ]           = $custom_fields['id'];
+						$custom['id']                                    = $custom_fields['id'];
+					} else {
+						$uid = uniqid();
 
-                        $custom_fields['fields'][$new_custom_fields[$custom['title']]]['options'][$uid] = array(
-                            'value' => $custom['value'],
-                            'price' => $custom['amount'],
-                        );
+						$custom_fields['fields'][ $new_custom_fields[ $custom['title'] ] ]['options'][ $uid ] = array(
+							'value' => $custom['value'],
+							'price' => $custom['amount'],
+						);
 
-                        $custom['value'] = $uid;
-                        $custom['id']    = $new_custom_fields[$custom['title']];
-                    }
-                    unset( $custom['title'] );
-                    unset( $custom['amount'] );
-                }
-                unset( $custom['mode'] );
-            } else {
-                $type = $custom['type'];
-            }
-            unset( $custom['type'] );
+						$custom['value'] = $uid;
+						$custom['id']    = $new_custom_fields[ $custom['title'] ];
+					}
+					unset( $custom['title'] );
+					unset( $custom['amount'] );
+				}
+				unset( $custom['mode'] );
+			} else {
+				$type = $custom['type'];
+			}
+			unset( $custom['type'] );
 
-            add_reservation_meta( $reservation->id, $type, $custom );
-        }
-        $wpdb->query( "UPDATE {$wpdb->prefix}reservations SET customp='' WHERE id='$reservation->id' " );
-    }
+			add_reservation_meta( $reservation->id, $type, $custom );
+		}
+		$wpdb->query( "UPDATE {$wpdb->prefix}reservations SET customp='' WHERE id='$reservation->id' " );
+	}
 
-    $explode = explode( ';', $reservation->price );
-    if ( empty( $explode[0] ) ) {
-        $explode[0] = $reservation->price;
-    }
-    if ( is_numeric( $explode[0] ) && $explode[0] > 0 ) {
-        $wpdb->query( "UPDATE {$wpdb->prefix}reservations SET price_temp='$explode[0]' WHERE id='$reservation->id' " );
-    }
-    if ( isset( $explode[1] ) && !empty( $explode[1] ) && is_numeric( $explode[1] ) && $explode[1] > 0 ) {
-        $wpdb->query( "UPDATE {$wpdb->prefix}reservations SET paid='$explode[1]' WHERE id='$reservation->id' " );
-    }
+	$explode = explode( ';', $reservation->price );
+	if ( empty( $explode[0] ) ) {
+		$explode[0] = $reservation->price;
+	}
+	if ( is_numeric( $explode[0] ) && $explode[0] > 0 ) {
+		$wpdb->query( "UPDATE {$wpdb->prefix}reservations SET price_temp='$explode[0]' WHERE id='$reservation->id' " );
+	}
+	if ( isset( $explode[1] ) && ! empty( $explode[1] ) && is_numeric( $explode[1] ) && $explode[1] > 0 ) {
+		$wpdb->query( "UPDATE {$wpdb->prefix}reservations SET paid='$explode[1]' WHERE id='$reservation->id' " );
+	}
 }
 
 update_option( 'reservations_custom_fields', $custom_fields );
@@ -151,18 +151,18 @@ $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations CHANGE `number` `adults` 
 $wpdb->query( "ALTER TABLE {$wpdb->prefix}reservations CHANGE `childs` `children` int(10) NOT NULL" );
 
 $forms = $wpdb->get_results(
-    $wpdb->prepare(
-        "SELECT option_name FROM {$wpdb->prefix}options WHERE option_name like %s ",
-        $wpdb->esc_like( "reservations_form" ) . '%'
-    )
+	$wpdb->prepare(
+		"SELECT option_name FROM {$wpdb->prefix}options WHERE option_name like %s ",
+		$wpdb->esc_like( "reservations_form" ) . '%'
+	)
 );
 
 foreach ( $forms as $form_option ) {
-    $form = get_option( $form_option->option_name );
-    foreach ( $new_custom_fields as $key => $value ) {
-        $form = preg_replace( '/(custom|customp) .{1,10} ' . $key . '/', 'custom id="' . $value . '"', $form );
-    }
-    if ( !empty( $form ) ) {
-        update_option( $form_option->option_name, $form );
-    }
+	$form = get_option( $form_option->option_name );
+	foreach ( $new_custom_fields as $key => $value ) {
+		$form = preg_replace( '/(custom|customp) .{1,10} ' . $key . '/', 'custom id="' . $value . '"', $form );
+	}
+	if ( ! empty( $form ) ) {
+		update_option( $form_option->option_name, $form );
+	}
 }

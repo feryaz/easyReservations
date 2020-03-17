@@ -19,6 +19,7 @@ interface ER_Abstract_Order_Data_Store_Interface {
 	 *
 	 * @param ER_Order $order Order object.
 	 * @param string   $type Order item type.
+	 *
 	 * @return array
 	 */
 	public function read_items( $order, $type );
@@ -35,6 +36,7 @@ interface ER_Abstract_Order_Data_Store_Interface {
 	 * Get token ids for an order.
 	 *
 	 * @param ER_Order $order Order object.
+	 *
 	 * @return array
 	 */
 	public function get_payment_token_ids( $order );

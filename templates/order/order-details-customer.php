@@ -18,19 +18,19 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <section class="easyreservations-customer-details">
 
-	<h2 class="easyreservations-column__title"><?php esc_html_e( 'Address', 'easyReservations' ); ?></h2>
+    <h2 class="easyreservations-column__title"><?php esc_html_e( 'Address', 'easyReservations' ); ?></h2>
 
-	<address>
+    <address>
 		<?php echo wp_kses_post( $order->get_formatted_address( esc_html__( 'N/A', 'easyReservations' ) ) ); ?>
 
 		<?php if ( $order->get_phone() ) : ?>
-			<p class="easyreservations-customer-details--phone"><?php echo esc_html( $order->get_phone() ); ?></p>
+            <p class="easyreservations-customer-details--phone"><?php echo esc_html( $order->get_phone() ); ?></p>
 		<?php endif; ?>
 
 		<?php if ( $order->get_email() ) : ?>
-			<p class="easyreservations-customer-details--email"><?php echo esc_html( $order->get_email() ); ?></p>
+            <p class="easyreservations-customer-details--email"><?php echo esc_html( $order->get_email() ); ?></p>
 		<?php endif; ?>
-	</address>
+    </address>
 
 	<?php do_action( 'easyreservations_order_details_after_customer_details', $order ); ?>
 

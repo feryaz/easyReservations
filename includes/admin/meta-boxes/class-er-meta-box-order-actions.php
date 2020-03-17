@@ -29,27 +29,28 @@ class ER_Meta_Box_Order_Actions {
 
 		$order_actions = apply_filters(
 			'easyreservations_order_actions', array(
-				'send_order_details'              => __( 'Email invoice / order details to customer', 'easyReservations' ),
-				'send_order_details_admin'        => __( 'Resend new order notification', 'easyReservations' ),
+				'send_order_details'       => __( 'Email invoice / order details to customer', 'easyReservations' ),
+				'send_order_details_admin' => __( 'Resend new order notification', 'easyReservations' ),
 			)
 		);
 		?>
-		<ul class="order_actions submitbox">
+        <ul class="order_actions submitbox">
 
 			<?php do_action( 'easyreservations_order_actions_start', $post->ID ); ?>
 
-			<li class="wide" id="actions">
-				<select name="er_order_action">
-					<option value=""><?php esc_html_e( 'Choose an action...', 'easyReservations' ); ?></option>
+            <li class="wide" id="actions">
+                <select name="er_order_action">
+                    <option value=""><?php esc_html_e( 'Choose an action...', 'easyReservations' ); ?></option>
 					<?php foreach ( $order_actions as $action => $title ) { ?>
-						<option value="<?php echo esc_attr( $action ); ?>"><?php echo esc_html( $title ); ?></option>
+                        <option value="<?php echo esc_attr( $action ); ?>"><?php echo esc_html( $title ); ?></option>
 					<?php } ?>
-				</select>
-				<button class="button er-reload"><span><?php esc_html_e( 'Apply', 'easyReservations' ); ?></span></button>
-			</li>
+                </select>
+                <button class="button er-reload"><span><?php esc_html_e( 'Apply', 'easyReservations' ); ?></span>
+                </button>
+            </li>
 
-			<li class="wide">
-				<div id="delete-action">
+            <li class="wide">
+                <div id="delete-action">
 					<?php
 					if ( current_user_can( 'delete_post', $post->ID ) ) {
 
@@ -59,17 +60,17 @@ class ER_Meta_Box_Order_Actions {
 							$delete_text = __( 'Move to Trash', 'easyReservations' );
 						}
 						?>
-						<a class="submitdelete deletion" href="<?php echo esc_url( get_delete_post_link( $post->ID ) ); ?>"><?php echo esc_html( $delete_text ); ?></a>
+                        <a class="submitdelete deletion" href="<?php echo esc_url( get_delete_post_link( $post->ID ) ); ?>"><?php echo esc_html( $delete_text ); ?></a>
 						<?php
 					}
 					?>
-				</div>
+                </div>
 
-				<button type="submit" class="button save_order button-primary" name="save" value="<?php echo 'auto-draft' === $post->post_status ? esc_attr__( 'Create', 'easyReservations' ) : esc_attr__( 'Update', 'easyReservations' ); ?>"><?php echo 'auto-draft' === $post->post_status ? esc_html__( 'Create', 'easyReservations' ) : esc_html__( 'Update', 'easyReservations' ); ?></button>
-			</li>
+                <button type="submit" class="button save_order button-primary" name="save" value="<?php echo 'auto-draft' === $post->post_status ? esc_attr__( 'Create', 'easyReservations' ) : esc_attr__( 'Update', 'easyReservations' ); ?>"><?php echo 'auto-draft' === $post->post_status ? esc_html__( 'Create', 'easyReservations' ) : esc_html__( 'Update', 'easyReservations' ); ?></button>
+            </li>
 
 			<?php do_action( 'easyreservations_order_actions_end', $post->ID ); ?>
-		</ul>
+        </ul>
 		<?php
 	}
 
@@ -88,7 +89,7 @@ class ER_Meta_Box_Order_Actions {
 
 			$action = er_clean( wp_unslash( $_POST['er_order_action'] ) ); // @codingStandardsIgnoreLine
 
-            if ( 'send_order_details' === $action ) {
+			if ( 'send_order_details' === $action ) {
 				do_action( 'easyreservations_before_resend_order_emails', $order, 'customer_invoice' );
 
 				// Send the customer invoice email.
@@ -102,7 +103,6 @@ class ER_Meta_Box_Order_Actions {
 
 				// Change the post saved message.
 				add_filter( 'redirect_post_location', array( __CLASS__, 'set_email_sent_message' ) );
-
 			} elseif ( 'send_order_details_admin' === $action ) {
 
 				do_action( 'easyreservations_before_resend_order_emails', $order, 'new_order' );
@@ -114,7 +114,6 @@ class ER_Meta_Box_Order_Actions {
 
 				// Change the post saved message.
 				add_filter( 'redirect_post_location', array( __CLASS__, 'set_email_sent_message' ) );
-
 			} else {
 
 				if ( ! did_action( 'easyreservations_order_action_' . sanitize_title( $action ) ) ) {
@@ -128,6 +127,7 @@ class ER_Meta_Box_Order_Actions {
 	 * Set the correct message ID.
 	 *
 	 * @param string $location Location.
+	 *
 	 * @static
 	 * @return string
 	 */

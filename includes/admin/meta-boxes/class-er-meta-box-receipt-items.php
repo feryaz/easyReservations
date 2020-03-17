@@ -20,21 +20,21 @@ class ER_Meta_Box_Receipt_Items {
 	 * @param WP_Post|ER_Reservation $post
 	 */
 	public static function output( $post ) {
-        if( is_a( $post, 'ER_Reservation' ) ){
-            $theorder = $post;
-        } else {
-            global $post, $thepostid, $theorder;
+		if ( is_a( $post, 'ER_Reservation' ) ) {
+			$theorder = $post;
+		} else {
+			global $post, $thepostid, $theorder;
 
-            if ( !is_int( $thepostid ) ) {
-                $thepostid = $post->ID;
-            }
+			if ( ! is_int( $thepostid ) ) {
+				$thepostid = $post->ID;
+			}
 
-            if ( !is_object( $theorder ) ) {
-                $theorder = er_get_order( $thepostid );
-            }
-        }
+			if ( ! is_object( $theorder ) ) {
+				$theorder = er_get_order( $thepostid );
+			}
+		}
 
-        $object = $theorder;
+		$object = $theorder;
 
 		include 'views/html-receipt-items.php';
 	}
@@ -42,19 +42,19 @@ class ER_Meta_Box_Receipt_Items {
 	/**
 	 * Save meta box data.
 	 *
-	 * @param int $object
+	 * @param int  $object
 	 * @param bool $reservation
 	 */
 	public static function save( $object, $reservation = false ) {
-        if ( !wp_verify_nonce( wp_unslash( $_POST['easyreservations_meta_nonce'] ), 'easyreservations_save_data' ) ) {
-            wp_die();
-        }
+		if ( ! wp_verify_nonce( wp_unslash( $_POST['easyreservations_meta_nonce'] ), 'easyreservations_save_data' ) ) {
+			wp_die();
+		}
 
-        if ( $reservation === true ) {
-            $object = er_get_reservation( absint( $object ) );
-        } else {
-            $object = er_get_order( absint( $object ) );
-        }
+		if ( $reservation === true ) {
+			$object = er_get_reservation( absint( $object ) );
+		} else {
+			$object = er_get_order( absint( $object ) );
+		}
 
 		/**
 		 * This $_POST variable's data has been validated and escaped

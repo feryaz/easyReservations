@@ -90,9 +90,9 @@ if ( ! class_exists( 'ER_Email_Customer_Note', false ) ) :
 					$this->object = er_get_order( $order_id );
 
 					if ( $this->object ) {
-                        $this->setup_locale( $this->object->get_locale() );
+						$this->setup_locale( $this->object->get_locale() );
 
-                        $this->recipient                      = $this->object->get_email();
+						$this->recipient                      = $this->object->get_email();
 						$this->customer_note                  = $customer_note;
 						$this->placeholders['{order_date}']   = er_format_datetime( $this->object->get_date_created() );
 						$this->placeholders['{order_number}'] = $this->object->get_order_number();
@@ -100,9 +100,9 @@ if ( ! class_exists( 'ER_Email_Customer_Note', false ) ) :
 				}
 			}
 
-			if( !$this->object ){
-                $this->setup_locale();
-            }
+			if ( ! $this->object ) {
+				$this->setup_locale();
+			}
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
 				$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );

@@ -20,20 +20,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 foreach ( $items as $item_id => $item ) :
 	if ( apply_filters( 'easyreservations_order_item_visible', true, $item ) ) {
-        $reservation   = false;
-        $resource      = false;
-        $sku           = '';
-        $purchase_note = '';
+		$reservation   = false;
+		$resource      = false;
+		$sku           = '';
+		$purchase_note = '';
 
-        if ( method_exists( $item, 'get_resource_id' ) ) {
-            $resource = $item->get_resource();
-        }
+		if ( method_exists( $item, 'get_resource_id' ) ) {
+			$resource = $item->get_resource();
+		}
 
-        if ( method_exists( $item, 'get_reservation_id' ) ) {
-            $reservation = $item->get_reservation();
-        }
+		if ( method_exists( $item, 'get_reservation_id' ) ) {
+			$reservation = $item->get_reservation();
+		}
 
-        if ( is_object( $resource ) ) {
+		if ( is_object( $resource ) ) {
 			$sku           = $resource->get_sku();
 			$purchase_note = $resource->get_purchase_note();
 		}
@@ -44,10 +44,10 @@ foreach ( $items as $item_id => $item ) :
 		}
 		echo ' = ' . $order->get_formatted_item_subtotal( $item ) . "\n";
 
-        // allow other plugins to add additional resource information here
-        do_action( 'easyreservations_order_item_meta_start', $item_id, $item, $order, $plain_text );
+		// allow other plugins to add additional resource information here
+		do_action( 'easyreservations_order_item_meta_start', $item_id, $item, $order, $plain_text );
 
-        echo strip_tags( er_display_meta( $item->get_formatted_meta_data(), array(
+		echo strip_tags( er_display_meta( $item->get_formatted_meta_data(), array(
 			'before'    => "\n- ",
 			'separator' => "\n- ",
 			'after'     => "",

@@ -31,10 +31,10 @@ class ER_Data_Exception extends Exception {
 	/**
 	 * Setup exception.
 	 *
-	 * @param string $code             Machine-readable error code, e.g `easyreservations_invalid_resource_id`.
-	 * @param string $message          User-friendly translated error message, e.g. 'Resource ID is invalid'.
+	 * @param string $code Machine-readable error code, e.g `easyreservations_invalid_resource_id`.
+	 * @param string $message User-friendly translated error message, e.g. 'Resource ID is invalid'.
 	 * @param int    $http_status_code Proper HTTP status code to respond with, e.g. 400.
-	 * @param array  $data             Extra error data.
+	 * @param array  $data Extra error data.
 	 */
 	public function __construct( $code, $message, $http_status_code = 400, $data = array() ) {
 		$this->error_code = $code;

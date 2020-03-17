@@ -6,8 +6,8 @@
 /**
  * Imports
  */
-@import 'mixins';
-@import 'variables';
+@import "mixins";
+@import "variables";
 
 /**
  * Style begins
@@ -44,9 +44,9 @@
 				}
 
 				&::before {
-					content: attr(data-title) ': ';
-					font-weight: 700;
 					float: left;
+					font-weight: 700;
+					content: attr(data-title) ": ";
 				}
 
 				&.entry-remove,
@@ -98,12 +98,12 @@
 	/**
 	 * Resources
 	 */
-	ul.resources[class*='columns-'] {
+	ul.resources[class*="columns-"] {
 		li.resource {
-			width: 48%;
 			float: left;
-			clear: both;
+			width: 48%;
 			margin: 0 0 2.992em;
+			clear: both;
 
 			&:nth-child( 2n ) {
 				float: right;
@@ -166,8 +166,8 @@
 		.cart_totals,
 		.shipping_calculator,
 		.cross-sells {
-			width: 100%;
 			float: none;
+			width: 100%;
 			text-align: left;
 		}
 	}
@@ -178,16 +178,16 @@
 	&.easyreservations-checkout {
 		form.login {
 			.form-row {
-				width: 100%;
 				float: none;
+				width: 100%;
 			}
 		}
 	}
 
 	#payment {
 		.terms {
-			text-align: left;
 			padding: 0;
+			text-align: left;
 		}
 
 		#place_order {
@@ -204,8 +204,8 @@
 	.lost_reset_password {
 		.form-row-first,
 		.form-row-last {
-			width: 100%;
 			float: none;
+			width: 100%;
 			margin-right: 0;
 		}
 	}

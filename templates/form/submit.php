@@ -15,5 +15,5 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <?php do_action( 'easyreservations_before_add_to_cart_button' ); ?>
-<button type="submit" name="add-to-cart" class="button alt"><?php echo esc_html( $button_text ); ?></button>
+    <button type="submit" name="add-to-cart" class="button alt"><?php echo esc_html( $button_text ); ?></button>
 <?php do_action( 'easyreservations_after_add_to_cart_button' ); ?>

@@ -6,5 +6,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <h1 class="wp-heading-inline">
-	<?php esc_html_e('Resources', 'easyReservations'); ?>
+	<?php esc_html_e( 'Resources', 'easyReservations' ); ?>
 </h1>

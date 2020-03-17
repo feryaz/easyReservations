@@ -1,11 +1,11 @@
-( function ( $ ) {
-	$.fn.serializeObject = function () {
+( function( $ ) {
+	$.fn.serializeObject = function() {
 		var o = {};
-		$.each( this.serializeArray(), function () {
+		$.each( this.serializeArray(), function() {
 			if ( o[ this.name ] ) {
 				if ( this.name.slice( -2 ) === '[]' ) {
 					if ( !o[ this.name ].push ) {
-						o[ this.name ] = [ o[ this.name ] ];
+						o[ this.name ] = [o[ this.name ]];
 					}
 					o[ this.name ].push( this.value || '' );
 				} else {
@@ -20,11 +20,11 @@
 	};
 
 	var er_form = {
-		$form: $( 'form[rel=js-easy-form]' ),
-		init: function () {
+		$form:                      $( 'form[rel=js-easy-form]' ),
+		init:                       function() {
 			$( document.body ).on( 'submit', 'form[rel=js-easy-form]', this.submit );
 
-			$( 'form[rel=js-easy-form] > div > label, .easyreservations-additional-fields > label' ).each( function () {
+			$( 'form[rel=js-easy-form] > div > label, .easyreservations-additional-fields > label' ).each( function() {
 				$( this ).next( 'div.content, div.easy-date-selection' ).andSelf().wrapAll( '<div class="form-row"/>' );
 			} );
 
@@ -36,7 +36,7 @@
 
 			er_form.$form.on( 'input validate change', '.input-text, select, input:checkbox, input:text, textarea', this.validate_field );
 		},
-		ajaxRequest: function ( form, submit ) {
+		ajaxRequest:                function( form, submit ) {
 			if ( form.is( '.processing' ) ) {
 				return false;
 			}
@@ -45,19 +45,19 @@
 
 			if ( submit ) {
 				form.block( {
-					message: null,
+					message:    null,
 					overlayCSS: {
 						background: '#fff',
-						opacity: 0.6
+						opacity:    0.6
 					}
 				} );
 			}
 
 			form.find( '.easy-price' ).block( {
-				message: null,
+				message:    null,
 				overlayCSS: {
 					background: '#fff',
-					opacity: 0.6
+					opacity:    0.6
 				}
 			} );
 
@@ -68,11 +68,11 @@
 				data[ 'submit' ] = 'yes';
 			}
 			$.ajax( {
-				type: 'POST',
-				url: er_both_params.ajaxurl,
-				data: data,
+				type:     'POST',
+				url:      er_both_params.ajaxurl,
+				data:     data,
 				dataType: 'json',
-				success: function ( result ) {
+				success:  function( result ) {
 					er_form.detachUnloadEventsOnSubmit();
 					try {
 						if ( 'success' === result.result ) {
@@ -132,18 +132,18 @@
 						}
 					}
 				},
-				error: function ( jqXHR, textStatus, errorThrown ) {
+				error:    function( jqXHR, textStatus, errorThrown ) {
 					er_form.submit_error( form, '<div class="easyreservations-error">' + errorThrown + '</div>' );
 				}
 			} );
 		},
-		validate_field: function ( e ) {
-			var $this = $( this ),
-				$parent = $this.closest( '.form-row' ),
-				validated = true,
+		validate_field:             function( e ) {
+			var $this             = $( this ),
+				$parent           = $this.closest( '.form-row' ),
+				validated         = true,
 				validate_required = $parent.is( '.validate-required' ),
-				validate_email = $parent.is( '.validate-email' ),
-				event_type = e.type;
+				validate_email    = $parent.is( '.validate-email' ),
+				event_type        = e.type;
 
 			if ( $this.hasClass( 'do-not-validate' ) ) {
 				return;
@@ -188,7 +188,7 @@
 				}
 			}
 		},
-		submit_error: function ( form, error_message ) {
+		submit_error:               function( form, error_message ) {
 			$( '.easyreservations-NoticeGroup-checkout, .easyreservations-error, .easyreservations-message' ).remove();
 			form.prepend( '<div class="easyreservations-NoticeGroup easyreservations-NoticeGroup-checkout">' + error_message + '</div>' );
 			form.removeClass( 'processing' ).unblock();
@@ -197,7 +197,7 @@
 
 			$( document.body ).trigger( 'form_error' );
 		},
-		scroll_to_notices: function () {
+		scroll_to_notices:          function() {
 			var scrollElement = $( '.easyreservations-NoticeGroup-updateOrderReview, .easyreservations-NoticeGroup-checkout' );
 
 			if ( !scrollElement.length ) {
@@ -210,19 +210,19 @@
 				}, 1000 );
 			}
 		},
-		submit: function ( e ) {
+		submit:                     function( e ) {
 			e.preventDefault();
 			if ( er_form.$form.triggerHandler( 'checkout_place_order' ) !== false && er_form.$form.triggerHandler( 'checkout_place_order_' + er_form.get_payment_method() ) !== false ) {
 				er_form.ajaxRequest( $( this ).closest( 'form' ), true );
 			}
 		},
-		get_payment_method: function () {
+		get_payment_method:         function() {
 			return er_form.$form.find( 'input[name="payment_method"]:checked' ).val();
 		},
-		validate: function () {
+		validate:                   function() {
 			er_form.ajaxRequest( $( this ).closest( 'form' ), false );
 		},
-		handleUnloadEvent: function ( e ) {
+		handleUnloadEvent:          function( e ) {
 			// Modern browsers have their own standard generic messages that they will display.
 			// Confirm, alert, prompt or custom message are not allowed during the unload event
 			// Browsers will display their own standard messages
@@ -236,10 +236,10 @@
 
 			return true;
 		},
-		attachUnloadEventsOnSubmit: function () {
+		attachUnloadEventsOnSubmit: function() {
 			$( window ).on( 'beforeunload', this.handleUnloadEvent );
 		},
-		detachUnloadEventsOnSubmit: function () {
+		detachUnloadEventsOnSubmit: function() {
 			$( window ).unbind( 'beforeunload', this.handleUnloadEvent );
 		},
 	};

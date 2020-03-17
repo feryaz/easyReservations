@@ -19,6 +19,7 @@ interface ER_Reservation_Data_Store_Interface {
 	 *
 	 * @param ER_Order $order Order object.
 	 * @param string   $type Order item type.
+	 *
 	 * @return array
 	 */
 	public function read_items( $order, $type );
@@ -31,11 +32,12 @@ interface ER_Reservation_Data_Store_Interface {
 	 */
 	public function delete_items( $order, $type = null );
 
-    /**
-     * Get unpaid orders after a certain date,
-     *
-     * @param int $date timestamp.
-     * @return array
-     */
-    public function get_temporary_reservations( $date );
+	/**
+	 * Get unpaid orders after a certain date,
+	 *
+	 * @param int $date timestamp.
+	 *
+	 * @return array
+	 */
+	public function get_temporary_reservations( $date );
 }

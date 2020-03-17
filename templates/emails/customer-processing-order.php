@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'easyreservations_email_header', $email_heading, $email ); ?>
 
 <?php /* translators: %s: Customer first name */ ?>
-<p><?php printf( esc_html__( 'Hi %s,', 'easyReservations' ), esc_html( $order->get_first_name() ) ); ?></p>
+    <p><?php printf( esc_html__( 'Hi %s,', 'easyReservations' ), esc_html( $order->get_first_name() ) ); ?></p>
 <?php /* translators: %s: Order number */ ?>
-<p><?php printf( esc_html__( 'Just to let you know &mdash; we\'ve received your order #%s, and it is now being processed:', 'easyReservations' ), esc_html( $order->get_order_number() ) ); ?></p>
+    <p><?php printf( esc_html__( 'Just to let you know &mdash; we\'ve received your order #%s, and it is now being processed:', 'easyReservations' ), esc_html( $order->get_order_number() ) ); ?></p>
 
 <?php
 

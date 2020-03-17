@@ -35,8 +35,9 @@ interface ER_Object_Data_Store_Interface {
 	/**
 	 * Deletes a record from the database.
 	 *
-	 * @param  ER_Data $data Data object.
-	 * @param  array   $args Array of args to pass to the delete method.
+	 * @param ER_Data $data Data object.
+	 * @param array   $args Array of args to pass to the delete method.
+	 *
 	 * @return bool result
 	 */
 	public function delete( &$data, $args = array() );
@@ -44,7 +45,8 @@ interface ER_Object_Data_Store_Interface {
 	/**
 	 * Returns an array of meta for an object.
 	 *
-	 * @param  ER_Data $data Data object.
+	 * @param ER_Data $data Data object.
+	 *
 	 * @return array
 	 */
 	public function read_meta( &$data );
@@ -52,8 +54,9 @@ interface ER_Object_Data_Store_Interface {
 	/**
 	 * Deletes meta based on meta ID.
 	 *
-	 * @param  ER_Data $data Data object.
-	 * @param  object  $meta Meta object (containing at least ->id).
+	 * @param ER_Data $data Data object.
+	 * @param object  $meta Meta object (containing at least ->id).
+	 *
 	 * @return array
 	 */
 	public function delete_meta( &$data, $meta );
@@ -61,8 +64,9 @@ interface ER_Object_Data_Store_Interface {
 	/**
 	 * Add new piece of meta.
 	 *
-	 * @param  ER_Data $data Data object.
-	 * @param  object  $meta Meta object (containing ->key and ->value).
+	 * @param ER_Data $data Data object.
+	 * @param object  $meta Meta object (containing ->key and ->value).
+	 *
 	 * @return int meta ID
 	 */
 	public function add_meta( &$data, $meta );
@@ -70,8 +74,8 @@ interface ER_Object_Data_Store_Interface {
 	/**
 	 * Update meta.
 	 *
-	 * @param  ER_Data $data Data object.
-	 * @param  object  $meta Meta object (containing ->id, ->key and ->value).
+	 * @param ER_Data $data Data object.
+	 * @param object  $meta Meta object (containing ->id, ->key and ->value).
 	 */
 	public function update_meta( &$data, $meta );
 }

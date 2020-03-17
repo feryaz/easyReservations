@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <?php do_action( 'easyreservations_form_before_price' ); ?>
 <div class="easy-price">
-    <?php esc_html_e('Total price', 'easyReservations'); ?>
+	<?php esc_html_e( 'Total price', 'easyReservations' ); ?>
     <div class="easy-price-display"></div>
 </div>
 <?php do_action( 'easyreservations_form_after_price' ); ?>

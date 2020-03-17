@@ -21,15 +21,15 @@ do_action( 'easyreservations_email_before_order_table', $order, $sent_to_admin, 
 /* translators: %1$s: Order ID. %2$s: Order date */
 echo wp_kses_post( er_strtoupper( sprintf( esc_html__( '[Order #%1$s] (%2$s)', 'easyReservations' ), $order->get_order_number(), er_format_datetime( $order->get_date_created() ) ) ) ) . "\n";
 echo "\n" . er_get_email_order_items( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	$order,
-	array(
-		'show_sku'      => $sent_to_admin,
-		'show_image'    => false,
-		'image_size'    => array( 32, 32 ),
-		'plain_text'    => true,
-		'sent_to_admin' => $sent_to_admin,
-	)
-);
+		$order,
+		array(
+			'show_sku'      => $sent_to_admin,
+			'show_image'    => false,
+			'image_size'    => array( 32, 32 ),
+			'plain_text'    => true,
+			'sent_to_admin' => $sent_to_admin,
+		)
+	);
 
 echo "==========\n\n";
 

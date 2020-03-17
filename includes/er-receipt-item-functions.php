@@ -14,13 +14,13 @@ defined( 'ABSPATH' ) || exit;
  * @param string $object_type Object type.
  * @param array  $item_array Items list.
  *
- * @throws Exception        When `ER_Data_Store::load` validation fails.
  * @return int|bool         Item ID or false
+ * @throws Exception        When `ER_Data_Store::load` validation fails.
  */
 function er_add_receipt_item( $object_id, $object_type, $item_array ) {
-    $object_id = absint( $object_id );
+	$object_id = absint( $object_id );
 
-	if ( !$object_id ) {
+	if ( ! $object_id ) {
 		return false;
 	}
 
@@ -43,10 +43,10 @@ function er_add_receipt_item( $object_id, $object_type, $item_array ) {
  * Update an item for an receipt.
  *
  * @param int   $item_id Item ID.
- * @param array $args    Either `receipt_item_type` or `receipt_item_name`.
+ * @param array $args Either `receipt_item_type` or `receipt_item_name`.
  *
- * @throws Exception     When `ER_Data_Store::load` validation fails.
  * @return bool          True if successfully updated, false otherwise.
+ * @throws Exception     When `ER_Data_Store::load` validation fails.
  */
 function er_update_receipt_item( $item_id, $args ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
@@ -64,10 +64,10 @@ function er_update_receipt_item( $item_id, $args ) {
 /**
  * Delete an item from the receipt it belongs to based on item id.
  *
- * @param int $item_id  Item ID.
+ * @param int $item_id Item ID.
  *
- * @throws Exception    When `ER_Data_Store::load` validation fails.
  * @return bool
+ * @throws Exception    When `ER_Data_Store::load` validation fails.
  */
 function er_delete_receipt_item( $item_id ) {
 	$item_id = absint( $item_id );
@@ -90,62 +90,68 @@ function er_delete_receipt_item( $item_id ) {
 /**
  * easyReservations Order Item Meta API - Update term meta.
  *
- * @param int    $item_id    Item ID.
- * @param string $meta_key   Meta key.
+ * @param int    $item_id Item ID.
+ * @param string $meta_key Meta key.
  * @param string $meta_value Meta value.
  * @param string $prev_value Previous value (default: '').
  *
- * @throws Exception         When `ER_Data_Store::load` validation fails.
  * @return bool
+ * @throws Exception         When `ER_Data_Store::load` validation fails.
  */
 function er_update_receipt_item_meta( $item_id, $meta_key, $meta_value, $prev_value = '' ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
 	if ( $data_store->update_metadata( $item_id, $meta_key, $meta_value, $prev_value ) ) {
-        er_invalidate_cache_group( 'object_' . $item_id ); // Invalidate cache.
+		er_invalidate_cache_group( 'object_' . $item_id ); // Invalidate cache.
+
 		return true;
 	}
+
 	return false;
 }
 
 /**
  * easyReservations Order Item Meta API - Add term meta.
  *
- * @param int    $item_id    Item ID.
- * @param string $meta_key   Meta key.
+ * @param int    $item_id Item ID.
+ * @param string $meta_key Meta key.
  * @param string $meta_value Meta value.
- * @param bool   $unique     If meta data should be unique (default: false).
+ * @param bool   $unique If meta data should be unique (default: false).
  *
- * @throws Exception         When `ER_Data_Store::load` validation fails.
  * @return int               New row ID or 0.
+ * @throws Exception         When `ER_Data_Store::load` validation fails.
  */
 function er_add_receipt_item_meta( $item_id, $meta_key, $meta_value, $unique = false ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
 	$meta_id    = $data_store->add_metadata( $item_id, $meta_key, $meta_value, $unique );
 
 	if ( $meta_id ) {
-        er_invalidate_cache_group( 'object_' . $item_id ); // Invalidate cache.
+		er_invalidate_cache_group( 'object_' . $item_id ); // Invalidate cache.
+
 		return $meta_id;
 	}
+
 	return 0;
 }
 
 /**
  * easyReservations Order Item Meta API - Delete term meta.
  *
- * @param int    $item_id    Item ID.
- * @param string $meta_key   Meta key.
+ * @param int    $item_id Item ID.
+ * @param string $meta_key Meta key.
  * @param string $meta_value Meta value (default: '').
  * @param bool   $delete_all Delete all meta data, defaults to `false`.
  *
- * @throws Exception         When `ER_Data_Store::load` validation fails.
  * @return bool
+ * @throws Exception         When `ER_Data_Store::load` validation fails.
  */
 function er_delete_receipt_item_meta( $item_id, $meta_key, $meta_value = '', $delete_all = false ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
 	if ( $data_store->delete_metadata( $item_id, $meta_key, $meta_value, $delete_all ) ) {
 		er_invalidate_cache_group( 'object_' . $item_id ); // Invalidate cache.
+
 		return true;
 	}
+
 	return false;
 }
 
@@ -153,26 +159,28 @@ function er_delete_receipt_item_meta( $item_id, $meta_key, $meta_value = '', $de
  * easyReservations Order Item Meta API - Get term meta.
  *
  * @param int    $item_id Item ID.
- * @param string $key     Meta key.
- * @param bool   $single  Whether to return a single value. (default: true).
+ * @param string $key Meta key.
+ * @param bool   $single Whether to return a single value. (default: true).
  *
- * @throws Exception      When `ER_Data_Store::load` validation fails.
  * @return mixed
+ * @throws Exception      When `ER_Data_Store::load` validation fails.
  */
 function er_get_receipt_item_meta( $item_id, $key, $single = true ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
+
 	return $data_store->get_metadata( $item_id, $key, $single );
 }
 
 /**
  * Get object ID by receipt item ID.
  *
- * @param  int $item_id Item ID.
+ * @param int $item_id Item ID.
  *
- * @throws Exception    When `ER_Data_Store::load` validation fails.
  * @return int
+ * @throws Exception    When `ER_Data_Store::load` validation fails.
  */
 function er_get_object_id_by_receipt_item_id( $item_id ) {
 	$data_store = ER_Data_Store::load( 'receipt-item' );
+
 	return $data_store->get_object_id_by_receipt_item_id( $item_id );
 }

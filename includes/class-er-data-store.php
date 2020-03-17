@@ -28,24 +28,24 @@ class ER_Data_Store {
 	 *
 	 * @var array
 	 */
-    private $stores = array(
-        'coupon'                   => 'ER_Coupon_Data_Store_CPT',
-        'customer'                 => 'ER_Customer_Data_Store',
-        'customer-session'         => 'ER_Customer_Data_Store_Session',
-        'reservation'              => 'ER_Reservation_Data_Store',
-        'order'                    => 'ER_Order_Data_Store_CPT',
-        'order-refund'             => 'ER_Order_Refund_Data_Store_CPT',
-        'receipt-item'             => 'ER_Receipt_Item_Data_Store',
-        'receipt-item-custom'      => 'ER_Receipt_Item_Custom_Data_Store',
-        'receipt-item-reservation' => 'ER_Receipt_Item_Reservation_Data_Store',
-        'receipt-item-resource'    => 'ER_Receipt_Item_Resource_Data_Store',
-        'receipt-item-fee'         => 'ER_Receipt_Item_Fee_Data_Store',
-        'receipt-item-tax'         => 'ER_Receipt_Item_Tax_Data_Store',
-        'payment-token'            => 'ER_Payment_Token_Data_Store',
-        //'webhook'               => 'WC_Webhook_Data_Store',
-    );
+	private $stores = array(
+		'coupon'                   => 'ER_Coupon_Data_Store_CPT',
+		'customer'                 => 'ER_Customer_Data_Store',
+		'customer-session'         => 'ER_Customer_Data_Store_Session',
+		'reservation'              => 'ER_Reservation_Data_Store',
+		'order'                    => 'ER_Order_Data_Store_CPT',
+		'order-refund'             => 'ER_Order_Refund_Data_Store_CPT',
+		'receipt-item'             => 'ER_Receipt_Item_Data_Store',
+		'receipt-item-custom'      => 'ER_Receipt_Item_Custom_Data_Store',
+		'receipt-item-reservation' => 'ER_Receipt_Item_Reservation_Data_Store',
+		'receipt-item-resource'    => 'ER_Receipt_Item_Resource_Data_Store',
+		'receipt-item-fee'         => 'ER_Receipt_Item_Fee_Data_Store',
+		'receipt-item-tax'         => 'ER_Receipt_Item_Tax_Data_Store',
+		'payment-token'            => 'ER_Payment_Token_Data_Store',
+		//'webhook'               => 'WC_Webhook_Data_Store',
+	);
 
-    /**
+	/**
 	 * Contains the name of the current data store's class name.
 	 *
 	 * @var string
@@ -60,24 +60,34 @@ class ER_Data_Store {
 	private $object_type = '';
 
 	/**
+	 * Re-run the constructor with the object type.
+	 *
+	 * @throws Exception When validation fails.
+	 */
+	public function __wakeup() {
+		$this->__construct( $this->object_type );
+	}
+
+	/**
 	 * Tells ER_Data_Store which object (coupon, resource, order, etc)
 	 * store we want to work with.
 	 *
-	 * @throws Exception When validation fails.
 	 * @param string $object_type Name of object.
+	 *
+	 * @throws Exception When validation fails.
 	 */
 	public function __construct( $object_type ) {
 		$this->object_type = $object_type;
 		$this->stores      = apply_filters( 'easyreservations_data_stores', $this->stores );
 
-        // If this object type can't be found, check to see if we can load one
+		// If this object type can't be found, check to see if we can load one
 		// level up (so if resource-type isn't found, we try resource).
 		if ( ! array_key_exists( $object_type, $this->stores ) ) {
 			$pieces      = explode( '-', $object_type );
 			$object_type = $pieces[0];
 		}
 
-        if ( array_key_exists( $object_type, $this->stores ) ) {
+		if ( array_key_exists( $object_type, $this->stores ) ) {
 			$store = apply_filters( 'easyreservations_' . $object_type . '_data_store', $this->stores[ $object_type ] );
 			if ( is_object( $store ) ) {
 				if ( ! $store instanceof ER_Object_Data_Store_Interface ) {
@@ -86,7 +96,7 @@ class ER_Data_Store {
 				$this->current_class_name = get_class( $store );
 				$this->instance           = $store;
 			} else {
-                if ( ! class_exists( $store ) ) {
+				if ( ! class_exists( $store ) ) {
 					throw new Exception( __( 'Invalid data store.', 'easyReservations' ) );
 				}
 				$this->current_class_name = $store;
@@ -107,21 +117,12 @@ class ER_Data_Store {
 	}
 
 	/**
-	 * Re-run the constructor with the object type.
-	 *
-	 * @throws Exception When validation fails.
-	 */
-	public function __wakeup() {
-		$this->__construct( $this->object_type );
-	}
-
-	/**
 	 * Loads a data store.
 	 *
 	 * @param string $object_type Name of object.
 	 *
-	 * @throws Exception When validation fails.
 	 * @return ER_Data_Store
+	 * @throws Exception When validation fails.
 	 */
 	public static function load( $object_type ) {
 		return new ER_Data_Store( $object_type );
@@ -178,16 +179,17 @@ class ER_Data_Store {
 	 * some helper methods for increasing or decreasing usage). This passes
 	 * through to the instance if that function exists.
 	 *
-	 * @param string $method     Method.
+	 * @param string $method Method.
 	 * @param mixed  $parameters Parameters.
+	 *
 	 * @return mixed
 	 */
 	public function __call( $method, $parameters ) {
 		if ( is_callable( array( $this->instance, $method ) ) ) {
-            $object     = array_shift( $parameters );
-            $parameters = array_merge( array( &$object ), $parameters );
+			$object     = array_shift( $parameters );
+			$parameters = array_merge( array( &$object ), $parameters );
 
-            return $this->instance->$method( ...$parameters );
+			return $this->instance->$method( ...$parameters );
 		}
-    }
+	}
 }

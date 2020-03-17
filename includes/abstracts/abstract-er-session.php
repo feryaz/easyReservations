@@ -38,17 +38,20 @@ abstract class ER_Session {
 	/**
 	 * Init hooks and session data. Extended by child classes.
 	 */
-	public function init() {}
+	public function init() {
+	}
 
 	/**
 	 * Cleanup session data. Extended by child classes.
 	 */
-	public function cleanup_sessions() {}
+	public function cleanup_sessions() {
+	}
 
 	/**
 	 * Magic get method.
 	 *
 	 * @param mixed $key Key to get.
+	 *
 	 * @return mixed
 	 */
 	public function __get( $key ) {
@@ -69,6 +72,7 @@ abstract class ER_Session {
 	 * Magic isset method.
 	 *
 	 * @param mixed $key Key to check.
+	 *
 	 * @return bool
 	 */
 	public function __isset( $key ) {
@@ -92,10 +96,12 @@ abstract class ER_Session {
 	 *
 	 * @param string $key Key to get.
 	 * @param mixed  $default used if the session variable isn't set.
+	 *
 	 * @return array|string value of session variable
 	 */
 	public function get( $key, $default = null ) {
 		$key = sanitize_key( $key );
+
 		return isset( $this->_data[ $key ] ) ? maybe_unserialize( $this->_data[ $key ] ) : $default;
 	}
 

@@ -1,4 +1,4 @@
-jQuery( function ( $ ) {
+jQuery( function( $ ) {
 
 	// Run tipTip
 	function runTipTip() {
@@ -7,18 +7,18 @@ jQuery( function ( $ ) {
 		$( '#tiptip_arrow' ).removeAttr( 'style' );
 		$( '.tips' ).tipTip( {
 			'attribute': 'data-tip',
-			'fadeIn': 50,
-			'fadeOut': 50,
-			'delay': 200
+			'fadeIn':    50,
+			'fadeOut':   50,
+			'delay':     200
 		} );
 	}
 
 	runTipTip();
 
 	// Tabbed Panels
-	$( document.body ).on( 'er-init-tabbed-panels', function () {
+	$( document.body ).on( 'er-init-tabbed-panels', function() {
 		$( 'ul.er-tabs' ).show();
-		$( 'ul.er-tabs a' ).click( function ( e ) {
+		$( 'ul.er-tabs a' ).click( function( e ) {
 			e.preventDefault();
 			var panel_wrap = $( this ).closest( 'div.panel-wrap' );
 			$( 'ul.er-tabs li', panel_wrap ).removeClass( 'active' );
@@ -26,7 +26,7 @@ jQuery( function ( $ ) {
 			$( 'div.panel', panel_wrap ).hide();
 			$( $( this ).attr( 'href' ) ).show();
 		} );
-		$( 'div.panel-wrap' ).each( function () {
+		$( 'div.panel-wrap' ).each( function() {
 			$( this ).find( 'ul.er-tabs li' ).eq( 0 ).find( 'a' ).click();
 		} );
 	} ).trigger( 'er-init-tabbed-panels' );

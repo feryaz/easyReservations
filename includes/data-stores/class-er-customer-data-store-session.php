@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * ER Customer Data Store which stores the data in session.
  */
-class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Customer_Data_Store_Interface, ER_Object_Data_Store_Interface {
+class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Customer_Data_Store_Interface,
+	ER_Object_Data_Store_Interface {
 
 	/**
 	 * Keys which are also stored in a session (so we can make sure they get updated...)
@@ -18,21 +19,21 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	 * @var array
 	 */
 	protected $session_keys = array(
-        'id',
-        'date_modified',
-        'address_postcode',
-        'address_city',
-        'address_address_1',
-        'address_address_2',
-        'address_state',
-        'address_country',
-        'is_vat_exempt',
-        'address_first_name',
-        'address_last_name',
-        'address_company',
-        'address_phone',
-        'address_email',
-    );
+		'id',
+		'date_modified',
+		'address_postcode',
+		'address_city',
+		'address_address_1',
+		'address_address_2',
+		'address_state',
+		'address_country',
+		'is_vat_exempt',
+		'address_first_name',
+		'address_last_name',
+		'address_company',
+		'address_phone',
+		'address_email',
+	);
 
 	/**
 	 * Simply update the session.
@@ -58,14 +59,13 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	 * @param ER_Customer $customer Customer object.
 	 */
 	public function save_to_session( $customer ) {
-        $data = array();
-        foreach ( $this->session_keys as $session_key ) {
-            $function_key       = $session_key;
-            $data[$session_key] = (string) $customer->{"get_$function_key"}( 'edit' );
-        }
-        ER()->session->set( 'customer', $data );
-
-    }
+		$data = array();
+		foreach ( $this->session_keys as $session_key ) {
+			$function_key         = $session_key;
+			$data[ $session_key ] = (string) $customer->{"get_$function_key"}( 'edit' );
+		}
+		ER()->session->set( 'customer', $data );
+	}
 
 	/**
 	 * Read customer data from the session unless the user has logged in, in
@@ -86,12 +86,12 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 				if ( in_array( $session_key, array( 'id', 'date_modified' ), true ) ) {
 					continue;
 				}
-                $function_key = $session_key;
+				$function_key = $session_key;
 
-                if ( isset( $data[$session_key] ) && is_callable( array( $this, "set_{$function_key}" ) ) ) {
-                    $this->{"set_{$function_key}"}( wp_unslash( $data[$session_key] ) );
-                }
-            }
+				if ( isset( $data[ $session_key ] ) && is_callable( array( $this, "set_{$function_key}" ) ) ) {
+					$this->{"set_{$function_key}"}( wp_unslash( $data[ $session_key ] ) );
+				}
+			}
 		}
 		$this->set_defaults( $customer );
 		$customer->set_object_read( true );
@@ -130,6 +130,7 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	 * Gets the customers last order.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return ER_Order|false
 	 */
 	public function get_last_order( &$customer ) {
@@ -140,6 +141,7 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	 * Return the number of orders this customer has.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return integer
 	 */
 	public function get_order_count( &$customer ) {
@@ -150,6 +152,7 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	 * Return how much money this customer has spent.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return float
 	 */
 	public function get_total_spent( &$customer ) {

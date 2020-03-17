@@ -27,12 +27,12 @@ $wrapper_classes   = apply_filters( 'easyreservations_single_resource_image_gall
 ) );
 ?>
 <div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
-	<figure class="easyreservations-resource-gallery__wrapper">
+    <figure class="easyreservations-resource-gallery__wrapper">
 		<?php
 		if ( $post_thumbnail_id ) {
 			$html = er_get_gallery_image_html( $post_thumbnail_id, true );
 		} else {
-			$html  = '<div class="easyreservations-resource-gallery__image--placeholder">';
+			$html = '<div class="easyreservations-resource-gallery__image--placeholder">';
 			$html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( er_placeholder_img_src( 'easyreservations_single' ) ), esc_html__( 'Awaiting resource image', 'easyReservations' ) );
 			$html .= '</div>';
 		}
@@ -41,5 +41,5 @@ $wrapper_classes   = apply_filters( 'easyreservations_single_resource_image_gall
 
 		do_action( 'easyreservations_resource_thumbnails' );
 		?>
-	</figure>
+    </figure>
 </div>

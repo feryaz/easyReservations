@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * ER Order Refund Data Store: Stored in CPT.
  */
-class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implements ER_Object_Data_Store_Interface, ER_Order_Refund_Data_Store_Interface {
+class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implements ER_Object_Data_Store_Interface,
+	ER_Order_Refund_Data_Store_Interface {
 
 	/**
 	 * Data stored in meta keys, but not considered "meta" for an order.
@@ -18,17 +19,17 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 	 * @var array
 	 */
 	protected $internal_meta_keys = array(
-        '_refund_amount',
-        '_refunded_by',
-        '_refunded_payment',
-        '_refund_reason',
-        '_discount',
-        '_discount_tax',
-        '_order_tax',
-        '_order_total',
-        '_prices_include_tax',
-        '_payment_tokens',
-    );
+		'_refund_amount',
+		'_refunded_by',
+		'_refunded_payment',
+		'_refund_reason',
+		'_discount',
+		'_discount_tax',
+		'_order_tax',
+		'_order_total',
+		'_prices_include_tax',
+		'_payment_tokens',
+	);
 
 	/**
 	 * Delete a refund - no trash is supported.
@@ -43,8 +44,8 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 			return;
 		}
 
-        $this->delete_items( $order );
-        wp_delete_post( $id, true );
+		$this->delete_items( $order );
+		wp_delete_post( $id, true );
 		$order->set_id( 0 );
 		do_action( 'easyreservations_delete_order_refund', $id );
 	}
@@ -60,11 +61,11 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 		$id = $refund->get_id();
 		$refund->set_props(
 			array(
-                'amount'           => get_post_meta( $id, '_refund_amount', true ),
-                'refunded_by'      => metadata_exists( 'post', $id, '_refunded_by' ) ? get_post_meta( $id, '_refunded_by', true ) : absint( $post_object->post_author ),
-                'refunded_payment' => er_string_to_bool( get_post_meta( $id, '_refunded_payment', true ) ),
-                'reason'           => metadata_exists( 'post', $id, '_refund_reason' ) ? get_post_meta( $id, '_refund_reason', true ) : $post_object->post_excerpt,
-            )
+				'amount'           => get_post_meta( $id, '_refund_amount', true ),
+				'refunded_by'      => metadata_exists( 'post', $id, '_refunded_by' ) ? get_post_meta( $id, '_refunded_by', true ) : absint( $post_object->post_author ),
+				'refunded_payment' => er_string_to_bool( get_post_meta( $id, '_refunded_payment', true ) ),
+				'reason'           => metadata_exists( 'post', $id, '_refund_reason' ) ? get_post_meta( $id, '_refund_reason', true ) : $post_object->post_excerpt,
+			)
 		);
 	}
 
@@ -78,11 +79,11 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 
 		$updated_props     = array();
 		$meta_key_to_props = array(
-            '_refund_amount'    => 'amount',
-            '_refunded_by'      => 'refunded_by',
-            '_refunded_payment' => 'refunded_payment',
-            '_refund_reason'    => 'reason',
-        );
+			'_refund_amount'    => 'amount',
+			'_refunded_by'      => 'refunded_by',
+			'_refunded_payment' => 'refunded_payment',
+			'_refund_reason'    => 'reason',
+		);
 
 		$props_to_update = $this->get_props_to_update( $refund, $meta_key_to_props );
 		foreach ( $props_to_update as $meta_key => $prop ) {
@@ -101,7 +102,7 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 	 */
 	protected function get_post_title() {
 		return sprintf(
-			/* translators: %s: Order date */
+		/* translators: %s: Order date */
 			__( 'Refund &ndash; %s', 'easyReservations' ),
 			strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'easyReservations' ) ) // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
 		);

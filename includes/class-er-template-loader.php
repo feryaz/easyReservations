@@ -62,6 +62,7 @@ class ER_Template_Loader {
 	 * easyReservations templates.
 	 *
 	 * @param string $template Template to load.
+	 *
 	 * @return string
 	 */
 	public static function template_loader( $template ) {
@@ -101,13 +102,15 @@ class ER_Template_Loader {
 		} else {
 			$default_file = '';
 		}
+
 		return $default_file;
 	}
 
 	/**
 	 * Get an array of filenames to search for a given template.
 	 *
-	 * @param  string $default_file The default file name.
+	 * @param string $default_file The default file name.
+	 *
 	 * @return string[]
 	 */
 	private static function get_template_loader_files( $default_file ) {
@@ -141,18 +144,18 @@ class ER_Template_Loader {
 	 * Hook in methods to enhance the unsupported theme experience on pages.
 	 */
 	public static function unsupported_theme_init() {
-        if ( is_easyreservations_resource() ) {
-            self::unsupported_theme_resource_page_init();
-        } else if ( 0 < self::$shop_page_id ) {
-            self::unsupported_theme_shop_page_init();
-        }
+		if ( is_easyreservations_resource() ) {
+			self::unsupported_theme_resource_page_init();
+		} else if ( 0 < self::$shop_page_id ) {
+			self::unsupported_theme_shop_page_init();
+		}
 	}
 
 	/**
 	 * Hook in methods to enhance the unsupported theme experience on the Shop page.
 	 */
 	private static function unsupported_theme_shop_page_init() {
-        add_filter( 'the_content', array( __CLASS__, 'unsupported_theme_shop_content_filter' ), 10 );
+		add_filter( 'the_content', array( __CLASS__, 'unsupported_theme_shop_content_filter' ), 10 );
 		add_filter( 'the_title', array( __CLASS__, 'unsupported_theme_title_filter' ), 10, 2 );
 		add_filter( 'comments_number', array( __CLASS__, 'unsupported_theme_comments_number_filter' ) );
 	}
@@ -190,6 +193,7 @@ class ER_Template_Loader {
 	 *
 	 * @param string $title Existing title.
 	 * @param int    $id ID of the post being filtered.
+	 *
 	 * @return string
 	 */
 	public static function unsupported_theme_title_filter( $title, $id ) {
@@ -210,6 +214,7 @@ class ER_Template_Loader {
 				$title = $title . ' &ndash; ' . implode( ', ', $title_suffix );
 			}
 		}
+
 		return $title;
 	}
 
@@ -219,12 +224,13 @@ class ER_Template_Loader {
 	 * For non-ER themes, this will setup the main shop page to be shortcode based to improve default appearance.
 	 *
 	 * @param string $content Existing post content.
+	 *
 	 * @return string
 	 */
 	public static function unsupported_theme_shop_content_filter( $content ) {
 		global $wp_query;
 
-        if ( self::$theme_support || ! is_main_query() || ! in_the_loop() ) {
+		if ( self::$theme_support || ! is_main_query() || ! in_the_loop() ) {
 			return $content;
 		}
 
@@ -248,12 +254,12 @@ class ER_Template_Loader {
 						'cache'    => false,
 					)
 				),
-			'resources' );
+				'resources' );
 
 			// Allow queries to run e.g. layered nav.
 			add_action( 'pre_get_posts', array( ER()->query, 'resource_query' ) );
 
-            $content = $content . $shortcode->get_content();
+			$content = $content . $shortcode->get_content();
 
 			// Remove actions and self to avoid nested calls.
 			remove_action( 'pre_get_posts', array( ER()->query, 'resource_query' ) );
@@ -270,6 +276,7 @@ class ER_Template_Loader {
 	 * For non-ER themes, this will setup the main resource page to be shortcode based to improve default appearance.
 	 *
 	 * @param string $content Existing post content.
+	 *
 	 * @return string
 	 */
 	public static function unsupported_theme_resource_content_filter( $content ) {
@@ -277,7 +284,7 @@ class ER_Template_Loader {
 			return $content;
 		}
 
-        self::$in_content_filter = true;
+		self::$in_content_filter = true;
 
 		// Remove the filter we're in to avoid nested calls.
 		remove_filter( 'the_content', array( __CLASS__, 'unsupported_theme_resource_content_filter' ) );
@@ -295,6 +302,7 @@ class ER_Template_Loader {
 	 * Suppress the comments number on the Shop page for unsupported themes since there is no commenting on the Shop page.
 	 *
 	 * @param string $comments_number The comments number text.
+	 *
 	 * @return string
 	 */
 	public static function unsupported_theme_comments_number_filter( $comments_number ) {
@@ -319,6 +327,7 @@ class ER_Template_Loader {
 	 * in the gallery.
 	 *
 	 * @param string $html Img element HTML.
+	 *
 	 * @return string
 	 */
 	public static function unsupported_theme_single_featured_image_filter( $html ) {
@@ -333,10 +342,12 @@ class ER_Template_Loader {
 	 * Remove the Review tab and just use the regular comment form.
 	 *
 	 * @param array $tabs Tab info.
+	 *
 	 * @return array
 	 */
 	public static function unsupported_theme_remove_review_tab( $tabs ) {
 		unset( $tabs['reviews'] );
+
 		return $tabs;
 	}
 }

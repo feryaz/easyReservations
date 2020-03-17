@@ -1,8 +1,8 @@
-( function ( $, data ) {
+( function( $, data ) {
 	var tooltip                 = $( '.er-timeline-tooltip' ),
-		master				    = $( '.er-timeline' ),
+		master                  = $( '.er-timeline' ),
 		datepicker              = $( '#timeline-datepicker' ),
-		timeline_container		= master.find( 'div.timeline-container' ),
+		timeline_container      = master.find( 'div.timeline-container' ),
 		sidebar                 = master.find( 'div.sidebar' ),
 		timeline                = master.find( 'div.timeline' ),
 		header                  = master.find( 'div.header' ),
@@ -10,10 +10,10 @@
 		resources_vertical      = resources.find( '.vertical-scroll' ),
 		resources_tbody         = resources.find( 'table tbody' ),
 		header_date             = header.find( '.date' ),
-		table_vertical			= timeline.find( 'div.vertical-scroll' ),
-		table_container			= table_vertical.find( 'div.horizontal-scroll' ),
+		table_vertical          = timeline.find( 'div.vertical-scroll' ),
+		table_container         = table_vertical.find( 'div.horizontal-scroll' ),
 		table                   = timeline.find( 'div.vertical-scroll table' ),
-		scroller             	= timeline.find( 'div.horizontal-scroll' ),
+		scroller                = timeline.find( 'div.horizontal-scroll' ),
 		thead_main              = timeline.find( 'thead.main tr' ),
 		thead                   = table.find( 'thead:not(.main)' ),
 		tbody                   = table.find( 'tbody' ),
@@ -38,25 +38,25 @@
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
-		cells         			= 60, //Until when we last queried data at the end of the timeline
-		snapping_enabled 		= data.default_snapping === "1", //If the snapping mode is enabled for dragging and resizing
+		cells                   = 60, //Until when we last queried data at the end of the timeline
+		snapping_enabled        = data.default_snapping === "1", //If the snapping mode is enabled for dragging and resizing
 		interval                = "86400", //Default interval of timeline
-		interval_string			= 'days';
+		interval_string         = 'days';
 
 	header
-		.on( 'click', '.expand-sidebar', function () {
+		.on( 'click', '.expand-sidebar', function() {
 			sidebar.addClass( 'expanded' ).show();
 			$( this )
 				.removeClass( 'expand-sidebar' )
 				.addClass( 'contract-sidebar' );
 		} )
-		.on( 'click', '.contract-sidebar', function () {
+		.on( 'click', '.contract-sidebar', function() {
 			sidebar.removeClass( 'expanded' ).hide( 300, 'linear' );
 			$( this )
 				.removeClass( 'contract-sidebar' )
 				.addClass( 'expand-sidebar' );
 		} )
-		.on( 'click', '.hourly', function () {
+		.on( 'click', '.hourly', function() {
 			if ( !$( this ).hasClass( 'active' ) ) {
 				timeline.addClass( 'hourly' );
 				header.find( '.daily' ).removeClass( 'active' );
@@ -67,7 +67,7 @@
 				er_timeline.init();
 			}
 		} )
-		.on( 'click', '.daily', function () {
+		.on( 'click', '.daily', function() {
 			if ( !$( this ).hasClass( 'active' ) ) {
 				timeline.removeClass( 'hourly' );
 				header.find( '.hourly' ).removeClass( 'active' );
@@ -78,38 +78,38 @@
 				er_timeline.init();
 			}
 		} )
-		.on( 'click', '.pending', function () {
+		.on( 'click', '.pending', function() {
 			er_sidebar.toggle_pending();
 		} )
-		.on( 'click', '.date', function () {
+		.on( 'click', '.date', function() {
 			er_sidebar.toggle_calendar();
 		} )
-		.on( 'click', '.today', function () {
+		.on( 'click', '.today', function() {
 			er_timeline.jump_to_date( today );
 		} )
-		.on( 'click', 'a.start-add', function () {
+		.on( 'click', 'a.start-add', function() {
 			add_mode = $( this ).attr( 'data-target' );
 		} )
-		.on( 'click', '.cancel-add', function () {
+		.on( 'click', '.cancel-add', function() {
 			add_mode = false;
 		} );
 
-	datepicker.bind( 'change', function ( e ) {
+	datepicker.bind( 'change', function( e ) {
 		er_timeline.jump_to_date( moment( $( this ).datepicker( "getDate" ) ) );
 	} );
 
 	thead_main
-		.on( 'mousedown', 'th', function ( e ) {
+		.on( 'mousedown', 'th', function( e ) {
 			//Find out where the drag started
 			scroll_drag = scroller.scrollLeft() + e.pageX;
 		} );
 
-	table_vertical.on( 'scroll', function () {
+	table_vertical.on( 'scroll', function() {
 		resources_vertical.css( 'margin-top', -$( this ).scrollTop() );
 	} );
 
 	$( window )
-		.mouseup( function ( e ) {
+		.mouseup( function( e ) {
 			thead_main.css( 'cursor', 'grab' );
 			clearInterval( scroll_action );
 			scroll_action = false;
@@ -120,7 +120,7 @@
 			if ( placeholder ) {
 				var title = prompt( data.i18n_enter_title, "" );
 
-				if( title !== null ){
+				if ( title !== null ) {
 					var direction  = placeholder.attr( 'data-direction' ),
 						width      = parseInt( placeholder.css( 'width' ), 10 ) / cell_dimensions.width * interval,
 						date_start = moment( parseInt( placeholder.attr( 'data-start' ), 10 ) * 1000 ),
@@ -131,7 +131,7 @@
 							departure: easyFormatDate( date_end > date_start ? date_end : date_start, 'full' ),
 							resource:  parseInt( placeholder.attr( 'data-resource' ), 10 ),
 							space:     parseInt( placeholder.attr( 'data-space' ), 10 ),
-							title: 	   title,
+							title:     title,
 						};
 
 					if ( interval === "86400" ) {
@@ -162,7 +162,7 @@
 		} );
 
 	master
-		.on( 'click', '.resource-handler', function () {
+		.on( 'click', '.resource-handler', function() {
 			var elem        = $( this ).parent().parent().parent().parent().next(),
 				tbody_index = elem.index() / 2 - 0.5;
 
@@ -180,23 +180,23 @@
 				elem.hide();
 			}
 		} )
-		.on( 'mousedown', '.next', function () {
+		.on( 'mousedown', '.next', function() {
 			if ( scroll_action === false ) {
 				er_timeline.add_new_column( false );
 				er_timeline.set_current_date();
 
-				scroll_action = setInterval( function () {
+				scroll_action = setInterval( function() {
 					er_timeline.add_new_column( false );
 					er_timeline.set_current_date();
 				}, 100 );
 			}
 		} )
-		.on( 'mousedown', '.prev', function () {
+		.on( 'mousedown', '.prev', function() {
 			if ( scroll_action === false ) {
 				er_timeline.add_new_column( true );
 				er_timeline.set_current_date();
 
-				scroll_action = setInterval( function () {
+				scroll_action = setInterval( function() {
 					er_timeline.add_new_column( true );
 					er_timeline.set_current_date();
 				}, 100 );
@@ -204,7 +204,7 @@
 		} );
 
 	timeline
-		.mousemove( function ( e ) {
+		.mousemove( function( e ) {
 			//Store mouse positions
 			mouse_pos_x = e.pageX;
 			mouse_pos_y = e.pageY;
@@ -290,7 +290,7 @@
 			}
 
 		} )
-		.mouseleave( function () {
+		.mouseleave( function() {
 			thead_main.css( 'cursor', 'grab' );
 			thead_main.find( 'th.hover' ).removeClass( 'hover' );
 			resources_tbody.find( 'td.hover' ).removeClass( 'hover' );
@@ -306,9 +306,9 @@
 				placeholder = false;
 			}
 		} )
-		.on( 'mousedown', '.cell', function ( e ) {
+		.on( 'mousedown', '.cell', function( e ) {
 			if ( add_mode ) {
-				var date   = moment( parseInt( $( this ).attr( 'data-date' ), 10 ) * 1000 ).add( interval / ( cell_dimensions.width ) * Math.floor( e.offsetX +1 ), 'seconds' ),
+				var date   = moment( parseInt( $( this ).attr( 'data-date' ), 10 ) * 1000 ).add( interval / ( cell_dimensions.width ) * Math.floor( e.offsetX + 1 ), 'seconds' ),
 					attach = this;
 
 				placeholder = $( '<div class="placeholder">' );
@@ -333,7 +333,7 @@
 				table_container.append( placeholder );
 			}
 		} )
-		.on( 'click', '.reservation', function () {
+		.on( 'click', '.reservation', function() {
 			var id = parseInt( $( this ).attr( 'data-id' ), 10 );
 
 			timeline.find( '.reservation.selected' ).removeClass( 'selected' );
@@ -341,7 +341,7 @@
 
 			er_sidebar.draw_reservation( reservations[ id ] );
 		} )
-		.on( 'keydown', '.reservation .title', function ( e ) {
+		.on( 'keydown', '.reservation .title', function( e ) {
 			if ( e.keyCode === 13 ) {
 				var id = $( this ).parents( '.reservation' ).attr( 'data-id' );
 				reservations[ id ].title = $( this ).html();
@@ -352,7 +352,7 @@
 		} );
 
 	sidebar
-		.on( 'click', '.allow-edit', function () {
+		.on( 'click', '.allow-edit', function() {
 			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
 
 			if ( edit_mode ) {
@@ -367,12 +367,12 @@
 			er_timeline.reservation_allow_edit( table.find( '.reservation[data-id="' + id + '"]' ) );
 			$( this ).html( data.i18n_stop_edit ).addClass( 'stop-edit' ).removeClass( 'allow-edit' );
 		} )
-		.on( 'click', '.stop-edit', function () {
+		.on( 'click', '.stop-edit', function() {
 			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
 			er_timeline.update_reservation( id );
 			er_sidebar.stop_edit( id );
 		} )
-		.on( 'click', '.status', function () {
+		.on( 'click', '.status', function() {
 			if ( !$( this ).hasClass( 'reservation-status' ) ) {
 				var id     = parseInt( $( this ).parent().parent().attr( 'data-reservation-id' ), 10 ),
 					status = $( this ).attr( 'data-status' );
@@ -384,7 +384,7 @@
 				er_timeline.update_reservation( id );
 			}
 		} )
-		.on( 'click', '.snapping', function () {
+		.on( 'click', '.snapping', function() {
 			if ( $( this ).hasClass( 'enabled' ) ) {
 				snapping_enabled = false;
 				$( this ).removeClass( 'enabled' );
@@ -393,7 +393,7 @@
 				$( this ).addClass( 'enabled' );
 			}
 		} )
-		.on( 'click', '.revert', function () {
+		.on( 'click', '.revert', function() {
 			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
 			er_timeline.recursively_remove_reservation( reservations[ id ] );
 
@@ -411,7 +411,7 @@
 		/**
 		 * Init sidebar
 		 */
-		init: function () {
+		init: function() {
 
 		},
 
@@ -420,14 +420,14 @@
 		 *
 		 * @returns {boolean}
 		 */
-		is_open: function () {
+		is_open: function() {
 			return sidebar.hasClass( 'expanded' );
 		},
 
 		/**
 		 * Open sidebar
 		 */
-		open: function () {
+		open: function() {
 			if ( !er_sidebar.is_open() ) {
 				header.find( '.expand-sidebar' ).click();
 			}
@@ -436,7 +436,7 @@
 		/**
 		 * Close sidebar
 		 */
-		close: function () {
+		close: function() {
 			if ( er_sidebar.is_open() ) {
 				header.find( '.contract-sidebar' ).click();
 			}
@@ -447,7 +447,7 @@
 		 *
 		 * @return {boolean}
 		 */
-		toggle: function () {
+		toggle: function() {
 			if ( er_sidebar.is_open() ) {
 				header.find( '.contract-sidebar' ).click();
 				return false;
@@ -460,7 +460,7 @@
 		/**
 		 * If calendar is open close sidebar, else display calendar and/or open sidebar
 		 */
-		toggle_calendar: function () {
+		toggle_calendar: function() {
 			if ( !sidebar.find( '> .calendar' ).hasClass( 'visible' ) ) {
 				er_sidebar.display_calendar();
 				er_sidebar.open();
@@ -472,7 +472,7 @@
 		/**
 		 * If pending is open close sidebar, else display pending and/or open sidebar
 		 */
-		toggle_pending: function () {
+		toggle_pending: function() {
 			if ( !sidebar.find( '> .pending' ).hasClass( 'visible' ) ) {
 				er_sidebar.display_pending();
 				er_sidebar.open();
@@ -484,14 +484,14 @@
 		/**
 		 * Clear currently displayed section
 		 */
-		clear: function () {
+		clear: function() {
 			sidebar.find( '> .visible' ).hide().removeClass( 'visible' );
 		},
 
 		/**
 		 * Display calendar
 		 */
-		display_calendar: function () {
+		display_calendar: function() {
 			var container = sidebar.find( '> .calendar' );
 
 			er_sidebar.clear();
@@ -501,7 +501,7 @@
 		/**
 		 * Display pending
 		 */
-		display_pending: function () {
+		display_pending: function() {
 			var container = sidebar.find( '> .pending' );
 
 			er_sidebar.clear();
@@ -511,7 +511,7 @@
 		/**
 		 * Resets reservation details and unbinds reservation element
 		 */
-		stop_edit: function ( id ) {
+		stop_edit: function( id ) {
 			sidebar.find( '> .reservation-details .edit-actions' ).hide();
 			sidebar.find( '> .reservation-details .stop-edit' ).html( data.i18n_allow_edit ).removeClass( 'stop-edit' ).addClass( 'allow-edit' );
 
@@ -522,22 +522,22 @@
 		},
 
 		draw_today: function() {
-			var arrivals = sidebar.find( '> .calendar .arrivals' ),
+			var arrivals   = sidebar.find( '> .calendar .arrivals' ),
 				departures = sidebar.find( '> .calendar .departures' ),
 				date,
 				add,
 				same,
-				last_char = er_both_params.time_format.charAt( er_both_params.time_format.length - 1 );
+				last_char  = er_both_params.time_format.charAt( er_both_params.time_format.length - 1 );
 
 			arrivals.html( '' );
 			departures.html( '' );
 
-			$.each( reservations, function ( _, reservation ) {
-				if( reservation ){
+			$.each( reservations, function( _, reservation ) {
+				if ( reservation ) {
 					add = false;
 					same = false;
 
-					if( reservation.arrival.date() === selected.date() && reservation.arrival.month() === selected.month() && reservation.arrival.year() === selected.year() ){
+					if ( reservation.arrival.date() === selected.date() && reservation.arrival.month() === selected.month() && reservation.arrival.year() === selected.year() ) {
 						add = 'arrival';
 						date = reservation.arrival;
 						same = reservation.departure.date() === date.date() && reservation.departure.month() === date.month() && reservation.departure.year() === date.year();
@@ -546,7 +546,7 @@
 						date = reservation.departure;
 					}
 
-					if( add ){
+					if ( add ) {
 						var element = $( '<div class="today-reservation">' );
 
 						element
@@ -565,12 +565,12 @@
 								'<div class="date"><span class="' + add + '"></span>' + ( same ? easyFormatTime( reservation.departure ) : easyFormatDate( add === 'arrival' ? reservation.departure : reservation.arrival, 'full' ) ) + '</div>' +
 								'</div>'
 							)
-							.bind( 'click', function () {
+							.bind( 'click', function() {
 								var id = parseInt( $( this ).attr( 'data-id' ), 10 );
 								table.find( '.reservation[data-id="' + id + '"]' ).trigger( 'click' );
 							} );
 
-						if( add === 'arrival'){
+						if ( add === 'arrival' ) {
 							arrivals.append( element );
 						} else {
 							departures.append( element );
@@ -579,23 +579,23 @@
 				}
 			} );
 
-			if( arrivals.is( ':empty' ) ){
+			if ( arrivals.is( ':empty' ) ) {
 				arrivals.html( '<div class="today-reservation">' + data.i18n_no_arrivals + '</div>' );
 			}
 
-			if( departures.is( ':empty' ) ){
+			if ( departures.is( ':empty' ) ) {
 				departures.html( '<div class="today-reservation">' + data.i18n_no_departures + '</div>' );
 			}
 		},
 
-		draw_pending: function ( ){
+		draw_pending: function() {
 			if ( data.pending && data.pending.length > 0 ) {
 				header.find( '.pending' ).html( '<span>' + data.pending.length + '</span>' );
 
 				var reservations_container = sidebar.find( '> .pending' ).find( '.reservations' );
 				reservations_container.html( '' );
 
-				$.each( data.pending, function ( index, reservation ) {
+				$.each( data.pending, function( index, reservation ) {
 					var element          = $( '<div class="pending-reservation">' ),
 						resource_id      = parseInt( reservation.resource, 10 ),
 						found_free_space = false;
@@ -618,14 +618,14 @@
 							'</div>'
 						);
 
-					element.bind( 'click', function () {
+					element.bind( 'click', function() {
 						er_timeline.jump_to_date( reservation.arrival );
 
 						if ( resource_id > 0 ) {
 							resources.find( '.resource-handler:not([data-resource="' + reservation.resource + '"],.retracted),.resource-handler.retracted[data-resource="' + reservation.resource + '"]' ).click();
 						}
 
-						$.each( data.resources, function ( _, resource ) {
+						$.each( data.resources, function( _, resource ) {
 							if ( !found_free_space && ( resource_id === 0 || resource_id === resource.ID ) ) {
 								if ( resource.availability_by === 'unit' ) {
 									reservation.resource = resource.ID;
@@ -684,7 +684,7 @@
 		 *
 		 * @param {Object} reservation
 		 */
-		draw_reservation: function ( reservation ) {
+		draw_reservation: function( reservation ) {
 			var container        = sidebar.find( '> .reservation-details' ),
 				container_header = container.find( 'h2' ),
 				resource         = data.resources[ reservation.resource ];
@@ -752,7 +752,7 @@
 		/**
 		 * Init timeline
 		 */
-		init: function () {
+		init: function() {
 			var height = ( $( window ).height() - resources_vertical.offset().top - 5 ) / ( data.reservation_id > 0 ? 3 : 1 );
 
 			resources_vertical.css( 'max-height', height );
@@ -808,7 +808,7 @@
 		 * @param {int} resource_id
 		 * @param {int} space
 		 */
-		highlight_current: function ( date, resource_id, space ) {
+		highlight_current: function( date, resource_id, space ) {
 			//table.find( 'td.hover, th.hover' ).removeClass( 'hover' );
 			//table.find( 'td[data-date="' + date.getTime() + '"], th[data-date="' + date.getTime() + '"]' ).addClass( 'hover' );
 			thead_main.find( 'th.hover' ).removeClass( 'hover' );
@@ -825,7 +825,7 @@
 		/**
 		 * Set the second visible cell as current date
 		 */
-		set_current_date: function () {
+		set_current_date: function() {
 			var currently_selected = moment( start ).add( Math.round( scroller.scrollLeft() / cell_dimensions.width ) + 1, interval_string );
 
 			if ( interval === "3600" ) {
@@ -857,14 +857,14 @@
 			}
 		},
 
-		scroll_dragging: function () {
-			var mouse_pos_top = mouse_pos_y - table_vertical.offset().top,
+		scroll_dragging: function() {
+			var mouse_pos_top  = mouse_pos_y - table_vertical.offset().top,
 				mouse_pos_left = mouse_pos_x - timeline.offset().left,
-				max_height = table_vertical.height();
+				max_height     = table_vertical.height();
 
 			if ( ( mouse_pos_left > 0 && mouse_pos_left < cell_dimensions.width / 2 ) || timeline.width() - mouse_pos_left < cell_dimensions.width / 2 ) {
 				if ( scroll_action === false ) {
-					scroll_action = setInterval( function () {
+					scroll_action = setInterval( function() {
 						var mouse_position = mouse_pos_x - timeline.offset().left;
 
 						if ( ( mouse_position > 0 && mouse_position < cell_dimensions.width / 2 ) || timeline.width() - mouse_position < cell_dimensions.width / 2 ) {
@@ -876,7 +876,7 @@
 				}
 			} else if ( mouse_pos_top > 0 && mouse_pos_top < 20 ) {
 				if ( scroll_action === false ) {
-					scroll_action = setInterval( function () {
+					scroll_action = setInterval( function() {
 						if ( scroll_action !== false ) {
 							table_vertical.scrollTop( Math.max( 0, table_vertical.scrollTop() - 4 ) );
 						}
@@ -885,7 +885,7 @@
 
 			} else if ( max_height - mouse_pos_top < 20 && mouse_pos_top <= max_height ) {
 				if ( scroll_action === false ) {
-					scroll_action = setInterval( function () {
+					scroll_action = setInterval( function() {
 						if ( scroll_action !== false ) {
 							table_vertical.scrollTop( Math.min( max_height, table_vertical.scrollTop() + 4 ) );
 						}
@@ -901,9 +901,9 @@
 		/**
 		 * Starts an interval to add new columns while we are scrolled all the left or right
 		 */
-		start_scroll_add_interval: function () {
+		start_scroll_add_interval: function() {
 			if ( scroll_add === false && ( scroller.scrollLeft() < 2 || thead_main.width() - ( timeline.width() + scroller.scrollLeft() ) < 5 + cell_dimensions.width * 2 ) ) {
-				scroll_add = setInterval( function () {
+				scroll_add = setInterval( function() {
 					if ( scroll_add !== false && ( scroller.scrollLeft() < 2 || thead_main.width() - ( timeline.width() + scroller.scrollLeft() ) < 5 + cell_dimensions.width * 2 ) ) {
 						er_timeline.add_new_column( scroller.scrollLeft() < 2 );
 						er_timeline.set_current_date();
@@ -915,7 +915,7 @@
 		/**
 		 * Clear the interval
 		 */
-		clear_scroll_add_interval: function () {
+		clear_scroll_add_interval: function() {
 			if ( scroll_add !== false ) {
 				clearInterval( scroll_add );
 				scroll_add = false;
@@ -928,7 +928,7 @@
 		 *
 		 * @param {moment} date
 		 */
-		jump_to_date: function ( date ) {
+		jump_to_date: function( date ) {
 			if ( date < start || date > end ) {
 				start = date;
 				er_timeline.init();
@@ -948,7 +948,7 @@
 		 *
 		 * @param {boolean} at_start
 		 */
-		add_new_column: function ( at_start ) {
+		add_new_column: function( at_start ) {
 			if ( at_start ) {
 				start.subtract( 1, interval_string );
 
@@ -966,10 +966,10 @@
 				thead_main.find( 'th:first-child' ).remove();
 				table.find( 'th:first-child' ).remove();
 				table.find( 'td:first-child' )
-					.each( function () {
+					.each( function() {
 						var cell_reservations = $( this ).data( 'reservations' );
 						if ( cell_reservations && cell_reservations.length > 0 ) {
-							$.each( cell_reservations, function ( _, reservation_id ) {
+							$.each( cell_reservations, function( _, reservation_id ) {
 								if ( reservations[ reservation_id ] && typeof reservations[ reservation_id ] !== 'undefined' ) {
 									reservations[ reservation_id ].changed = true;
 								}
@@ -989,7 +989,7 @@
 		/**
 		 * Load remaining data
 		 */
-		load_remaining: function () {
+		load_remaining: function() {
 			if ( last_query_start === 0 || last_query_start > start ) {
 				er_timeline.load_data( start, last_query_start );
 				last_query_start = moment( start );
@@ -1009,7 +1009,7 @@
 		 * @param {moment} end
 		 * @param {Object} extra_data
 		 */
-		load_data: function ( start, end, extra_data ) {
+		load_data: function( start, end, extra_data ) {
 			$.ajax( {
 				url:     data.ajax_url,
 				data:    $.extend( {
@@ -1022,11 +1022,11 @@
 					interval:   interval
 				}, extra_data ),
 				type:    'POST',
-				success: function ( response ) {
+				success: function( response ) {
 					if ( response.data ) {
-						$.each( response.data, function ( resource_id, data_array ) {
+						$.each( response.data, function( resource_id, data_array ) {
 							var quantity = data.resources[ resource_id ].quantity;
-							$.each( data_array, function ( timestamp, result ) {
+							$.each( data_array, function( timestamp, result ) {
 								var date       = moment( timestamp ),
 									cell_class = '',
 									content;
@@ -1049,21 +1049,21 @@
 					}
 
 					if ( response.reservations ) {
-						$.each( response.reservations, function ( _, reservation ) {
+						$.each( response.reservations, function( _, reservation ) {
 							er_timeline.add_reservation( reservation, true );
 						} );
 
 						er_timeline.draw_reservations();
 					}
 
-					if( response.message ){
+					if ( response.message ) {
 						alert( response.message );
 					}
 				}
 			} );
 		},
 
-		update_reservation: function ( id ) {
+		update_reservation: function( id ) {
 			var reservation = reservations[ id ];
 			$.ajax( {
 				url:     data.ajax_url,
@@ -1081,7 +1081,7 @@
 					title:     reservation.title
 				},
 				type:    'POST',
-				success: function ( response ) {
+				success: function( response ) {
 					if ( response.reservation ) {
 						console.log( response.reservation.arrival.date );
 						reservations[ id ].arrival = moment( response.reservation.arrival.date );
@@ -1105,21 +1105,21 @@
 		/**
 		 * Draw reservations ordered by arrival until we have to remove others down the line, if so start process again
 		 */
-		draw_reservations: function () {
+		draw_reservations: function() {
 			var queue     = [],
 				completed = true;
 
-			$.each( reservations, function ( _, reservation ) {
+			$.each( reservations, function( _, reservation ) {
 				if ( reservation && reservation.changed && reservation.status !== 'pending' ) {
 					queue.push( reservation.id );
 				}
 			} );
 
-			queue.sort( function ( a, b ) {
+			queue.sort( function( a, b ) {
 				return reservations[ a ].arrival < reservations[ b ].arrival ? -1 : 1;
 			} );
 
-			$.each( queue, function ( _, reservation_id ) {
+			$.each( queue, function( _, reservation_id ) {
 				if ( reservation_id ) {
 					if ( !er_timeline.draw_reservation( reservations[ reservation_id ] ) ) {
 						er_timeline.draw_reservations();
@@ -1140,7 +1140,7 @@
 		 *
 		 * @param {object} reservation
 		 */
-		recursively_remove_reservation: function ( reservation ) {
+		recursively_remove_reservation: function( reservation ) {
 			var id   = parseInt( reservation.id, 10 ),
 				date = moment( reservation.arrival ),
 				end  = moment( reservation.departure );
@@ -1171,14 +1171,14 @@
 		 * @param {int} depths to start at
 		 * @param {int} id of object that gets removed to begin with
 		 */
-		recursively_remove_reservations: function ( cell, depths, id ) {
+		recursively_remove_reservations: function( cell, depths, id ) {
 			var cell_reservations    = cell.data( 'reservations' ),
 				new_cell_reservation = [],
 				found_start          = false,
 				max_depths           = 0;
 
 			if ( cell_reservations && cell_reservations.length > 0 ) {
-				$.each( cell_reservations, function ( index, reservation_id ) {
+				$.each( cell_reservations, function( index, reservation_id ) {
 					if ( reservation_id ) {
 						if ( reservation_id === id || reservations[ reservation_id ].depths >= depths ) {
 							if ( found_start === false ) {
@@ -1208,7 +1208,7 @@
 		 *
 		 * @param {jQuery} element
 		 */
-		reservation_stop_edit: function ( element ) {
+		reservation_stop_edit: function( element ) {
 			element
 				.draggable( 'destroy' )
 				.resizable( 'destroy' );
@@ -1221,7 +1221,7 @@
 		 *
 		 * @param {jQuery} element
 		 */
-		reservation_allow_edit: function ( element ) {
+		reservation_allow_edit: function( element ) {
 			element
 				.draggable( {
 					snap:          snapping_enabled ? false : '.reservation',
@@ -1231,9 +1231,10 @@
 					appendTo:      ".timeline",
 					scope:         'reservations',
 					cancel:        '.title',
-					revert:        function ( event, ui ) {
-						if ( event )
+					revert:        function( event, ui ) {
+						if ( event ) {
 							return event;
+						}
 
 						//on older version of jQuery use $(this).data("draggable")
 						//on 2.x versions of jQuery use $(this).data("ui-draggable")
@@ -1245,12 +1246,12 @@
 						return !event;
 					},
 
-					start: function ( event, ui ) {
+					start: function( event, ui ) {
 						drag_start_position = ui.originalPosition;
 						drag_start_offset = ui.offset;
 					},
 
-					drag: function ( event, ui ) {
+					drag: function( event, ui ) {
 						var id          = parseInt( ui.helper.attr( 'data-id' ), 10 ),
 							reservation = reservations[ id ],
 							difference  = interval / cell_dimensions.width * ( ui.position.left - drag_start_position.left );
@@ -1279,7 +1280,7 @@
 						er_timeline.scroll_dragging();
 					},
 
-					stop: function () {
+					stop: function() {
 						tooltip.css( 'display', 'none' );
 						if ( scroll_action !== false ) {
 							clearInterval( scroll_action );
@@ -1290,13 +1291,13 @@
 				} )
 				.resizable( {
 					handles:   'e, w',
-					grid:      snapping_enabled ? [ cell_dimensions.width, 26 ] : false,
+					grid:      snapping_enabled ? [cell_dimensions.width, 26] : false,
 					minHeight: 0,
 					minWidth:  4,
-					start:     function ( event, ui ) {
+					start:     function( event, ui ) {
 						ui.originalElement.attr( 'style', 'left: ' + ui.originalElement.css( 'left' ) + ';top: ' + ui.originalElement.css( 'top' ) + ' !important;width: ' + ui.originalElement.css( 'width' ) );
 					},
-					resize:    function ( event, ui ) {
+					resize:    function( event, ui ) {
 						var id                   = parseInt( ui.element.attr( 'data-id' ), 10 ),
 							reservation          = reservations[ id ],
 							arrival_difference   = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
@@ -1321,13 +1322,13 @@
 								'display': 'block'
 							} );
 					},
-					stop:      function ( event, ui ) {
+					stop:      function( event, ui ) {
 						var id                   = parseInt( ui.element.attr( 'data-id' ), 10 ),
 							arrival_difference   = interval / cell_dimensions.width * ( ui.position.left - ui.originalPosition.left ),
 							departure_difference = interval / cell_dimensions.width * ( ui.size.width ),
 							reservation          = {
 								id:        id,
-								arrival: moment( reservations[ id ].arrival ).add( arrival_difference, 'seconds' ),
+								arrival:   moment( reservations[ id ].arrival ).add( arrival_difference, 'seconds' ),
 								departure: moment( reservations[ id ].arrival ).add( arrival_difference + departure_difference, 'seconds' ),
 								resource:  reservations[ id ].resource,
 								space:     reservations[ id ].space
@@ -1349,7 +1350,7 @@
 									left:  ui.originalPosition.left
 								},
 								500,
-								function () {
+								function() {
 								}
 							);
 						}
@@ -1367,7 +1368,7 @@
 		 * @param {object} reservation
 		 * @returns {boolean}
 		 */
-		draw_reservation: function ( reservation ) {
+		draw_reservation: function( reservation ) {
 			var id           = parseInt( reservation.id, 10 ),
 				date         = moment( reservation.arrival ),
 				end          = moment( reservation.departure ),
@@ -1397,7 +1398,7 @@
 
 					if ( cell_reservations.length > 0 ) {
 						//Go through existing reservation in the cell and check if to redraw them or if to close depths for this reservation
-						$.each( cell_reservations, function ( index, reservation_id ) {
+						$.each( cell_reservations, function( index, reservation_id ) {
 							if ( reservation_id && reservation_id !== id ) {
 								if ( reservations[ reservation_id ].arrival > reservation.arrival && reservations[ reservation_id ].arrival < reservation.departure && reservations[ reservation_id ].departure > reservation.arrival ) {
 									er_timeline.recursively_remove_reservations( cell, depths, reservation_id );
@@ -1457,7 +1458,7 @@
 					if ( was_there.length > 0 ) {
 						//element.addClass( 'fade-in-fast' );
 						element.addClass( 'fade-in-fast' );
-					} else if ( reservation.fresh ){
+					} else if ( reservation.fresh ) {
 						delete reservation.fresh;
 					} else {
 						element.addClass( 'no-animation' );
@@ -1501,7 +1502,7 @@
 		 * @param {object} reservation
 		 * @param {boolean} changed
 		 */
-		add_reservation: function ( reservation,changed ) {
+		add_reservation: function( reservation, changed ) {
 			var id = parseInt( reservation.id, 10 );
 
 			reservation.id = id;
@@ -1528,11 +1529,11 @@
 		 * @param to_check
 		 * @returns {boolean}
 		 */
-		check_availability: function ( to_check ) {
+		check_availability: function( to_check ) {
 			var id           = parseInt( to_check.id, 10 ),
 				is_available = true;
 
-			$.each( reservations, function ( _, reservation ) {
+			$.each( reservations, function( _, reservation ) {
 				if ( reservation && reservation.resource === to_check.resource && reservation.space === to_check.space && reservation.id !== id && (
 					to_check.arrival < reservation.departure && to_check.departure > reservation.arrival
 				) ) {
@@ -1547,11 +1548,11 @@
 		/**
 		 * Keeps the resources cells as high as the biggest cell is
 		 */
-		sync_cell_heights: function () {
+		sync_cell_heights: function() {
 			var tbody_index, tr_index;
-			resources_tbody.each( function ( _, resource_tbody ) {
+			resources_tbody.each( function( _, resource_tbody ) {
 				tbody_index = $( resource_tbody ).index() / 2 - 0.5;
-				$( resource_tbody ).children().each( function ( _, tr ) {
+				$( resource_tbody ).children().each( function( _, tr ) {
 					tr_index = $( tr ).index();
 					$( tr ).height( $( tbody[ tbody_index ] ).children().eq( $( tr ).index() ).height() );
 				} );
@@ -1564,7 +1565,7 @@
 		 * @param {moment} date of cell to add
 		 * @param {boolean} at_start wether to add it at start
 		 */
-		generate_column: function ( date, at_start ) {
+		generate_column: function( date, at_start ) {
 			var header_main,
 				header_class = '',
 				tbody_number = 0,
@@ -1577,7 +1578,7 @@
 
 				if ( date.date() === 1 ) {
 					header_class = 'first';
-					header_main.append( $( '<div class="first">' + er_date_picker_params.month_names[date.month()] + '</div>' ) );
+					header_main.append( $( '<div class="first">' + er_date_picker_params.month_names[ date.month() ] + '</div>' ) );
 				}
 			} else {
 				var last_char   = er_both_params.time_format.charAt( er_both_params.time_format.length - 1 ),
@@ -1626,7 +1627,7 @@
 				header_class += ' past';
 			}
 
-			if (( date.day() === 0 || date.day() === 6 ) ) {
+			if ( ( date.day() === 0 || date.day() === 6 ) ) {
 				header_class += ' weekend';
 			}
 
@@ -1642,7 +1643,7 @@
 				thead_main.append( header_main );
 			}
 
-			$.each( data.resources, function ( resource_id, resource ) {
+			$.each( data.resources, function( resource_id, resource ) {
 				var cell_header = $( '<th><div class="count"></div></th>' )
 					.addClass( header_class )
 					.attr( 'data-resource', resource_id )
@@ -1677,7 +1678,7 @@
 						.droppable( {
 							scope:     "reservations", //we only accept reservations
 							tolerance: "pointer", //targets the cell under the mouse
-							drop:      function ( event, ui ) {
+							drop:      function( event, ui ) {
 								var cell = $( this );
 
 								if ( last_hover && last_hover.getAttribute( "data-space" ) ) {
@@ -1732,12 +1733,12 @@
 		}
 	};
 
-	console.log( $('hr.wp-header-end') );
+	console.log( $( 'hr.wp-header-end' ) );
 	master.insertAfter( 'hr.wp-header-end' );
 	tooltip.insertAfter( 'hr.wp-header-end' );
 	sidebar.hide();
 
-	if( data.default_hourly === 'on' ){
+	if ( data.default_hourly === 'on' ) {
 		interval = "3600";
 		interval_string = 'hours';
 	}
@@ -1757,11 +1758,11 @@
 	master.css( 'display', 'flex' );
 	er_timeline.init();
 
-	if( data.reservation_resource > 0 ){
+	if ( data.reservation_resource > 0 ) {
 		resources.find( '.resource-handler:not([data-resource="' + data.reservation_resource + '"],.retracted),.resource-handler.retracted[data-resource="' + data.reservation_resource + '"]' ).click();
 	}
 
-	if( data.reservation_arrival ){
+	if ( data.reservation_arrival ) {
 		er_timeline.jump_to_date( moment( data.reservation_arrival ) );
 	}
 } )

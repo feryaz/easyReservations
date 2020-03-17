@@ -45,17 +45,17 @@ switch ( $template ) {
 	case 'twentysixteen':
 		echo '</main></div>';
 		break;
-    case 'twentyseventeen':
-        echo '</main>';
-        echo '</div>';
-        get_sidebar( 'shop' );
-        echo '</div>';
-        break;
-    case 'twentynineteen':
-        echo '</main>';
-        echo '</section>';
-        break;
-    default :
+	case 'twentyseventeen':
+		echo '</main>';
+		echo '</div>';
+		get_sidebar( 'shop' );
+		echo '</div>';
+		break;
+	case 'twentynineteen':
+		echo '</main>';
+		echo '</section>';
+		break;
+	default :
 		echo '</main></div>';
 		break;
 }

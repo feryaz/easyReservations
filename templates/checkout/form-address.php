@@ -17,32 +17,33 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="easyreservations-address-fields">
-	<h3><?php esc_html_e( 'Address details', 'easyReservations' ); ?></h3>
+    <h3><?php esc_html_e( 'Address details', 'easyReservations' ); ?></h3>
 
 	<?php do_action( 'easyreservations_before_checkout_address_form', $checkout ); ?>
 
-	<div class="easyreservations-address-fields__field-wrapper">
+    <div class="easyreservations-address-fields__field-wrapper">
 		<?php
 		$fields = $checkout->get_checkout_fields( 'address' );
 
 		foreach ( $fields as $key => $field ) {
-            easyreservations_form_field( $key, $field, $checkout->get_value( $key ) );
+			easyreservations_form_field( $key, $field, $checkout->get_value( $key ) );
 		}
 		?>
-	</div>
+    </div>
 
 	<?php do_action( 'easyreservations_after_checkout_address_form', $checkout ); ?>
 </div>
 
 <?php if ( ! is_user_logged_in() && er_is_registration_enabled() ) : ?>
-	<div class="easyreservations-account-fields">
+    <div class="easyreservations-account-fields">
 		<?php if ( er_is_registration_required() ) : ?>
 
-			<p class="form-row form-row-wide create-account">
-				<label class="easyreservations-form__label easyreservations-form__label-for-checkbox checkbox">
-					<input class="easyreservations-form__input easyreservations-form__input-checkbox input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'easyreservations_create_account_default_checked', false ) ) ), true ); ?> type="checkbox" name="createaccount" value="1" /> <span><?php esc_html_e( 'Create an account?', 'easyReservations' ); ?></span>
-				</label>
-			</p>
+            <p class="form-row form-row-wide create-account">
+                <label class="easyreservations-form__label easyreservations-form__label-for-checkbox checkbox">
+                    <input class="easyreservations-form__input easyreservations-form__input-checkbox input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'easyreservations_create_account_default_checked', false ) ) ), true ); ?> type="checkbox" name="createaccount" value="1"/>
+                    <span><?php esc_html_e( 'Create an account?', 'easyReservations' ); ?></span>
+                </label>
+            </p>
 
 		<?php endif; ?>
 
@@ -50,15 +51,15 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php if ( $checkout->get_checkout_fields( 'account' ) ) : ?>
 
-			<div class="create-account">
+            <div class="create-account">
 				<?php foreach ( $checkout->get_checkout_fields( 'account' ) as $key => $field ) : ?>
 					<?php easyreservations_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
 				<?php endforeach; ?>
-				<div class="clear"></div>
-			</div>
+                <div class="clear"></div>
+            </div>
 
 		<?php endif; ?>
 
 		<?php do_action( 'easyreservations_after_checkout_registration_form', $checkout ); ?>
-	</div>
+    </div>
 <?php endif; ?>

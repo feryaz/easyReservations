@@ -6,7 +6,8 @@ jQuery( function( $ ) {
 		return false;
 	}
 
-	var locale_json = er_address_i18n_params.locale.replace( /&quot;/g, '"' ), locale = $.parseJSON( locale_json );
+	var locale_json = er_address_i18n_params.locale.replace( /&quot;/g, '"' ),
+		locale = $.parseJSON( locale_json );
 
 	function field_is_required( field, is_required ) {
 		if ( is_required ) {
@@ -38,14 +39,14 @@ jQuery( function( $ ) {
 			if ( typeof locale[ country ] !== 'undefined' ) {
 				thislocale = locale[ country ];
 			} else {
-				thislocale = locale['default'];
+				thislocale = locale[ 'default' ];
 			}
 
 			var $postcodefield = thisform.find( '#postcode_field' ),
 				$cityfield     = thisform.find( '#city_field' ),
 				$statefield    = thisform.find( '#state_field' );
 
-			if ( ! $postcodefield.attr( 'data-o_class' ) ) {
+			if ( !$postcodefield.attr( 'data-o_class' ) ) {
 				$postcodefield.attr( 'data-o_class', $postcodefield.attr( 'class' ) );
 				$cityfield.attr( 'data-o_class', $cityfield.attr( 'class' ) );
 				$statefield.attr( 'data-o_class', $statefield.attr( 'class' ) );
@@ -56,11 +57,11 @@ jQuery( function( $ ) {
 			$.each( locale_fields, function( key, value ) {
 
 				var field       = thisform.find( value ),
-					fieldLocale = $.extend( true, {}, locale['default'][ key ], thislocale[ key ] );
+					fieldLocale = $.extend( true, {}, locale[ 'default' ][ key ], thislocale[ key ] );
 
 				// Labels.
 				if ( typeof fieldLocale.label !== 'undefined' ) {
-                    field.find( 'label' ).html( fieldLocale.label );
+					field.find( 'label' ).html( fieldLocale.label );
 				}
 
 				// Placeholders.
@@ -74,7 +75,7 @@ jQuery( function( $ ) {
 				if (
 					typeof fieldLocale.placeholder === 'undefined' &&
 					typeof fieldLocale.label !== 'undefined' &&
-					! field.find( 'label' ).length
+					!field.find( 'label' ).length
 				) {
 					field.find( ':input' ).attr( 'placeholder', fieldLocale.label );
 					field.find( ':input' ).attr( 'data-placeholder', fieldLocale.label );
@@ -101,7 +102,7 @@ jQuery( function( $ ) {
 						field.show();
 					}
 				}
-			});
+			} );
 
 			var fieldsets = $(
 				'.easyreservations-address-fields__field-wrapper,' +
@@ -109,15 +110,15 @@ jQuery( function( $ ) {
 			);
 
 			fieldsets.each( function( index, fieldset ) {
-				var rows    = $( fieldset ).find( '.form-row' );
+				var rows = $( fieldset ).find( '.form-row' );
 				var wrapper = rows.first().parent();
 
 				// Before sorting, ensure all fields have a priority for bW compatibility.
 				var last_priority = 0;
 
 				rows.each( function() {
-					if ( ! $( this ).data( 'priority' ) ) {
-							$( this ).data( 'priority', last_priority + 1 );
+					if ( !$( this ).data( 'priority' ) ) {
+						$( this ).data( 'priority', last_priority + 1 );
 					}
 					last_priority = $( this ).data( 'priority' );
 				} );
@@ -134,10 +135,10 @@ jQuery( function( $ ) {
 						return -1;
 					}
 					return 0;
-				});
+				} );
 
 				rows.detach().appendTo( wrapper );
-			});
-		})
+			} );
+		} )
 		.trigger( 'er_address_i18n_ready' );
-});
+} );

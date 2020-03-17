@@ -7,100 +7,104 @@
  */
 
 //Prevent direct access to file
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class ER_DateTime extends DateTime {
 
-    /**
-     * UTC Offset, if needed. Only used when a timezone is not set. When
-     * timezones are used this will equal 0.
-     *
-     * @var integer
-     */
-    protected $utc_offset = 0;
+	/**
+	 * UTC Offset, if needed. Only used when a timezone is not set. When
+	 * timezones are used this will equal 0.
+	 *
+	 * @var integer
+	 */
+	protected $utc_offset = 0;
 
-    /**
-     * Output an ISO 8601 date string in local (WordPress) timezone.
-     *
-     * @return string
-     */
-    public function __toString() {
-        return $this->format( DATE_ATOM );
-    }
+	/**
+	 * Output an ISO 8601 date string in local (WordPress) timezone.
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->format( DATE_ATOM );
+	}
 
-    public function addSeconds($seconds){
-        if ( !is_integer( $seconds ) ) {
-            return $this;
-        }
+	public function addSeconds( $seconds ) {
+		if ( ! is_integer( $seconds ) ) {
+			return $this;
+		}
 
-        $this->add( new DateInterval( 'PT' . $seconds . 'S' ) );
-        return $this;
-    }
+		$this->add( new DateInterval( 'PT' . $seconds . 'S' ) );
 
-    public function getTimestamp() {
-        if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
-            return parent::getTimestamp();
-        }
+		return $this;
+	}
 
-        return $this->format( 'U' );
-    }
+	public function getTimestamp() {
+		if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
+			return parent::getTimestamp();
+		}
 
-    /**
-     * Set UTC offset - this is a fixed offset instead of a timezone.
-     *
-     * @param int $offset Offset.
-     */
-    public function set_utc_offset( $offset ) {
-        $this->utc_offset = intval( $offset );
-    }
+		return $this->format( 'U' );
+	}
 
-    /**
-     * Get UTC offset if set, or default to the DateTime object's offset.
-     */
-    public function getOffset() {
-        return $this->utc_offset ? $this->utc_offset : parent::getOffset();
-    }
+	/**
+	 * Set UTC offset - this is a fixed offset instead of a timezone.
+	 *
+	 * @param int $offset Offset.
+	 */
+	public function set_utc_offset( $offset ) {
+		$this->utc_offset = intval( $offset );
+	}
 
-    /**
-     * Set timezone.
-     *
-     * @param DateTimeZone $timezone DateTimeZone instance.
-     * @return DateTime
-     */
-    public function setTimezone( $timezone ) {
-        $this->utc_offset = 0;
+	/**
+	 * Get UTC offset if set, or default to the DateTime object's offset.
+	 */
+	public function getOffset() {
+		return $this->utc_offset ? $this->utc_offset : parent::getOffset();
+	}
 
-        return parent::setTimezone( $timezone );
-    }
+	/**
+	 * Set timezone.
+	 *
+	 * @param DateTimeZone $timezone DateTimeZone instance.
+	 *
+	 * @return DateTime
+	 */
+	public function setTimezone( $timezone ) {
+		$this->utc_offset = 0;
 
-    /**
-     * Get the timestamp with the WordPress timezone offset added or subtracted.
-     *
-     * @return int
-     */
-    public function getOffsetTimestamp() {
-        return $this->getTimestamp() + $this->getOffset();
-    }
+		return parent::setTimezone( $timezone );
+	}
 
-    /**
-     * Format a date based on the offset timestamp.
-     *
-     * @param  string $format Date format.
-     * @return string
-     */
-    public function date( $format ) {
-        return gmdate( $format, $this->getOffsetTimestamp() );
-    }
+	/**
+	 * Get the timestamp with the WordPress timezone offset added or subtracted.
+	 *
+	 * @return int
+	 */
+	public function getOffsetTimestamp() {
+		return $this->getTimestamp() + $this->getOffset();
+	}
 
-    /**
-     * Return a localised date based on offset timestamp. Wrapper for date_i18n function.
-     *
-     * @param  string $format Date format.
-     * @return string
-     */
-    public function date_i18n( $format = 'Y-m-d' ) {
-        return date_i18n( $format, $this->getOffsetTimestamp() );
-    }
+	/**
+	 * Format a date based on the offset timestamp.
+	 *
+	 * @param string $format Date format.
+	 *
+	 * @return string
+	 */
+	public function date( $format ) {
+		return gmdate( $format, $this->getOffsetTimestamp() );
+	}
+
+	/**
+	 * Return a localised date based on offset timestamp. Wrapper for date_i18n function.
+	 *
+	 * @param string $format Date format.
+	 *
+	 * @return string
+	 */
+	public function date_i18n( $format = 'Y-m-d' ) {
+		return date_i18n( $format, $this->getOffsetTimestamp() );
+	}
 }

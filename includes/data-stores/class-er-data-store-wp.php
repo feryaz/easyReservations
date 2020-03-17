@@ -48,8 +48,9 @@ class ER_Data_Store_WP {
 	/**
 	 * Get and store terms from a taxonomy.
 	 *
-	 * @param  ER_Data|integer $object ER_Data object or object ID.
-	 * @param  string          $taxonomy Taxonomy name e.g. resource_cat.
+	 * @param ER_Data|integer $object ER_Data object or object ID.
+	 * @param string          $taxonomy Taxonomy name e.g. resource_cat.
+	 *
 	 * @return array of terms
 	 */
 	protected function get_term_ids( $object, $taxonomy ) {
@@ -62,13 +63,15 @@ class ER_Data_Store_WP {
 		if ( false === $terms || is_wp_error( $terms ) ) {
 			return array();
 		}
+
 		return wp_list_pluck( $terms, 'term_id' );
 	}
 
 	/**
 	 * Returns an array of meta for an object.
 	 *
-	 * @param  ER_Data $object ER_Data object.
+	 * @param ER_Data $object ER_Data object.
+	 *
 	 * @return array
 	 */
 	public function read_meta( &$object ) {
@@ -76,7 +79,7 @@ class ER_Data_Store_WP {
 		$db_info       = $this->get_db_info();
 		$raw_meta_data = $wpdb->get_results(
 			$wpdb->prepare(
-				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 				"SELECT {$db_info['meta_id_field']} as meta_id, meta_key, meta_value
 				FROM {$db_info['table']}
 				WHERE {$db_info['object_id_field']} = %d
@@ -88,14 +91,15 @@ class ER_Data_Store_WP {
 
 		$this->internal_meta_keys = array_merge( array_map( array( $this, 'prefix_key' ), $object->get_data_keys() ), $this->internal_meta_keys );
 		$meta_data                = array_filter( $raw_meta_data, array( $this, 'exclude_internal_meta_keys' ) );
+
 		return apply_filters( "easyreservations_data_store_wp_{$this->meta_type}_read_meta", $meta_data, $object, $this );
 	}
 
 	/**
 	 * Deletes meta based on meta ID.
 	 *
-	 * @param  ER_Data  $object ER_Data object.
-	 * @param  stdClass $meta (containing at least ->id).
+	 * @param ER_Data  $object ER_Data object.
+	 * @param stdClass $meta (containing at least ->id).
 	 */
 	public function delete_meta( &$object, $meta ) {
 		delete_metadata_by_mid( $this->meta_type, $meta->id );
@@ -104,8 +108,9 @@ class ER_Data_Store_WP {
 	/**
 	 * Add new piece of meta.
 	 *
-	 * @param  ER_Data  $object
-	 * @param  stdClass $meta (containing ->key and ->value).
+	 * @param ER_Data  $object
+	 * @param stdClass $meta (containing ->key and ->value).
+	 *
 	 * @return int meta ID
 	 */
 	public function add_meta( &$object, $meta ) {
@@ -115,8 +120,8 @@ class ER_Data_Store_WP {
 	/**
 	 * Update meta.
 	 *
-	 * @param  ER_Data  $object ER_Data object.
-	 * @param  stdClass $meta (containing ->id, ->key and ->value).
+	 * @param ER_Data  $object ER_Data object.
+	 * @param stdClass $meta (containing ->id, ->key and ->value).
 	 */
 	public function update_meta( &$object, $meta ) {
 		update_metadata_by_mid( $this->meta_type, $meta->id, $meta->value, $meta->key );
@@ -138,7 +143,7 @@ class ER_Data_Store_WP {
 			$table .= '';
 		}
 
-		$table          .= $this->meta_type . 'meta';
+		$table           .= $this->meta_type . 'meta';
 		$object_id_field = $this->meta_type . '_id';
 
 		// Figure out our field names.
@@ -163,6 +168,7 @@ class ER_Data_Store_WP {
 	 * addition to all data props with _ prefix.
 	 *
 	 * @param string $key Prefix to be added to meta keys.
+	 *
 	 * @return string
 	 */
 	protected function prefix_key( $key ) {
@@ -173,6 +179,7 @@ class ER_Data_Store_WP {
 	 * Callback to remove unwanted meta data.
 	 *
 	 * @param object $meta Meta object to check if it should be excluded or not.
+	 *
 	 * @return bool
 	 */
 	protected function exclude_internal_meta_keys( $meta ) {
@@ -183,23 +190,24 @@ class ER_Data_Store_WP {
 	 * Gets a list of props and meta keys that need updated based on change state
 	 * or if they are present in the database or not.
 	 *
-	 * @param  ER_Data $object              The ER_Data object (ER_Coupon for coupons, etc).
-	 * @param  array   $meta_key_to_props   A mapping of meta keys => prop names.
-	 * @param  string  $meta_type           The internal WP meta type (post, user, etc).
+	 * @param ER_Data $object The ER_Data object (ER_Coupon for coupons, etc).
+	 * @param array   $meta_key_to_props A mapping of meta keys => prop names.
+	 * @param string  $meta_type The internal WP meta type (post, user, etc).
+	 *
 	 * @return array                        A mapping of meta keys => prop names, filtered by ones that should be updated.
 	 */
 	protected function get_props_to_update( $object, $meta_key_to_props, $meta_type = 'post' ) {
 		$props_to_update = array();
 		$changed_props   = $object->get_changes();
 
-        // Props should be updated if they are a part of the $changed array or don't exist yet.
+		// Props should be updated if they are a part of the $changed array or don't exist yet.
 		foreach ( $meta_key_to_props as $meta_key => $prop ) {
-            if ( array_key_exists( $prop, $changed_props ) || ! metadata_exists( $meta_type, $object->get_id(), $meta_key ) ) {
+			if ( array_key_exists( $prop, $changed_props ) || ! metadata_exists( $meta_type, $object->get_id(), $meta_key ) ) {
 				$props_to_update[ $meta_key ] = $prop;
 			}
 		}
 
-        return $props_to_update;
+		return $props_to_update;
 	}
 
 	/**
@@ -231,6 +239,7 @@ class ER_Data_Store_WP {
 	 * Get valid WP_Query args from a ER_Object_Query's query variables.
 	 *
 	 * @param array $query_vars query vars from a ER_Object_Query.
+	 *
 	 * @return array
 	 */
 	protected function get_wp_query_args( $query_vars ) {
@@ -297,6 +306,7 @@ class ER_Data_Store_WP {
 	 * @param mixed  $query_var A valid date format.
 	 * @param string $key meta or db column key.
 	 * @param array  $wp_query_args WP_Query args.
+	 *
 	 * @return array Modified $wp_query_args
 	 */
 	public function parse_date_for_wp_query( $query_var, $key, $wp_query_args = array() ) {
@@ -390,6 +400,7 @@ class ER_Data_Store_WP {
 				}
 			}
 			$wp_query_args['date_query'][] = $query_arg;
+
 			return $wp_query_args;
 		}
 
@@ -473,6 +484,7 @@ class ER_Data_Store_WP {
 	 * the approximate search engines list, and is translatable.
 	 *
 	 * @param array $terms Terms to check.
+	 *
 	 * @return array Terms that are not stopwords.
 	 */
 	protected function get_valid_search_terms( $terms ) {
@@ -532,6 +544,7 @@ class ER_Data_Store_WP {
 	 *
 	 * @param int    $id ID of object to update.
 	 * @param string $table Lookup table name.
+	 *
 	 * @return array
 	 */
 	protected function get_data_for_lookup_table( $id, $table ) {
@@ -542,6 +555,7 @@ class ER_Data_Store_WP {
 	 * Get primary key name for lookup table.
 	 *
 	 * @param string $table Lookup table name.
+	 *
 	 * @return string
 	 */
 	protected function get_primary_key_for_lookup_table( $table ) {
@@ -553,6 +567,7 @@ class ER_Data_Store_WP {
 	 *
 	 * @param int    $id ID of object to update.
 	 * @param string $table Lookup table name.
+	 *
 	 * @return NULL
 	 */
 	protected function update_lookup_table( $id, $table ) {

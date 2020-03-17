@@ -17,17 +17,17 @@ defined( 'ABSPATH' ) || exit;
 <div class="easyreservations-additional-fields">
     <h3><?php esc_html_e( 'Additional information', 'easyReservations' ); ?></h3>
 
-    <?php do_action( 'easyreservations_before_order_notes', $checkout ); ?>
+	<?php do_action( 'easyreservations_before_order_notes', $checkout ); ?>
 
-    <?php if ( apply_filters( 'easyreservations_enable_order_notes_field', 'yes' === get_option( 'reservations_enable_order_comments', 'yes' ) ) ) : ?>
+	<?php if ( apply_filters( 'easyreservations_enable_order_notes_field', 'yes' === get_option( 'reservations_enable_order_comments', 'yes' ) ) ) : ?>
 
         <div class="easyreservations-additional-fields__field-wrapper">
-            <?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
-                <?php easyreservations_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
-            <?php endforeach; ?>
+			<?php foreach ( $checkout->get_checkout_fields( 'order' ) as $key => $field ) : ?>
+				<?php easyreservations_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
+			<?php endforeach; ?>
         </div>
 
-    <?php endif; ?>
+	<?php endif; ?>
 
-    <?php do_action( 'easyreservations_after_order_notes', $checkout ); ?>
+	<?php do_action( 'easyreservations_after_order_notes', $checkout ); ?>
 </div>

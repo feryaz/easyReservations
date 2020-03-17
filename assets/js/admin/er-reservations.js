@@ -17,7 +17,7 @@ jQuery( function( $ ) {
 	/**
 	 * Click a row.
 	 */
-    ERReservationsTable.prototype.onRowClick = function( e ) {
+	ERReservationsTable.prototype.onRowClick = function( e ) {
 		if ( $( e.target ).filter( 'a, a *, .no-link, .no-link *, button, button *' ).length ) {
 			return true;
 		}
@@ -43,39 +43,39 @@ jQuery( function( $ ) {
 	/**
 	 * Preview an reservation.
 	 */
-    ERReservationsTable.prototype.onPreview = function() {
-		var $previewButton    = $( this ),
-			$reservation_id   = $previewButton.data( 'reservation-id' );
+	ERReservationsTable.prototype.onPreview = function() {
+		var $previewButton  = $( this ),
+			$reservation_id = $previewButton.data( 'reservation-id' );
 
 		if ( $previewButton.data( 'reservation-data' ) ) {
-			$( this ).ERBackboneModal({
+			$( this ).ERBackboneModal( {
 				template: 'er-modal-view-reservation',
-				variable : $previewButton.data( 'reservation-data' )
-			});
+				variable: $previewButton.data( 'reservation-data' )
+			} );
 		} else {
 			$previewButton.addClass( 'disabled' );
 
-			$.ajax({
-                url: er_reservations_params.ajax_url,
-                data: {
-                    reservation_id: $reservation_id,
-                    action: 'easyreservations_get_reservation_details',
-                    security: er_reservations_params.preview_nonce
-                },
-                type: 'GET',
+			$.ajax( {
+				url:     er_reservations_params.ajax_url,
+				data:    {
+					reservation_id: $reservation_id,
+					action:         'easyreservations_get_reservation_details',
+					security:       er_reservations_params.preview_nonce
+				},
+				type:    'GET',
 				success: function( response ) {
 					$( '.reservation-preview' ).removeClass( 'disabled' );
 
 					if ( response.success ) {
 						$previewButton.data( 'reservation-data', response.data );
 
-						$( this ).ERBackboneModal({
+						$( this ).ERBackboneModal( {
 							template: 'er-modal-view-reservation',
-							variable : response.data
-						});
+							variable: response.data
+						} );
 					}
 				}
-			});
+			} );
 		}
 		return false;
 	};
@@ -85,7 +85,7 @@ jQuery( function( $ ) {
 	 */
 	new ERReservationsTable();
 
-	$(document).ready(function(){
-		$('input[name="delete_all"]').remove();
-    });
+	$( document ).ready( function() {
+		$( 'input[name="delete_all"]' ).remove();
+	} );
 } );

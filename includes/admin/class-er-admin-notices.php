@@ -39,12 +39,12 @@ class ER_Admin_Notices {
 	 * @var array
 	 */
 	private static $core_notices = array(
-		'install'                   => 'install_notice',
-		'update_reservations'       => 'update_notice',
-		'update_premium'            => 'update_premium_notice',
-		'template_files'            => 'template_file_check_notice',
-		'no_secure_connection'      => 'secure_connection_notice',
-		'wp_php_min_requirements'   => 'wp_php_min_requirements_notice',
+		'install'                 => 'install_notice',
+		'update_reservations'     => 'update_notice',
+		'update_premium'          => 'update_premium_notice',
+		'template_files'          => 'template_file_check_notice',
+		'no_secure_connection'    => 'secure_connection_notice',
+		'wp_php_min_requirements' => 'wp_php_min_requirements_notice',
 	);
 
 	/**
@@ -101,9 +101,9 @@ class ER_Admin_Notices {
 	 * Remove all notices.
 	 */
 	public static function remove_all_notices() {
-        self::$notices           = array();
-        self::$temporary_notices = array();
-    }
+		self::$notices           = array();
+		self::$temporary_notices = array();
+	}
 
 	/**
 	 * Reset notices for themes when switched or a new version of ER is installed.
@@ -125,48 +125,48 @@ class ER_Admin_Notices {
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $name ) ) );
 	}
 
-    /**
-     * Add temporary error message
-     *
-     * @param string $message Error message
-     */
-    public static function add_temporary_error( $message ) {
-        self::$has_error = true;
-        self::add( 'error', $message );
-    }
+	/**
+	 * Add temporary error message
+	 *
+	 * @param string $message Error message
+	 */
+	public static function add_temporary_error( $message ) {
+		self::$has_error = true;
+		self::add( 'error', $message );
+	}
 
-    /**
-     * Add temporary notice message
-     *
-     * @param string $message Warning message
-     */
-    public static function add_temporary_notice( $message ) {
-        self::add( 'notice', $message );
-    }
+	/**
+	 * Add temporary notice message
+	 *
+	 * @param string $message Warning message
+	 */
+	public static function add_temporary_notice( $message ) {
+		self::add( 'notice', $message );
+	}
 
-    /**
-     * Add temporary notice success message
-     *
-     * @param string $message Message
-     */
-    public static function add_temporary_success( $message ) {
-        self::add( 'updated', $message );
-    }
+	/**
+	 * Add temporary notice success message
+	 *
+	 * @param string $message Message
+	 */
+	public static function add_temporary_success( $message ) {
+		self::add( 'updated', $message );
+	}
 
-    /**
-     * Add admin message
-     *
-     * @param string $type updated, notice, error
-     * @param string $message
-     */
-    public static function add( $type, $message ) {
-        self::$temporary_notices[] = array(
-            'type'    => $type,
-            'message' => $message
-        );
-    }
+	/**
+	 * Add admin message
+	 *
+	 * @param string $type updated, notice, error
+	 * @param string $message
+	 */
+	public static function add( $type, $message ) {
+		self::$temporary_notices[] = array(
+			'type'    => $type,
+			'message' => $message
+		);
+	}
 
-    /**
+	/**
 	 * Remove a notice from being displayed.
 	 *
 	 * @param string $name Notice name.
@@ -226,15 +226,15 @@ class ER_Admin_Notices {
 			return;
 		}
 
-        add_action( 'admin_notices', array( __CLASS__, 'output_temporary_notices' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'output_temporary_notices' ) );
 
-        $notices = self::get_notices();
+		$notices = self::get_notices();
 
-        if ( empty( $notices ) ) {
-            return;
-        }
+		if ( empty( $notices ) ) {
+			return;
+		}
 
-        wp_enqueue_style( 'easyreservations-activation', plugins_url( '/assets/css/activation.css', RESERVATIONS_PLUGIN_FILE ), array(), RESERVATIONS_VERSION );
+		wp_enqueue_style( 'easyreservations-activation', plugins_url( '/assets/css/activation.css', RESERVATIONS_PLUGIN_FILE ), array(), RESERVATIONS_VERSION );
 
 		// Add RTL support.
 		//wp_style_add_data( 'easyreservations-activation', 'rtl', 'replace' );
@@ -251,7 +251,7 @@ class ER_Admin_Notices {
 	/**
 	 * Add a custom notice.
 	 *
-	 * @param string $name        Notice name.
+	 * @param string $name Notice name.
 	 * @param string $notice_html Notice HTML.
 	 */
 	public static function add_custom_notice( $name, $notice_html ) {
@@ -280,46 +280,46 @@ class ER_Admin_Notices {
 
 	/**
 	 * Output any stored custom notices.
-     *
-     * @param string $type type of note to output
+	 *
+	 * @param string $type type of note to output
 	 */
 	public static function output_temporary_notices( $type = 'all' ) {
 		$notices = self::get_temporary_notices();
 
 		if ( ! empty( $notices ) ) {
-            foreach ( $notices as $message ) {
-                if ( empty($type) || $type == 'all' || $type == $message['type'] ) {
-                    echo '<div class="easy-message ' . esc_attr( $message['type'] ) . ' below-h2"><p>' . wp_kses_post( $message['message'] ) . '</p></div>';
-                }
-            }
-        }
+			foreach ( $notices as $message ) {
+				if ( empty( $type ) || $type == 'all' || $type == $message['type'] ) {
+					echo '<div class="easy-message ' . esc_attr( $message['type'] ) . ' below-h2"><p>' . wp_kses_post( $message['message'] ) . '</p></div>';
+				}
+			}
+		}
 	}
 
 	/**
 	 * If we need to update, include a message with the update button.
 	 */
 	public static function update_notice() {
-        $plugin = 'reservations';
+		$plugin = 'reservations';
 
-        if ( ER_Install::needs_db_update() ) {
-            include dirname( __FILE__ ) . '/views/html-notice-update.php';
-        } else {
-            ER_Install::update_db_version();
-            include dirname( __FILE__ ) . '/views/html-notice-updated.php';
-        }
-    }
+		if ( ER_Install::needs_db_update() ) {
+			include dirname( __FILE__ ) . '/views/html-notice-update.php';
+		} else {
+			ER_Install::update_db_version();
+			include dirname( __FILE__ ) . '/views/html-notice-updated.php';
+		}
+	}
 
 	/**
 	 * If we need to update, include a message with the update button.
 	 */
 	public static function update_premium_notice() {
-        $plugin = 'premium';
+		$plugin = 'premium';
 
-        if ( ER_Install::needs_db_update( 'premium' ) ) {
-            include dirname( __FILE__ ) . '/views/html-notice-update.php';
+		if ( ER_Install::needs_db_update( 'premium' ) ) {
+			include dirname( __FILE__ ) . '/views/html-notice-update.php';
 		} else {
-            include dirname( __FILE__ ) . '/views/html-notice-updated.php';
-        }
+			include dirname( __FILE__ ) . '/views/html-notice-updated.php';
+		}
 	}
 
 	/**
@@ -395,6 +395,7 @@ class ER_Admin_Notices {
 	public static function wp_php_min_requirements_notice() {
 		if ( apply_filters( 'easyreservations_hide_php_wp_nag', get_user_meta( get_current_user_id(), 'dismissed_wp_php_min_requirements_notice', true ) ) ) {
 			self::remove_notice( 'wp_php_min_requirements' );
+
 			return;
 		}
 
@@ -408,20 +409,20 @@ class ER_Admin_Notices {
 
 		if ( $old_php && $old_wp ) {
 			$msg = sprintf(
-				/* translators: 1: Minimum PHP version 2: Minimum WordPress version */
+			/* translators: 1: Minimum PHP version 2: Minimum WordPress version */
 				__( 'Update required: easyReservations will soon require PHP version %1$s and WordPress version %2$s or newer.', 'easyReservations' ),
 				RESERVATIONS_MIN_PHP_VERSION,
 				RESERVATIONS_MIN_WP_VERSION
 			);
 		} elseif ( $old_php ) {
 			$msg = sprintf(
-				/* translators: %s: Minimum PHP version */
+			/* translators: %s: Minimum PHP version */
 				__( 'Update required: easyReservations will soon require PHP version %s or newer.', 'easyReservations' ),
 				RESERVATIONS_MIN_PHP_VERSION
 			);
 		} elseif ( $old_wp ) {
 			$msg = sprintf(
-				/* translators: %s: Minimum WordPress version */
+			/* translators: %s: Minimum WordPress version */
 				__( 'Update required: easyReservations will soon require WordPress version %s or newer.', 'easyReservations' ),
 				RESERVATIONS_MIN_WP_VERSION
 			);
@@ -445,12 +446,14 @@ class ER_Admin_Notices {
 	 * Wrapper for is_plugin_active.
 	 *
 	 * @param string $plugin Plugin to check.
+	 *
 	 * @return boolean
 	 */
 	protected static function is_plugin_active( $plugin ) {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
+
 		return is_plugin_active( $plugin );
 	}
 }

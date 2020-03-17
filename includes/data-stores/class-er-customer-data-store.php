@@ -10,7 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * ER Customer Data Store.
  */
-class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Data_Store_Interface, ER_Object_Data_Store_Interface {
+class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Data_Store_Interface,
+	ER_Object_Data_Store_Interface {
 
 	/**
 	 * Data stored in meta keys, but not considered "meta".
@@ -18,40 +19,40 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * @var array
 	 */
 	protected $internal_meta_keys = array(
-        'locale',
-        'address_postcode',
-        'address_city',
-        'address_address_1',
-        'address_address_2',
-        'address_state',
-        'address_country',
-        'paying_customer',
-        'er_last_update',
-        'er_last_active',
-        'first_name',
-        'last_name',
-        'display_name',
-        'show_admin_bar_front',
-        'use_ssl',
-        'admin_color',
-        'rich_editing',
-        'comment_shortcuts',
-        'dismissed_wp_pointers',
-        'show_welcome_panel',
-        'session_tokens',
-        'nickname',
-        'description',
-        'address_first_name',
-        'address_last_name',
-        'address_company',
-        'address_phone',
-        'address_email',
-        'wptests_capabilities',
-        'wptests_user_level',
-        'syntax_highlighting',
-        '_order_count',
-        '_money_spent',
-    );
+		'locale',
+		'address_postcode',
+		'address_city',
+		'address_address_1',
+		'address_address_2',
+		'address_state',
+		'address_country',
+		'paying_customer',
+		'er_last_update',
+		'er_last_active',
+		'first_name',
+		'last_name',
+		'display_name',
+		'show_admin_bar_front',
+		'use_ssl',
+		'admin_color',
+		'rich_editing',
+		'comment_shortcuts',
+		'dismissed_wp_pointers',
+		'show_welcome_panel',
+		'session_tokens',
+		'nickname',
+		'description',
+		'address_first_name',
+		'address_last_name',
+		'address_company',
+		'address_phone',
+		'address_email',
+		'wptests_capabilities',
+		'wptests_user_level',
+		'syntax_highlighting',
+		'_order_count',
+		'_money_spent',
+	);
 
 	/**
 	 * Internal meta type used to store user data.
@@ -64,6 +65,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * Callback to remove unwanted meta data.
 	 *
 	 * @param object $meta Meta object.
+	 *
 	 * @return bool
 	 */
 	protected function exclude_internal_meta_keys( $meta ) {
@@ -72,12 +74,12 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 		$table_prefix = $wpdb->prefix ? $wpdb->prefix : 'wp_';
 
 		return ! in_array( $meta->meta_key, $this->internal_meta_keys, true )
-			&& 0 !== strpos( $meta->meta_key, '_easyreservations_persistent_cart' )
-			&& 0 !== strpos( $meta->meta_key, 'closedpostboxes_' )
-			&& 0 !== strpos( $meta->meta_key, 'metaboxhidden_' )
-			&& 0 !== strpos( $meta->meta_key, 'manageedit-' )
-			&& ! strstr( $meta->meta_key, $table_prefix )
-			&& 0 !== stripos( $meta->meta_key, 'wp_' );
+		       && 0 !== strpos( $meta->meta_key, '_easyreservations_persistent_cart' )
+		       && 0 !== strpos( $meta->meta_key, 'closedpostboxes_' )
+		       && 0 !== strpos( $meta->meta_key, 'metaboxhidden_' )
+		       && 0 !== strpos( $meta->meta_key, 'manageedit-' )
+		       && ! strstr( $meta->meta_key, $table_prefix )
+		       && 0 !== stripos( $meta->meta_key, 'wp_' );
 	}
 
 	/**
@@ -123,6 +125,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * Method to read a customer object.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @throws Exception If invalid customer.
 	 */
 	public function read( &$customer ) {
@@ -244,18 +247,18 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 		}
 
 		$billing_address_props = array(
-            'address_first_name' => 'address_first_name',
-            'address_last_name'  => 'address_last_name',
-            'address_company'    => 'address_company',
-            'address_address_1'  => 'address_address_1',
-            'address_address_2'  => 'address_address_2',
-            'address_city'       => 'address_city',
-            'address_state'      => 'address_state',
-            'address_postcode'   => 'address_postcode',
-            'address_country'    => 'address_country',
-            'address_email'      => 'address_email',
-            'address_phone'      => 'address_phone',
-        );
+			'address_first_name' => 'address_first_name',
+			'address_last_name'  => 'address_last_name',
+			'address_company'    => 'address_company',
+			'address_address_1'  => 'address_address_1',
+			'address_address_2'  => 'address_address_2',
+			'address_city'       => 'address_city',
+			'address_state'      => 'address_state',
+			'address_postcode'   => 'address_postcode',
+			'address_country'    => 'address_country',
+			'address_email'      => 'address_email',
+			'address_phone'      => 'address_phone',
+		);
 
 		foreach ( $billing_address_props as $meta_key => $prop ) {
 			$prop_key = substr( $prop, 8 );
@@ -276,13 +279,14 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * Gets the customers last order.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return ER_Order|false
 	 */
 	public function get_last_order( &$customer ) {
 		global $wpdb;
 
 		$last_order = $wpdb->get_var(
-			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 			"SELECT posts.ID
 			FROM $wpdb->posts AS posts
 			LEFT JOIN {$wpdb->postmeta} AS meta on posts.ID = meta.post_id
@@ -291,7 +295,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 			AND   posts.post_type = 'easy_order'
 			AND   posts.post_status IN ( '" . implode( "','", array_map( 'esc_sql', array_keys( er_get_order_statuses() ) ) ) . "' )
 			ORDER BY posts.ID DESC"
-			// phpcs:enable
+		// phpcs:enable
 		);
 
 		if ( ! $last_order ) {
@@ -305,6 +309,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * Return the number of orders this customer has.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return integer
 	 */
 	public function get_order_count( &$customer ) {
@@ -314,7 +319,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 			global $wpdb;
 
 			$count = $wpdb->get_var(
-				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 				"SELECT COUNT(*)
 				FROM $wpdb->posts as posts
 				LEFT JOIN {$wpdb->postmeta} AS meta ON posts.ID = meta.post_id
@@ -322,7 +327,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 				AND     posts.post_type = 'easy_order'
 				AND     posts.post_status IN ( '" . implode( "','", array_map( 'esc_sql', array_keys( ER_Order_Status::get_statuses() ) ) ) . "' )
 				AND     meta_value = '" . esc_sql( $customer->get_id() ) . "'"
-				// phpcs:enable
+			// phpcs:enable
 			);
 			update_user_meta( $customer->get_id(), '_order_count', $count );
 		}
@@ -334,6 +339,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * Return how much money this customer has spent.
 	 *
 	 * @param ER_Customer $customer Customer object.
+	 *
 	 * @return float
 	 */
 	public function get_total_spent( &$customer ) {
@@ -348,7 +354,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 
 			$statuses = array_map( 'esc_sql', er_get_is_paid_statuses() );
 			$spent    = $wpdb->get_var(
-				// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 				apply_filters(
 					'easyreservations_customer_get_total_spent_query',
 					"SELECT SUM(meta2.meta_value)
@@ -362,7 +368,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 					AND     meta2.meta_key      = '_order_total'",
 					$customer
 				)
-				// phpcs:enable
+			// phpcs:enable
 			);
 
 			if ( ! $spent ) {
@@ -377,95 +383,95 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	/**
 	 * Search customers and return customer IDs.
 	 *
-	 * @param  string     $term Search term.
-	 * @param  int|string $limit Limit search results.
+	 * @param string     $term Search term.
+	 * @param int|string $limit Limit search results.
 	 *
 	 * @return array
 	 */
 	public function search_customers( $term, $limit = '' ) {
-        $results = apply_filters( 'easyreservations_customer_pre_search_customers', false, $term, $limit );
-        if ( is_array( $results ) ) {
+		$results = apply_filters( 'easyreservations_customer_pre_search_customers', false, $term, $limit );
+		if ( is_array( $results ) ) {
 			return $results;
 		}
 
-        $query = new WP_User_Query(
-            apply_filters(
-                'easyreservations_customer_search_customers',
-                array(
-                    'search'         => '*' . esc_attr( $term ) . '*',
-                    'search_columns' => array(
-                        'user_login',
-                        'user_url',
-                        'user_email',
-                        'user_nicename',
-                        'display_name'
-                    ),
-                    'fields'         => 'ID',
-                    'number'         => $limit,
-                ),
-                $term,
-                $limit,
-                'main_query'
-            )
-        );
+		$query = new WP_User_Query(
+			apply_filters(
+				'easyreservations_customer_search_customers',
+				array(
+					'search'         => '*' . esc_attr( $term ) . '*',
+					'search_columns' => array(
+						'user_login',
+						'user_url',
+						'user_email',
+						'user_nicename',
+						'display_name'
+					),
+					'fields'         => 'ID',
+					'number'         => $limit,
+				),
+				$term,
+				$limit,
+				'main_query'
+			)
+		);
 
-        $query2 = new WP_User_Query(
-            apply_filters(
-                'easyreservations_customer_search_customers',
-                array(
-                    'fields'     => 'ID',
-                    'number'     => $limit,
-                    'meta_query' => array(
-                        'relation' => 'OR',
-                        array(
-                            'key'     => 'first_name',
-                            'value'   => $term,
-                            'compare' => 'LIKE',
-                        ),
-                        array(
-                            'key'     => 'last_name',
-                            'value'   => $term,
-                            'compare' => 'LIKE',
-                        ),
-                    ),
-                ),
-                $term,
-                $limit,
-                'meta_query'
-            )
-        );
+		$query2 = new WP_User_Query(
+			apply_filters(
+				'easyreservations_customer_search_customers',
+				array(
+					'fields'     => 'ID',
+					'number'     => $limit,
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key'     => 'first_name',
+							'value'   => $term,
+							'compare' => 'LIKE',
+						),
+						array(
+							'key'     => 'last_name',
+							'value'   => $term,
+							'compare' => 'LIKE',
+						),
+					),
+				),
+				$term,
+				$limit,
+				'meta_query'
+			)
+		);
 
-        $results = wp_parse_id_list( array_merge( (array) $query->get_results(), (array) $query2->get_results() ) );
+		$results = wp_parse_id_list( array_merge( (array) $query->get_results(), (array) $query2->get_results() ) );
 
-        if ( $limit && count( $results ) > $limit ) {
-            $results = array_slice( $results, 0, $limit );
-        }
+		if ( $limit && count( $results ) > $limit ) {
+			$results = array_slice( $results, 0, $limit );
+		}
 
-        return $results;
+		return $results;
 	}
 
-    /**
-     * Get all user ids who have `billing_email` set to any of the email passed in array.
-     *
-     * @param array $emails List of emails to check against.
-     *
-     * @return array
-     */
-    public function get_user_ids_for_billing_email( $emails ) {
-        $emails      = array_unique( array_map( 'strtolower', array_map( 'sanitize_email', $emails ) ) );
-        $users_query = new WP_User_Query(
-            array(
-                'fields'     => 'ID',
-                'meta_query' => array(
-                    array(
-                        'key'     => 'billing_email',
-                        'value'   => $emails,
-                        'compare' => 'IN',
-                    ),
-                ),
-            )
-        );
+	/**
+	 * Get all user ids who have `billing_email` set to any of the email passed in array.
+	 *
+	 * @param array $emails List of emails to check against.
+	 *
+	 * @return array
+	 */
+	public function get_user_ids_for_billing_email( $emails ) {
+		$emails      = array_unique( array_map( 'strtolower', array_map( 'sanitize_email', $emails ) ) );
+		$users_query = new WP_User_Query(
+			array(
+				'fields'     => 'ID',
+				'meta_query' => array(
+					array(
+						'key'     => 'billing_email',
+						'value'   => $emails,
+						'compare' => 'IN',
+					),
+				),
+			)
+		);
 
-        return array_unique( $users_query->get_results() );
-    }
+		return array_unique( $users_query->get_results() );
+	}
 }

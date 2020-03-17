@@ -76,9 +76,9 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 				$order = er_get_order( $order_id );
 			}
 
-            $this->setup_locale( $order->get_locale() );
+			$this->setup_locale( $order->get_locale() );
 
-            if ( is_a( $order, 'ER_Order' ) ) {
+			if ( is_a( $order, 'ER_Order' ) ) {
 				$this->object                         = $order;
 				$this->placeholders['{order_date}']   = er_format_datetime( $this->object->get_date_created() );
 				$this->placeholders['{order_number}'] = $this->object->get_order_number();
@@ -145,13 +145,13 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 			/* translators: %s: list of placeholders */
 			$placeholder_text  = sprintf( __( 'Available placeholders: %s', 'easyReservations' ), '<code>' . esc_html( implode( '</code>, <code>', array_keys( $this->placeholders ) ) ) . '</code>' );
 			$this->form_fields = array(
-				'enabled'    => array(
+				'enabled'            => array(
 					'title'   => __( 'Enable/Disable', 'easyReservations' ),
 					'type'    => 'checkbox',
 					'label'   => __( 'Enable this email notification', 'easyReservations' ),
 					'default' => 'yes',
 				),
-				'recipient'  => array(
+				'recipient'          => array(
 					'title'       => __( 'Recipient(s)', 'easyReservations' ),
 					'type'        => 'text',
 					/* translators: %s: WP admin email */
@@ -160,7 +160,7 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 					'default'     => '',
 					'desc_tip'    => true,
 				),
-				'subject'    => array(
+				'subject'            => array(
 					'title'       => __( 'Subject', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -168,7 +168,7 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 					'placeholder' => $this->get_default_subject(),
 					'default'     => '',
 				),
-				'heading'    => array(
+				'heading'            => array(
 					'title'       => __( 'Email heading', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -185,7 +185,7 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 					'default'     => $this->get_default_additional_content(),
 					'desc_tip'    => true,
 				),
-				'email_type' => array(
+				'email_type'         => array(
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),

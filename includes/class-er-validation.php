@@ -13,7 +13,8 @@ class ER_Validation {
 	/**
 	 * Validates an email using WordPress native is_email function.
 	 *
-	 * @param  string $email Email address to validate.
+	 * @param string $email Email address to validate.
+	 *
 	 * @return bool
 	 */
 	public static function is_email( $email ) {
@@ -23,7 +24,8 @@ class ER_Validation {
 	/**
 	 * Validates a phone number using a regular expression.
 	 *
-	 * @param  string $phone Phone number to validate.
+	 * @param string $phone Phone number to validate.
+	 *
 	 * @return bool
 	 */
 	public static function is_phone( $phone ) {
@@ -37,8 +39,9 @@ class ER_Validation {
 	/**
 	 * Checks for a valid postcode.
 	 *
-	 * @param  string $postcode Postcode to validate.
-	 * @param  string $country Country to validate the postcode for.
+	 * @param string $postcode Postcode to validate.
+	 * @param string $country Country to validate the postcode for.
+	 *
 	 * @return bool
 	 */
 	public static function is_postcode( $postcode, $country ) {
@@ -92,9 +95,9 @@ class ER_Validation {
 			case 'NL':
 				$valid = (bool) preg_match( '/^[1-9][0-9]{3}\s(?!SA|SD|SS)[A-Z]{2}$/', $postcode );
 				break;
-            case 'SI':
-                $valid = (bool) preg_match( '/^([1-9][0-9]{3})$/', $postcode );
-                break;
+			case 'SI':
+				$valid = (bool) preg_match( '/^([1-9][0-9]{3})$/', $postcode );
+				break;
 			default:
 				$valid = true;
 				break;
@@ -106,7 +109,8 @@ class ER_Validation {
 	/**
 	 * Check if is a GB postcode.
 	 *
-	 * @param  string $to_check A postcode.
+	 * @param string $to_check A postcode.
+	 *
 	 * @return bool
 	 */
 	public static function is_gb_postcode( $to_check ) {
@@ -161,8 +165,9 @@ class ER_Validation {
 	/**
 	 * Format the postcode according to the country and length of the postcode.
 	 *
-	 * @param  string $postcode Postcode to format.
-	 * @param  string $country Country to format the postcode for.
+	 * @param string $postcode Postcode to format.
+	 * @param string $country Country to format the postcode for.
+	 *
 	 * @return string  Formatted postcode.
 	 */
 	public static function format_postcode( $postcode, $country ) {
@@ -172,7 +177,8 @@ class ER_Validation {
 	/**
 	 * Format a given phone number.
 	 *
-	 * @param  mixed $tel Phone number to format.
+	 * @param mixed $tel Phone number to format.
+	 *
 	 * @return string
 	 */
 	public static function format_phone( $tel ) {

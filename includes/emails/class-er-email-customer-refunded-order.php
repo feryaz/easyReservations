@@ -63,6 +63,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 		 * Get email subject.
 		 *
 		 * @param bool $partial Whether it is a partial refund or a full refund.
+		 *
 		 * @return string
 		 */
 		public function get_default_subject( $partial = false ) {
@@ -77,6 +78,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 		 * Get email heading.
 		 *
 		 * @param bool $partial Whether it is a partial refund or a full refund.
+		 *
 		 * @return string
 		 */
 		public function get_default_heading( $partial = false ) {
@@ -98,6 +100,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 			} else {
 				$subject = $this->get_option( 'subject_full', $this->get_default_subject() );
 			}
+
 			return apply_filters( 'easyreservations_email_subject_customer_refunded_order', $this->format_string( $subject ), $this->object, $this );
 		}
 
@@ -112,6 +115,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 			} else {
 				$heading = $this->get_option( 'heading_full', $this->get_default_heading() );
 			}
+
 			return apply_filters( 'easyreservations_email_heading_customer_refunded_order', $this->format_string( $heading ), $this->object, $this );
 		}
 
@@ -154,8 +158,8 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 
 				$this->setup_locale( $this->object->get_locale() );
 			} else {
-                $this->setup_locale();
-            }
+				$this->setup_locale();
+			}
 
 			if ( ! empty( $refund_id ) ) {
 				$this->refund = er_get_order( $refund_id );
@@ -228,13 +232,13 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 			/* translators: %s: list of placeholders */
 			$placeholder_text  = sprintf( __( 'Available placeholders: %s', 'easyReservations' ), '<code>' . esc_html( implode( '</code>, <code>', array_keys( $this->placeholders ) ) ) . '</code>' );
 			$this->form_fields = array(
-				'enabled'         => array(
+				'enabled'            => array(
 					'title'   => __( 'Enable/Disable', 'easyReservations' ),
 					'type'    => 'checkbox',
 					'label'   => __( 'Enable this email notification', 'easyReservations' ),
 					'default' => 'yes',
 				),
-				'subject_full'    => array(
+				'subject_full'       => array(
 					'title'       => __( 'Full refund subject', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -242,7 +246,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 					'placeholder' => $this->get_default_subject(),
 					'default'     => '',
 				),
-				'subject_partial' => array(
+				'subject_partial'    => array(
 					'title'       => __( 'Partial refund subject', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -250,7 +254,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 					'placeholder' => $this->get_default_subject( true ),
 					'default'     => '',
 				),
-				'heading_full'    => array(
+				'heading_full'       => array(
 					'title'       => __( 'Full refund email heading', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -258,7 +262,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 					'placeholder' => $this->get_default_heading(),
 					'default'     => '',
 				),
-				'heading_partial' => array(
+				'heading_partial'    => array(
 					'title'       => __( 'Partial refund email heading', 'easyReservations' ),
 					'type'        => 'text',
 					'desc_tip'    => true,
@@ -275,7 +279,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 					'default'     => $this->get_default_additional_content(),
 					'desc_tip'    => true,
 				),
-				'email_type'      => array(
+				'email_type'         => array(
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),

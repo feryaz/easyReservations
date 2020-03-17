@@ -26,20 +26,20 @@ get_header( 'shop' );
 do_action( 'easyreservations_before_main_content' );
 
 ?>
-<header class="easyreservations-resources-header">
-	<?php if ( apply_filters( 'easyreservations_show_page_title', true ) ) : ?>
-		<h1 class="easyreservations-resources-header__title page-title"><?php easyreservations_page_title(); ?></h1>
-	<?php endif; ?>
+    <header class="easyreservations-resources-header">
+		<?php if ( apply_filters( 'easyreservations_show_page_title', true ) ) : ?>
+            <h1 class="easyreservations-resources-header__title page-title"><?php easyreservations_page_title(); ?></h1>
+		<?php endif; ?>
 
-	<?php
-	/**
-	 * Hook: easyreservations_archive_description.
-	 *
-	 * @hooked easyreservations_resource_archive_description - 10
-	 */
-	do_action( 'easyreservations_archive_description' );
-	?>
-</header>
+		<?php
+		/**
+		 * Hook: easyreservations_archive_description.
+		 *
+		 * @hooked easyreservations_resource_archive_description - 10
+		 */
+		do_action( 'easyreservations_archive_description' );
+		?>
+    </header>
 <?php
 if ( have_posts() ) {
 
@@ -52,7 +52,7 @@ if ( have_posts() ) {
 	 */
 	do_action( 'easyreservations_before_shop_loop' );
 
-    easyreservations_resource_loop_start();
+	easyreservations_resource_loop_start();
 
 	if ( er_get_loop_prop( 'total' ) ) {
 		while ( have_posts() ) {
@@ -67,7 +67,7 @@ if ( have_posts() ) {
 		}
 	}
 
-    easyreservations_resource_loop_end();
+	easyreservations_resource_loop_end();
 
 	/**
 	 * Hook: easyreservations_after_shop_loop.

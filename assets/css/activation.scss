@@ -7,8 +7,8 @@
  * Styling begins
  */
 div.easyreservations-message {
-	overflow: hidden;
 	position: relative;
+	overflow: hidden;
 	border-left-color: #6ab3ff !important;
 }
 
@@ -16,11 +16,11 @@ p.easyreservations-actions,
 .easyreservations-message {
 
 	.button-primary {
+		color: #fff;
+		text-shadow: 0 -1px 1px #226bd3, 1px 0 1px #226bd3, 0 1px 1px #226bd3, -1px 0 1px #226bd3;
 		background: #228dff;
 		border-color: #226bd3;
 		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #226bd3;
-		color: #fff;
-		text-shadow: 0 -1px 1px #226bd3, 1px 0 1px #226bd3, 0 1px 1px #226bd3, -1px 0 1px #226bd3;
 
 		&:hover,
 		&:focus,
@@ -33,9 +33,9 @@ p.easyreservations-actions,
 
 	a.easyreservations-message-close {
 		position: static;
-		float: right;
 		top: 0;
 		right: 0;
+		float: right;
 		padding: 0 15px 10px 28px;
 		margin-top: -10px;
 		font-size: 13px;

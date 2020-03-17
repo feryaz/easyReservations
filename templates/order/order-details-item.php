@@ -24,33 +24,33 @@ if ( ! apply_filters( 'easyreservations_order_item_visible', true, $item ) ) {
 ?>
 <tr class="<?php echo esc_attr( apply_filters( 'easyreservations_order_item_class', 'easyreservations-table__line-item order_item', $item, $order ) ); ?>">
 
-	<td class="easyreservations-table__resource-name resource-name">
+    <td class="easyreservations-table__resource-name resource-name">
 		<?php
-        $is_visible = $resource && $resource->is_visible();
-        $title      = $reservation ? $reservation->get_item_label() : $item->get_name();
+		$is_visible = $resource && $resource->is_visible();
+		$title      = $reservation ? $reservation->get_item_label() : $item->get_name();
 
-        echo wp_kses_post( apply_filters( 'easyreservations_order_item_name', $title, $item, $is_visible ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( apply_filters( 'easyreservations_order_item_name', $title, $item, $is_visible ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'easyreservations_order_item_meta_start', $item_id, $item, $order, false );
 
-        er_display_meta( $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		er_display_meta( $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		do_action( 'easyreservations_order_item_meta_end', $item_id, $item, $order, false );
 		?>
-	</td>
+    </td>
 
-	<td class="easyreservations-table__resource-total resource-total">
+    <td class="easyreservations-table__resource-total resource-total">
 		<?php echo $order->get_formatted_item_subtotal( $item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-	</td>
+    </td>
 
 </tr>
 
 <?php if ( $show_purchase_note && $purchase_note ) : ?>
 
-<tr class="easyreservations-table__resource-purchase-note resource-purchase-note">
+    <tr class="easyreservations-table__resource-purchase-note resource-purchase-note">
 
-	<td colspan="2"><?php echo wpautop( do_shortcode( wp_kses_post( $purchase_note ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
+        <td colspan="2"><?php echo wpautop( do_shortcode( wp_kses_post( $purchase_note ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 
-</tr>
+    </tr>
 
 <?php endif; ?>

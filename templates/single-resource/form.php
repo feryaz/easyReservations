@@ -19,4 +19,4 @@ global $resource;
 $redirect = esc_url( get_option( 'reservations_resource_page_redirect', er_get_page_permalink( 'shop' ) ) );
 $template = $resource->get_form_template();
 
-echo do_shortcode('[easy_form ' . $template .' redirect="' . $redirect . '" inline="1"]' );
+echo do_shortcode( '[easy_form ' . $template . ' redirect="' . $redirect . '" inline="1"]' );

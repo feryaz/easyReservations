@@ -84,9 +84,9 @@
 }
 .easyreservations table.shop_table_responsive tr td::before,
 .easyreservations-page table.shop_table_responsive tr td::before {
-  content: attr(data-title) ": ";
-  font-weight: 700;
   float: left;
+  font-weight: 700;
+  content: attr(data-title) ": ";
 }
 .easyreservations table.shop_table_responsive tr td.entry-remove::before, .easyreservations table.shop_table_responsive tr td.actions::before,
 .easyreservations-page table.shop_table_responsive tr td.entry-remove::before,
@@ -119,10 +119,10 @@
 }
 .easyreservations ul.resources[class*=columns-] li.resource,
 .easyreservations-page ul.resources[class*=columns-] li.resource {
-  width: 48%;
   float: left;
-  clear: both;
+  width: 48%;
   margin: 0 0 2.992em;
+  clear: both;
 }
 .easyreservations ul.resources[class*=columns-] li.resource:nth-child(2n),
 .easyreservations-page ul.resources[class*=columns-] li.resource:nth-child(2n) {
@@ -218,19 +218,19 @@
 .easyreservations-page .cart-collaterals .cart_totals,
 .easyreservations-page .cart-collaterals .shipping_calculator,
 .easyreservations-page .cart-collaterals .cross-sells {
-  width: 100%;
   float: none;
+  width: 100%;
   text-align: left;
 }
 .easyreservations.easyreservations-checkout form.login .form-row,
 .easyreservations-page.easyreservations-checkout form.login .form-row {
-  width: 100%;
   float: none;
+  width: 100%;
 }
 .easyreservations #payment .terms,
 .easyreservations-page #payment .terms {
-  text-align: left;
   padding: 0;
+  text-align: left;
 }
 .easyreservations #payment #place_order,
 .easyreservations-page #payment #place_order {
@@ -243,8 +243,8 @@
 .easyreservations .lost_reset_password .form-row-last,
 .easyreservations-page .lost_reset_password .form-row-first,
 .easyreservations-page .lost_reset_password .form-row-last {
-  width: 100%;
   float: none;
+  width: 100%;
   margin-right: 0;
 }
 

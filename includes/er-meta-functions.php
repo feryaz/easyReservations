@@ -11,14 +11,14 @@ add_action( 'switch_blog', 'er_reservation_meta_integrate_wpdb', 0 );
  *
  */
 function er_reservation_meta_integrate_wpdb() {
-    global $wpdb;
+	global $wpdb;
 
-    $wpdb->reservationmeta  = $wpdb->prefix . 'reservationmeta';
-    $wpdb->receipt_itemmeta = $wpdb->prefix . 'receipt_itemmeta';
-    $wpdb->tables[]         = 'reservationmeta';
-    $wpdb->tables[]         = 'receipt_itemmeta';
+	$wpdb->reservationmeta  = $wpdb->prefix . 'reservationmeta';
+	$wpdb->receipt_itemmeta = $wpdb->prefix . 'receipt_itemmeta';
+	$wpdb->tables[]         = 'reservationmeta';
+	$wpdb->tables[]         = 'receipt_itemmeta';
 
-    return;
+	return;
 }
 
 /**
@@ -28,10 +28,11 @@ function er_reservation_meta_integrate_wpdb() {
  * @param string $meta_key Metadata name.
  * @param mixed  $meta_value Metadata value.
  * @param bool   $unique Optional, default is false. Whether the same key should not be added.
+ *
  * @return int|false Meta ID on success, false on failure.
  */
 function add_reservation_meta( $reservation_id, $meta_key, $meta_value, $unique = false ) {
-    return add_metadata( 'reservation', $reservation_id, $meta_key, $meta_value, $unique );
+	return add_metadata( 'reservation', $reservation_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -44,10 +45,11 @@ function add_reservation_meta( $reservation_id, $meta_key, $meta_value, $unique 
  * @param int    $reservation_id Badge ID
  * @param string $meta_key Metadata name.
  * @param mixed  $meta_value Optional. Metadata value.
+ *
  * @return bool True on success, false on failure.
  */
 function delete_reservation_meta( $reservation_id, $meta_key, $meta_value = '' ) {
-    return delete_metadata( 'reservation', $reservation_id, $meta_key, $meta_value );
+	return delete_metadata( 'reservation', $reservation_id, $meta_key, $meta_value );
 }
 
 /**
@@ -56,10 +58,11 @@ function delete_reservation_meta( $reservation_id, $meta_key, $meta_value = '' )
  * @param int    $reservation_id Badge ID.
  * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
  * @param bool   $single Whether to return a single value.
+ *
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
  */
 function get_reservation_meta( $reservation_id, $key = '', $single = true ) {
-    return get_metadata( 'reservation', $reservation_id, $key, $single );
+	return get_metadata( 'reservation', $reservation_id, $key, $single );
 }
 
 /**
@@ -74,8 +77,9 @@ function get_reservation_meta( $reservation_id, $key = '', $single = true ) {
  * @param string $meta_key Metadata key.
  * @param mixed  $meta_value Metadata value.
  * @param mixed  $prev_value Optional. Previous value to check before removing.
+ *
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
 function update_reservation_meta( $reservation_id, $meta_key, $meta_value, $prev_value = '' ) {
-    return update_metadata( 'reservation', $reservation_id, $meta_key, $meta_value, $prev_value );
+	return update_metadata( 'reservation', $reservation_id, $meta_key, $meta_value, $prev_value );
 }
