@@ -232,6 +232,7 @@ class ER_Admin {
         $suffix    = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
         $screen    = get_current_screen();
         $screen_id = $screen ? $screen->id : '';
+        $user_id   = get_current_user_id();
 
         // Register admin styles.
         wp_register_style( 'er-admin-style', RESERVATIONS_URL . 'assets/css/admin' . $suffix . '.css', array( 'easy-ui' ) );
@@ -338,45 +339,55 @@ class ER_Admin {
             wp_enqueue_style( 'er-admin-style' );
         }
 
-        if( $screen_id === 'edit-easy_reservation' ){
-            global $wpdb;
+        if( $screen_id === 'edit-easy_reservation' || $screen_id === 'admin_page_reservation' ) {
+	        global $wpdb;
 
-            $pending_reservations = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
-                    "FROM {$wpdb->prefix}reservations as r " .
-                    "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
-                    "WHERE r.arrival >= NOW() AND status IN ('" . implode( "', '", er_reservation_get_pending_statuses() ) . "') " .
-                    "ORDER BY r.arrival",
-                    '_title'
-                )
-            );
+	        $reservation = isset( $_GET['reservation'] ) ? er_get_reservation( absint( $_GET['reservation'] ) ) : false;
 
-            wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'moment', 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
-            wp_localize_script(
-                'er-timeline',
-                'er_timeline_params',
-                array(
-                    'ajax_url'         => admin_url( 'admin-ajax.php' ),
-                    'order_url'        => admin_url( 'post.php?post=%s&action=edit' ),
-                    'i18n_no_resource'   => __( 'No resource selected', 'easyReservations' ),
-                    'i18n_no_arrivals'   => __( 'No arrivals', 'easyReservations' ),
-                    'i18n_no_departures'   => __( 'No departures', 'easyReservations' ),
-                    'i18n_stop_edit'   => __( 'Save changes', 'easyReservations' ),
-                    'i18n_allow_edit'  => __( 'Allow edit', 'easyReservations' ),
-                    'i18n_no_pending'  => __( 'No pending reservations', 'easyReservations' ),
-                    'i18n_no_order'    => __( 'Not attached to any order', 'easyReservations' ),
-                    'i18n_order'       => __( 'Attached to order %s', 'easyReservations' ),
-                    'nonce'            => wp_create_nonce( 'easyreservations-timeline' ),
-                    'resources'        => er_list_pluck( ER()->resources()->get(), 'get_data' ),
-                    'pending'          => $pending_reservations,
-                    'default_cells'    => 45,
-                    'first_hour'       => 0,
-                    'last_hour'        => 23,
-                    'default_interval' => 86400,
-                )
-            );
+	        $pending_reservations = $wpdb->get_results(
+		        $wpdb->prepare(
+			        "SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
+			        "FROM {$wpdb->prefix}reservations as r " .
+			        "LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
+			        "WHERE r.arrival >= NOW() AND status IN ('" . implode( "', '", er_reservation_get_pending_statuses() ) . "') " .
+			        "ORDER BY r.arrival",
+			        '_title'
+		        )
+	        );
 
+	        wp_register_script( 'er-timeline', ER()->plugin_url() . '/assets/js/admin/er-timeline' . $suffix . '.js', array( 'moment', 'er-datepicker', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-resizable' ), RESERVATIONS_VERSION );
+	        wp_localize_script(
+		        'er-timeline',
+		        'er_timeline_params',
+		        array(
+			        'ajax_url'             => admin_url( 'admin-ajax.php' ),
+			        'order_url'            => admin_url( 'post.php?post=%s&action=edit' ),
+			        'i18n_enter_title'     => __( 'Please enter a title for the event.', 'easyReservations' ),
+			        'i18n_no_resource'     => __( 'No resource selected', 'easyReservations' ),
+			        'i18n_no_arrivals'     => __( 'No arrivals', 'easyReservations' ),
+			        'i18n_no_departures'   => __( 'No departures', 'easyReservations' ),
+			        'i18n_stop_edit'       => __( 'Save changes', 'easyReservations' ),
+			        'i18n_allow_edit'      => __( 'Allow edit', 'easyReservations' ),
+			        'i18n_no_pending'      => __( 'No pending reservations', 'easyReservations' ),
+			        'i18n_no_order'        => __( 'Not attached to any order', 'easyReservations' ),
+			        'i18n_order'           => __( 'Attached to order %s', 'easyReservations' ),
+			        'nonce'                => wp_create_nonce( 'easyreservations-timeline' ),
+			        'resources'            => er_list_pluck( ER()->resources()->get(), 'get_data' ),
+			        'pending'              => $pending_reservations,
+			        'default_cells'        => 45,
+			        'first_hour'           => 0,
+			        'last_hour'            => 23,
+			        'reservation_id'       => $reservation ? $reservation->get_id() : 0,
+			        'reservation_resource' => $reservation ? $reservation->get_resource_id() : 0,
+			        'reservation_arrival'  => $reservation ? $reservation->get_arrival()->format( 'Y-m-d H:i:s' ) : '',
+			        'default_interval'     => 86400,
+			        'default_hourly'       => get_user_meta( $user_id, 'timeline_hourly', true ),
+			        'default_snapping'     => get_user_meta( $user_id, 'timeline_snapping', true ) === 'on',
+		        )
+	        );
+        }
+
+	    if ( $screen_id === 'edit-easy_reservation') {
             wp_register_script( 'er-reservations', ER()->plugin_url() . '/assets/js/admin/er-reservations' . $suffix . '.js', array( 'jquery', 'wp-util', 'underscore', 'er-backbone-modal', 'jquery-blockui', 'er-timeline' ), RESERVATIONS_VERSION );
             wp_localize_script(
                 'er-reservations',

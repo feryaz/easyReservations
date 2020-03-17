@@ -1585,6 +1585,7 @@ class ER_AJAX {
 	    if( $add ){
 	        $arrival = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
 	        $departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+	        $title = sanitize_text_field( $_POST['title'] );
 
 		    if( $add === 'reservation' ){
 	            $reservation = new ER_Reservation(0);
@@ -1593,7 +1594,7 @@ class ER_AJAX {
 	            $reservation->set_arrival( $arrival );
 	            $reservation->set_departure( $departure );
 	            $reservation->set_status( 'approved' );
-			    $reservation->set_title( __( 'No title', 'easyReservations' ) );
+			    $reservation->set_title( $title );
 
 			    $availability = $reservation->check_availability();
 
@@ -1631,7 +1632,7 @@ class ER_AJAX {
 		        }
 
 		        $filter = array(
-			        'name' => 'Timeline',
+			        'name' => $title,
 			        'type' => 'unavail',
 			        'imp'  => 1,
 			        'cond' => 'range',
@@ -1751,6 +1752,7 @@ class ER_AJAX {
 		    } else {
 			    wp_send_json(
 				    array(
+					    'reservation' => er_get_reservation( $id )->get_data(),
 					    'message' => __( 'Reservation could not be updated as the requested space is full', 'easyReservations' )
 				    )
 			    );

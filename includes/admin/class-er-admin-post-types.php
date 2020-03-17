@@ -23,6 +23,7 @@ class ER_Admin_Post_Types {
 		// Load correct list table classes for current screen.
 		add_action( 'current_screen', array( $this, 'setup_screen' ) );
 		add_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
+		add_action( 'wp_loaded', array( $this, 'save_screen_setting' ), 10, 3 );
 
 		// Admin notices.
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
@@ -81,6 +82,25 @@ class ER_Admin_Post_Types {
 		// Ensure the table handler is only loaded once. Prevents multiple loads if a plugin calls check_ajax_referer many times.
 		remove_action( 'current_screen', array( $this, 'setup_screen' ) );
 		remove_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
+	}
+
+	/**
+	 * Save custom screen setting of our post types
+	 */
+	public function save_screen_setting() {
+
+		if ( isset( $_POST['wp_screen_options'] ) && is_array( $_POST['wp_screen_options'] ) ) {
+			check_admin_referer( 'screen-options-nonce', 'screenoptionnonce' );
+
+
+			switch ( sanitize_key( $_POST['wp_screen_options']['option'] ) ) {
+				case 'edit_easy_reservation_per_page':
+					update_user_meta( get_current_user_id(), 'timeline_hourly', isset( $_POST['timeline_hourly'] ) ? 'on' : 'off' );
+					update_user_meta( get_current_user_id(), 'timeline_snapping', isset( $_POST['timeline_snapping'] ) ? 'on' : 'off' );
+
+					break;
+			}
+		}
 	}
 
 	/**

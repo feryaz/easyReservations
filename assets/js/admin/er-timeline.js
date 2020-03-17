@@ -7,10 +7,14 @@
 		timeline                = master.find( 'div.timeline' ),
 		header                  = master.find( 'div.header' ),
 		resources               = master.find( 'div.resources' ),
+		resources_vertical      = resources.find( '.vertical-scroll' ),
 		resources_tbody         = resources.find( 'table tbody' ),
 		header_date             = header.find( '.date' ),
-		table                   = timeline.find( 'table' ),
-		thead_main              = table.find( 'thead.main tr' ),
+		table_vertical			= timeline.find( 'div.vertical-scroll' ),
+		table_container			= table_vertical.find( 'div.horizontal-scroll' ),
+		table                   = timeline.find( 'div.vertical-scroll table' ),
+		scroller             	= timeline.find( 'div.horizontal-scroll' ),
+		thead_main              = timeline.find( 'thead.main tr' ),
 		thead                   = table.find( 'thead:not(.main)' ),
 		tbody                   = table.find( 'tbody' ),
 		reservations            = [], //Reservation data
@@ -26,7 +30,6 @@
 		changed_any_reservation = false, //If any other reservations got changed while attempting to draw a reservation
 		mouse_pos_x             = 0, //Mouse position x gets updated while hovering timeline
 		mouse_pos_y             = 0, //Mouse position y gets updated while hovering timeline
-		snapping_enabled        = true, //If the snapping mode is enabled for dragging and resizing
 		scroll_drag             = false, //position from which scroll was started in timeline header
 		scroll_action           = false, //js interval that scrolls timeline
 		scroll_add              = false, //js interval that adds new calendar columns based on scroll
@@ -35,9 +38,10 @@
 		last_hover              = 0, //The DOM element that got hovered as last in timeline
 		last_query_start        = 0, //From when we last queried data at the start of the timeline
 		last_query_end          = 0, //Until when we last queried data at the end of the timeline
-		cells         			= 50, //Until when we last queried data at the end of the timeline
-		interval                = data.default_interval, //Default interval of timeline
-		interval_string			= interval === "86400" ? 'days' : 'hours';
+		cells         			= 60, //Until when we last queried data at the end of the timeline
+		snapping_enabled 		= data.default_snapping === "1", //If the snapping mode is enabled for dragging and resizing
+		interval                = "86400", //Default interval of timeline
+		interval_string			= 'days';
 
 	header
 		.on( 'click', '.expand-sidebar', function () {
@@ -97,8 +101,12 @@
 	thead_main
 		.on( 'mousedown', 'th', function ( e ) {
 			//Find out where the drag started
-			scroll_drag = timeline.scrollLeft() + e.pageX;
+			scroll_drag = scroller.scrollLeft() + e.pageX;
 		} );
+
+	table_vertical.on( 'scroll', function () {
+		resources_vertical.css( 'margin-top', -$( this ).scrollTop() );
+	} );
 
 	$( window )
 		.mouseup( function ( e ) {
@@ -110,37 +118,42 @@
 			tooltip.css( 'display', 'none' );
 
 			if ( placeholder ) {
-				var direction  = placeholder.attr( 'data-direction' ),
-					width = parseInt( placeholder.css( 'width' ), 10 ) / cell_dimensions.width * interval,
-					date_start = moment( parseInt( placeholder.attr( 'data-start' ), 10 ) * 1000 ),
-					date_end   = direction === 'left' ? moment( date_start ).subtract( width, 'seconds' ) : moment( date_start ).add( width, 'seconds' ),
-					extra_data = {
-						add:       add_mode,
-						arrival:   easyFormatDate( date_start < date_end ? date_start : date_end, 'full' ),
-						departure: easyFormatDate( date_end > date_start ? date_end : date_start, 'full' ),
-						resource:  parseInt( placeholder.attr( 'data-resource' ), 10 ),
-						space:     parseInt( placeholder.attr( 'data-space' ), 10 ),
-					};
+				var title = prompt( data.i18n_enter_title, "" );
 
-				if ( interval === "86400" ) {
-					date_start.startOf( 'day' );
-					date_end.startOf( 'day' );
-				} else {
-					date_start.startOf( 'hour' );
-					date_end.startOf( 'hour' );
+				if( title !== null ){
+					var direction  = placeholder.attr( 'data-direction' ),
+						width      = parseInt( placeholder.css( 'width' ), 10 ) / cell_dimensions.width * interval,
+						date_start = moment( parseInt( placeholder.attr( 'data-start' ), 10 ) * 1000 ),
+						date_end   = direction === 'left' ? moment( date_start ).subtract( width, 'seconds' ) : moment( date_start ).add( width, 'seconds' ),
+						extra_data = {
+							add:       add_mode,
+							arrival:   easyFormatDate( date_start < date_end ? date_start : date_end, 'full' ),
+							departure: easyFormatDate( date_end > date_start ? date_end : date_start, 'full' ),
+							resource:  parseInt( placeholder.attr( 'data-resource' ), 10 ),
+							space:     parseInt( placeholder.attr( 'data-space' ), 10 ),
+							title: 	   title,
+						};
+
+					if ( interval === "86400" ) {
+						date_start.startOf( 'day' );
+						date_end.startOf( 'day' );
+					} else {
+						date_start.startOf( 'hour' );
+						date_end.startOf( 'hour' );
+					}
+
+					if ( date_end > date_start ) {
+						date_end.add( 1, interval_string );
+					} else {
+						date_start.subtract( 1, interval_string );
+					}
+
+					er_timeline.load_data(
+						date_start < date_end ? date_start : date_end,
+						date_end > date_start ? date_end : date_start,
+						extra_data
+					);
 				}
-
-				if( date_end > date_start ){
-					date_end.add( 1, interval_string );
-				} else {
-					date_start.subtract( 1, interval_string );
-				}
-
-				er_timeline.load_data(
-					date_start < date_end ? date_start : date_end,
-					date_end > date_start ? date_end : date_start,
-					extra_data
-				);
 
 				placeholder.remove();
 				placeholder = false;
@@ -150,8 +163,8 @@
 
 	master
 		.on( 'click', '.resource-handler', function () {
-			var elem        = $( this ).parent().parent().parent().next(),
-				tbody_index = elem.index() / 2 - 1;
+			var elem        = $( this ).parent().parent().parent().parent().next(),
+				tbody_index = elem.index() / 2 - 0.5;
 
 			if ( $( this ).hasClass( 'retracted' ) ) {
 				$( this ).removeClass( 'retracted' );
@@ -198,7 +211,8 @@
 
 			//Handle drag scrolling in timeline header
 			if ( scroll_drag && e.which === 1 ) {
-				timeline.scrollLeft( Math.min( scroll_drag - e.pageX < 1 ? 1 : scroll_drag - e.pageX, table.width() - timeline.width() - cell_dimensions.width ) );
+				var scroll = Math.min( scroll_drag - e.pageX < 1 ? 1 : scroll_drag - e.pageX, thead_main.width() - timeline.width() - cell_dimensions.width );
+				scroller.scrollLeft( scroll );
 				er_timeline.set_current_date();
 
 				if ( scroll_add === false ) {
@@ -215,7 +229,6 @@
 					tooltip_first  = '',
 					tooltip_second = '';
 
-				console.log( date_start );
 				if ( -drag_start_position.left + pageX > 0 ) {
 					placeholder
 						.attr( 'data-direction', 'right' )
@@ -318,7 +331,7 @@
 					.attr( 'data-space', $( this ).attr( 'data-space' ) )
 					.attr( 'data-start', date.unix() );
 
-				timeline.append( placeholder );
+				table_container.append( placeholder );
 			}
 		} )
 		.on( 'click', '.reservation', function () {
@@ -352,7 +365,7 @@
 			add_mode = false;
 
 			sidebar.find( '> .reservation-details .edit-actions' ).show();
-			er_timeline.reservation_allow_edit( timeline.find( '.reservation[data-id="' + id + '"]' ) );
+			er_timeline.reservation_allow_edit( table.find( '.reservation[data-id="' + id + '"]' ) );
 			$( this ).html( data.i18n_stop_edit ).addClass( 'stop-edit' ).removeClass( 'allow-edit' );
 		} )
 		.on( 'click', '.stop-edit', function () {
@@ -366,7 +379,7 @@
 					status = $( this ).attr( 'data-status' );
 
 				reservations[ id ].status = status;
-				timeline.find( '.reservation[data-id="' + id + '"]' ).removeClass( 'approved checked completed' ).addClass( status );
+				table.find( '.reservation[data-id="' + id + '"]' ).removeClass( 'approved checked completed' ).addClass( status );
 
 				er_sidebar.draw_reservation( reservations[ id ] );
 				er_timeline.update_reservation( id );
@@ -385,7 +398,7 @@
 			var id = parseInt( $( this ).attr( 'data-reservation-id' ), 10 );
 			er_timeline.recursively_remove_reservation( reservations[ id ] );
 
-			timeline.find( '.reservation[data-id="' + id + '"]' ).remove();
+			table.find( '.reservation[data-id="' + id + '"]' ).remove();
 
 			edit_mode.changed = true;
 			er_timeline.add_reservation( edit_mode );
@@ -504,7 +517,7 @@
 			sidebar.find( '> .reservation-details .stop-edit' ).html( data.i18n_allow_edit ).removeClass( 'stop-edit' ).addClass( 'allow-edit' );
 
 			if ( edit_mode ) {
-				er_timeline.reservation_stop_edit( $( '.reservation[data-id="' + id + '"]' ) );
+				er_timeline.reservation_stop_edit( table.find( '.reservation[data-id="' + id + '"]' ) );
 				edit_mode = false;
 			}
 		},
@@ -555,7 +568,7 @@
 							)
 							.bind( 'click', function () {
 								var id = parseInt( $( this ).attr( 'data-id' ), 10 );
-								timeline.find( '.reservation[data-id="' + id + '"]' ).trigger( 'click' );
+								table.find( '.reservation[data-id="' + id + '"]' ).trigger( 'click' );
 							} );
 
 						if( add === 'arrival'){
@@ -677,6 +690,7 @@
 				container_header = container.find( 'h2' ),
 				resource         = data.resources[ reservation.resource ];
 
+			console.log( reservation );
 			container_header.find( '.title' ).html( reservation.title );
 			container_header.find( '.reservation-status' ).attr( 'class', 'reservation-status status-' + reservation.status ).html( reservation.id );
 
@@ -740,6 +754,11 @@
 		 * Init timeline
 		 */
 		init: function () {
+			var height = ( $( window ).height() - resources_vertical.offset().top - 5 ) / ( data.reservation_id > 0 ? 3 : 1 );
+
+			resources_vertical.css( 'max-height', height );
+			table_vertical.css( 'max-height', height );
+
 			today = moment();
 			reservations = [];
 			selected = false;
@@ -759,7 +778,7 @@
 				}
 			}
 
-			table.find( 'td,th' ).remove();
+			timeline.find( 'td,th' ).remove();
 
 			start.subtract( 15, interval_string );
 			end = moment( start );
@@ -775,9 +794,9 @@
 
 			er_timeline.load_remaining();
 
-			timeline.scrollLeft(
-				thead_main.find( 'th:nth-child(15)' ).offset().left - timeline.offset().left + timeline.scrollLeft() + 1
-			);
+			var scroll = thead_main.find( 'th:nth-child(15)' ).offset().left - timeline.offset().left + scroller.scrollLeft() + 1;
+
+			scroller.scrollLeft( scroll );
 
 			er_timeline.set_current_date();
 			er_timeline.sync_cell_heights();
@@ -808,7 +827,7 @@
 		 * Set the second visible cell as current date
 		 */
 		set_current_date: function () {
-			var currently_selected = moment( start ).add( Math.round( timeline.scrollLeft() / cell_dimensions.width ) + 1, interval_string );
+			var currently_selected = moment( start ).add( Math.round( scroller.scrollLeft() / cell_dimensions.width ) + 1, interval_string );
 
 			if ( interval === "3600" ) {
 				currently_selected.startOf( 'hour' );
@@ -825,8 +844,8 @@
 					header_date.html( er_date_picker_params.month_names[ selected.month() ] + ' ' + selected.year() );
 				}
 
-				thead_main.find( 'th.current' ).removeClass( 'current' );
-				thead_main.find( 'th[data-date="' + selected.unix() + '"]' ).addClass( 'current' );
+				timeline.find( 'th.current,td.current' ).removeClass( 'current' );
+				timeline.find( 'th[data-date="' + selected.unix() + '"],td[data-date="' + selected.unix() + '"]' ).addClass( 'current' );
 
 				datepicker.datepicker( "setDate", new Date( selected.format( "YYYY-MM-DDTHH:mm:ssZ" ) ) );
 				er_sidebar.draw_today();
@@ -834,28 +853,44 @@
 				//If only the hour changed in hourly view we don't change the header or datepicker
 				selected = currently_selected;
 
-				thead_main.find( 'th.current' ).removeClass( 'current' );
-				thead_main.find( 'th[data-date="' + selected.unix() + '"]' ).addClass( 'current' );
+				timeline.find( 'th.current,td.current' ).removeClass( 'current' );
+				timeline.find( 'th[data-date="' + selected.unix() + '"],td[data-date="' + selected.unix() + '"]' ).addClass( 'current' );
 			}
 		},
 
 		scroll_dragging: function () {
-			var mouse_position = mouse_pos_x - timeline.offset().left;
+			var mouse_pos_top = mouse_pos_y - table_vertical.offset().top,
+				mouse_pos_left = mouse_pos_x - timeline.offset().left,
+				max_height = table_vertical.height();
 
-			if ( ( mouse_position > 0 && mouse_position < 15 ) || timeline.width() - mouse_position < 15 ) {
+			if ( ( mouse_pos_left > 0 && mouse_pos_left < cell_dimensions.width / 2 ) || timeline.width() - mouse_pos_left < cell_dimensions.width / 2 ) {
+				if ( scroll_action === false ) {
+					scroll_action = setInterval( function () {
+						var mouse_position = mouse_pos_x - timeline.offset().left;
+
+						if ( ( mouse_position > 0 && mouse_position < cell_dimensions.width / 2 ) || timeline.width() - mouse_position < cell_dimensions.width / 2 ) {
+							drag_start_position.left = drag_start_position.left + ( mouse_position < cell_dimensions.width / 2 ? cell_dimensions.width : cell_dimensions.width * -1 );
+							er_timeline.add_new_column( mouse_position < cell_dimensions.width / 2 );
+							er_timeline.set_current_date();
+						}
+					}, 100 );
+				}
+			} else if ( mouse_pos_top > 0 && mouse_pos_top < 20 ) {
 				if ( scroll_action === false ) {
 					scroll_action = setInterval( function () {
 						if ( scroll_action !== false ) {
-							var mouse_position = mouse_pos_x - timeline.offset().left;
-							if ( scroll_add === false && ( ( mouse_position > 0 && mouse_position < 15 ) || timeline.width() - mouse_position < 15 ) ) {
-								er_timeline.add_new_column( mouse_position < 15 );
-								drag_start_position.left = drag_start_position.left + ( mouse_position < 15 ? cell_dimensions.width : cell_dimensions.width * -1 );
-							}
-
-							timeline.scrollLeft( Math.max( 1, timeline.scrollLeft() + ( mouse_position < 15 ? cell_dimensions.width * -1 : cell_dimensions.width ) ) );
-							//timeline.animate( { scrollLeft: ( mouse_pos_x - timeline.offset().left < 10 ? '-=' : '+=' ) + cell_dimensions.width + 'px' }, 130 );
+							table_vertical.scrollTop( Math.max( 0, table_vertical.scrollTop() - 4 ) );
 						}
-					}, 130 );
+					}, 1 );
+				}
+
+			} else if ( max_height - mouse_pos_top < 20 && mouse_pos_top <= max_height ) {
+				if ( scroll_action === false ) {
+					scroll_action = setInterval( function () {
+						if ( scroll_action !== false ) {
+							table_vertical.scrollTop( Math.min( max_height, table_vertical.scrollTop() + 4 ) );
+						}
+					}, 1 );
 				}
 			} else if ( scroll_action !== false ) {
 				clearInterval( scroll_action );
@@ -868,10 +903,10 @@
 		 * Starts an interval to add new columns while we are scrolled all the left or right
 		 */
 		start_scroll_add_interval: function () {
-			if ( scroll_add === false && ( timeline.scrollLeft() < 2 || table.width() - ( timeline.width() + timeline.scrollLeft() ) < 5 + cell_dimensions.width ) ) {
+			if ( scroll_add === false && ( scroller.scrollLeft() < 2 || thead_main.width() - ( timeline.width() + scroller.scrollLeft() ) < 5 + cell_dimensions.width * 2 ) ) {
 				scroll_add = setInterval( function () {
-					if ( scroll_add !== false && ( timeline.scrollLeft() < 2 || table.width() - ( timeline.width() + timeline.scrollLeft() ) < 5 + cell_dimensions.width ) ) {
-						er_timeline.add_new_column( timeline.scrollLeft() < 2 );
+					if ( scroll_add !== false && ( scroller.scrollLeft() < 2 || thead_main.width() - ( timeline.width() + scroller.scrollLeft() ) < 5 + cell_dimensions.width * 2 ) ) {
+						er_timeline.add_new_column( scroller.scrollLeft() < 2 );
 						er_timeline.set_current_date();
 					}
 				}, 45 );
@@ -891,6 +926,8 @@
 
 		/**
 		 * Jumps the timeline to specified date. If date is out of timelines currently loaded data it just inits from there, else it adds the difference in columns.
+		 *
+		 * @param {moment} date
 		 */
 		jump_to_date: function ( date ) {
 			if ( date < start || date > end ) {
@@ -918,7 +955,7 @@
 
 				er_timeline.generate_column( start, true );
 
-				table.find( 'th:last-child,td:last-child' ).remove();
+				timeline.find( 'th:last-child,td:last-child' ).remove();
 
 				last_query_end.subtract( 1, interval_string );
 				end.subtract( 1, interval_string );
@@ -927,6 +964,7 @@
 
 				er_timeline.generate_column( end, false );
 
+				thead_main.find( 'th:first-child' ).remove();
 				table.find( 'th:first-child' ).remove();
 				table.find( 'td:first-child' )
 					.each( function () {
@@ -1004,8 +1042,8 @@
 								tbody.find( 'td[data-date="' + ( date.unix() ) + '"][data-resource="' + resource_id + '"]' )
 									.removeClass( 'loading' )
 									.addClass( cell_class );
-								thead.find( 'th[data-date="' + ( date.unix() ) + '"][data-resource="' + resource_id + '"]' )
-									.html( '<div><span>' + content + '</span></div>' )
+								thead.find( 'th[data-date="' + ( date.unix() ) + '"][data-resource="' + resource_id + '"] div.count' )
+									.html( '<span>' + content + '</span>' )
 									.addClass( parseInt( result, 10 ) === quantity ? 'unavailable' : '' );
 							} );
 						} );
@@ -1039,16 +1077,24 @@
 					status:    reservation.status,
 					resource:  reservation.resource,
 					space:     reservation.space,
+					adults:    reservation.adults,
+					children:  reservation.children,
 					title:     reservation.title
 				},
 				type:    'POST',
 				success: function ( response ) {
 					if ( response.reservation ) {
-						console.log( response.reservation );
-						//er_timeline.add_reservation( response.reservation, true );
-						//er_timeline.draw_reservations();
+						console.log( response.reservation.arrival.date );
+						reservations[ id ].arrival = moment( response.reservation.arrival.date );
+						reservations[ id ].departure = moment( response.reservation.departure.date );
+						reservations[ id ].adults = parseInt( response.reservation.adults, 10 );
+						reservations[ id ].children = parseInt( response.reservation.children, 10 );
+						reservations[ id ].resource = parseInt( response.reservation.resource_id, 10 );
+						reservations[ id ].space = parseInt( response.reservation.space, 10 );
+						reservations[ id ].order_id = parseInt( response.reservation.order_id, 10 );
+						reservations[ id ].changed = true;
+						er_timeline.draw_reservations();
 					}
-
 
 					if ( response.message ) {
 						alert( response.message );
@@ -1184,7 +1230,6 @@
 					scroll:        false,
 					helper:        "clone",
 					appendTo:      ".timeline",
-					stack:         '.reservation',
 					scope:         'reservations',
 					cancel:        '.title',
 					revert:        function ( event, ui ) {
@@ -1408,10 +1453,15 @@
 						.attr( 'data-tip', reservation.id )
 						.attr( 'data-id', reservation.id );
 
-					var was_there = $( '.reservation[data-id="' + id + '"]' ).remove();
+					var was_there = table.find( '.reservation[data-id="' + id + '"]' ).remove();
 
 					if ( was_there.length > 0 ) {
+						//element.addClass( 'fade-in-fast' );
 						element.addClass( 'fade-in-fast' );
+					} else if ( reservation.fresh ){
+						delete reservation.fresh;
+					} else {
+						element.addClass( 'no-animation' );
 					}
 
 					if ( edit_mode && edit_mode.id === id ) {
@@ -1438,6 +1488,7 @@
 					reservation.changed = false;
 					//console.log( 'did draw ' + id + 'at depths ' + depths );
 
+					console.log( reservation );
 					reservations[ id ] = reservation;
 				}
 			}
@@ -1463,6 +1514,7 @@
 			//TODO add check if it needs to be redrawn
 			if ( typeof reservations[ id ] === 'undefined' ) {
 				reservation.changed = true;
+				reservation.fresh = true;
 			} else {
 				reservation.changed = changed ? true : reservations[ id ].changed;
 				reservation.depths = reservations[ id ].depths;
@@ -1499,7 +1551,7 @@
 		sync_cell_heights: function () {
 			var tbody_index, tr_index;
 			resources_tbody.each( function ( _, resource_tbody ) {
-				tbody_index = $( resource_tbody ).index() / 2 - 1;
+				tbody_index = $( resource_tbody ).index() / 2 - 0.5;
 				$( resource_tbody ).children().each( function ( _, tr ) {
 					tr_index = $( tr ).index();
 					$( tr ).height( $( tbody[ tbody_index ] ).children().eq( $( tr ).index() ).height() );
@@ -1518,17 +1570,19 @@
 				header_class = '',
 				tbody_number = 0,
 				i            = 0,
-				day          = date.day() === 0 ? 6 : date.day() - 1;
+				day          = date.day() === 0 ? 6 : date.day() - 1,
+				today_marker = false;
 
 			if ( interval === "86400" ) {
-				header_main = $( '<th><div class="date"><span>' + easyFormatDate( date, 'd' ) + '</span><div>' + er_date_picker_params.day_names_min[ day ] + '</div></div></th>' );
+				header_main = $( '<th><div class="date"><div>' + easyFormatDate( date, 'd' ) + '<span>' + er_date_picker_params.day_names_min[ day ] + '</span></div></div><div class="marker"></div></th>' );
 
 				if ( date.date() === 1 ) {
-					header_main.append( $( '<div class="first-of-month"></div>' ) );
+					header_class = 'first';
+					header_main.append( $( '<div class="first">' + er_date_picker_params.month_names[date.month()] + '</div>' ) );
 				}
 			} else {
 				var last_char   = er_both_params.time_format.charAt( er_both_params.time_format.length - 1 ),
-					description = easyAddZero( date.minutes() );
+					description = '00';
 
 				if ( last_char === 'a' ) {
 					description = date.hours() >= 12 ? 'pm' : 'am';
@@ -1536,18 +1590,20 @@
 					description = date.hours() >= 12 ? 'PM' : 'AM';
 				}
 
-				header_main = $( '<th><div class="date"><span>' + easyFormatDate( date, 'H' ) + '</span><div>' + description + '</div></div></th>' );
+				header_main = $( '<th><div class="date"><div>' + easyFormatDate( date, 'H' ) + '<span>' + description + '</span></div></div><div class="marker"></div></th>' );
 
 				if ( date.hours() === 0 ) {
-					header_main.append( $( '<div class="first-of-month"></div>' ) );
+					header_class = 'first';
+					header_main.append( $( '<div class="first">' + date.date() + ' ' + er_date_picker_params.day_names[ day ] + '</div>' ) );
 				}
 			}
 
 			if ( date.date() === today.date() && date.month() === today.month() && date.year() === today.year() && ( interval === "86400" || date.hour() === today.hour() ) ) {
-				var today_marker  = $( '<div class="today"></div>' ),
+				var real_today    = moment(),
 					today_overlay = $( '<div class="overlay"></div>' ),
-					real_today    = moment(),
 					difference;
+
+				today_marker = $( '<div class="today"></div>' )
 
 				if ( interval === "86400" ) {
 					difference = cell_dimensions.width / 86400 * ( real_today.hour() * 3600 + real_today.minute() * 60 ) - 1;
@@ -1555,8 +1611,8 @@
 					difference = cell_dimensions.width / 3600 * ( real_today.minute() * 60 ) - 1;
 				}
 
-				today_marker
-					.css( 'left', difference );
+				today_marker.css( 'left', difference );
+
 				today_overlay
 					.css( 'left', difference )
 					.css( 'width', difference )
@@ -1571,7 +1627,7 @@
 				header_class += ' past';
 			}
 
-			if ( interval === "86400" && ( date.day() === 0 || date.day() === 6 ) ) {
+			if (( date.day() === 0 || date.day() === 6 ) ) {
 				header_class += ' weekend';
 			}
 
@@ -1588,7 +1644,7 @@
 			}
 
 			$.each( data.resources, function ( resource_id, resource ) {
-				var cell_header = $( '<th><div></div></th>' )
+				var cell_header = $( '<th><div class="count"></div></th>' )
 					.addClass( header_class )
 					.attr( 'data-resource', resource_id )
 					.attr( 'data-date', date.unix() );
@@ -1607,6 +1663,11 @@
 						.attr( 'data-space', i )
 						.attr( 'data-date', date.unix() );
 
+					if ( today_marker ) {
+						cell.append( today_marker.clone() );
+						today_marker = false;
+					}
+
 					if ( at_start ) {
 						$( tbody[ tbody_number ] ).find( 'tr:nth-child(' + i + ')' ).prepend( cell );
 					} else {
@@ -1620,7 +1681,7 @@
 							drop:      function ( event, ui ) {
 								var cell = $( this );
 
-								if ( last_hover.getAttribute( "data-space" ) ) {
+								if ( last_hover && last_hover.getAttribute( "data-space" ) ) {
 									cell = $( last_hover );
 								}
 
@@ -1650,12 +1711,7 @@
 									ui.helper.remove();
 
 									er_timeline.draw_reservations();
-								} else {
 								}
-
-
-							},
-							over:      function ( event, ui ) {
 							}
 						} );
 				}
@@ -1677,9 +1733,15 @@
 		}
 	};
 
+	console.log( $('hr.wp-header-end') );
 	master.insertAfter( 'hr.wp-header-end' );
 	tooltip.insertAfter( 'hr.wp-header-end' );
 	sidebar.hide();
+
+	if( data.default_hourly === 'on' ){
+		interval = "3600";
+		interval_string = 'hours';
+	}
 
 	if ( interval === "86400" ) {
 		today.startOf( 'day' );
@@ -1695,5 +1757,13 @@
 	er_sidebar.display_calendar();
 	master.css( 'display', 'flex' );
 	er_timeline.init();
+
+	if( data.reservation_resource > 0 ){
+		resources.find( '.resource-handler:not([data-resource="' + data.reservation_resource + '"],.retracted),.resource-handler.retracted[data-resource="' + data.reservation_resource + '"]' ).click();
+	}
+
+	if( data.reservation_arrival ){
+		er_timeline.jump_to_date( moment( data.reservation_arrival ) );
+	}
 } )
 ( jQuery, er_timeline_params );
