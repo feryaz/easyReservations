@@ -57,6 +57,13 @@ If you encounter issues with the catalog/category pages after an update, flush t
 * Fix - Nightly billing calculation of nights
 * Fix - Format in date created field in orders and reservations
 
+= 6.0-alpha.7 - 2020-03-XX=
+* Tweak - Order of reservations in admin table
+* Fix - Arrival and departure default value in reservation add
+* Fix - Nightly billing calculation of nights
+* Fix - Format in date created field in orders and reservations
+* Fix - Filters can set the price to 0
+
 = 6.0-alpha.6 - 2020-03-04 =
 * Tweak - Improved separation between reservation name and title
 * Fix - Upgrading could be bypassed

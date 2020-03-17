@@ -427,7 +427,7 @@ final class easyReservations {
         do_action( 'before_easyreservations_init' );
 
         if ( isset( $_GET['lang'] ) ) {
-            define( WPLANG, sanitize_key( $_GET['lang'] ));
+            define( 'WPLANG', sanitize_key( $_GET['lang'] ));
             global $sitepress;
             if ( $sitepress && is_object( $sitepress ) ) {
                 $sitepress->switch_lang( sanitize_key( $_GET['lang'] ) );

@@ -153,6 +153,7 @@ foreach ( $reservations as $reservation_data ) {
 
             $order_id = $order->save();
 
+            $reservation->set_title( $name );
             $reservation->set_order_id( $order_id );
             $reservation->set_date_created( $reserved );
 
