@@ -969,7 +969,7 @@ class ER_Cart {
 				return true;
 			} else {
 				foreach ( $the_coupon->get_error_messages() as $message ) {
-					er_add_notice( esc_html( $message ), 'error' );
+					er_add_notice( $message, 'error' );
 				}
 			}
 		} else {

@@ -12,12 +12,14 @@ final class easyReservations {
 	 * @var easyReservations
 	 */
 	protected static $_instance = null;
+
 	/**
 	 * easyReservations version.
 	 *
 	 * @var string
 	 */
 	public $version = '6.0-alpha.8';
+
 	/**
 	 * Session instance.
 	 *

@@ -114,7 +114,7 @@ class ER_Settings_Accounts extends ER_Settings_Page {
 			array(
 				'title'       => __( 'Personal data removal', 'easyReservations' ),
 				'desc'        => __( 'Allow personal data to be removed in bulk from orders', 'easyReservations' ),
-				'desc_tip'    => __( 'Adds an option to the orders screen for removing personal in bulk. Note that removing personal data cannot be undone.', 'easyReservations' ),
+				'desc_tip'    => __( 'Adds an option to the orders screen for removing personal data in bulk. Note that removing personal data cannot be undone.', 'easyReservations' ),
 				'id'          => 'reservations_allow_bulk_remove_personal_data',
 				'option'      => 'reservations_allow_bulk_remove_personal_data',
 				'type'        => 'checkbox',
