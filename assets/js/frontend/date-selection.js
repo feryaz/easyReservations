@@ -10,28 +10,28 @@
 	$.fn.dateSelection = function( options ) {
 		var e = $( this );
 		var calendarContainer = e.find( '.datepicker' );
-		var data             = false,
-			lastRequest      = false,
-			done             = false,
-			slots            = false,
+		var data = false,
+			lastRequest = false,
+			done = false,
+			slots = false,
 			resourceQuantity = false,
-			arrival          = false,
-			arrivalTime      = false,
-			departure        = false,
-			departureTime    = false,
-			default_args     = er_datepicker_get_args();
+			arrival = false,
+			arrivalTime = false,
+			departure = false,
+			departureTime = false,
+			default_args = er_datepicker_get_args();
 
 		var settings = $.extend( {
-			resource:        0,
-			arrivalHour:     false,
-			arrivalMinute:   false,
-			departureHour:   false,
+			resource: 0,
+			arrivalHour: false,
+			arrivalMinute: false,
+			departureHour: false,
 			departureMinute: false,
-			minDate:         default_args.minDate,
-			init:            true,
-			departure:       true,
-			numberOfMonths:  1,
-			time:            false
+			minDate: default_args.minDate,
+			init: true,
+			departure: true,
+			numberOfMonths: 1,
+			time: false
 		}, options );
 
 		if ( settings.resource === 0 ) {
@@ -43,10 +43,10 @@
 		} );
 
 		e.find( 'div.departure' ).bind( 'click', function() {
-			if ( arrival && ( arrivalTime || !settings.time ) ) {
+			if ( arrival && ( arrivalTime || ! settings.time ) ) {
 				resetDeparture();
 
-				if ( !calendarContainer.hasClass( 'hasDatepicker' ) ) {
+				if ( ! calendarContainer.hasClass( 'hasDatepicker' ) ) {
 					e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
 					loadData( arrival );
 					generateDatepicker();
@@ -91,16 +91,16 @@
 		}
 
 		function nextAction() {
-			if ( !done ) {
+			if ( ! done ) {
 				if ( departure ) {
-					if ( departureTime || !settings.time ) {
+					if ( departureTime || ! settings.time ) {
 						destroyDatePicker( finish );
 						done = true;
 					} else {
 						generateTimepicker();
 					}
 				} else if ( arrival ) {
-					if ( arrivalTime !== false || !settings.time ) {
+					if ( arrivalTime !== false || ! settings.time ) {
 						if ( settings.departure ) {
 							e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
 							generateDatepicker();
@@ -137,8 +137,8 @@
 					$.each( data[ arrival ][ arrivalTime ], function( t, v ) {
 						var date_string = v.departure.split( ' ' ),
 							time_string = date_string[ 1 ].split( ':' ),
-							label       = easyFormatTime( time_string[ 0 ], time_string[ 1 ], er_both_params.time_format ),
-							c           = v.availability < 1 ? 'unavailable' : ( v.availability < resourceQuantity ? 'partially' : 'available' );
+							label = easyFormatTime( time_string[ 0 ], time_string[ 1 ], er_both_params.time_format ),
+							c = v.availability < 1 ? 'unavailable' : ( v.availability < resourceQuantity ? 'partially' : 'available' );
 
 						if ( date_string[ 0 ] !== departure ) {
 							return;
@@ -148,12 +148,12 @@
 				} else {
 					$.each( data[ arrival ], function( t, _slots ) {
 						$.each( _slots, function( k, v ) {
-							var time       = t.split( ":" ),
-								label      = easyFormatTime( time[ 0 ], time[ 1 ], er_both_params.time_format ),
+							var time = t.split( ":" ),
+								label = easyFormatTime( time[ 0 ], time[ 1 ], er_both_params.time_format ),
 								attributes = '',
-								c          = v.availability < 1 ? 'unavailable' : ( v.availability < resourceQuantity ? 'partially' : 'available' );
+								c = v.availability < 1 ? 'unavailable' : ( v.availability < resourceQuantity ? 'partially' : 'available' );
 
-							if ( !settings.departure ) {
+							if ( ! settings.departure ) {
 								var departure_date_string = v.departure.split( ' ' );
 								var departure_time_string = departure_date_string[ 1 ].split( ':' );
 
@@ -187,7 +187,7 @@
 							e.find( 'input[name=slot]' ).val( $( this ).attr( 'data-id' ) );
 							setDepartureTime( $( this ).attr( 'data-hour' ), $( this ).attr( 'data-minute' ) );
 						} else {
-							if ( !settings.departure ) {
+							if ( ! settings.departure ) {
 								e.find( 'input[name=slot]' ).val( $( this ).attr( 'data-id' ) );
 								setDeparture( $( this ).attr( 'data-departure' ) );
 								setDepartureTime( $( this ).attr( 'data-departure-hour' ), $( this ).attr( 'data-departure-minute' ) );
@@ -289,19 +289,19 @@
 
 			calendarContainer.datepicker(
 				$.extend( {
-					minDate:           arrival ? arrival : settings.minDate,
-					maxDate:           maxDate ? maxDate : null,
-					dateFormat:        date_format,
-					numberOfMonths:    settings.numberOfMonths,
-					beforeShowDay:     checkData,
+					minDate: arrival ? arrival : settings.minDate,
+					maxDate: maxDate ? maxDate : null,
+					dateFormat: date_format,
+					numberOfMonths: settings.numberOfMonths,
+					beforeShowDay: checkData,
 					onChangeMonthYear: function( year, month, inst ) {
-						if ( !slots || ( !arrivalTime && settings.time ) || ( arrival && !settings.time ) ) {
+						if ( ! slots || ( ! arrivalTime && settings.time ) || ( arrival && ! settings.time ) ) {
 							loadData( date_format.replace( 'dd', '01' ).replace( 'mm', month ).replace( 'yy', year ) );
 						}
 
 						e.find( 'div.time' ).slideUp( 300 );
 
-						if ( arrival && ( arrivalTime || !settings.time ) ) {
+						if ( arrival && ( arrivalTime || ! settings.time ) ) {
 							resetDeparture();
 							e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
 						} else {
@@ -309,13 +309,13 @@
 							e.find( '.arrival .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
 						}
 					},
-					onSelect:          select
+					onSelect: select
 				}, default_args )
 			).datepicker( "setDate", null ).slideDown( '300' );
 
 			var element = calendarContainer.parent().parent();
-			if ( resourceQuantity && !element.isInViewport() ) {
-				$( [document.documentElement, document.body] ).animate( {
+			if ( resourceQuantity && ! element.isInViewport() ) {
+				$( [ document.documentElement, document.body ] ).animate( {
 					scrollTop: element.offset().top - 30
 				}, 500 );
 			}
@@ -376,7 +376,7 @@
 			hour = easyAddZero( hour );
 			minute = easyAddZero( minute );
 
-			if ( !label ) {
+			if ( ! label ) {
 				label = easyFormatTime( hour, minute );
 			}
 
@@ -390,7 +390,7 @@
 			hour = easyAddZero( hour );
 			minute = easyAddZero( minute );
 
-			if ( !label ) {
+			if ( ! label ) {
 				label = easyFormatTime( hour, minute );
 			}
 
@@ -401,7 +401,7 @@
 		}
 
 		function select( dateString, instance ) {
-			if ( arrival && ( arrivalTime !== false || !settings.time ) ) {
+			if ( arrival && ( arrivalTime !== false || ! settings.time ) ) {
 				if ( departure === dateString ) {
 					resetDeparture();
 					e.find( '.time-picker > td > div' ).slideUp( 50, function() {
@@ -489,12 +489,12 @@
 						iterate = data[ arrival ][ Object.keys( data[ arrival ] )[ 0 ] ];
 					}
 
-					var toReturn = [false, 'unavailable', ''];
+					var toReturn = [ false, 'unavailable', '' ];
 
 					$.each( iterate, function( k, v ) {
 						var departure_string = v.departure.split( ' ' );
 						if ( departure_string[ 0 ] === key ) {
-							toReturn = [true, 'available', ''];
+							toReturn = [ true, 'available', '' ];
 							return true;
 						}
 					} );
@@ -505,15 +505,15 @@
 				if ( data.hasOwnProperty( key ) ) {
 					if ( data[ key ].availability && data[ key ].availability === parseInt( data[ key ].availability, 10 ) ) {
 						if ( data[ key ].availability < 0 ) {
-							return [false, 'unavailable rule', '']
+							return [ false, 'unavailable rule', '' ]
 						}
 
 						if ( data[ key ].availability < 1 ) {
-							return [false, 'unavailable', '']
+							return [ false, 'unavailable', '' ]
 						}
 
 						if ( data[ key ].availability < resourceQuantity ) {
-							return [true, 'partially', '']
+							return [ true, 'partially', '' ]
 						}
 					} else {
 						var amount_available = 0;
@@ -541,20 +541,20 @@
 							} );
 						}
 
-						if ( !hasAvailableSlot ) {
-							return [false, 'unavailable', '']
+						if ( ! hasAvailableSlot ) {
+							return [ false, 'unavailable', '' ]
 						}
 
 						if ( Object.keys( total ).length > amount_available ) {
-							return [true, 'partially', '']
+							return [ true, 'partially', '' ]
 						}
 					}
 
-					return [true, 'available', '']
+					return [ true, 'available', '' ]
 				}
 			}
 
-			return [false, 'past', ''];
+			return [ false, 'past', '' ];
 		}
 
 		function loadData( date ) {
@@ -563,26 +563,26 @@
 			data = false;
 
 			var post = {
-				action:      'easyreservations_calendar',
-				date:        date === 0 ? 0 : date,
-				arrival:     arrival && ( arrivalTime !== false || !settings.time ) ? arrival : 0,
+				action: 'easyreservations_calendar',
+				date: date === 0 ? 0 : date,
+				arrival: arrival && ( arrivalTime !== false || ! settings.time ) ? arrival : 0,
 				arrivalTime: arrivalTime,
-				months:      settings.numberOfMonths,
-				adults:      $( '*[name=adults]' ).val(),
-				children:    $( '*[name=children]' ).val(),
-				resource:    settings.resource,
-				minDate:     settings.minDate,
-				security:    e.find( 'input[name="easy-date-selection-nonce"]' ).val()
+				months: settings.numberOfMonths,
+				adults: $( '*[name=adults]' ).val(),
+				children: $( '*[name=children]' ).val(),
+				resource: settings.resource,
+				minDate: settings.minDate,
+				security: e.find( 'input[name="easy-date-selection-nonce"]' ).val()
 			};
 
-			if ( !post[ 'resource' ] ) {
+			if ( ! post[ 'resource' ] ) {
 				alert( 'no resource field in form, please fix' );
 				return;
 			}
 
 			$.post( er_both_params.ajaxurl, post, function( response ) {
 				if ( lastRequest === now ) {
-					if ( arrival && ( arrivalTime || !settings.time ) ) {
+					if ( arrival && ( arrivalTime || ! settings.time ) ) {
 						e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.select );
 					} else {
 						e.find( '.arrival .text .date' ).html( er_date_picker_params.select );

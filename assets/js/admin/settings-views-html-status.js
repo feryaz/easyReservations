@@ -95,11 +95,11 @@ jQuery( function( $ ) {
 		 */
 		copySuccess: function() {
 			$( '#copy-for-support' ).tipTip( {
-				'attribute':  'data-tip',
+				'attribute': 'data-tip',
 				'activation': 'focus',
-				'fadeIn':     50,
-				'fadeOut':    50,
-				'delay':      0
+				'fadeIn': 50,
+				'fadeOut': 50,
+				'delay': 0
 			} ).focus();
 		},
 

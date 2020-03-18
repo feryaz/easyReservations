@@ -11,11 +11,11 @@ jQuery( function( $ ) {
 		var getEnhancedSelectFormatString = function() {
 			return {
 				'language': {
-					errorLoading:    function() {
+					errorLoading: function() {
 						// Workaround for https://github.com/select2/select2/issues/4355 instead of i18n_ajax_error.
 						return er_country_select_params.i18n_searching;
 					},
-					inputTooLong:    function( args ) {
+					inputTooLong: function( args ) {
 						var overChars = args.input.length - args.maximum;
 
 						if ( 1 === overChars ) {
@@ -24,7 +24,7 @@ jQuery( function( $ ) {
 
 						return er_country_select_params.i18n_input_too_long_n.replace( '%qty%', overChars );
 					},
-					inputTooShort:   function( args ) {
+					inputTooShort: function( args ) {
 						var remainingChars = args.minimum - args.input.length;
 
 						if ( 1 === remainingChars ) {
@@ -33,7 +33,7 @@ jQuery( function( $ ) {
 
 						return er_country_select_params.i18n_input_too_short_n.replace( '%qty%', remainingChars );
 					},
-					loadingMore:     function() {
+					loadingMore: function() {
 						return er_country_select_params.i18n_load_more;
 					},
 					maximumSelected: function( args ) {
@@ -43,10 +43,10 @@ jQuery( function( $ ) {
 
 						return er_country_select_params.i18n_selection_too_long_n.replace( '%qty%', args.maximum );
 					},
-					noResults:       function() {
+					noResults: function() {
 						return er_country_select_params.i18n_no_matches;
 					},
-					searching:       function() {
+					searching: function() {
 						return er_country_select_params.i18n_searching;
 					}
 				}
@@ -57,7 +57,7 @@ jQuery( function( $ ) {
 			$( 'select.country_select:visible, select.state_select:visible' ).each( function() {
 				var select2_args = $.extend( {
 					placeholder: $( this ).attr( 'data-placeholder' ) || $( this ).attr( 'placeholder' ) || '',
-					width:       '100%'
+					width: '100%'
 				}, getEnhancedSelectFormatString() );
 
 				$( this )
@@ -76,8 +76,8 @@ jQuery( function( $ ) {
 	}
 
 	/* State/Country select boxes */
-	var states_json       = er_country_select_params.countries.replace( /&quot;/g, '"' ),
-		states            = $.parseJSON( states_json ),
+	var states_json = er_country_select_params.countries.replace( /&quot;/g, '"' ),
+		states = $.parseJSON( states_json ),
 		wrapper_selectors = '.easyreservations-checkout,' +
 			'.easyreservations-address-fields';
 
@@ -85,18 +85,18 @@ jQuery( function( $ ) {
 		// Grab wrapping element to target only stateboxes in same 'group'
 		var $wrapper = $( this ).closest( wrapper_selectors );
 
-		if ( !$wrapper.length ) {
+		if ( ! $wrapper.length ) {
 			$wrapper = $( this ).closest( '.form-row' ).parent();
 		}
 
-		var country       = $( this ).val(),
-			$statebox     = $wrapper.find( '#state' ),
-			$parent       = $statebox.closest( '.form-row' ),
-			input_name    = $statebox.attr( 'name' ),
-			input_id      = $statebox.attr( 'id' ),
+		var country = $( this ).val(),
+			$statebox = $wrapper.find( '#state' ),
+			$parent = $statebox.closest( '.form-row' ),
+			input_name = $statebox.attr( 'name' ),
+			input_id = $statebox.attr( 'id' ),
 			input_classes = $statebox.attr( 'data-input-classes' ),
-			value         = $statebox.val(),
-			placeholder   = $statebox.attr( 'placeholder' ) || $statebox.attr( 'data-placeholder' ) || '',
+			value = $statebox.val(),
+			placeholder = $statebox.attr( 'placeholder' ) || $statebox.attr( 'data-placeholder' ) || '',
 			$newstate;
 
 		if ( states[ country ] ) {
@@ -112,13 +112,13 @@ jQuery( function( $ ) {
 				$parent.hide().find( '.select2-container' ).remove();
 				$statebox.replaceWith( $newstate );
 
-				$( document.body ).trigger( 'country_to_state_changed', [country, $wrapper] );
+				$( document.body ).trigger( 'country_to_state_changed', [ country, $wrapper ] );
 			} else {
 
-				var state          = states[ country ],
+				var state = states[ country ],
 					$defaultOption = $( '<option value=""></option>' ).text( er_country_select_params.i18n_select_state_text );
 
-				if ( !placeholder ) {
+				if ( ! placeholder ) {
 					placeholder = er_country_select_params.i18n_select_state_text;
 				}
 
@@ -147,7 +147,7 @@ jQuery( function( $ ) {
 
 				$statebox.val( value ).change();
 
-				$( document.body ).trigger( 'country_to_state_changed', [country, $wrapper] );
+				$( document.body ).trigger( 'country_to_state_changed', [ country, $wrapper ] );
 			}
 		} else {
 			if ( $statebox.is( 'select, input[type="hidden"]' ) ) {
@@ -159,11 +159,11 @@ jQuery( function( $ ) {
 					.addClass( 'input-text  ' + input_classes );
 				$parent.show().find( '.select2-container' ).remove();
 				$statebox.replaceWith( $newstate );
-				$( document.body ).trigger( 'country_to_state_changed', [country, $wrapper] );
+				$( document.body ).trigger( 'country_to_state_changed', [ country, $wrapper ] );
 			}
 		}
 
-		$( document.body ).trigger( 'er_country_to_state_changing', [country, $wrapper] );
+		$( document.body ).trigger( 'er_country_to_state_changing', [ country, $wrapper ] );
 	} );
 
 	$( document.body ).on( 'er_address_i18n_ready', function() {

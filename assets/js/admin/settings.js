@@ -7,7 +7,7 @@
 			change: function( event, ui ) {
 				$( this ).parent().find( '.colorpickpreview' ).css( { backgroundColor: ui.color.toString() } );
 			},
-			hide:   true,
+			hide: true,
 			border: true
 		} )
 
@@ -36,22 +36,22 @@
 
 	// Sorting
 	$( 'table.er_gateways tbody' ).sortable( {
-		items:             'tr',
-		cursor:            'move',
-		axis:              'y',
-		handle:            'td.sort',
+		items: 'tr',
+		cursor: 'move',
+		axis: 'y',
+		handle: 'td.sort',
 		scrollSensitivity: 40,
-		helper:            function( event, ui ) {
+		helper: function( event, ui ) {
 			ui.children().each( function() {
 				$( this ).width( $( this ).width() );
 			} );
 			ui.css( 'left', '0' );
 			return ui;
 		},
-		start:             function( event, ui ) {
+		start: function( event, ui ) {
 			ui.item.css( 'background-color', '#f6f6f6' );
 		},
-		stop:              function( event, ui ) {
+		stop: function( event, ui ) {
 			ui.item.removeAttr( 'style' );
 			ui.item.trigger( 'updateMoveButtons' );
 		}

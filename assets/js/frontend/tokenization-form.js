@@ -11,7 +11,7 @@ jQuery( function( $ ) {
 		// Params.
 		this.params = $.extend( {}, {
 			'is_registration_required': false,
-			'is_logged_in':             false
+			'is_logged_in': false
 		}, er_tokenization_form_params );
 
 		// Bind functions to this.
@@ -44,7 +44,7 @@ jQuery( function( $ ) {
 
 		// Hide "save card" if "Create Account" is not checked and registration is not forced.
 		var hasCreateAccountCheckbox = 0 < $( 'input#createaccount' ).length,
-			createAccount            = hasCreateAccountCheckbox && $( 'input#createaccount' ).is( ':checked' );
+			createAccount = hasCreateAccountCheckbox && $( 'input#createaccount' ).is( ':checked' );
 
 		if ( createAccount || this.params.is_logged_in || this.params.is_registration_required ) {
 			this.showSaveNewCheckbox();

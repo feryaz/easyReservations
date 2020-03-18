@@ -24,7 +24,7 @@
 		// this bit is to ensure we don't call setExpression when we shouldn't (with extra muscle to handle
 		// confusing userAgent strings on Vista)
 		var msie = /MSIE/.test( navigator.userAgent );
-		var ie6 = /MSIE 6.0/.test( navigator.userAgent ) && !/MSIE 8.0/.test( navigator.userAgent );
+		var ie6 = /MSIE 6.0/.test( navigator.userAgent ) && ! /MSIE 8.0/.test( navigator.userAgent );
 		var mode = document.documentMode || 0;
 		var setExpr = $.isFunction( document.createElement( 'div' ).style.setExpression );
 
@@ -54,14 +54,14 @@
 				opts = opts || {};
 
 				$.blockUI( {
-					message:     $m,
-					fadeIn:      typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 700,
-					fadeOut:     typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 1000,
-					timeout:     typeof opts.timeout !== 'undefined' ? opts.timeout : timeout,
-					centerY:     false,
+					message: $m,
+					fadeIn: typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 700,
+					fadeOut: typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 1000,
+					timeout: typeof opts.timeout !== 'undefined' ? opts.timeout : timeout,
+					centerY: false,
 					showOverlay: false,
-					onUnblock:   onClose,
-					css:         $.blockUI.defaults.growlCSS
+					onUnblock: onClose,
+					css: $.blockUI.defaults.growlCSS
 				} );
 			};
 
@@ -69,7 +69,7 @@
 			var nonmousedOpacity = $m.css( 'opacity' );
 			$m.mouseover( function() {
 				callBlock( {
-					fadeIn:  0,
+					fadeIn: 0,
 					timeout: 30000
 				} );
 
@@ -125,7 +125,7 @@
 			// message displayed when blocking (use null for no message)
 			message: '<h1>Please wait...</h1>',
 
-			title:     null,		// title string; only used when theme == true
+			title: null,		// title string; only used when theme == true
 			draggable: true,	// only used when theme == true (requires jquery-ui.js to be loaded)
 
 			theme: false, // set to true to use with jQuery UI themes
@@ -134,30 +134,30 @@
 			// these and use an external stylesheet then do this in your code:
 			// $.blockUI.defaults.css = {};
 			css: {
-				padding:         0,
-				margin:          0,
-				width:           '30%',
-				top:             '40%',
-				left:            '35%',
-				textAlign:       'center',
-				color:           '#000',
-				border:          '3px solid #aaa',
+				padding: 0,
+				margin: 0,
+				width: '30%',
+				top: '40%',
+				left: '35%',
+				textAlign: 'center',
+				color: '#000',
+				border: '3px solid #aaa',
 				backgroundColor: '#fff',
-				cursor:          'wait'
+				cursor: 'wait'
 			},
 
 			// minimal style set used when themes are used
 			themedCSS: {
 				width: '30%',
-				top:   '40%',
-				left:  '35%'
+				top: '40%',
+				left: '35%'
 			},
 
 			// styles for the overlay
 			overlayCSS: {
 				backgroundColor: '#000',
-				opacity:         0.6,
-				cursor:          'wait'
+				opacity: 0.6,
+				cursor: 'wait'
 			},
 
 			// style to replace wait cursor before unblocking to correct issue
@@ -166,19 +166,19 @@
 
 			// styles applied when using $.growlUI
 			growlCSS: {
-				width:                   '350px',
-				top:                     '10px',
-				left:                    '',
-				right:                   '10px',
-				border:                  'none',
-				padding:                 '5px',
-				opacity:                 0.6,
-				cursor:                  'default',
-				color:                   '#fff',
-				backgroundColor:         '#000',
+				width: '350px',
+				top: '10px',
+				left: '',
+				right: '10px',
+				border: 'none',
+				padding: '5px',
+				opacity: 0.6,
+				cursor: 'default',
+				color: '#fff',
+				backgroundColor: '#000',
 				'-webkit-border-radius': '10px',
-				'-moz-border-radius':    '10px',
-				'border-radius':         '10px'
+				'-moz-border-radius': '10px',
+				'border-radius': '10px'
 			},
 
 			// IE issues: 'about:blank' fails on HTTPS and javascript:false is s-l-o-w
@@ -259,7 +259,8 @@
 		var pageBlockEls = [];
 
 		function install( el, opts ) {
-			var css, themedCSS;
+			var css,
+				themedCSS;
 			var full = ( el == window );
 			var msg = ( opts && opts.message !== undefined ? opts.message : undefined );
 			opts = $.extend( {}, $.blockUI.defaults, opts || {} );
@@ -305,7 +306,10 @@
 			// layer1 is the iframe layer which is used to supress bleed through of underlying content
 			// layer2 is the overlay layer which has opacity and a wait cursor (by default)
 			// layer3 is the message content that is displayed while blocking
-			var lyr1, lyr2, lyr3, s;
+			var lyr1,
+				lyr2,
+				lyr3,
+				s;
 			if ( msie || opts.forceIframe ) {
 				lyr1 = $( '<iframe class="blockUI" style="z-index:' + ( z++ ) + ';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="' + opts.iframeSrc + '"></iframe>' );
 			} else {
@@ -350,7 +354,7 @@
 			}
 
 			// style the overlay
-			if ( !opts.theme /*&& (!opts.applyPlatformOpacityRules)*/ ) {
+			if ( ! opts.theme /*&& (!opts.applyPlatformOpacityRules)*/ ) {
 				lyr2.css( opts.overlayCSS );
 			}
 			lyr2.css( 'position', full ? 'fixed' : 'absolute' );
@@ -361,7 +365,8 @@
 			}
 
 			//$([lyr1[0],lyr2[0],lyr3[0]]).appendTo(full ? 'body' : el);
-			var layers = [lyr1, lyr2, lyr3], $par = full ? $( 'body' ) : $( el );
+			var layers = [ lyr1, lyr2, lyr3 ],
+				$par = full ? $( 'body' ) : $( el );
 			$.each( layers, function() {
 				this.appendTo( $par );
 			} );
@@ -374,7 +379,7 @@
 			}
 
 			// ie7 must use absolute positioning in quirks mode and to account for activex issues (when scrolling)
-			var expr = setExpr && ( !$.support.boxModel || $( 'object,embed', full ? null : el ).length > 0 );
+			var expr = setExpr && ( ! $.support.boxModel || $( 'object,embed', full ? null : el ).length > 0 );
 			if ( ie6 || expr ) {
 				// give body 100% height
 				if ( full && opts.allowBodyStretch && $.support.boxModel ) {
@@ -382,8 +387,9 @@
 				}
 
 				// fix ie6 issue when blocked element has a border width
-				if ( ( ie6 || !$.support.boxModel ) && !full ) {
-					var t = sz( el, 'borderTopWidth' ), l = sz( el, 'borderLeftWidth' );
+				if ( ( ie6 || ! $.support.boxModel ) && ! full ) {
+					var t = sz( el, 'borderTopWidth' ),
+						l = sz( el, 'borderLeftWidth' );
 					var fixT = t ? '(0 - ' + t + ')' : 0;
 					var fixL = l ? '(0 - ' + l + ')' : 0;
 				}
@@ -414,7 +420,7 @@
 							s.setExpression( 'top', '(document.documentElement.clientHeight || document.body.clientHeight) / 2 - (this.offsetHeight / 2) + (blah = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + "px"' );
 						}
 						s.marginTop = 0;
-					} else if ( !opts.centerY && full ) {
+					} else if ( ! opts.centerY && full ) {
 						var top = ( opts.css && opts.css.top ) ? parseInt( opts.css.top, 10 ) : 0;
 						var expression = '((document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop) + ' + top + ') + "px"';
 						s.setExpression( 'top', expression );
@@ -439,7 +445,7 @@
 			} // opacity is zero
 			if ( opts.fadeIn ) {
 				var cb = opts.onBlock ? opts.onBlock : noOp;
-				var cb1 = ( opts.showOverlay && !msg ) ? cb : noOp;
+				var cb1 = ( opts.showOverlay && ! msg ) ? cb : noOp;
 				var cb2 = msg ? cb : noOp;
 				if ( opts.showOverlay ) {
 					lyr2._fadeIn( opts.fadeIn, cb1 );
@@ -571,24 +577,27 @@
 			}
 
 			// fix issue in Safari 6 where block artifacts remain until reflow
-			var body = $( document.body ), w = body.width(), cssW = body[ 0 ].style.width;
+			var body = $( document.body ),
+				w = body.width(),
+				cssW = body[ 0 ].style.width;
 			body.width( w - 1 ).width( w );
 			body[ 0 ].style.width = cssW;
 		}
 
 		// bind/unbind the handler
 		function bind( b, el, opts ) {
-			var full = el == window, $el = $( el );
+			var full = el == window,
+				$el = $( el );
 
 			// don't bother unbinding if there is nothing to unbind
-			if ( !b && ( full && !pageBlock || !full && !$el.data( 'blockUI.isBlocked' ) ) ) {
+			if ( ! b && ( full && ! pageBlock || ! full && ! $el.data( 'blockUI.isBlocked' ) ) ) {
 				return;
 			}
 
 			$el.data( 'blockUI.isBlocked', b );
 
 			// don't bind events when overlay is not in use or if bindEvents is false
-			if ( !full || !opts.bindEvents || ( b && !opts.showOverlay ) ) {
+			if ( ! full || ! opts.bindEvents || ( b && ! opts.showOverlay ) ) {
 				return;
 			}
 
@@ -611,7 +620,7 @@
 			if ( e.type === 'keydown' && e.keyCode && e.keyCode == 9 ) {
 				if ( pageBlock && e.data.constrainTabKey ) {
 					var els = pageBlockEls;
-					var fwd = !e.shiftKey && e.target === els[ els.length - 1 ];
+					var fwd = ! e.shiftKey && e.target === els[ els.length - 1 ];
 					var back = e.shiftKey && e.target === els[ 0 ];
 					if ( fwd || back ) {
 						setTimeout( function() {
@@ -637,7 +646,7 @@
 		}
 
 		function focus( back ) {
-			if ( !pageBlockEls ) {
+			if ( ! pageBlockEls ) {
 				return;
 			}
 			var e = pageBlockEls[ back === true ? pageBlockEls.length - 1 : 0 ];
@@ -647,7 +656,8 @@
 		}
 
 		function center( el, x, y ) {
-			var p = el.parentNode, s = el.style;
+			var p = el.parentNode,
+				s = el.style;
 			var l = ( ( p.offsetWidth - el.offsetWidth ) / 2 ) - sz( p, 'borderLeftWidth' );
 			var t = ( ( p.offsetHeight - el.offsetHeight ) / 2 ) - sz( p, 'borderTopWidth' );
 			if ( x ) {
@@ -667,7 +677,7 @@
 
 	/*global define:true */
 	if ( typeof define === 'function' && define.amd && define.amd.jQuery ) {
-		define( ['jquery'], setup );
+		define( [ 'jquery' ], setup );
 	} else {
 		setup( jQuery );
 	}

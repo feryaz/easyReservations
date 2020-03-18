@@ -1,8 +1,8 @@
 jQuery( document ).ready( function( $ ) {
 	$( '.sbHolder' ).remove();
 
-	var target      = '.easy-ui .together',
-		invert      = ':not(' + target + ')',
+	var target = '.easy-ui .together',
+		invert = ':not(' + target + ')',
 		breakpoints = $( '.easy-ui > *' + invert + ',.easy-ui > div.content > *' + invert );
 
 	breakpoints.each( function() {
@@ -16,8 +16,8 @@ jQuery( document ).ready( function( $ ) {
 		$( this ).add( $( this ).prev() ).add( $( this ).next() ).wrapAll( '<span class="input-wrapper">' );
 	} );
 
-	var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
-	if ( window.CSS && window.CSS.supports && window.CSS.supports( '--a', 0 ) && ( isIE11 === undefined || !isIE11 ) ) {
+	var isIE11 = !! window.MSInputMethodContext && !! document.documentMode;
+	if ( window.CSS && window.CSS.supports && window.CSS.supports( '--a', 0 ) && ( isIE11 === undefined || ! isIE11 ) ) {
 		$( '.input-wrapper select[name$="hour"]' ).each( function( k, v ) {
 			var twelve_hours = false;
 			var hideHoursInSelect = function( ele, test ) {
@@ -26,7 +26,7 @@ jQuery( document ).ready( function( $ ) {
 					select = ele;
 				}
 				select.find( 'option' ).each( function( k, t ) {
-					if ( !twelve_hours && ( t.text.indexOf( "AM" ) >= 0 || t.text.indexOf( "am" ) >= 0 || t.text.indexOf( "PM" ) >= 0 || t.text.indexOf( "pm" ) >= 0 ) ) {
+					if ( ! twelve_hours && ( t.text.indexOf( "AM" ) >= 0 || t.text.indexOf( "am" ) >= 0 || t.text.indexOf( "PM" ) >= 0 || t.text.indexOf( "pm" ) >= 0 ) ) {
 						twelve_hours = true;
 					}
 					var explode = t.text.split( ":" );
@@ -34,12 +34,12 @@ jQuery( document ).ready( function( $ ) {
 					t.label = explode[ 0 ];
 					t.text = explode[ 0 ];
 				} );
-				if ( !test && twelve_hours ) {
+				if ( ! test && twelve_hours ) {
 					var label = 'PM';
 					if ( select.find( 'option:selected' ).data( 'text' ).indexOf( "AM" ) >= 0 ) {
 						label = 'AM';
 					}
-					while ( !select.hasClass( 'input-box' ) ) {
+					while ( ! select.hasClass( 'input-box' ) ) {
 						select = select.next();
 						if ( select.hasClass( 'input-box' ) ) {
 							select.children( 'span' ).removeClass( 'dashicons-clock' ).removeClass( 'dashicons' ).addClass( '' ).html( label )
@@ -74,15 +74,15 @@ jQuery( document ).ready( function( $ ) {
 	function register_slider() {
 		$( '.easy-slider-input:not(.generated)' ).each( function() {
 			var form_field = $( this ),
-				slider     = $( '<div id="slider" class="easy-slider"><div id="custom-handle" class="ui-slider-handle"><label><span class="dashicons dashicons-arrow-left-alt2"></span><span class="text"></span><span class="dashicons dashicons-arrow-right-alt2"></label></div></div>' );
+				slider = $( '<div id="slider" class="easy-slider"><div id="custom-handle" class="ui-slider-handle"><label><span class="dashicons dashicons-arrow-left-alt2"></span><span class="text"></span><span class="dashicons dashicons-arrow-right-alt2"></label></div></div>' );
 
 			form_field.after( slider ).addClass( 'generated' );
 
 			var handle = slider.find( "span.text" ),
-				min    = parseFloat( form_field.attr( 'data-min' ) ),
-				max    = parseFloat( form_field.attr( 'data-max' ) ),
-				step   = parseFloat( form_field.attr( 'data-step' ) ),
-				label  = form_field.attr( 'data-label' );
+				min = parseFloat( form_field.attr( 'data-min' ) ),
+				max = parseFloat( form_field.attr( 'data-max' ) ),
+				step = parseFloat( form_field.attr( 'data-step' ) ),
+				label = form_field.attr( 'data-label' );
 
 			if ( min === undefined ) {
 				min = 1;
@@ -98,20 +98,20 @@ jQuery( document ).ready( function( $ ) {
 			}
 
 			slider.slider( {
-				range:  "min",
-				min:    min,
-				max:    max,
-				step:   step,
-				value:  form_field.val(),
+				range: "min",
+				min: min,
+				max: max,
+				step: step,
+				value: form_field.val(),
 				create: function() {
 					handle.text( $( this ).slider( "value" ) + ' ' + label );
 					form_field.val( $( this ).slider( "value" ) );
 				},
-				slide:  function( event, ui ) {
+				slide: function( event, ui ) {
 					handle.text( ui.value + ' ' + label );
 					form_field.val( ui.value );
 				},
-				stop:   function( event, ui ) {
+				stop: function( event, ui ) {
 					form_field.val( ui.value ).trigger( 'change' );
 				}
 			} );
@@ -137,7 +137,7 @@ jQuery( document ).ready( function( $ ) {
 		all_links.bind( 'click', function( e ) {
 			e.preventDefault();
 
-			if ( !$( this ).hasClass( 'active' ) ) {
+			if ( ! $( this ).hasClass( 'active' ) ) {
 				all_links.removeClass( 'nav-tab-active' );
 				$( this ).addClass( 'nav-tab-active' );
 				$( '#' + current_target ).addClass( 'hidden' );

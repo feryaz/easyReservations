@@ -1,4 +1,7 @@
-var optTempID = 1, ifTempID = 1, first = true, added = {};
+var optTempID = 1,
+	ifTempID = 1,
+	first = true,
+	added = {};
 
 function custom_edit( id ) {
 	if ( htmlSettingsCustomLocalizeScript.all_custom_fields && htmlSettingsCustomLocalizeScript.all_custom_fields[ id ] ) {
@@ -19,10 +22,10 @@ function custom_edit( id ) {
 function custom_type_select( sel ) {
 	var options = {};
 	options[ 'x' ] = '--';
-	if ( !sel ) {
+	if ( ! sel ) {
 		sel = jQuery( '#custom_field_type' ).val();
 	}
-	if ( !jQuery( '#custom_price_field' ).prop( 'checked' ) ) {
+	if ( ! jQuery( '#custom_price_field' ).prop( 'checked' ) ) {
 		options[ 'text' ] = 'Text field';
 		options[ 'area' ] = 'Text area';
 	}
@@ -58,9 +61,10 @@ function custom_field_value( sel ) {
 	var type = jQuery( '#custom_field_type' ).val();
 	jQuery( '#custom_value_tr' ).remove();
 	if ( type !== 'x' ) {
-		var options = '', value = '';
+		var options = '',
+			value = '';
 		if ( type == 'text' || type == 'area' ) {
-			if ( !sel ) {
+			if ( ! sel ) {
 				sel = new Array();
 				sel[ "value" ] = "";
 			}
@@ -79,7 +83,7 @@ function custom_field_value( sel ) {
 }
 
 function custom_generate_option( sel ) {
-	if ( !sel ) {
+	if ( ! sel ) {
 		var sel = new Object();
 		sel[ "type" ] = jQuery( '#custom_field_type' ).val();
 		sel[ 'options' ] = new Object();
@@ -149,17 +153,17 @@ function add_if_clause( id, sel ) {
 	clause += '<a style="float:right" onclick="delete_option(this)" class="dashicons dashicons-dismiss"></a>';
 	clause += 'If <span class="select"><select name="if_cond_type[]" onchange="change_operator(this);">';
 	var condition_types = {
-		units:           "Billing units",
-		resource:        "Resource",
-		adult:           "Adults",
-		child:           "Children",
-		arrival:         "Arrival",
-		departure:       "Departure",
-		time:            "Current date",
-		arrival_every:   "Arrival w/o year",
+		units: "Billing units",
+		resource: "Resource",
+		adult: "Adults",
+		child: "Children",
+		arrival: "Arrival",
+		departure: "Departure",
+		time: "Current date",
+		arrival_every: "Arrival w/o year",
 		departure_every: "Departure w/o year",
-		time_every:      "Current date w/o year",
-		field:           "Custom price field"
+		time_every: "Current date w/o year",
+		field: "Custom price field"
 	};
 	var type = jQuery( '#custom_field_type' ).val();
 	if ( type == 'slider' || type == 'number' ) {
@@ -169,19 +173,19 @@ function add_if_clause( id, sel ) {
 	clause += '</select></span>';
 	var selection = c[ 'price' ];
 	clause += generate_if_clause_condition( c );
-	if ( !isNaN( parseFloat( c[ 'price' ] ) ) && isFinite( c[ 'price' ] ) ) {
+	if ( ! isNaN( parseFloat( c[ 'price' ] ) ) && isFinite( c[ 'price' ] ) ) {
 		selection = 'price';
 	}
 	clause += '<span class="select"><select name="if_cond_happens[]" onchange="clause_happens_select(jQuery(this).val(),\'' + id + '\', ' + ifTempID + ', true)">' + generateOptions( {
-		x:     "--",
-		and:   "AND",
-		or:    "OR",
+		x: "--",
+		and: "AND",
+		or: "OR",
 		price: "THEN"
 	}, selection ) + '</select></span>';
 	clause += clause_happens_select( c[ 'price' ], id, ifTempID, false, c[ 'mult' ] );
 	clause += '<input type="hidden" name="if_option[]" value="' + id + '"></li>';
 	ifTempID++;
-	if ( !sel ) {
+	if ( ! sel ) {
 		jQuery( '#clauses_sortable' + id ).append( clause ).sortable();
 	} else {
 		return clause;
@@ -192,7 +196,7 @@ function generate_if_clause_condition( sel ) {
 	var clause = '';
 	if ( sel[ 'type' ] == 'field' ) {
 		var select = generate_customs_select( sel[ 'operator' ] );
-		if ( !select ) {
+		if ( ! select ) {
 			clause += '<b name="if_cond[]">Add price fields first</b>';
 		} else {
 			clause += ' <span class="select delete"><select name="if_cond_operator[]" onchange="change_condition_options(this)" class="tips" data-tip="Other price field that has to be selected">' + select[ 0 ] + '</select></span><span class="delete"> and option </span>';
@@ -200,17 +204,17 @@ function generate_if_clause_condition( sel ) {
 		}
 	} else if ( sel[ 'type' ] == 'resource' ) {
 		clause += '<span class="select delete"><select name="if_cond_operator[]">' + generateOptions( {
-			equal:    "=",
+			equal: "=",
 			notequal: "!="
 		}, sel[ 'operator' ] ) + '</select></span> ';
 		clause += '<span class="select delete"><select name="if_cond[]" class="tips" data-tip="Resource that has to be selected">' + generateOptions( htmlSettingsCustomLocalizeScript.resources, sel[ 'cond' ] ) + '</select></span>';
 	} else {
 		clause += '<span class="select delete"><select name="if_cond_operator[]">' + generateOptions( {
-			equal:        "=",
-			notequal:     "!=",
-			greater:      ">",
+			equal: "=",
+			notequal: "!=",
+			greater: ">",
 			greaterequal: ">=",
-			smaller:      "<",
+			smaller: "<",
 			smallerequal: "<="
 		}, sel[ 'operator' ] ) + '</select></span> ';
 		if ( sel[ 'type' ] == 'arrival' || sel[ 'type' ] == 'departure' || sel[ 'time' ] == 'time' ) {
@@ -228,7 +232,7 @@ function generate_customs_select( sel ) {
 	var options = {};
 	for ( var key in htmlSettingsCustomLocalizeScript.all_custom_fields ) {
 		if ( htmlSettingsCustomLocalizeScript.all_custom_fields[ key ][ 'price' ] ) {
-			if ( !sel || ( isNaN( parseFloat( sel ) ) && !isFinite( sel ) ) ) {
+			if ( ! sel || ( isNaN( parseFloat( sel ) ) && ! isFinite( sel ) ) ) {
 				sel = key;
 			}
 			options[ key ] = htmlSettingsCustomLocalizeScript.all_custom_fields[ key ][ 'title' ];
@@ -237,7 +241,7 @@ function generate_customs_select( sel ) {
 	if ( options == {} ) {
 		return false;
 	} else {
-		return [generateOptions( options, sel ), sel];
+		return [ generateOptions( options, sel ), sel ];
 	}
 }
 
@@ -262,18 +266,18 @@ function clause_happens_select( sel, opt_id, clause_id, append, mult ) {
 		content += '<span class="delete" id="delete_' + opt_id + '_' + clause_id + '">';
 		content += '<span class="input-wrapper delete"><input type="text" name="if_cond_amount[]" id="if_clause_amount_' + opt_id + '_' + clause_id + '" class="er_input_price" value="' + sel + '" style="width:55px;text-align:right"><span class="input-box">' + htmlSettingsCustomLocalizeScript.currency + '</span></span> per ';
 		content += '<span class="select delete"><select name="if_cond_mult[]" id="if_clause_mult_' + opt_id + '_' + clause_id + '">' + generateOptions( {
-			x:               "--",
-			price_pers:      "Person",
-			price_adul:      "Adult",
-			price_child:     "Children",
-			price_halfhour:  "Half-hour",
-			price_hour:      "Hour",
-			price_realday:   "Day",
-			price_night:     "Night",
-			price_week:      "Week",
-			price_month:     "Month",
-			price_day:       "Billing unit",
-			price_both:      "Unit and person",
+			x: "--",
+			price_pers: "Person",
+			price_adul: "Adult",
+			price_child: "Children",
+			price_halfhour: "Half-hour",
+			price_hour: "Hour",
+			price_realday: "Day",
+			price_night: "Night",
+			price_week: "Week",
+			price_month: "Month",
+			price_day: "Billing unit",
+			price_both: "Unit and person",
 			price_day_adult: "Unit and adult",
 			price_day_child: "Unit and children"
 		}, mult ) + '</select></span></span>';
@@ -281,7 +285,7 @@ function clause_happens_select( sel, opt_id, clause_id, append, mult ) {
 		content = '<input type="hidden" name="if_cond_amount[]" id="if_clause_amount_' + opt_id + '_' + clause_id + '" class="er_input_price" value="0">';
 		content += '<input type="hidden" name="if_cond_mult[]" id="if_clause_mult_' + opt_id + '_' + clause_id + '" value="x">';
 		if ( append ) {
-			if ( !added[ opt_id + clause_id ] ) {
+			if ( ! added[ opt_id + clause_id ] ) {
 				add_if_clause( opt_id, false );
 			}
 			added[ opt_id + clause_id ] = 1;
@@ -315,10 +319,10 @@ function generate_datepicker( e ) {
 function change_operator( e ) {
 	e = jQuery( e ).parent().parent();
 	var operator = generate_if_clause_condition( {
-		price:    '',
-		cond:     '',
+		price: '',
+		cond: '',
 		operator: 'equal',
-		type:     e.find( '*[name="if_cond_type[]"]' ).val()
+		type: e.find( '*[name="if_cond_type[]"]' ).val()
 	} );
 	e.find( '*[name="if_cond[]"], span.delete' ).remove();
 	e.find( '*[name="if_cond_happens[]"]' ).prop( "selectedIndex", 0 );

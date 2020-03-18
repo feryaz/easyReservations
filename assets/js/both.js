@@ -1,5 +1,5 @@
 function easyFormatDate( date, format ) {
-	if ( !format ) {
+	if ( ! format ) {
 		format = er_both_params.date_format;
 	}
 	if ( format === 'full' ) {
@@ -10,10 +10,10 @@ function easyFormatDate( date, format ) {
 		}
 	}
 
-	var year   = date instanceof Date ? date.getYear() : date.year(),
-		month  = date instanceof Date ? date.getMonth() + 1 : date.month() + 1,
-		day    = date instanceof Date ? date.getDate() : date.date(),
-		hour   = date instanceof Date ? date.getHours() : date.hour(),
+	var year = date instanceof Date ? date.getYear() : date.year(),
+		month = date instanceof Date ? date.getMonth() + 1 : date.month() + 1,
+		day = date instanceof Date ? date.getDate() : date.date(),
+		hour = date instanceof Date ? date.getHours() : date.hour(),
 		minute = date instanceof Date ? date.getMinutes() : date.minute();
 
 	if ( year < 999 ) {
@@ -29,10 +29,10 @@ function easyFormatDate( date, format ) {
 }
 
 function easyFormatTime( hour, minute, format ) {
-	if ( !format ) {
+	if ( ! format ) {
 		format = er_both_params.time_format;
 	}
-	if ( !minute ) {
+	if ( ! minute ) {
 		minute = easyAddZero( hour instanceof Date ? hour.getMinutes() : hour.minute() );
 		hour = hour instanceof Date ? hour.getHours() : hour.hour();
 	}

@@ -74,10 +74,10 @@ jQuery( function( $ ) {
 
 		var options = $.extend( {
 			selector: '.easyreservations-resource-gallery__wrapper > .easyreservations-resource-gallery__image',
-			start:    function() {
+			start: function() {
 				$target.css( 'opacity', 1 );
 			},
-			after:    function( slider ) {
+			after: function( slider ) {
 				gallery.initZoomForTarget( gallery.$images.eq( slider.currentSlide ) );
 			}
 		}, args );
@@ -116,12 +116,12 @@ jQuery( function( $ ) {
 	 * Init zoom.
 	 */
 	ProductGallery.prototype.initZoomForTarget = function( zoomTarget ) {
-		if ( !this.zoom_enabled ) {
+		if ( ! this.zoom_enabled ) {
 			return false;
 		}
 
 		var galleryWidth = this.$target.width(),
-			zoomEnabled  = false;
+			zoomEnabled = false;
 
 		$( zoomTarget ).each( function( index, target ) {
 			var image = $( target ).find( 'img' );
@@ -165,7 +165,7 @@ jQuery( function( $ ) {
 			} );
 
 			// If flexslider is disabled, gallery images also need to trigger photoswipe on click.
-			if ( !this.flexslider_enabled ) {
+			if ( ! this.flexslider_enabled ) {
 				this.$target.on( 'click', '.easyreservations-resource-gallery__image a', this.openPhotoswipe );
 			}
 		} else {
@@ -185,7 +185,7 @@ jQuery( function( $ ) {
 	 */
 	ProductGallery.prototype.getGalleryItems = function() {
 		var $slides = this.$images,
-			items   = [];
+			items = [];
 
 		if ( $slides.length > 0 ) {
 			$slides.each( function( i, el ) {
@@ -193,12 +193,12 @@ jQuery( function( $ ) {
 
 				if ( img.length ) {
 					var large_image_src = img.attr( 'data-large_image' ),
-						large_image_w   = img.attr( 'data-large_image_width' ),
-						large_image_h   = img.attr( 'data-large_image_height' ),
-						item            = {
-							src:   large_image_src,
-							w:     large_image_w,
-							h:     large_image_h,
+						large_image_w = img.attr( 'data-large_image_width' ),
+						large_image_h = img.attr( 'data-large_image_height' ),
+						item = {
+							src: large_image_src,
+							w: large_image_w,
+							h: large_image_h,
 							title: img.attr( 'data-caption' ) ? img.attr( 'data-caption' ) : img.attr( 'title' )
 						};
 					items.push( item );
@@ -216,7 +216,7 @@ jQuery( function( $ ) {
 		e.preventDefault();
 
 		var pswpElement = $( '.pswp' )[ 0 ],
-			items       = this.getGalleryItems(),
+			items = this.getGalleryItems(),
 			eventTarget = $( e.target ),
 			clicked;
 
@@ -227,9 +227,9 @@ jQuery( function( $ ) {
 		}
 
 		var options = $.extend( {
-			index:            $( clicked ).index(),
+			index: $( clicked ).index(),
 			addCaptionHTMLFn: function( item, captionEl ) {
-				if ( !item.title ) {
+				if ( ! item.title ) {
 					captionEl.children[ 0 ].textContent = '';
 					return false;
 				}
@@ -256,11 +256,11 @@ jQuery( function( $ ) {
 	 */
 	$( '.easyreservations-resource-gallery' ).each( function() {
 
-		$( this ).trigger( 'er-resource-gallery-before-init', [this, er_single_resource_params] );
+		$( this ).trigger( 'er-resource-gallery-before-init', [ this, er_single_resource_params ] );
 
 		$( this ).er_resource_gallery( er_single_resource_params );
 
-		$( this ).trigger( 'er-resource-gallery-after-init', [this, er_single_resource_params] );
+		$( this ).trigger( 'er-resource-gallery-after-init', [ this, er_single_resource_params ] );
 
 	} );
 
@@ -272,9 +272,9 @@ jQuery( function( $ ) {
 	resource_select = $( '.entry-summary  #resource' );
 	if ( resource_select.length === 0 ) {
 		$( '<input>' ).attr( {
-			type:  'hidden',
-			id:    'resource',
-			name:  'resource',
+			type: 'hidden',
+			id: 'resource',
+			name: 'resource',
 			value: er_single_resource_params.resource_id
 		} ).appendTo( '.entry-summary form' );
 	} else {

@@ -1,14 +1,10 @@
 /* global er_orders_params */
+
 jQuery( function( $ ) {
-
-	if ( typeof er_orders_params === 'undefined' ) {
-		return false;
-	}
-
 	/**
 	 * EROrdersTable class.
 	 */
-	var EROrdersTable = function() {
+	const EROrdersTable = function() {
 		$( document )
 			.on( 'click', '.post-type-easy_order .wp-list-table tbody td', this.onRowClick )
 			.on( 'click', '.order-preview:not(.disabled)', this.onPreview );
@@ -16,6 +12,8 @@ jQuery( function( $ ) {
 
 	/**
 	 * Click a row.
+	 *
+	 * @param {Event} e
 	 */
 	EROrdersTable.prototype.onRowClick = function( e ) {
 		if ( $( e.target ).filter( 'a, a *, .no-link, .no-link *, button, button *' ).length ) {
@@ -26,8 +24,7 @@ jQuery( function( $ ) {
 			return true;
 		}
 
-		var $row = $( this ).closest( 'tr' ),
-			href = $row.find( 'a.order-view' ).attr( 'href' );
+		const href = $( this ).closest( 'tr' ).find( 'a.order-view' ).attr( 'href' );
 
 		if ( href && href.length ) {
 			e.preventDefault();
@@ -44,41 +41,41 @@ jQuery( function( $ ) {
 	 * Preview an order.
 	 */
 	EROrdersTable.prototype.onPreview = function() {
-		var $previewButton = $( this ),
-			$order_id      = $previewButton.data( 'order-id' );
+		const previewButton = $( this ),
+			orderId = previewButton.data( 'order-id' );
 
-		if ( $previewButton.data( 'order-data' ) ) {
+		if ( previewButton.data( 'order-data' ) ) {
 			$( this ).ERBackboneModal( {
 				template: 'er-modal-view-order',
-				variable: $previewButton.data( 'order-data' )
+				variable: previewButton.data( 'order-data' ),
 			} );
 		} else {
-			$previewButton.addClass( 'disabled' );
+			previewButton.addClass( 'disabled' );
 
 			$.ajax( {
-				url:     er_orders_params.ajax_url,
-				data:    {
-					order_id: $order_id,
-					action:   'easyreservations_get_order_details',
-					security: er_orders_params.preview_nonce
+				url: er_orders_params.ajax_url,
+				data: {
+					order_id: orderId,
+					action: 'easyreservations_get_order_details',
+					security: er_orders_params.preview_nonce,
 				},
-				type:    'GET',
+				type: 'GET',
 				success: function( response ) {
 					$( '.order-preview' ).removeClass( 'disabled' );
 
 					if ( response.success ) {
-						$previewButton.data( 'order-data', response.data );
+						previewButton.data( 'order-data', response.data );
 
 						$( this ).ERBackboneModal( {
 							template: 'er-modal-view-order',
-							variable: response.data
+							variable: response.data,
 						} );
 					}
-				}
+				},
 			} );
 		}
-		return false;
 
+		return false;
 	};
 
 	/**

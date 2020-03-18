@@ -13,11 +13,11 @@ jQuery( function( $ ) {
 
 			var data_target = $( this ).attr( 'data-target' ),
 				data_format = $( this ).attr( 'data-format' ),
-				args        = $.extend( {
+				args = $.extend( {
 					changeMonth: true,
-					changeYear:  true,
-					showAnim:    'slideDown',
-					beforeShow:  function( _, inst ) {
+					changeYear: true,
+					showAnim: 'slideDown',
+					beforeShow: function( _, inst ) {
 						console.log( 13 );
 
 						inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
@@ -84,14 +84,14 @@ function er_datepicker_get_args() {
 	day_names_min.length = 7;
 
 	var args = {
-		dateFormat:      date_format,
-		dayNames:        day_names,
-		dayNamesShort:   day_names_short,
-		dayNamesMin:     day_names_min,
-		monthNames:      er_date_picker_params.month_names,
+		dateFormat: date_format,
+		dayNames: day_names,
+		dayNamesShort: day_names_short,
+		dayNamesMin: day_names_min,
+		monthNames: er_date_picker_params.month_names,
 		monthNamesShort: er_date_picker_params.month_names_short,
-		prevText:        '',
-		nextText:        '',
+		prevText: '',
+		nextText: '',
 	};
 
 	if ( er_date_picker_params.is_frontend_request === 'yes' ) {

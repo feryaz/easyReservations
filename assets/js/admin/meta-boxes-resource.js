@@ -68,15 +68,15 @@ jQuery( function( $ ) {
 		// Create the media frame.
 		resource_gallery_frame = wp.media.frames.resource_gallery = wp.media( {
 			// Set the title of the modal.
-			title:  $el.data( 'choose' ),
+			title: $el.data( 'choose' ),
 			button: {
 				text: $el.data( 'update' )
 			},
 			states: [
 				new wp.media.controller.Library( {
-					title:      $el.data( 'choose' ),
+					title: $el.data( 'choose' ),
 					filterable: 'all',
-					multiple:   true
+					multiple: true
 				} )
 			]
 		} );
@@ -110,21 +110,21 @@ jQuery( function( $ ) {
 
 	// Image ordering.
 	$resource_images.sortable( {
-		items:                'li.image',
-		cursor:               'move',
-		scrollSensitivity:    40,
+		items: 'li.image',
+		cursor: 'move',
+		scrollSensitivity: 40,
 		forcePlaceholderSize: true,
-		forceHelperSize:      false,
-		helper:               'clone',
-		opacity:              0.65,
-		placeholder:          'er-metabox-sortable-placeholder',
-		start:                function( event, ui ) {
+		forceHelperSize: false,
+		helper: 'clone',
+		opacity: 0.65,
+		placeholder: 'er-metabox-sortable-placeholder',
+		start: function( event, ui ) {
 			ui.item.css( 'background-color', '#f6f6f6' );
 		},
-		stop:                 function( event, ui ) {
+		stop: function( event, ui ) {
 			ui.item.removeAttr( 'style' );
 		},
-		update:               function() {
+		update: function() {
 			var attachment_ids = '';
 
 			$( '#resource_images_container' ).find( 'ul li.image' ).css( 'cursor', 'default' ).each( function() {

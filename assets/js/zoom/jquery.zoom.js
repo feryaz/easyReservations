@@ -5,15 +5,15 @@
 */
 ( function( $ ) {
 	var defaults = {
-		url:       false,
-		callback:  false,
-		target:    false,
-		duration:  120,
-		on:        'mouseover', // other options: grab, click, toggle
-		touch:     true, // enables a touch fallback
-		onZoomIn:  false,
+		url: false,
+		callback: false,
+		target: false,
+		duration: 120,
+		on: 'mouseover', // other options: grab, click, toggle
+		touch: true, // enables a touch fallback
+		onZoomIn: false,
 		onZoomOut: false,
-		magnify:   1
+		magnify: 1
 	};
 
 	// Core Zoom Logic, independent of event listeners.
@@ -25,9 +25,9 @@
 			xRatio,
 			yRatio,
 			offset,
-			$target  = $( target ),
+			$target = $( target ),
 			position = $target.css( 'position' ),
-			$source  = $( source );
+			$source = $( source );
 
 		// The parent element needs positioning so that the zoomed element can be correctly positioned within.
 		target.style.position = /(absolute|fixed)/.test( position ) ? position : 'relative';
@@ -37,14 +37,14 @@
 		$( img )
 			.addClass( 'zoomImg' )
 			.css( {
-				position:  'absolute',
-				top:       0,
-				left:      0,
-				opacity:   0,
-				width:     img.width * magnify,
-				height:    img.height * magnify,
-				border:    'none',
-				maxWidth:  'none',
+				position: 'absolute',
+				top: 0,
+				left: 0,
+				opacity: 0,
+				width: img.width * magnify,
+				height: img.height * magnify,
+				border: 'none',
+				maxWidth: 'none',
 				maxHeight: 'none'
 			} )
 			.appendTo( target );
@@ -69,7 +69,7 @@
 			},
 			move: function( e ) {
 				var left = ( e.pageX - offset.left ),
-					top  = ( e.pageY - offset.top );
+					top = ( e.pageY - offset.top );
 
 				top = Math.max( Math.min( top, sourceHeight ), 0 );
 				left = Math.max( Math.min( left, sourceWidth ), 0 );
@@ -83,25 +83,25 @@
 	$.fn.zoom = function( options ) {
 		return this.each( function() {
 			var
-				settings  = $.extend( {}, defaults, options || {} ),
+				settings = $.extend( {}, defaults, options || {} ),
 				//target will display the zoomed image
-				target    = settings.target && $( settings.target )[ 0 ] || this,
+				target = settings.target && $( settings.target )[ 0 ] || this,
 				//source will provide zoom location info (thumbnail)
-				source    = this,
-				$source   = $( source ),
-				img       = document.createElement( 'img' ),
-				$img      = $( img ),
+				source = this,
+				$source = $( source ),
+				img = document.createElement( 'img' ),
+				$img = $( img ),
 				mousemove = 'mousemove.zoom',
-				clicked   = false,
-				touched   = false;
+				clicked = false,
+				touched = false;
 
 			// If a url wasn't specified, look for an image element.
-			if ( !settings.url ) {
+			if ( ! settings.url ) {
 				var srcElement = source.querySelector( 'img' );
 				if ( srcElement ) {
 					settings.url = srcElement.getAttribute( 'data-src' ) || srcElement.currentSrc || srcElement.src;
 				}
-				if ( !settings.url ) {
+				if ( ! settings.url ) {
 					return;
 				}
 			}
@@ -183,7 +183,7 @@
 							} else {
 								start( e );
 							}
-							clicked = !clicked;
+							clicked = ! clicked;
 						}
 					);
 				} else if ( settings.on === 'mouseover' ) {

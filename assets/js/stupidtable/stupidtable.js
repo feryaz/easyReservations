@@ -68,7 +68,7 @@
 							var $e = $( tr ).children().eq( th_index );
 							var sort_val = $e.data( "sort-value" );
 							var order_by = typeof ( sort_val ) !== "undefined" ? sort_val : $e.text();
-							column.push( [order_by, tr] );
+							column.push( [ order_by, tr ] );
 						} );
 
 						// Sort by the data-order-by value
@@ -94,7 +94,7 @@
 
 					// Trigger `aftertablesort` event. Similar to `beforetablesort`
 					$table.trigger( "aftertablesort", {
-						column:    $this.index(),
+						column: $this.index(),
 						direction: sort_dir
 					} );
 					// More reliable method of forcing a redraw
@@ -108,13 +108,13 @@
 	$.fn.stupidtable.dir = { ASC: "asc", DESC: "desc" };
 
 	$.fn.stupidtable.default_sort_fns = {
-		"int":        function( a, b ) {
+		"int": function( a, b ) {
 			return parseInt( a, 10 ) - parseInt( b, 10 );
 		},
-		"float":      function( a, b ) {
+		"float": function( a, b ) {
 			return parseFloat( a ) - parseFloat( b );
 		},
-		"string":     function( a, b ) {
+		"string": function( a, b ) {
 			return a.localeCompare( b );
 		},
 		"string-ins": function( a, b ) {

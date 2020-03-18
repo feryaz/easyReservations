@@ -1,4 +1,4 @@
-/*global easyreservations_admin_meta_boxes, er_admin_params, accounting, easyreservations_admin_meta_boxes_order */
+/*global easyreservations_admin_meta_boxes, er_admin_params, accounting, er_admin_meta_boxes_order_params */
 jQuery( function( $ ) {
 	/**
 	 * Receipt Items Panel
@@ -56,10 +56,10 @@ jQuery( function( $ ) {
 
 		block: function() {
 			$( '#easyreservations-order-items' ).block( {
-				message:    null,
+				message: null,
 				overlayCSS: {
 					background: '#fff',
-					opacity:    0.6
+					opacity: 0.6
 				}
 			} );
 		},
@@ -70,18 +70,18 @@ jQuery( function( $ ) {
 
 		reload_items: function() {
 			var data = {
-				object_id:   $( '#object_id' ).val(),
+				object_id: $( '#object_id' ).val(),
 				object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-				action:      'easyreservations_load_receipt_items',
-				security:    easyreservations_admin_meta_boxes.receipt_item_nonce
+				action: 'easyreservations_load_receipt_items',
+				security: easyreservations_admin_meta_boxes.receipt_item_nonce
 			};
 
 			er_meta_boxes_receipt_items.block();
 
 			$.ajax( {
-				url:     easyreservations_admin_meta_boxes.ajax_url,
-				data:    data,
-				type:    'POST',
+				url: easyreservations_admin_meta_boxes.ajax_url,
+				data: data,
+				type: 'POST',
 				success: function( response ) {
 					$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 					$( '#easyreservations-order-items' ).find( '.inside' ).append( response );
@@ -112,20 +112,20 @@ jQuery( function( $ ) {
 				var user_email = $( '#_billing_email' ).val();
 
 				var data = {
-					action:     'easyreservations_add_order_coupon',
-					dataType:   'json',
-					order_id:   easyreservations_admin_meta_boxes.post_id,
-					security:   easyreservations_admin_meta_boxes.receipt_item_nonce,
-					coupon:     value,
-					user_id:    user_id,
+					action: 'easyreservations_add_order_coupon',
+					dataType: 'json',
+					order_id: easyreservations_admin_meta_boxes.post_id,
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce,
+					coupon: value,
+					user_id: user_id,
 					user_email: user_email
 				};
 
 				$.ajax( {
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					type:     'POST',
-					success:  function( response ) {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
+					success: function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
@@ -148,11 +148,11 @@ jQuery( function( $ ) {
 			er_meta_boxes_receipt_items.block();
 
 			var data = {
-				action:   'easyreservations_remove_order_coupon',
+				action: 'easyreservations_remove_order_coupon',
 				dataType: 'json',
 				order_id: easyreservations_admin_meta_boxes.post_id,
 				security: easyreservations_admin_meta_boxes.receipt_item_nonce,
-				coupon:   $this.data( 'code' )
+				coupon: $this.data( 'code' )
 			};
 
 			$.post( easyreservations_admin_meta_boxes.ajax_url, data, function( response ) {
@@ -194,7 +194,7 @@ jQuery( function( $ ) {
 		},
 
 		preview_reservation: function() {
-			var $previewButton  = $( this ),
+			var $previewButton = $( this ),
 				$reservation_id = $previewButton.data( 'reservation-id' );
 
 			if ( $previewButton.data( 'reservation-data' ) ) {
@@ -206,13 +206,13 @@ jQuery( function( $ ) {
 				$previewButton.addClass( 'disabled' );
 
 				$.ajax( {
-					url:     easyreservations_admin_meta_boxes.ajax_url,
-					data:    {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: {
 						reservation_id: $reservation_id,
-						action:         'easyreservations_get_reservation_details',
-						security:       easyreservations_admin_meta_boxes.preview_nonce
+						action: 'easyreservations_get_reservation_details',
+						security: easyreservations_admin_meta_boxes.preview_nonce
 					},
-					type:    'GET',
+					type: 'GET',
 					success: function( response ) {
 						$previewButton.removeClass( 'disabled' );
 
@@ -240,11 +240,11 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					action:         'easyreservations_add_reservation_to_order',
-					dataType:       'json',
-					order_id:       $( '#object_id' ).val(),
+					action: 'easyreservations_add_reservation_to_order',
+					dataType: 'json',
+					order_id: $( '#object_id' ).val(),
 					reservation_id: value,
-					security:       easyreservations_admin_meta_boxes.receipt_item_nonce
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce
 				};
 
 				$.post( easyreservations_admin_meta_boxes.ajax_url, data, function( response ) {
@@ -269,12 +269,12 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					action:      'easyreservations_add_receipt_fee',
-					dataType:    'json',
-					object_id:   $( '#object_id' ).val(),
+					action: 'easyreservations_add_receipt_fee',
+					dataType: 'json',
+					object_id: $( '#object_id' ).val(),
 					object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-					security:    easyreservations_admin_meta_boxes.receipt_item_nonce,
-					amount:      value
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce,
+					amount: value
 				};
 
 				$.post( easyreservations_admin_meta_boxes.ajax_url, data, function( response ) {
@@ -319,11 +319,11 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					object_id:        $( '#object_id' ).val(),
-					object_type:      easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
+					object_id: $( '#object_id' ).val(),
+					object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
 					receipt_item_ids: receipt_item_id,
-					action:           'easyreservations_remove_receipt_item',
-					security:         easyreservations_admin_meta_boxes.receipt_item_nonce
+					action: 'easyreservations_remove_receipt_item',
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce
 				};
 
 				// Check if items have changed, if so pass them through so we can save them before deleting.
@@ -332,10 +332,10 @@ jQuery( function( $ ) {
 				}
 
 				$.ajax( {
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					type:     'POST',
-					success:  function( response ) {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
+					success: function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
@@ -365,18 +365,18 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					object_id:   $( '#object_id' ).val(),
+					object_id: $( '#object_id' ).val(),
 					object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-					action:      'easyreservations_remove_receipt_tax',
-					rate_id:     $( this ).attr( 'data-rate_id' ),
-					security:    easyreservations_admin_meta_boxes.receipt_item_nonce
+					action: 'easyreservations_remove_receipt_tax',
+					rate_id: $( this ).attr( 'data-rate_id' ),
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce
 				};
 
 				$.ajax( {
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					type:     'POST',
-					success:  function( response ) {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
+					success: function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
@@ -399,20 +399,20 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					object_id:   $( '#object_id' ).val(),
+					object_id: $( '#object_id' ).val(),
 					object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-					action:      'easyreservations_calc_line_taxes',
-					items:       $( 'table.easyreservations_receipt_items :input[name], .er-receipt-totals-items :input[name]' ).serialize(),
-					security:    easyreservations_admin_meta_boxes.calc_totals_nonce
+					action: 'easyreservations_calc_line_taxes',
+					items: $( 'table.easyreservations_receipt_items :input[name], .er-receipt-totals-items :input[name]' ).serialize(),
+					security: easyreservations_admin_meta_boxes.calc_totals_nonce
 				};
 
 				$( document.body ).trigger( 'receipt-totals-recalculate-before', data );
 
 				$.ajax( {
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					type:     'POST',
-					success:  function( response ) {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
+					success: function( response ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response );
 						er_meta_boxes_receipt_items.reloaded_items();
@@ -431,20 +431,20 @@ jQuery( function( $ ) {
 
 		save_line_items: function() {
 			var data = {
-				object_id:   $( '#object_id' ).val(),
+				object_id: $( '#object_id' ).val(),
 				object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-				items:       $( 'table.easyreservations_receipt_items :input[name], .er-receipt-totals-items :input[name]' ).serialize(),
-				action:      'easyreservations_save_receipt_items',
-				security:    easyreservations_admin_meta_boxes.receipt_item_nonce
+				items: $( 'table.easyreservations_receipt_items :input[name], .er-receipt-totals-items :input[name]' ).serialize(),
+				action: 'easyreservations_save_receipt_items',
+				security: easyreservations_admin_meta_boxes.receipt_item_nonce
 			};
 
 			er_meta_boxes_receipt_items.block();
 
 			$.ajax( {
-				url:      easyreservations_admin_meta_boxes.ajax_url,
-				data:     data,
-				type:     'POST',
-				success:  function( response ) {
+				url: easyreservations_admin_meta_boxes.ajax_url,
+				data: data,
+				type: 'POST',
+				success: function( response ) {
 					if ( response.success ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
@@ -495,7 +495,7 @@ jQuery( function( $ ) {
 						if ( $( item ).closest( 'tr' ).data( 'receipt_item_id' ) ) {
 							var tax_id = $( item ).data( 'tax_id' );
 
-							if ( !line_item_tax_totals[ $( item ).closest( 'tr' ).data( 'receipt_item_id' ) ] ) {
+							if ( ! line_item_tax_totals[ $( item ).closest( 'tr' ).data( 'receipt_item_id' ) ] ) {
 								line_item_tax_totals[ $( item ).closest( 'tr' ).data( 'receipt_item_id' ) ] = {};
 							}
 
@@ -504,23 +504,23 @@ jQuery( function( $ ) {
 					} );
 
 					var data = {
-						action:                 'easyreservations_refund_line_items',
-						order_id:               easyreservations_admin_meta_boxes.post_id,
-						refund_amount:          refund_amount,
-						refunded_amount:        refunded_amount,
-						refund_reason:          refund_reason,
-						line_item_totals:       JSON.stringify( line_item_totals, null, '' ),
-						line_item_tax_totals:   JSON.stringify( line_item_tax_totals, null, '' ),
-						api_refund:             $( this ).is( '.do-api-refund' ),
+						action: 'easyreservations_refund_line_items',
+						order_id: easyreservations_admin_meta_boxes.post_id,
+						refund_amount: refund_amount,
+						refunded_amount: refunded_amount,
+						refund_reason: refund_reason,
+						line_item_totals: JSON.stringify( line_item_totals, null, '' ),
+						line_item_tax_totals: JSON.stringify( line_item_tax_totals, null, '' ),
+						api_refund: $( this ).is( '.do-api-refund' ),
 						restock_refunded_items: $( '#restock_refunded_items:checked' ).length ? 'true' : 'false',
-						security:               easyreservations_admin_meta_boxes.receipt_item_nonce
+						security: easyreservations_admin_meta_boxes.receipt_item_nonce
 					};
 
 					$.ajax( {
-						url:      easyreservations_admin_meta_boxes.ajax_url,
-						data:     data,
-						type:     'POST',
-						success:  function( response ) {
+						url: easyreservations_admin_meta_boxes.ajax_url,
+						data: data,
+						type: 'POST',
+						success: function( response ) {
 							if ( true === response.success ) {
 								// Redirect to same page for show the refunded status
 								window.location.reload();
@@ -546,15 +546,15 @@ jQuery( function( $ ) {
 					er_meta_boxes_receipt_items.block();
 
 					var data = {
-						action:    'easyreservations_delete_refund',
+						action: 'easyreservations_delete_refund',
 						refund_id: refund_id,
-						security:  easyreservations_admin_meta_boxes.receipt_item_nonce
+						security: easyreservations_admin_meta_boxes.receipt_item_nonce
 					};
 
 					$.ajax( {
-						url:     easyreservations_admin_meta_boxes.ajax_url,
-						data:    data,
-						type:    'POST',
+						url: easyreservations_admin_meta_boxes.ajax_url,
+						data: data,
+						type: 'POST',
 						success: function() {
 							er_meta_boxes_receipt_items.reload_items();
 						}
@@ -590,11 +590,11 @@ jQuery( function( $ ) {
 				var total = accounting.unformat( $( this ).val(), er_admin_params.mon_decimal_point );
 
 				$( 'button .er-order-refund-amount .amount' ).text( accounting.formatMoney( total, {
-					symbol:    easyreservations_admin_meta_boxes.currency_format_symbol,
-					decimal:   easyreservations_admin_meta_boxes.currency_format_decimal_sep,
-					thousand:  easyreservations_admin_meta_boxes.currency_format_thousand_sep,
+					symbol: easyreservations_admin_meta_boxes.currency_format_symbol,
+					decimal: easyreservations_admin_meta_boxes.currency_format_decimal_sep,
+					thousand: easyreservations_admin_meta_boxes.currency_format_thousand_sep,
 					precision: easyreservations_admin_meta_boxes.currency_format_num_decimals,
-					format:    easyreservations_admin_meta_boxes.currency_format
+					format: easyreservations_admin_meta_boxes.currency_format
 				} ) );
 			},
 		},
@@ -608,8 +608,8 @@ jQuery( function( $ ) {
 				var index = $items.find( 'tr' ).length + 1;
 				var $row = '<tr data-meta_id="0">' +
 					'<td>' +
-					'<input type="text" maxlength="255" placeholder="' + easyreservations_admin_meta_boxes_order.placeholder_name + '" name="meta_key[' + $item.attr( 'data-receipt_item_id' ) + '][new-' + index + ']" />' +
-					'<textarea placeholder="' + easyreservations_admin_meta_boxes_order.placeholder_value + '" name="meta_value[' + $item.attr( 'data-receipt_item_id' ) + '][new-' + index + ']"></textarea>' +
+					'<input type="text" maxlength="255" placeholder="' + er_admin_meta_boxes_order_params.placeholder_name + '" name="meta_key[' + $item.attr( 'data-receipt_item_id' ) + '][new-' + index + ']" />' +
+					'<textarea placeholder="' + er_admin_meta_boxes_order_params.placeholder_value + '" name="meta_value[' + $item.attr( 'data-receipt_item_id' ) + '][new-' + index + ']"></textarea>' +
 					'</td>' +
 					'<td width="1%"><button class="remove_receipt_item_meta button">&times;</button></td>' +
 					'</tr>';
@@ -635,13 +635,13 @@ jQuery( function( $ ) {
 					$( document.body ).trigger( 'er-enhanced-select-init' );
 
 					$( this ).on( 'change', '.wc-product-search', function() {
-						if ( !$( this ).closest( 'tr' ).is( ':last-child' ) ) {
+						if ( ! $( this ).closest( 'tr' ).is( ':last-child' ) ) {
 							return;
 						}
-						var item_table      = $( this ).closest( 'table.widefat' ),
+						var item_table = $( this ).closest( 'table.widefat' ),
 							item_table_body = item_table.find( 'tbody' ),
-							index           = item_table_body.find( 'tr' ).length,
-							row             = item_table_body.data( 'row' ).replace( /\[0\]/g, '[' + index + ']' );
+							index = item_table_body.find( 'tr' ).length,
+							row = item_table_body.data( 'row' ).replace( /\[0\]/g, '[' + index + ']' );
 
 						item_table_body.append( '<tr>' + row + '</tr>' );
 						$( document.body ).trigger( 'er-enhanced-select-init' );
@@ -655,17 +655,17 @@ jQuery( function( $ ) {
 				}
 				if ( 'wc-modal-add-products' === target ) {
 					// Build array of data.
-					var item_table      = $( this ).find( 'table.widefat' ),
+					var item_table = $( this ).find( 'table.widefat' ),
 						item_table_body = item_table.find( 'tbody' ),
-						rows            = item_table_body.find( 'tr' ),
-						add_items       = [];
+						rows = item_table_body.find( 'tr' ),
+						add_items = [];
 
 					$( rows ).each( function() {
-						var item_id  = $( this ).find( ':input[name="item_id"]' ).val(),
+						var item_id = $( this ).find( ':input[name="item_id"]' ).val(),
 							item_qty = $( this ).find( ':input[name="item_qty"]' ).val();
 
 						add_items.push( {
-							'id':  item_id,
+							'id': item_id,
 							'qty': item_qty ? item_qty : 1
 						} );
 					} );
@@ -678,10 +678,10 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
-					action:   'easyreservations_add_order_item',
+					action: 'easyreservations_add_order_item',
 					order_id: easyreservations_admin_meta_boxes.post_id,
 					security: easyreservations_admin_meta_boxes.receipt_item_nonce,
-					data:     add_items
+					data: add_items
 				};
 
 				// Check if items have changed, if so pass them through so we can save them before adding a new item.
@@ -690,10 +690,10 @@ jQuery( function( $ ) {
 				}
 
 				$.ajax( {
-					type:     'POST',
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					success:  function( response ) {
+					type: 'POST',
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					success: function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
@@ -718,7 +718,7 @@ jQuery( function( $ ) {
 			},
 
 			add_tax: function( rate_id ) {
-				if ( !rate_id ) {
+				if ( ! rate_id ) {
 					return false;
 				}
 
@@ -731,19 +731,19 @@ jQuery( function( $ ) {
 					er_meta_boxes_receipt_items.block();
 
 					var data = {
-						action:      'easyreservations_add_receipt_tax',
-						rate_id:     rate_id,
-						object_id:   $( '#object_id' ).val(),
+						action: 'easyreservations_add_receipt_tax',
+						rate_id: rate_id,
+						object_id: $( '#object_id' ).val(),
 						object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
-						security:    easyreservations_admin_meta_boxes.receipt_item_nonce
+						security: easyreservations_admin_meta_boxes.receipt_item_nonce
 					};
 
 					$.ajax( {
-						url:      easyreservations_admin_meta_boxes.ajax_url,
-						data:     data,
+						url: easyreservations_admin_meta_boxes.ajax_url,
+						data: data,
 						dataType: 'json',
-						type:     'POST',
-						success:  function( response ) {
+						type: 'POST',
+						success: function( response ) {
 							if ( response.success ) {
 								$( '#easyreservations-order-items' ).find( '.inside' ).empty();
 								$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
