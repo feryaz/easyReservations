@@ -18,8 +18,6 @@ jQuery( function( $ ) {
 					changeYear: true,
 					showAnim: 'slideDown',
 					beforeShow: function( _, inst ) {
-						console.log( 13 );
-
 						inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 					},
 				}, default_args );

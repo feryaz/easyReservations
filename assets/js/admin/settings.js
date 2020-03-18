@@ -1,6 +1,5 @@
-/* global wp */
+/* global  */
 ( function( $, wp ) {
-
 	// Color picker
 	$( '.colorpick' )
 		.iris( {
@@ -8,7 +7,7 @@
 				$( this ).parent().find( '.colorpickpreview' ).css( { backgroundColor: ui.color.toString() } );
 			},
 			hide: true,
-			border: true
+			border: true,
 		} )
 
 		.on( 'click focus', function( event ) {
@@ -20,9 +19,7 @@
 
 		.on( 'change', function() {
 			if ( $( this ).is( '.iris-error' ) ) {
-				var original_value = $( this ).data( 'original-value' );
-
-				if ( original_value.match( /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/ ) ) {
+				if ( $( this ).data( 'original-value' ).match( /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/ ) ) {
 					$( this ).val( $( this ).data( 'original-value' ) ).change();
 				} else {
 					$( this ).val( '' ).change();
@@ -54,15 +51,14 @@
 		stop: function( event, ui ) {
 			ui.item.removeAttr( 'style' );
 			ui.item.trigger( 'updateMoveButtons' );
-		}
+		},
 	} );
 
 	$( 'code[data-tag]' ).on( 'click', function() {
-		var $txt = $( '#' + $( this ).data( 'target' ) );
-		var caretPos = $txt[ 0 ].selectionStart;
-		var textAreaTxt = $txt.val();
-		var txtToAdd = '[' + $( this ).data( 'tag' ) + ']';
+		const $txt = $( '#' + $( this ).data( 'target' ) );
+		const caretPos = $txt[ 0 ].selectionStart;
+		const textAreaTxt = $txt.val();
+		const txtToAdd = '[' + $( this ).data( 'tag' ) + ']';
 		$txt.val( textAreaTxt.substring( 0, caretPos ) + txtToAdd + textAreaTxt.substring( caretPos ) );
-	} )
-
-} )( jQuery, wp );
+	} );
+}( jQuery, wp ) );

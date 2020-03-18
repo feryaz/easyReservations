@@ -1,4 +1,4 @@
-/* global htmlSettingsTaxLocalizeScript */
+/* global display_availability_filter, er_admin_availability_params */
 
 /**
  * Used by easyReservations/includes/admin/er-admin-availability.php
@@ -11,4 +11,4 @@
 		$( 'th.tmiddle' ).removeClass( 'tmiddle' );
 		display_availability_filter();
 	} );
-} )( jQuery, er_admin_availability_params );
+}( jQuery, er_admin_availability_params ) );

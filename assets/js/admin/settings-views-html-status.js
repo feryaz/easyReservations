@@ -1,10 +1,9 @@
-/* global jQuery, easyreservations_admin_system_status, erSetClipboard, erClearClipboard */
+/* global easyreservations_admin_system_status, erSetClipboard, erClearClipboard */
 jQuery( function( $ ) {
-
 	/**
 	 * Users country and state fields
 	 */
-	var erSystemStatus = {
+	const erSystemStatus = {
 		init: function() {
 			$( document.body )
 				.on( 'click', 'a.easyreservations-help-tip', this.preventTipTipClick )
@@ -17,7 +16,7 @@ jQuery( function( $ ) {
 		/**
 		 * Prevent anchor behavior when click on TipTip.
 		 *
-		 * @return bool
+		 * @return {boolean} bool
 		 */
 		preventTipTipClick: function() {
 			return false;
@@ -26,42 +25,42 @@ jQuery( function( $ ) {
 		/**
 		 * Generate system status report.
 		 *
-		 * @return {Bool}
+		 * @return {boolean} bool
 		 */
 		generateReport: function() {
-			var report = '';
+			let report = '';
 
 			$( '.er_status_table thead, .er_status_table tbody' ).each( function() {
 				if ( $( this ).is( 'thead' ) ) {
-					var label = $( this ).find( 'th:eq(0)' ).data( 'export-label' ) || $( this ).text();
+					const label = $( this ).find( 'th:eq(0)' ).data( 'export-label' ) || $( this ).text();
 					report = report + '\n### ' + $.trim( label ) + ' ###\n\n';
 				} else {
 					$( 'tr', $( this ) ).each( function() {
-						var label = $( this ).find( 'td:eq(0)' ).data( 'export-label' ) || $( this ).find( 'td:eq(0)' ).text();
-						var the_name = $.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
+						const label = $( this ).find( 'td:eq(0)' ).data( 'export-label' ) || $( this ).find( 'td:eq(0)' ).text();
+						const theName = $.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
 
 						// Find value
-						var $value_html = $( this ).find( 'td:eq(2)' ).clone();
-						$value_html.find( '.private' ).remove();
-						$value_html.find( '.dashicons-yes' ).replaceWith( '&#10004;' );
-						$value_html.find( '.dashicons-no-alt, .dashicons-warning' ).replaceWith( '&#10060;' );
+						const valueHTML = $( this ).find( 'td:eq(2)' ).clone();
+						valueHTML.find( '.private' ).remove();
+						valueHTML.find( '.dashicons-yes' ).replaceWith( '&#10004;' );
+						valueHTML.find( '.dashicons-no-alt, .dashicons-warning' ).replaceWith( '&#10060;' );
 
 						// Format value
-						var the_value = $.trim( $value_html.text() );
-						var value_array = the_value.split( ', ' );
+						let theValue = $.trim( valueHTML.text() );
+						const valueArray = theValue.split( ', ' );
 
-						if ( value_array.length > 1 ) {
+						if ( valueArray.length > 1 ) {
 							// If value have a list of plugins ','.
 							// Split to add new line.
-							var temp_line = '';
-							$.each( value_array, function( key, line ) {
-								temp_line = temp_line + line + '\n';
+							let tempLine = '';
+							$.each( valueArray, function( key, line ) {
+								tempLine = tempLine + line + '\n';
 							} );
 
-							the_value = temp_line;
+							theValue = tempLine;
 						}
 
-						report = report + '' + the_name + ': ' + the_value + '\n';
+						report = report + '' + theName + ': ' + theValue + '\n';
 					} );
 				}
 			} );
@@ -99,7 +98,7 @@ jQuery( function( $ ) {
 				'activation': 'focus',
 				'fadeIn': 50,
 				'fadeOut': 50,
-				'delay': 0
+				'delay': 0,
 			} ).focus();
 		},
 
@@ -109,7 +108,7 @@ jQuery( function( $ ) {
 		copyFail: function() {
 			$( '.copy-error' ).removeClass( 'hidden' );
 			$( '#debug-report' ).find( 'textarea' ).focus().select();
-		}
+		},
 	};
 
 	erSystemStatus.init();
