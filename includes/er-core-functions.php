@@ -729,7 +729,6 @@ function er_locate_template( $template_name, $template_path = '', $default_path 
 		$template = $default_path . $template_name;
 	}
 
-	var_dump( $template );
 	// Return what we found.
 	return apply_filters( 'easyreservations_locate_template', $template, $template_name, $template_path );
 }
