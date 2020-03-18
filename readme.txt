@@ -54,7 +54,7 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
-= 6.0-alpha.7 - 2020-03-XX =
+= 6.0-alpha.7 - 2020-03-18 =
 * Feature - Reservation timeline
 * Enhancement - Filters can set the price to 0
 * Tweak - Order of reservations in admin table
