@@ -708,7 +708,12 @@ function er_locate_template( $template_name, $template_path = '', $default_path 
 	}
 
 	if ( ! $default_path ) {
-		$default_path = ER()->plugin_path() . '/templates/';
+		$default_path = apply_filters(
+			'easyreservations_locate_template_default_path',
+			ER()->plugin_path() . '/templates/',
+			$template_name,
+			$template_path
+		);
 	}
 
 	// Look within passed path within the theme - this is priority.
@@ -724,6 +729,7 @@ function er_locate_template( $template_name, $template_path = '', $default_path 
 		$template = $default_path . $template_name;
 	}
 
+	var_dump( $template );
 	// Return what we found.
 	return apply_filters( 'easyreservations_locate_template', $template, $template_name, $template_path );
 }

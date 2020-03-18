@@ -54,6 +54,9 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
+= 6.0-alpha.8 - 2020-03-18 =
+* Fix - Tax settings js
+
 = 6.0-alpha.7 - 2020-03-18 =
 * Feature - Reservation timeline
 * Enhancement - Filters can set the price to 0
