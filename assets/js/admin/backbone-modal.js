@@ -47,23 +47,23 @@
 	 * @return {null}
 	 */
 	$.ERBackboneModal.View = Backbone.View.extend( {
-		tagName:         'div',
-		id:              'er-backbone-modal-dialog',
-		_target:         undefined,
-		_string:         undefined,
-		events:          {
+		tagName: 'div',
+		id: 'er-backbone-modal-dialog',
+		_target: undefined,
+		_string: undefined,
+		events: {
 			'click .modal-close': 'closeButton',
-			'click #btn-ok':      'addButton',
+			'click #btn-ok': 'addButton',
 			'touchstart #btn-ok': 'addButton',
-			'keydown':            'keyboardActions'
+			'keydown': 'keyboardActions'
 		},
-		resizeContent:   function() {
+		resizeContent: function() {
 			var $content = $( '.er-backbone-modal-content' ).find( 'article' );
 			var max_h = $( window ).height() * 0.75;
 
 			$content.css( 'max-height', max_h + 'px' );
 		},
-		initialize:      function( data ) {
+		initialize: function( data ) {
 			var view = this;
 			this._target = data.target;
 			this._string = data.string;
@@ -74,7 +74,7 @@
 				view.resizeContent();
 			} );
 		},
-		render:          function() {
+		render: function() {
 			var template = wp.template( this._target );
 
 			this.$el.append(
@@ -90,7 +90,7 @@
 
 			$( document.body ).trigger( 'er_backbone_modal_loaded', this._target );
 		},
-		closeButton:     function( e ) {
+		closeButton: function( e ) {
 			e.preventDefault();
 			$( document.body ).trigger( 'er_backbone_modal_before_remove', this._target );
 			this.undelegateEvents();
@@ -99,11 +99,11 @@
 			this.remove();
 			$( document.body ).trigger( 'er_backbone_modal_removed', this._target );
 		},
-		addButton:       function( e ) {
-			$( document.body ).trigger( 'er_backbone_modal_response', [this._target, this.getFormData()] );
+		addButton: function( e ) {
+			$( document.body ).trigger( 'er_backbone_modal_response', [ this._target, this.getFormData() ] );
 			this.closeButton( e );
 		},
-		getFormData:     function() {
+		getFormData: function() {
 			var data = {};
 
 			$( document.body ).trigger( 'er_backbone_modal_before_update', this._target );
@@ -124,7 +124,7 @@
 			var button = e.keyCode || e.which;
 
 			// Enter key
-			if ( 13 === button && !( e.target.tagName && ( e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea' ) ) ) {
+			if ( 13 === button && ! ( e.target.tagName && ( e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea' ) ) ) {
 				this.addButton( e );
 			}
 

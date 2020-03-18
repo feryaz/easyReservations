@@ -14,9 +14,10 @@ function erSetClipboard( data, $el ) {
 	if ( 'undefined' === typeof $el ) {
 		$el = jQuery( document );
 	}
-	var $temp_input = jQuery( '<textarea style="opacity:0">' );
-	jQuery( 'body' ).append( $temp_input );
-	$temp_input.val( data ).select();
+
+	const tempInput = jQuery( '<textarea style="opacity:0">' );
+	jQuery( 'body' ).append( tempInput );
+	tempInput.val( data ).select();
 
 	$el.trigger( 'beforecopy' );
 	try {
@@ -26,7 +27,7 @@ function erSetClipboard( data, $el ) {
 		$el.trigger( 'aftercopyfailure' );
 	}
 
-	$temp_input.remove();
+	tempInput.remove();
 }
 
 /**

@@ -1,15 +1,16 @@
-var tag_before     = '',
-	tag_edit       = false,
+var tag_before = '',
+	tag_edit = false,
 	savedSelection = false,
-	insert_began   = [];
+	insert_began = [];
 
 function bindFormtag() {
 	jQuery( 'formtag' ).unbind( 'click' ).bind( 'click', function() {
 		tag_before = this;
 		var text = jQuery( this ).html().replace( '[', '' ).replace( ']', '' );
 		var tag_final = {},
-			n         = 0,
-			pattern, match;
+			n = 0,
+			pattern,
+			match;
 		pattern = /(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/g;
 		text = text.replace( /[\u00a0\u200b]/g, ' ' );
 		while ( ( match = pattern.exec( text ) ) ) {
@@ -40,14 +41,14 @@ jQuery( 'table.formtable tbody tr' )
 			generateTagEdit( jQuery( this ).attr( 'attr' ) );
 		} else if ( jQuery( this ).attr( 'bttr' ) ) {
 			var list = {
-					b:     { 0: "<strong>", 1: "</strong>" },
-					i:     { 0: "<i>", 1: "</i>" },
+					b: { 0: "<strong>", 1: "</strong>" },
+					i: { 0: "<i>", 1: "</i>" },
 					label: { 0: "<label>", 1: "</label>" },
 					small: { 0: '<small>', 1: "</small>" },
-					row:   { 0: '<div class="row">', 1: "</div>" },
-					div:   { 0: '<div class="content">', 1: "</div>" },
-					h1:    { 0: '<h1>', 1: "</h1>" },
-					h2:    { 0: '<h2>', 1: "</h2>" }
+					row: { 0: '<div class="row">', 1: "</div>" },
+					div: { 0: '<div class="content">', 1: "</div>" },
+					h1: { 0: '<h1>', 1: "</h1>" },
+					h2: { 0: '<h2>', 1: "</h2>" }
 				},
 				type = jQuery( this ).attr( 'bttr' );
 			if ( list[ type ] ) {
@@ -71,9 +72,9 @@ jQuery( '#form_container' )
 		if ( e.which === 13 ) {
 			if ( window.getSelection ) {
 				var selection = window.getSelection(),
-					range     = selection.getRangeAt( 0 ),
-					br        = document.createElement( "br" ),
-					n         = document.createTextNode( "\n" );
+					range = selection.getRangeAt( 0 ),
+					br = document.createElement( "br" ),
+					n = document.createTextNode( "\n" );
 				range.insertNode( br );
 				range.insertNode( n );
 				range.setStartAfter( br );
@@ -104,7 +105,8 @@ function generateTagEdit( type, tag ) {
 					value += '<h4>' + v[ 'title' ] + '</h4>';
 				}
 				value += '<p>';
-				var sel = false, hasclass = '';
+				var sel = false,
+					hasclass = '';
 				if ( v[ 'class' ] ) {
 					hasclass = ' class="' + v[ 'class' ] + '"';
 				}
@@ -125,7 +127,7 @@ function generateTagEdit( type, tag ) {
 					} else if ( v[ 'input' ] == 'textarea' ) {
 						value += '<textarea name="' + k + '"' + hasclass + '>' + sel + '</textarea>';
 					} else if ( v[ 'input' ] == 'check' ) {
-						if ( tag && tag[ k ] || ( !tag && v[ 'checked' ] ) ) {
+						if ( tag && tag[ k ] || ( ! tag && v[ 'checked' ] ) ) {
 							sel = 'checked="checked" ';
 						} else {
 							sel = '';
@@ -147,9 +149,9 @@ function generateTagEdit( type, tag ) {
 		value += '</div>';
 		jQuery( '#accordion' ).prepend( value ).accordion( "destroy" ).accordion( {
 			heightStyle: "content",
-			autoHeight:  false,
-			icons:       {
-				"header":       "ui-icon-plus",
+			autoHeight: false,
+			icons: {
+				"header": "ui-icon-plus",
 				"activeHeader": "ui-icon-minus"
 			}
 		} );
@@ -161,10 +163,10 @@ function submitTag() {
 	var type = false;
 	jQuery( '*[name=deltag] :input:not(.not)' ).each( function( ui, child ) {
 		if ( child.value != '' && ( child.type != 'checkbox' || child.checked == true ) ) {
-			if ( !type ) {
+			if ( ! type ) {
 				type = child.value;
 			}
-			if ( child.name == "*" || ( !isNaN( parseFloat( child.name ) ) && isFinite( child.name ) ) ) {
+			if ( child.name == "*" || ( ! isNaN( parseFloat( child.name ) ) && isFinite( child.name ) ) ) {
 				if ( jQuery( this ).hasClass( 'quote' ) ) {
 					tag_new += '"' + child.value + '" ';
 				} else {
@@ -194,9 +196,9 @@ function deactivateTag() {
 	jQuery( '*[name=deltag]' ).fadeOut( "fast" );
 	jQuery( '#accordion' ).accordion( "destroy" ).accordion( {
 		heightStyle: "content",
-		autoHeight:  false,
-		icons:       {
-			"header":       "ui-icon-plus",
+		autoHeight: false,
+		icons: {
+			"header": "ui-icon-plus",
 			"activeHeader": "ui-icon-minus"
 		}
 	} );
@@ -212,7 +214,8 @@ function insertAtCaret( text ) {
 
 if ( window.getSelection ) {
 	saveSelection = function() {
-		var sel = window.getSelection(), ranges = [];
+		var sel = window.getSelection(),
+			ranges = [];
 		if ( sel.rangeCount ) {
 			for ( var i = 0, len = sel.rangeCount; i < len; ++i ) {
 				ranges.push( sel.getRangeAt( i ) );
@@ -230,7 +233,9 @@ if ( window.getSelection ) {
 		range.collapse( false );
 		var el = document.createElement( "div" );
 		el.innerHTML = text;
-		var frag = document.createDocumentFragment(), node, lastNode;
+		var frag = document.createDocumentFragment(),
+			node,
+			lastNode;
 		while ( ( node = el.firstChild ) ) {
 			lastNode = frag.appendChild( node );
 		}
@@ -247,7 +252,7 @@ if ( window.getSelection ) {
 			for ( var i = 0, len = savedSelection.length; i < len; ++i ) {
 				sel.addRange( savedSelection[ i ] );
 			}
-			if ( !sel.type || sel.type == 'None' || sel.type == 'Caret' ) {
+			if ( ! sel.type || sel.type == 'None' || sel.type == 'Caret' ) {
 				if ( end && insert_began[ start ] ) {
 					insert_began[ start ] = null;
 					document.execCommand( "insertText", true, end );

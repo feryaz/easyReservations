@@ -47,16 +47,16 @@ jQuery( function( $ ) {
 
 				var data = {
 					reservation_id: $( '#object_id' ).val(),
-					order_id:       $( this ).attr( 'data-order_id' ),
-					action:         'easyreservations_remove_reservation_from_order',
-					security:       easyreservations_admin_meta_boxes.receipt_item_nonce
+					order_id: $( this ).attr( 'data-order_id' ),
+					action: 'easyreservations_remove_reservation_from_order',
+					security: easyreservations_admin_meta_boxes.receipt_item_nonce
 				};
 
 				$.ajax( {
-					url:      easyreservations_admin_meta_boxes.ajax_url,
-					data:     data,
-					type:     'POST',
-					success:  function( response ) {
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
+					success: function( response ) {
 						if ( response.success ) {
 							$( '#easyreservations-reservation-order' ).find( '.inside' ).empty();
 							$( '#easyreservations-reservation-order' ).find( '.inside' ).append( response.data.html );
@@ -73,7 +73,7 @@ jQuery( function( $ ) {
 		},
 
 		backbone: {
-			init:     function( e, target ) {
+			init: function( e, target ) {
 				if ( 'er-modal-add-to-order' === target ) {
 					$( document.body ).trigger( 'er-enhanced-select-init' );
 				}
@@ -86,17 +86,17 @@ jQuery( function( $ ) {
 
 						var data = {
 							reservation_id: $( '#object_id' ).val(),
-							order_id:       data.order_id,
-							reservation:    1,
-							action:         'easyreservations_add_reservation_to_order',
-							security:       easyreservations_admin_meta_boxes.receipt_item_nonce
+							order_id: data.order_id,
+							reservation: 1,
+							action: 'easyreservations_add_reservation_to_order',
+							security: easyreservations_admin_meta_boxes.receipt_item_nonce
 						};
 
 						$.ajax( {
-							url:      easyreservations_admin_meta_boxes.ajax_url,
-							data:     data,
-							type:     'POST',
-							success:  function( response ) {
+							url: easyreservations_admin_meta_boxes.ajax_url,
+							data: data,
+							type: 'POST',
+							success: function( response ) {
 								if ( response.success ) {
 									$( '#easyreservations-reservation-order' ).find( '.inside' ).empty();
 									$( '#easyreservations-reservation-order' ).find( '.inside' ).append( response.data.html );

@@ -23,8 +23,8 @@
 		 *
 		 */
 		var framework = {
-			features:        null,
-			bind:            function( target, type, listener, unbind ) {
+			features: null,
+			bind: function( target, type, listener, unbind ) {
 				var methodName = ( unbind ? 'remove' : 'add' ) + 'EventListener';
 				type = type.split( ' ' );
 				for ( var i = 0; i < type.length; i++ ) {
@@ -33,33 +33,33 @@
 					}
 				}
 			},
-			isArray:         function( obj ) {
+			isArray: function( obj ) {
 				return ( obj instanceof Array );
 			},
-			createEl:        function( classes, tag ) {
+			createEl: function( classes, tag ) {
 				var el = document.createElement( tag || 'div' );
 				if ( classes ) {
 					el.className = classes;
 				}
 				return el;
 			},
-			getScrollY:      function() {
+			getScrollY: function() {
 				var yOffset = window.pageYOffset;
 				return yOffset !== undefined ? yOffset : document.documentElement.scrollTop;
 			},
-			unbind:          function( target, type, listener ) {
+			unbind: function( target, type, listener ) {
 				framework.bind( target, type, listener, true );
 			},
-			removeClass:     function( el, className ) {
+			removeClass: function( el, className ) {
 				var reg = new RegExp( '(\\s|^)' + className + '(\\s|$)' );
 				el.className = el.className.replace( reg, ' ' ).replace( /^\s\s*/, '' ).replace( /\s\s*$/, '' );
 			},
-			addClass:        function( el, className ) {
-				if ( !framework.hasClass( el, className ) ) {
+			addClass: function( el, className ) {
+				if ( ! framework.hasClass( el, className ) ) {
 					el.className += ( el.className ? ' ' : '' ) + className;
 				}
 			},
-			hasClass:        function( el, className ) {
+			hasClass: function( el, className ) {
 				return el.className && new RegExp( '(^|\\s)' + className + '(\\s|$)' ).test( el.className );
 			},
 			getChildByClass: function( parentEl, childClassName ) {
@@ -71,7 +71,7 @@
 					node = node.nextSibling;
 				}
 			},
-			arraySearch:     function( array, value, key ) {
+			arraySearch: function( array, value, key ) {
 				var i = array.length;
 				while ( i-- ) {
 					if ( array[ i ][ key ] === value ) {
@@ -80,7 +80,7 @@
 				}
 				return -1;
 			},
-			extend:          function( o1, o2, preventOverwrite ) {
+			extend: function( o1, o2, preventOverwrite ) {
 				for ( var prop in o2 ) {
 					if ( o2.hasOwnProperty( prop ) ) {
 						if ( preventOverwrite && o1.hasOwnProperty( prop ) ) {
@@ -90,9 +90,9 @@
 					}
 				}
 			},
-			easing:          {
-				sine:  {
-					out:   function( k ) {
+			easing: {
+				sine: {
+					out: function( k ) {
 						return Math.sin( k * ( Math.PI / 2 ) );
 					},
 					inOut: function( k ) {
@@ -142,13 +142,13 @@
 				if ( framework.features ) {
 					return framework.features;
 				}
-				var helperEl    = framework.createEl(),
+				var helperEl = framework.createEl(),
 					helperStyle = helperEl.style,
-					vendor      = '',
-					features    = {};
+					vendor = '',
+					features = {};
 
 				// IE8 and below
-				features.oldIE = document.all && !document.addEventListener;
+				features.oldIE = document.all && ! document.addEventListener;
 
 				features.touch = 'ontouchstart' in window;
 
@@ -157,12 +157,12 @@
 					features.caf = window.cancelAnimationFrame;
 				}
 
-				features.pointerEvent = !!( window.PointerEvent ) || navigator.msPointerEnabled;
+				features.pointerEvent = !! ( window.PointerEvent ) || navigator.msPointerEnabled;
 
 				// fix false-positive detection of old Android in new IE
 				// (IE11 ua string contains "Android 4.0")
 
-				if ( !features.pointerEvent ) {
+				if ( ! features.pointerEvent ) {
 
 					var ua = navigator.userAgent;
 
@@ -201,8 +201,8 @@
 					// p.s. yes, yes, UA sniffing is bad, propose your solution for above bugs.
 				}
 
-				var styleChecks = ['transform', 'perspective', 'animationName'],
-					vendors     = ['', 'webkit', 'Moz', 'ms', 'O'],
+				var styleChecks = [ 'transform', 'perspective', 'animationName' ],
+					vendors = [ '', 'webkit', 'Moz', 'ms', 'O' ],
 					styleCheckItem,
 					styleName;
 
@@ -217,12 +217,12 @@
 							styleCheckItem.charAt( 0 ).toUpperCase() + styleCheckItem.slice( 1 ) :
 							styleCheckItem );
 
-						if ( !features[ styleCheckItem ] && styleName in helperStyle ) {
+						if ( ! features[ styleCheckItem ] && styleName in helperStyle ) {
 							features[ styleCheckItem ] = styleName;
 						}
 					}
 
-					if ( vendor && !features.raf ) {
+					if ( vendor && ! features.raf ) {
 						vendor = vendor.toLowerCase();
 						features.raf = window[ vendor + 'RequestAnimationFrame' ];
 						if ( features.raf ) {
@@ -232,7 +232,7 @@
 					}
 				}
 
-				if ( !features.raf ) {
+				if ( ! features.raf ) {
 					var lastTime = 0;
 					features.raf = function( fn ) {
 						var currTime = new Date().getTime();
@@ -249,8 +249,8 @@
 				}
 
 				// Detect SVG support
-				features.svg = !!document.createElementNS &&
-					!!document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' ).createSVGRect;
+				features.svg = !! document.createElementNS &&
+					!! document.createElementNS( 'http://www.w3.org/2000/svg', 'svg' ).createSVGRect;
 
 				framework.features = features;
 
@@ -269,7 +269,7 @@
 
 				var methodName = ( unbind ? 'detach' : 'attach' ) + 'Event',
 					evName,
-					_handleEv  = function() {
+					_handleEv = function() {
 						listener.handleEvent.call( listener );
 					};
 
@@ -278,10 +278,10 @@
 					if ( evName ) {
 
 						if ( typeof listener === 'object' && listener.handleEvent ) {
-							if ( !unbind ) {
+							if ( ! unbind ) {
 								listener[ 'oldIE' + evName ] = _handleEv;
 							} else {
-								if ( !listener[ 'oldIE' + evName ] ) {
+								if ( ! listener[ 'oldIE' + evName ] ) {
 									return false;
 								}
 							}
@@ -308,41 +308,41 @@
 		 * Static vars, don't change unless you know what you're doing.
 		 */
 		var DOUBLE_TAP_RADIUS = 25,
-			NUM_HOLDERS       = 3;
+			NUM_HOLDERS = 3;
 
 		/**
 		 * Options
 		 */
 		var _options = {
-			allowPanToNext:        true,
-			spacing:               0.12,
-			bgOpacity:             1,
-			mouseUsed:             false,
-			loop:                  true,
-			pinchToClose:          true,
-			closeOnScroll:         true,
-			closeOnVerticalDrag:   true,
-			verticalDragRange:     0.75,
+			allowPanToNext: true,
+			spacing: 0.12,
+			bgOpacity: 1,
+			mouseUsed: false,
+			loop: true,
+			pinchToClose: true,
+			closeOnScroll: true,
+			closeOnVerticalDrag: true,
+			verticalDragRange: 0.75,
 			hideAnimationDuration: 333,
 			showAnimationDuration: 333,
-			showHideOpacity:       false,
-			focus:                 true,
-			escKey:                true,
-			arrowKeys:             true,
+			showHideOpacity: false,
+			focus: true,
+			escKey: true,
+			arrowKeys: true,
 			mainScrollEndFriction: 0.35,
-			panEndFriction:        0.35,
-			isClickableElement:    function( el ) {
+			panEndFriction: 0.35,
+			isClickableElement: function( el ) {
 				return el.tagName === 'A';
 			},
-			getDoubleTapZoom:      function( isMouseClick, item ) {
+			getDoubleTapZoom: function( isMouseClick, item ) {
 				if ( isMouseClick ) {
 					return 1;
 				} else {
 					return item.initialZoomLevel < 0.7 ? 1 : 1.33;
 				}
 			},
-			maxSpreadZoom:         1.33,
-			modal:                 true,
+			maxSpreadZoom: 1.33,
+			modal: true,
 
 			// not fully implemented yet
 			scaleMode: 'fit' // TOD0
@@ -364,34 +364,34 @@
 			_currentItemIndex,
 			_containerStyle,
 			_containerShiftIndex,
-			_currPanDist            = _getEmptyPoint(),
-			_startPanOffset         = _getEmptyPoint(),
-			_panOffset              = _getEmptyPoint(),
+			_currPanDist = _getEmptyPoint(),
+			_startPanOffset = _getEmptyPoint(),
+			_panOffset = _getEmptyPoint(),
 			_upMoveEvents, // drag move, drag end & drag cancel events array
 			_downEvents, // drag start events array
 			_globalEventHandlers,
-			_viewportSize           = {},
+			_viewportSize = {},
 			_currZoomLevel,
 			_startZoomLevel,
 			_translatePrefix,
 			_translateSufix,
 			_updateSizeInterval,
 			_itemsNeedUpdate,
-			_currPositionIndex      = 0,
-			_offset                 = {},
-			_slideSize              = _getEmptyPoint(), // size of slide area, including spacing
+			_currPositionIndex = 0,
+			_offset = {},
+			_slideSize = _getEmptyPoint(), // size of slide area, including spacing
 			_itemHolders,
 			_prevItemIndex,
-			_indexDiff              = 0, // difference of indexes since last content update
+			_indexDiff = 0, // difference of indexes since last content update
 			_dragStartEvent,
 			_dragMoveEvent,
 			_dragEndEvent,
 			_dragCancelEvent,
 			_transformKey,
 			_pointerEventEnabled,
-			_isFixedPosition        = true,
+			_isFixedPosition = true,
 			_likelyTouchDevice,
-			_modules                = [],
+			_modules = [],
 			_requestAF,
 			_cancelAF,
 			_initalClassName,
@@ -399,18 +399,18 @@
 			_oldIE,
 			_currentWindowScrollY,
 			_features,
-			_windowVisibleSize      = {},
-			_renderMaxResolution    = false,
+			_windowVisibleSize = {},
+			_renderMaxResolution = false,
 			_orientationChangeTimeout,
 
 
 			// Registers PhotoSWipe module (History, Controller ...)
-			_registerModule         = function( name, module ) {
+			_registerModule = function( name, module ) {
 				framework.extend( self, module.publicMethods );
 				_modules.push( name );
 			},
 
-			_getLoopedId            = function( index ) {
+			_getLoopedId = function( index ) {
 				var numSlides = _getNumItems();
 				if ( index > numSlides - 1 ) {
 					return index - numSlides;
@@ -421,14 +421,14 @@
 			},
 
 			// Micro bind/trigger
-			_listeners              = {},
-			_listen                 = function( name, fn ) {
-				if ( !_listeners[ name ] ) {
+			_listeners = {},
+			_listen = function( name, fn ) {
+				if ( ! _listeners[ name ] ) {
 					_listeners[ name ] = [];
 				}
 				return _listeners[ name ].push( fn );
 			},
-			_shout                  = function( name ) {
+			_shout = function( name ) {
 				var listeners = _listeners[ name ];
 
 				if ( listeners ) {
@@ -441,27 +441,27 @@
 				}
 			},
 
-			_getCurrentTime         = function() {
+			_getCurrentTime = function() {
 				return new Date().getTime();
 			},
-			_applyBgOpacity         = function( opacity ) {
+			_applyBgOpacity = function( opacity ) {
 				_bgOpacity = opacity;
 				self.bg.style.opacity = opacity * _options.bgOpacity;
 			},
 
-			_applyZoomTransform     = function( styleObj, x, y, zoom, item ) {
-				if ( !_renderMaxResolution || ( item && item !== self.currItem ) ) {
+			_applyZoomTransform = function( styleObj, x, y, zoom, item ) {
+				if ( ! _renderMaxResolution || ( item && item !== self.currItem ) ) {
 					zoom = zoom / ( item ? item.fitRatio : self.currItem.fitRatio );
 				}
 
 				styleObj[ _transformKey ] = _translatePrefix + x + 'px, ' + y + 'px' + _translateSufix + ' scale(' + zoom + ')';
 			},
-			_applyCurrentZoomPan    = function( allowRenderResolution ) {
+			_applyCurrentZoomPan = function( allowRenderResolution ) {
 				if ( _currZoomElementStyle ) {
 
 					if ( allowRenderResolution ) {
 						if ( _currZoomLevel > self.currItem.fitRatio ) {
-							if ( !_renderMaxResolution ) {
+							if ( ! _renderMaxResolution ) {
 								_setImageSize( self.currItem, false, true );
 								_renderMaxResolution = true;
 							}
@@ -477,7 +477,7 @@
 					_applyZoomTransform( _currZoomElementStyle, _panOffset.x, _panOffset.y, _currZoomLevel );
 				}
 			},
-			_applyZoomPanToItem     = function( item ) {
+			_applyZoomPanToItem = function( item ) {
 				if ( item.container ) {
 
 					_applyZoomTransform( item.container.style,
@@ -487,14 +487,14 @@
 						item );
 				}
 			},
-			_setTranslateX          = function( x, elStyle ) {
+			_setTranslateX = function( x, elStyle ) {
 				elStyle[ _transformKey ] = _translatePrefix + x + 'px, 0px' + _translateSufix;
 			},
-			_moveMainScroll         = function( x, dragging ) {
+			_moveMainScroll = function( x, dragging ) {
 
-				if ( !_options.loop && dragging ) {
+				if ( ! _options.loop && dragging ) {
 					var newSlideIndexOffset = _currentItemIndex + ( _slideSize.x * _currPositionIndex - x ) / _slideSize.x,
-						delta               = Math.round( x - _mainScrollPos.x );
+						delta = Math.round( x - _mainScrollPos.x );
 
 					if ( ( newSlideIndexOffset < 0 && delta > 0 ) ||
 						( newSlideIndexOffset >= _getNumItems() - 1 && delta < 0 ) ) {
@@ -505,25 +505,25 @@
 				_mainScrollPos.x = x;
 				_setTranslateX( x, _containerStyle );
 			},
-			_calculatePanOffset     = function( axis, zoomLevel ) {
+			_calculatePanOffset = function( axis, zoomLevel ) {
 				var m = _midZoomPoint[ axis ] - _offset[ axis ];
 				return _startPanOffset[ axis ] + _currPanDist[ axis ] + m - m * ( zoomLevel / _startZoomLevel );
 			},
 
-			_equalizePoints         = function( p1, p2 ) {
+			_equalizePoints = function( p1, p2 ) {
 				p1.x = p2.x;
 				p1.y = p2.y;
 				if ( p2.id ) {
 					p1.id = p2.id;
 				}
 			},
-			_roundPoint             = function( p ) {
+			_roundPoint = function( p ) {
 				p.x = Math.round( p.x );
 				p.y = Math.round( p.y );
 			},
 
-			_mouseMoveTimeout       = null,
-			_onFirstMouseMove       = function() {
+			_mouseMoveTimeout = null,
+			_onFirstMouseMove = function() {
 				// Wait until mouse move event is fired at least twice during 100ms
 				// We do this, because some mobile browsers trigger it on touchstart
 				if ( _mouseMoveTimeout ) {
@@ -537,7 +537,7 @@
 				}, 100 );
 			},
 
-			_bindEvents             = function() {
+			_bindEvents = function() {
 				framework.bind( document, 'keydown', self );
 
 				if ( _features.transform ) {
@@ -546,7 +546,7 @@
 				}
 
 
-				if ( !_options.mouseUsed ) {
+				if ( ! _options.mouseUsed ) {
 					framework.bind( document, 'mousemove', _onFirstMouseMove );
 				}
 
@@ -555,7 +555,7 @@
 				_shout( 'bindEvents' );
 			},
 
-			_unbindEvents           = function() {
+			_unbindEvents = function() {
 				framework.unbind( window, 'resize scroll orientationchange', self );
 				framework.unbind( window, 'scroll', _globalEventHandlers.scroll );
 				framework.unbind( document, 'keydown', self );
@@ -574,7 +574,7 @@
 				_shout( 'unbindEvents' );
 			},
 
-			_calculatePanBounds     = function( zoomLevel, update ) {
+			_calculatePanBounds = function( zoomLevel, update ) {
 				var bounds = _calculateItemSize( self.currItem, _viewportSize, zoomLevel );
 				if ( update ) {
 					_currPanBounds = bounds;
@@ -582,21 +582,21 @@
 				return bounds;
 			},
 
-			_getMinZoomLevel        = function( item ) {
-				if ( !item ) {
+			_getMinZoomLevel = function( item ) {
+				if ( ! item ) {
 					item = self.currItem;
 				}
 				return item.initialZoomLevel;
 			},
-			_getMaxZoomLevel        = function( item ) {
-				if ( !item ) {
+			_getMaxZoomLevel = function( item ) {
+				if ( ! item ) {
 					item = self.currItem;
 				}
 				return item.w > 0 ? _options.maxSpreadZoom : 1;
 			},
 
 			// Return true if offset is out of the bounds
-			_modifyDestPanOffset    = function( axis, destPanBounds, destPanOffset, destZoomLevel ) {
+			_modifyDestPanOffset = function( axis, destPanBounds, destPanOffset, destZoomLevel ) {
 				if ( destZoomLevel === self.currItem.initialZoomLevel ) {
 					destPanOffset[ axis ] = self.currItem.initialPosition[ axis ];
 					return true;
@@ -614,11 +614,11 @@
 				return false;
 			},
 
-			_setupTransforms        = function() {
+			_setupTransforms = function() {
 
 				if ( _transformKey ) {
 					// setup 3d transforms
-					var allow3dTransform = _features.perspective && !_likelyTouchDevice;
+					var allow3dTransform = _features.perspective && ! _likelyTouchDevice;
 					_translatePrefix = 'translate' + ( allow3dTransform ? '3d(' : '(' );
 					_translateSufix = _features.perspective ? ', 0px)' : ')';
 					return;
@@ -636,9 +636,9 @@
 				_applyZoomPanToItem = function( item ) {
 
 					var zoomRatio = item.fitRatio > 1 ? 1 : item.fitRatio,
-						s         = item.container.style,
-						w         = zoomRatio * item.w,
-						h         = zoomRatio * item.h;
+						s = item.container.style,
+						w = zoomRatio * item.w,
+						h = zoomRatio * item.h;
 
 					s.width = w + 'px';
 					s.height = h + 'px';
@@ -649,11 +649,11 @@
 				_applyCurrentZoomPan = function() {
 					if ( _currZoomElementStyle ) {
 
-						var s         = _currZoomElementStyle,
-							item      = self.currItem,
+						var s = _currZoomElementStyle,
+							item = self.currItem,
 							zoomRatio = item.fitRatio > 1 ? 1 : item.fitRatio,
-							w         = zoomRatio * item.w,
-							h         = zoomRatio * item.h;
+							w = zoomRatio * item.w,
+							h = zoomRatio * item.h;
 
 						s.width = w + 'px';
 						s.height = h + 'px';
@@ -666,7 +666,7 @@
 				};
 			},
 
-			_onKeyDown              = function( e ) {
+			_onKeyDown = function( e ) {
 				var keydownAction = '';
 				if ( _options.escKey && e.keyCode === 27 ) {
 					keydownAction = 'close';
@@ -681,7 +681,7 @@
 				if ( keydownAction ) {
 					// don't do anything if special key pressed to prevent from overriding default browser actions
 					// e.g. in Chrome on Mac cmd+arrow-left returns to previous page
-					if ( !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey ) {
+					if ( ! e.ctrlKey && ! e.altKey && ! e.shiftKey && ! e.metaKey ) {
 						if ( e.preventDefault ) {
 							e.preventDefault();
 						} else {
@@ -692,8 +692,8 @@
 				}
 			},
 
-			_onGlobalClick          = function( e ) {
-				if ( !e ) {
+			_onGlobalClick = function( e ) {
+				if ( ! e ) {
 					return;
 				}
 
@@ -710,9 +710,9 @@
 
 
 // Micro animation engine
-		var _animations             = {},
-			_numAnimations          = 0,
-			_stopAnimation          = function( name ) {
+		var _animations = {},
+			_numAnimations = 0,
+			_stopAnimation = function( name ) {
 				if ( _animations[ name ] ) {
 					if ( _animations[ name ].raf ) {
 						_cancelAF( _animations[ name ].raf );
@@ -725,12 +725,12 @@
 				if ( _animations[ name ] ) {
 					_stopAnimation( name );
 				}
-				if ( !_animations[ name ] ) {
+				if ( ! _animations[ name ] ) {
 					_numAnimations++;
 					_animations[ name ] = {};
 				}
 			},
-			_stopAllAnimations      = function() {
+			_stopAllAnimations = function() {
 				for ( var prop in _animations ) {
 
 					if ( _animations.hasOwnProperty( prop ) ) {
@@ -739,8 +739,9 @@
 
 				}
 			},
-			_animateProp            = function( name, b, endProp, d, easingFn, onUpdate, onComplete ) {
-				var startAnimTime = _getCurrentTime(), t;
+			_animateProp = function( name, b, endProp, d, easingFn, onUpdate, onComplete ) {
+				var startAnimTime = _getCurrentTime(),
+					t;
 				_registerStartAnimation( name );
 
 				var animloop = function() {
@@ -770,32 +771,32 @@
 		var publicMethods = {
 
 			// make a few local variables and functions public
-			shout:        _shout,
-			listen:       _listen,
+			shout: _shout,
+			listen: _listen,
 			viewportSize: _viewportSize,
-			options:      _options,
+			options: _options,
 
 			isMainScrollAnimating: function() {
 				return _mainScrollAnimating;
 			},
-			getZoomLevel:          function() {
+			getZoomLevel: function() {
 				return _currZoomLevel;
 			},
-			getCurrentIndex:       function() {
+			getCurrentIndex: function() {
 				return _currentItemIndex;
 			},
-			isDragging:            function() {
+			isDragging: function() {
 				return _isDragging;
 			},
-			isZooming:             function() {
+			isZooming: function() {
 				return _isZooming;
 			},
-			setScrollOffset:       function( x, y ) {
+			setScrollOffset: function( x, y ) {
 				_offset.x = x;
 				_currentWindowScrollY = _offset.y = y;
 				_shout( 'updateScrollOffset', _offset );
 			},
-			applyZoomPan:          function( zoomLevel, panX, panY, allowRenderResolution ) {
+			applyZoomPan: function( zoomLevel, panX, panY, allowRenderResolution ) {
 				_panOffset.x = panX;
 				_panOffset.y = panY;
 				_currZoomLevel = zoomLevel;
@@ -855,15 +856,15 @@
 							}
 						}, 500 );
 					},
-					scroll:            _updatePageScrollOffset,
-					keydown:           _onKeyDown,
-					click:             _onGlobalClick
+					scroll: _updatePageScrollOffset,
+					keydown: _onKeyDown,
+					click: _onGlobalClick
 				};
 
 				// disable show/hide effects on old browsers that don't support CSS animations or transforms,
 				// old IOS, Android and Opera mobile. Blackberry seems to work fine, even older models.
 				var oldPhone = _features.isOldIOSPhone || _features.isOldAndroid || _features.isMobileOpera;
-				if ( !_features.animationName || !_features.transform || oldPhone ) {
+				if ( ! _features.animationName || ! _features.transform || oldPhone ) {
 					_options.showAnimationDuration = _options.hideAnimationDuration = 0;
 				}
 
@@ -893,7 +894,7 @@
 
 				template.setAttribute( 'aria-hidden', 'false' );
 				if ( _options.modal ) {
-					if ( !_isFixedPosition ) {
+					if ( ! _isFixedPosition ) {
 						template.style.position = 'absolute';
 						template.style.top = framework.getScrollY() + 'px';
 					} else {
@@ -928,7 +929,7 @@
 					_setTranslateX( ( i + _containerShiftIndex ) * _slideSize.x, _itemHolders[ i ].el.style );
 				}
 
-				if ( !_oldIE ) {
+				if ( ! _oldIE ) {
 					framework.bind( self.scrollWrap, _downEvents, self ); // no dragging for old IE
 				}
 
@@ -955,7 +956,7 @@
 
 				_shout( 'afterInit' );
 
-				if ( !_isFixedPosition ) {
+				if ( ! _isFixedPosition ) {
 
 					// On all versions of iOS lower than 8.0, we check size of viewport every second.
 					//
@@ -967,7 +968,7 @@
 					// 10 Nov 2014: iOS 7 usage ~40%. iOS 8 usage 56%.
 
 					_updateSizeInterval = setInterval( function() {
-						if ( !_numAnimations && !_isDragging && !_isZooming && ( _currZoomLevel === self.currItem.initialZoomLevel ) ) {
+						if ( ! _numAnimations && ! _isDragging && ! _isZooming && ( _currZoomLevel === self.currItem.initialZoomLevel ) ) {
 							self.updateSize();
 						}
 					}, 1000 );
@@ -978,7 +979,7 @@
 
 			// Close the gallery, then destroy it
 			close: function() {
-				if ( !_isOpen ) {
+				if ( ! _isOpen ) {
 					return;
 				}
 
@@ -1024,7 +1025,7 @@
 			 * @param {Boolean} force Will ignore bounds if set to true.
 			 */
 			panTo: function( x, y, force ) {
-				if ( !force ) {
+				if ( ! force ) {
 					if ( x > _currPanBounds.min.x ) {
 						x = _currPanBounds.min.x;
 					} else if ( x < _currPanBounds.max.x ) {
@@ -1184,13 +1185,13 @@
 
 			updateSize: function( force ) {
 
-				if ( !_isFixedPosition && _options.modal ) {
+				if ( ! _isFixedPosition && _options.modal ) {
 					var windowScrollY = framework.getScrollY();
 					if ( _currentWindowScrollY !== windowScrollY ) {
 						template.style.top = windowScrollY + 'px';
 						_currentWindowScrollY = windowScrollY;
 					}
-					if ( !force && _windowVisibleSize.x === window.innerWidth && _windowVisibleSize.y === window.innerHeight ) {
+					if ( ! force && _windowVisibleSize.x === window.innerWidth && _windowVisibleSize.y === window.innerHeight ) {
 						return;
 					}
 					_windowVisibleSize.x = window.innerWidth;
@@ -1236,7 +1237,7 @@
 
 						// re-render gallery item if `needsUpdate`,
 						// or doesn't have `bounds` (entirely new slide object)
-						if ( item && ( _itemsNeedUpdate || item.needsUpdate || !item.bounds ) ) {
+						if ( item && ( _itemsNeedUpdate || item.needsUpdate || ! item.bounds ) ) {
 
 							self.cleanSlide( item );
 
@@ -1345,30 +1346,30 @@
 		 * separated from @core.js for readability
 		 */
 
-		var MIN_SWIPE_DISTANCE     = 30,
+		var MIN_SWIPE_DISTANCE = 30,
 			DIRECTION_CHECK_OFFSET = 10; // amount of pixels to drag to determine direction of swipe
 
 		var _gestureStartTime,
 			_gestureCheckSpeedTime,
 
 			// pool of objects that are used during dragging of zooming
-			p                                  = {}, // first point
-			p2                                 = {}, // second point (for zoom gesture)
-			delta                              = {},
-			_currPoint                         = {},
-			_startPoint                        = {},
-			_currPointers                      = [],
-			_startMainScrollPos                = {},
+			p = {}, // first point
+			p2 = {}, // second point (for zoom gesture)
+			delta = {},
+			_currPoint = {},
+			_startPoint = {},
+			_currPointers = [],
+			_startMainScrollPos = {},
 			_releaseAnimData,
-			_posPoints                         = [], // array of points during dragging, used to determine type of gesture
-			_tempPoint                         = {},
+			_posPoints = [], // array of points during dragging, used to determine type of gesture
+			_tempPoint = {},
 
 			_isZoomingIn,
 			_verticalDragInitiated,
 			_oldAndroidTouchEndTimeout,
-			_currZoomedItemIndex               = 0,
-			_centerPoint                       = _getEmptyPoint(),
-			_lastReleaseTime                   = 0,
+			_currZoomedItemIndex = 0,
+			_centerPoint = _getEmptyPoint(),
+			_lastReleaseTime = 0,
 			_isDragging, // at least one pointer is down
 			_isMultitouch, // at least two _pointers are down
 			_zoomStarted, // zoom level changed during zoom gesture
@@ -1380,47 +1381,47 @@
 			_currPointsDistance,
 			_startPointsDistance,
 			_currPanBounds,
-			_mainScrollPos                     = _getEmptyPoint(),
+			_mainScrollPos = _getEmptyPoint(),
 			_currZoomElementStyle,
 			_mainScrollAnimating, // true, if animation after swipe gesture is running
-			_midZoomPoint                      = _getEmptyPoint(),
-			_currCenterPoint                   = _getEmptyPoint(),
+			_midZoomPoint = _getEmptyPoint(),
+			_currCenterPoint = _getEmptyPoint(),
 			_direction,
 			_isFirstMove,
 			_opacityChanged,
 			_bgOpacity,
 			_wasOverInitialZoom,
 
-			_isEqualPoints                     = function( p1, p2 ) {
+			_isEqualPoints = function( p1, p2 ) {
 				return p1.x === p2.x && p1.y === p2.y;
 			},
-			_isNearbyPoints                    = function( touch0, touch1 ) {
+			_isNearbyPoints = function( touch0, touch1 ) {
 				return Math.abs( touch0.x - touch1.x ) < DOUBLE_TAP_RADIUS && Math.abs( touch0.y - touch1.y ) < DOUBLE_TAP_RADIUS;
 			},
-			_calculatePointsDistance           = function( p1, p2 ) {
+			_calculatePointsDistance = function( p1, p2 ) {
 				_tempPoint.x = Math.abs( p1.x - p2.x );
 				_tempPoint.y = Math.abs( p1.y - p2.y );
 				return Math.sqrt( _tempPoint.x * _tempPoint.x + _tempPoint.y * _tempPoint.y );
 			},
-			_stopDragUpdateLoop                = function() {
+			_stopDragUpdateLoop = function() {
 				if ( _dragAnimFrame ) {
 					_cancelAF( _dragAnimFrame );
 					_dragAnimFrame = null;
 				}
 			},
-			_dragUpdateLoop                    = function() {
+			_dragUpdateLoop = function() {
 				if ( _isDragging ) {
 					_dragAnimFrame = _requestAF( _dragUpdateLoop );
 					_renderMovement();
 				}
 			},
-			_canPan                            = function() {
-				return !( _options.scaleMode === 'fit' && _currZoomLevel === self.currItem.initialZoomLevel );
+			_canPan = function() {
+				return ! ( _options.scaleMode === 'fit' && _currZoomLevel === self.currItem.initialZoomLevel );
 			},
 
 			// find the closest parent DOM element
-			_closestElement                    = function( el, fn ) {
-				if ( !el || el === document ) {
+			_closestElement = function( el, fn ) {
+				if ( ! el || el === document ) {
 					return false;
 				}
 
@@ -1436,25 +1437,25 @@
 				return _closestElement( el.parentNode, fn );
 			},
 
-			_preventObj                        = {},
-			_preventDefaultEventBehaviour      = function( e, isDown ) {
-				_preventObj.prevent = !_closestElement( e.target, _options.isClickableElement );
+			_preventObj = {},
+			_preventDefaultEventBehaviour = function( e, isDown ) {
+				_preventObj.prevent = ! _closestElement( e.target, _options.isClickableElement );
 
 				_shout( 'preventDragEvent', e, isDown, _preventObj );
 				return _preventObj.prevent;
 
 			},
-			_convertTouchToPoint               = function( touch, p ) {
+			_convertTouchToPoint = function( touch, p ) {
 				p.x = touch.pageX;
 				p.y = touch.pageY;
 				p.id = touch.identifier;
 				return p;
 			},
-			_findCenterOfPoints                = function( p1, p2, pCenter ) {
+			_findCenterOfPoints = function( p1, p2, pCenter ) {
 				pCenter.x = ( p1.x + p2.x ) * 0.5;
 				pCenter.y = ( p1.y + p2.y ) * 0.5;
 			},
-			_pushPosPoint                      = function( time, x, y ) {
+			_pushPosPoint = function( time, x, y ) {
 				if ( time - _gestureCheckSpeedTime > 50 ) {
 					var o = _posPoints.length > 2 ? _posPoints.shift() : {};
 					o.x = x;
@@ -1471,17 +1472,17 @@
 
 
 			// points pool, reused during touch events
-			_ePoint1                           = {},
-			_ePoint2                           = {},
-			_tempPointsArr                     = [],
+			_ePoint1 = {},
+			_ePoint2 = {},
+			_tempPointsArr = [],
 			_tempCounter,
-			_getTouchPoints                    = function( e ) {
+			_getTouchPoints = function( e ) {
 				// clean up previous points, without recreating array
 				while ( _tempPointsArr.length > 0 ) {
 					_tempPointsArr.pop();
 				}
 
-				if ( !_pointerEventEnabled ) {
+				if ( ! _pointerEventEnabled ) {
 					if ( e.type.indexOf( 'touch' ) > -1 ) {
 
 						if ( e.touches && e.touches.length > 0 ) {
@@ -1513,15 +1514,15 @@
 				return _tempPointsArr;
 			},
 
-			_panOrMoveMainScroll               = function( axis, delta ) {
+			_panOrMoveMainScroll = function( axis, delta ) {
 
 				var panFriction,
-					overDiff              = 0,
-					newOffset             = _panOffset[ axis ] + delta[ axis ],
+					overDiff = 0,
+					newOffset = _panOffset[ axis ] + delta[ axis ],
 					startOverDiff,
-					dir                   = delta[ axis ] > 0,
+					dir = delta[ axis ] > 0,
 					newMainScrollPosition = _mainScrollPos.x + delta.x,
-					mainScrollDiff        = _mainScrollPos.x - _startMainScrollPos.x,
+					mainScrollDiff = _mainScrollPos.x - _startMainScrollPos.x,
 					newPanPos,
 					newMainScrollPos;
 
@@ -1541,11 +1542,11 @@
 				if ( _options.allowPanToNext || _currZoomLevel === self.currItem.initialZoomLevel ) {
 
 
-					if ( !_currZoomElementStyle ) {
+					if ( ! _currZoomElementStyle ) {
 
 						newMainScrollPos = newMainScrollPosition;
 
-					} else if ( _direction === 'h' && axis === 'x' && !_zoomStarted ) {
+					} else if ( _direction === 'h' && axis === 'x' && ! _zoomStarted ) {
 
 						if ( dir ) {
 							if ( newOffset > _currPanBounds.min[ axis ] ) {
@@ -1608,7 +1609,7 @@
 						if ( _currPanBounds.min.x !== _currPanBounds.max.x ) {
 							if ( newPanPos !== undefined ) {
 								_panOffset.x = newPanPos;
-							} else if ( !_mainScrollShifted ) {
+							} else if ( ! _mainScrollShifted ) {
 								_panOffset.x += delta.x * panFriction;
 							}
 						}
@@ -1618,9 +1619,9 @@
 
 				}
 
-				if ( !_mainScrollAnimating ) {
+				if ( ! _mainScrollAnimating ) {
 
-					if ( !_mainScrollShifted ) {
+					if ( ! _mainScrollShifted ) {
 						if ( _currZoomLevel > self.currItem.fitRatio ) {
 							_panOffset[ axis ] += delta[ axis ] * panFriction;
 
@@ -1633,7 +1634,7 @@
 			},
 
 			// Pointerdown/touchstart/mousedown handler
-			_onDragStart                       = function( e ) {
+			_onDragStart = function( e ) {
 
 				// Allow dragging only via left mouse button.
 				// As this handler is not added in IE8 - we ignore e.which
@@ -1669,14 +1670,14 @@
 				}
 
 				var startPointsList = _getTouchPoints( e ),
-					numPoints       = startPointsList.length;
+					numPoints = startPointsList.length;
 
 				_currentPoints = null;
 
 				_stopAllAnimations();
 
 				// init drag
-				if ( !_isDragging || numPoints === 1 ) {
+				if ( ! _isDragging || numPoints === 1 ) {
 
 					_isDragging = _isFirstMove = true;
 					framework.bind( window, _upMoveEvents, self );
@@ -1703,10 +1704,10 @@
 					//_equalizePoints(_startMainScrollPos, _mainScrollPos);
 					_startMainScrollPos.x = _slideSize.x * _currPositionIndex;
 
-					_posPoints = [{
+					_posPoints = [ {
 						x: _currPoint.x,
 						y: _currPoint.y
-					}];
+					} ];
 
 					_gestureCheckSpeedTime = _gestureStartTime = _getCurrentTime();
 
@@ -1720,7 +1721,7 @@
 				}
 
 				// init zoom
-				if ( !_isZooming && numPoints > 1 && !_mainScrollAnimating && !_mainScrollShifted ) {
+				if ( ! _isZooming && numPoints > 1 && ! _mainScrollAnimating && ! _mainScrollShifted ) {
 					_startZoomLevel = _currZoomLevel;
 					_zoomStarted = false; // true if zoom changed at least once
 
@@ -1743,7 +1744,7 @@
 			},
 
 			// Pointermove/touchmove/mousemove handler
-			_onDragMove                        = function( e ) {
+			_onDragMove = function( e ) {
 
 				e.preventDefault();
 
@@ -1758,7 +1759,7 @@
 
 				if ( _isDragging ) {
 					var touchesList = _getTouchPoints( e );
-					if ( !_direction && !_moved && !_isZooming ) {
+					if ( ! _direction && ! _moved && ! _isZooming ) {
 
 						if ( _mainScrollPos.x !== _slideSize.x * _currPositionIndex ) {
 							// if main scroll position is shifted – direction is always horizontal
@@ -1778,9 +1779,9 @@
 				}
 			},
 			//
-			_renderMovement                    = function() {
+			_renderMovement = function() {
 
-				if ( !_currentPoints ) {
+				if ( ! _currentPoints ) {
 					return;
 				}
 
@@ -1802,14 +1803,14 @@
 					_currPoint.y = p.y;
 
 					// check if one of two points changed
-					if ( !delta.x && !delta.y && _isEqualPoints( _currentPoints[ 1 ], p2 ) ) {
+					if ( ! delta.x && ! delta.y && _isEqualPoints( _currentPoints[ 1 ], p2 ) ) {
 						return;
 					}
 
 					_equalizePoints( p2, _currentPoints[ 1 ] );
 
 
-					if ( !_zoomStarted ) {
+					if ( ! _zoomStarted ) {
 						_zoomStarted = true;
 						_shout( 'zoomGestureStarted' );
 					}
@@ -1831,7 +1832,7 @@
 
 					if ( zoomLevel < minZoomLevel ) {
 
-						if ( _options.pinchToClose && !_wasOverInitialZoom && _startZoomLevel <= self.currItem.initialZoomLevel ) {
+						if ( _options.pinchToClose && ! _wasOverInitialZoom && _startZoomLevel <= self.currItem.initialZoomLevel ) {
 							// fade out background if zooming out
 							var minusDiff = minZoomLevel - zoomLevel;
 							var percent = 1 - minusDiff / ( minZoomLevel / 1.2 );
@@ -1882,7 +1883,7 @@
 
 					// handle behaviour for one point (dragging or panning)
 
-					if ( !_direction ) {
+					if ( ! _direction ) {
 						return;
 					}
 
@@ -1909,7 +1910,7 @@
 					}
 
 					if ( _direction === 'v' && _options.closeOnVerticalDrag ) {
-						if ( !_canPan() ) {
+						if ( ! _canPan() ) {
 							_currPanDist.y += delta.y;
 							_panOffset.y += delta.y;
 
@@ -1930,7 +1931,7 @@
 					_currPanBounds = self.currItem.bounds;
 
 					var mainScrollChanged = _panOrMoveMainScroll( 'x', delta );
-					if ( !mainScrollChanged ) {
+					if ( ! mainScrollChanged ) {
 						_panOrMoveMainScroll( 'y', delta );
 
 						_roundPoint( _panOffset );
@@ -1942,7 +1943,7 @@
 			},
 
 			// Pointerup/pointercancel/touchend/touchcancel/mouseup event handler
-			_onDragRelease                     = function( e ) {
+			_onDragRelease = function( e ) {
 
 				if ( _features.isOldAndroid ) {
 
@@ -1985,7 +1986,7 @@
 							};
 							releasePoint.type = MSPOINTER_TYPES[ e.pointerType ];
 
-							if ( !releasePoint.type ) {
+							if ( ! releasePoint.type ) {
 								releasePoint.type = e.pointerType || 'mouse';
 							}
 						} else {
@@ -2016,14 +2017,14 @@
 
 
 				// pointer hasn't moved, send "tap release" point
-				if ( numPoints === 0 && !_direction && !_mainScrollAnimating ) {
-					if ( !releasePoint ) {
+				if ( numPoints === 0 && ! _direction && ! _mainScrollAnimating ) {
+					if ( ! releasePoint ) {
 						if ( e.type === 'mouseup' ) {
 							releasePoint = { x: e.pageX, y: e.pageY, type: 'mouse' };
 						} else if ( e.changedTouches && e.changedTouches[ 0 ] ) {
 							releasePoint = {
-								x:    e.changedTouches[ 0 ].pageX,
-								y:    e.changedTouches[ 0 ].pageY,
+								x: e.changedTouches[ 0 ].pageX,
+								y: e.changedTouches[ 0 ].pageY,
 								type: 'touch'
 							};
 						}
@@ -2068,7 +2069,7 @@
 				}
 
 				_currentPoints = null;
-				if ( !_moved && !_zoomStarted && !_mainScrollAnimating && !_verticalDragInitiated ) {
+				if ( ! _moved && ! _zoomStarted && ! _mainScrollAnimating && ! _verticalDragInitiated ) {
 					// nothing to animate
 					return;
 				}
@@ -2076,7 +2077,7 @@
 				_stopAllAnimations();
 
 
-				if ( !_releaseAnimData ) {
+				if ( ! _releaseAnimData ) {
 					_releaseAnimData = _initDragReleaseAnimationData();
 				}
 
@@ -2090,7 +2091,7 @@
 					if ( opacityRatio < _options.verticalDragRange ) {
 						self.close();
 					} else {
-						var initalPanY       = _panOffset.y,
+						var initalPanY = _panOffset.y,
 							initialBgOpacity = _bgOpacity;
 
 						_animateProp( 'verticalDrag', 0, 1, 300, framework.easing.cubic.out, function( now ) {
@@ -2129,7 +2130,7 @@
 				}
 
 				// Complete pan gesture if main scroll is not shifted, and it's possible to pan current image
-				if ( !_mainScrollShifted && _currZoomLevel > self.currItem.fitRatio ) {
+				if ( ! _mainScrollShifted && _currZoomLevel > self.currItem.fitRatio ) {
 					_completePanGesture( _releaseAnimData );
 				}
 			},
@@ -2137,24 +2138,24 @@
 
 			// Returns object with data about gesture
 			// It's created only once and then reused
-			_initDragReleaseAnimationData      = function() {
+			_initDragReleaseAnimationData = function() {
 				// temp local vars
 				var lastFlickDuration,
 					tempReleasePos;
 
 				// s = this
 				var s = {
-					lastFlickOffset:           {},
-					lastFlickDist:             {},
-					lastFlickSpeed:            {},
-					slowDownRatio:             {},
-					slowDownRatioReverse:      {},
-					speedDecelerationRatio:    {},
+					lastFlickOffset: {},
+					lastFlickDist: {},
+					lastFlickSpeed: {},
+					slowDownRatio: {},
+					slowDownRatioReverse: {},
+					speedDecelerationRatio: {},
 					speedDecelerationRatioAbs: {},
-					distanceOffset:            {},
-					backAnimDestination:       {},
-					backAnimStarted:           {},
-					calculateSwipeSpeed:       function( axis ) {
+					distanceOffset: {},
+					backAnimDestination: {},
+					backAnimStarted: {},
+					calculateSwipeSpeed: function( axis ) {
 
 
 						if ( _posPoints.length > 1 ) {
@@ -2181,7 +2182,7 @@
 					},
 
 					calculateOverBoundsAnimOffset: function( axis, speed ) {
-						if ( !s.backAnimStarted[ axis ] ) {
+						if ( ! s.backAnimStarted[ axis ] ) {
 
 							if ( _panOffset[ axis ] > _currPanBounds.min[ axis ] ) {
 								s.backAnimDestination[ axis ] = _currPanBounds.min[ axis ];
@@ -2215,7 +2216,7 @@
 
 					// Reduces the speed by slowDownRatio (per 10ms)
 					calculateAnimOffset: function( axis ) {
-						if ( !s.backAnimStarted[ axis ] ) {
+						if ( ! s.backAnimStarted[ axis ] ) {
 							s.speedDecelerationRatio[ axis ] = s.speedDecelerationRatio[ axis ] * ( s.slowDownRatio[ axis ] +
 								s.slowDownRatioReverse[ axis ] -
 								s.slowDownRatioReverse[ axis ] * s.timeDiff / 10 );
@@ -2261,7 +2262,7 @@
 				return s;
 			},
 
-			_completePanGesture                = function( animData ) {
+			_completePanGesture = function( animData ) {
 				// calculate swipe speed for Y axis (paanning)
 				animData.calculateSwipeSpeed( 'y' );
 
@@ -2287,9 +2288,9 @@
 			},
 
 
-			_finishSwipeMainScrollGesture      = function( gestureType, _releaseAnimData ) {
+			_finishSwipeMainScrollGesture = function( gestureType, _releaseAnimData ) {
 				var itemChanged;
-				if ( !_mainScrollAnimating ) {
+				if ( ! _mainScrollAnimating ) {
 					_currZoomedItemIndex = _currentItemIndex;
 				}
 
@@ -2297,7 +2298,7 @@
 				var itemsDiff;
 
 				if ( gestureType === 'swipe' ) {
-					var totalShiftDist  = _currPoint.x - _startPoint.x,
+					var totalShiftDist = _currPoint.x - _startPoint.x,
 						isFastLastFlick = _releaseAnimData.lastFlickDist.x < 10;
 
 					// if container is shifted for more than MIN_SWIPE_DISTANCE,
@@ -2327,7 +2328,7 @@
 						nextCircle = true;
 					}
 
-					if ( !nextCircle || _options.loop ) {
+					if ( ! nextCircle || _options.loop ) {
 						_indexDiff += itemsDiff;
 						_currPositionIndex -= itemsDiff;
 						itemChanged = true;
@@ -2341,7 +2342,7 @@
 				var finishAnimDuration;
 
 
-				if ( !itemChanged && animateToX > _mainScrollPos.x !== _releaseAnimData.lastFlickSpeed.x > 0 ) {
+				if ( ! itemChanged && animateToX > _mainScrollPos.x !== _releaseAnimData.lastFlickSpeed.x > 0 ) {
 					// "return to current" duration, e.g. when dragging from slide 0 to -1
 					finishAnimDuration = 333;
 				} else {
@@ -2383,15 +2384,15 @@
 				return itemChanged;
 			},
 
-			_calculateZoomLevel                = function( touchesDistance ) {
+			_calculateZoomLevel = function( touchesDistance ) {
 				return 1 / _startPointsDistance * touchesDistance * _startZoomLevel;
 			},
 
 			// Resets zoom if it's out of bounds
-			_completeZoomGesture               = function() {
+			_completeZoomGesture = function() {
 				var destZoomLevel = _currZoomLevel,
-					minZoomLevel  = _getMinZoomLevel(),
-					maxZoomLevel  = _getMaxZoomLevel();
+					minZoomLevel = _getMinZoomLevel(),
+					maxZoomLevel = _getMaxZoomLevel();
 
 				if ( _currZoomLevel < minZoomLevel ) {
 					destZoomLevel = minZoomLevel;
@@ -2399,11 +2400,11 @@
 					destZoomLevel = maxZoomLevel;
 				}
 
-				var destOpacity    = 1,
+				var destOpacity = 1,
 					onUpdate,
 					initialOpacity = _bgOpacity;
 
-				if ( _opacityChanged && !_isZoomingIn && !_wasOverInitialZoom && _currZoomLevel < minZoomLevel ) {
+				if ( _opacityChanged && ! _isZoomingIn && ! _wasOverInitialZoom && _currZoomLevel < minZoomLevel ) {
 					//_closedByScroll = true;
 					self.close();
 					return true;
@@ -2460,7 +2461,7 @@
 					_upMoveEvents = _dragMoveEvent + ' ' + _dragEndEvent + ' ' + _dragCancelEvent;
 					_downEvents = _dragStartEvent;
 
-					if ( _pointerEventEnabled && !_likelyTouchDevice ) {
+					if ( _pointerEventEnabled && ! _likelyTouchDevice ) {
 						_likelyTouchDevice = ( navigator.maxTouchPoints > 1 ) || ( navigator.msMaxTouchPoints > 1 );
 					}
 					// make variable public
@@ -2483,7 +2484,7 @@
 						_globalEventHandlers.mouseup = _globalEventHandlers[ _dragEndEvent ];
 					}
 
-					if ( !_likelyTouchDevice ) {
+					if ( ! _likelyTouchDevice ) {
 						// don't allow pan to next slide from zoomed state on Desktop
 						_options.allowPanToNext = false;
 					}
@@ -2532,7 +2533,7 @@
 
 				var onComplete = function() {
 					_stopAnimation( 'initialZoom' );
-					if ( !out ) {
+					if ( ! out ) {
 						_applyBgOpacity( 1 );
 						if ( img ) {
 							img.style.display = 'block';
@@ -2551,7 +2552,7 @@
 				};
 
 				// if bounds aren't provided, just open gallery without animation
-				if ( !duration || !thumbBounds || thumbBounds.x === undefined ) {
+				if ( ! duration || ! thumbBounds || thumbBounds.x === undefined ) {
 
 					_shout( 'initialZoom' + ( out ? 'Out' : 'In' ) );
 
@@ -2574,15 +2575,15 @@
 				}
 
 				var startAnimation = function() {
-					var closeWithRaf   = _closedByScroll,
-						fadeEverything = !self.currItem.src || self.currItem.loadError || _options.showHideOpacity;
+					var closeWithRaf = _closedByScroll,
+						fadeEverything = ! self.currItem.src || self.currItem.loadError || _options.showHideOpacity;
 
 					// apply hw-acceleration to image
 					if ( item.miniImg ) {
 						item.miniImg.style.webkitBackfaceVisibility = 'hidden';
 					}
 
-					if ( !out ) {
+					if ( ! out ) {
 						_currZoomLevel = thumbBounds.w / item.w;
 						_panOffset.x = thumbBounds.x;
 						_panOffset.y = thumbBounds.y - _initalWindowScrollY;
@@ -2593,7 +2594,7 @@
 
 					_registerStartAnimation( 'initialZoom' );
 
-					if ( out && !closeWithRaf ) {
+					if ( out && ! closeWithRaf ) {
 						framework.removeClass( template, 'pswp--animated-in' );
 					}
 
@@ -2612,7 +2613,7 @@
 						_shout( 'initialZoom' + ( out ? 'Out' : 'In' ) );
 
 
-						if ( !out ) {
+						if ( ! out ) {
 
 							// "in" animation always uses CSS transitions (instead of rAF).
 							// CSS transition work faster here,
@@ -2634,14 +2635,14 @@
 						} else {
 
 							// "out" animation uses rAF only when PhotoSwipe is closed by browser scroll, to recalculate position
-							var destZoomLevel    = thumbBounds.w / item.w,
+							var destZoomLevel = thumbBounds.w / item.w,
 								initialPanOffset = {
 									x: _panOffset.x,
 									y: _panOffset.y
 								},
 								initialZoomLevel = _currZoomLevel,
-								initalBgOpacity  = _bgOpacity,
-								onUpdate         = function( now ) {
+								initalBgOpacity = _bgOpacity,
+								onUpdate = function( now ) {
 
 									if ( now === 1 ) {
 										_currZoomLevel = destZoomLevel;
@@ -2688,16 +2689,16 @@
 		 */
 
 		var _items,
-			_tempPanAreaSize          = {},
-			_imagesToAppendPool       = [],
+			_tempPanAreaSize = {},
+			_imagesToAppendPool = [],
 			_initialContentSet,
 			_initialZoomRunning,
 			_controllerDefaultOptions = {
-				index:                   0,
-				errorMsg:                '<div class="pswp__error-msg"><a href="%url%" target="_blank">The image</a> could not be loaded.</div>',
+				index: 0,
+				errorMsg: '<div class="pswp__error-msg"><a href="%url%" target="_blank">The image</a> could not be loaded.</div>',
 				forceProgressiveLoading: false, // TOD0
-				preload:                 [1, 1],
-				getNumItemsFn:           function() {
+				preload: [ 1, 1 ],
+				getNumItemsFn: function() {
 					return _items.length;
 				}
 			};
@@ -2706,11 +2707,11 @@
 		var _getItemAt,
 			_getNumItems,
 			_initialIsLoop,
-			_getZeroBounds                = function() {
+			_getZeroBounds = function() {
 				return {
 					center: { x: 0, y: 0 },
-					max:    { x: 0, y: 0 },
-					min:    { x: 0, y: 0 }
+					max: { x: 0, y: 0 },
+					min: { x: 0, y: 0 }
 				};
 			},
 			_calculateSingleItemPanBounds = function( item, realPanElementW, realPanElementH ) {
@@ -2733,13 +2734,13 @@
 				bounds.min.x = ( realPanElementW > _tempPanAreaSize.x ) ? 0 : bounds.center.x;
 				bounds.min.y = ( realPanElementH > _tempPanAreaSize.y ) ? item.vGap.top : bounds.center.y;
 			},
-			_calculateItemSize            = function( item, viewportSize, zoomLevel ) {
+			_calculateItemSize = function( item, viewportSize, zoomLevel ) {
 
-				if ( item.src && !item.loadError ) {
-					var isInitial = !zoomLevel;
+				if ( item.src && ! item.loadError ) {
+					var isInitial = ! zoomLevel;
 
 					if ( isInitial ) {
-						if ( !item.vGap ) {
+						if ( ! item.vGap ) {
 							item.vGap = { top: 0, bottom: 0 };
 						}
 						// allows overriding vertical margin for individual items
@@ -2771,13 +2772,13 @@
 
 						item.initialZoomLevel = zoomLevel;
 
-						if ( !item.bounds ) {
+						if ( ! item.bounds ) {
 							// reuse bounds object
 							item.bounds = _getZeroBounds();
 						}
 					}
 
-					if ( !zoomLevel ) {
+					if ( ! zoomLevel ) {
 						return;
 					}
 
@@ -2801,7 +2802,7 @@
 			},
 
 
-			_appendImage                  = function( index, item, baseDiv, img, preventAnimation, keepPlaceholder ) {
+			_appendImage = function( index, item, baseDiv, img, preventAnimation, keepPlaceholder ) {
 
 
 				if ( item.loadError ) {
@@ -2827,7 +2828,7 @@
 			},
 
 
-			_preloadImage                 = function( item ) {
+			_preloadImage = function( item ) {
 				item.loading = true;
 				item.loaded = false;
 				var img = item.img = framework.createEl( 'pswp__img', 'img' );
@@ -2853,7 +2854,7 @@
 
 				return img;
 			},
-			_checkForError                = function( item, cleanUp ) {
+			_checkForError = function( item, cleanUp ) {
 				if ( item.src && item.loadError && item.container ) {
 
 					if ( cleanUp ) {
@@ -2865,19 +2866,19 @@
 
 				}
 			},
-			_setImageSize                 = function( item, img, maxRes ) {
-				if ( !item.src ) {
+			_setImageSize = function( item, img, maxRes ) {
+				if ( ! item.src ) {
 					return;
 				}
 
-				if ( !img ) {
+				if ( ! img ) {
 					img = item.container.lastChild;
 				}
 
 				var w = maxRes ? item.w : Math.round( item.w * item.fitRatio ),
 					h = maxRes ? item.h : Math.round( item.h * item.fitRatio );
 
-				if ( item.placeholder && !item.loaded ) {
+				if ( item.placeholder && ! item.loaded ) {
 					item.placeholder.style.width = w + 'px';
 					item.placeholder.style.height = h + 'px';
 				}
@@ -2885,7 +2886,7 @@
 				img.style.width = w + 'px';
 				img.style.height = h + 'px';
 			},
-			_appendImagesPool             = function() {
+			_appendImagesPool = function() {
 
 				if ( _imagesToAppendPool.length ) {
 					var poolItem;
@@ -2905,17 +2906,17 @@
 
 			publicMethods: {
 
-				lazyLoadItem:   function( index ) {
+				lazyLoadItem: function( index ) {
 					index = _getLoopedId( index );
 					var item = _getItemAt( index );
 
-					if ( !item || ( ( item.loaded || item.loading ) && !_itemsNeedUpdate ) ) {
+					if ( ! item || ( ( item.loaded || item.loading ) && ! _itemsNeedUpdate ) ) {
 						return;
 					}
 
 					_shout( 'gettingData', index, item );
 
-					if ( !item.src ) {
+					if ( ! item.src ) {
 						return;
 					}
 
@@ -2935,10 +2936,10 @@
 
 					_listen( 'beforeChange', function( diff ) {
 
-						var p             = _options.preload,
-							isNext        = diff === null ? true : ( diff >= 0 ),
+						var p = _options.preload,
+							isNext = diff === null ? true : ( diff >= 0 ),
 							preloadBefore = Math.min( p[ 0 ], _getNumItems() ),
-							preloadAfter  = Math.min( p[ 1 ], _getNumItems() ),
+							preloadAfter = Math.min( p[ 1 ], _getNumItems() ),
 							i;
 
 
@@ -3002,7 +3003,7 @@
 					// 3. Progressive image loading sometimes doesn't work in IE (up to 11).
 
 					// Don't allow progressive loading on non-large touch devices
-					return _options.forceProgressiveLoading || !_likelyTouchDevice || _options.mouseUsed || screen.width > 1200;
+					return _options.forceProgressiveLoading || ! _likelyTouchDevice || _options.mouseUsed || screen.width > 1200;
 					// 1200 - to eliminate touch devices with large screen (like Chromebook Pixel)
 				},
 
@@ -3020,7 +3021,7 @@
 					var item = self.getItemAt( index ),
 						img;
 
-					if ( !item ) {
+					if ( ! item ) {
 						holder.el.innerHTML = '';
 						return;
 					}
@@ -3035,7 +3036,7 @@
 					var baseDiv = item.container = framework.createEl( 'pswp__zoom-wrap' );
 
 
-					if ( !item.src && item.html ) {
+					if ( ! item.src && item.html ) {
 						if ( item.html.tagName ) {
 							baseDiv.appendChild( item.html );
 						} else {
@@ -3047,12 +3048,12 @@
 
 					_calculateItemSize( item, _viewportSize );
 
-					if ( item.src && !item.loadError && !item.loaded ) {
+					if ( item.src && ! item.loadError && ! item.loaded ) {
 
 						item.loadComplete = function( item ) {
 
 							// gallery closed before image finished loading
-							if ( !_isOpen ) {
+							if ( ! _isOpen ) {
 								return;
 							}
 
@@ -3069,14 +3070,14 @@
 									}
 									return;
 								}
-								if ( !item.imageAppended ) {
+								if ( ! item.imageAppended ) {
 									if ( _features.transform && ( _mainScrollAnimating || _initialZoomRunning ) ) {
 										_imagesToAppendPool.push( {
-											item:             item,
-											baseDiv:          baseDiv,
-											img:              item.img,
-											index:            index,
-											holder:           holder,
+											item: item,
+											baseDiv: baseDiv,
+											img: item.img,
+											index: index,
+											holder: holder,
 											clearPlaceholder: true
 										} );
 									} else {
@@ -3084,7 +3085,7 @@
 									}
 								} else {
 									// remove preloader & mini-img
-									if ( !_initialZoomRunning && item.placeholder ) {
+									if ( ! _initialZoomRunning && item.placeholder ) {
 										item.placeholder.style.display = 'none';
 										item.placeholder = null;
 									}
@@ -3115,27 +3116,27 @@
 						}
 
 
-						if ( !item.loading ) {
+						if ( ! item.loading ) {
 							_preloadImage( item );
 						}
 
 
 						if ( self.allowProgressiveImg() ) {
 							// just append image
-							if ( !_initialContentSet && _features.transform ) {
+							if ( ! _initialContentSet && _features.transform ) {
 								_imagesToAppendPool.push( {
-									item:    item,
+									item: item,
 									baseDiv: baseDiv,
-									img:     item.img,
-									index:   index,
-									holder:  holder
+									img: item.img,
+									index: index,
+									holder: holder
 								} );
 							} else {
 								_appendImage( index, item, baseDiv, item.img, true, true );
 							}
 						}
 
-					} else if ( item.src && !item.loadError ) {
+					} else if ( item.src && ! item.loadError ) {
 						// image object is created every time, due to bugs of image loading & delay when switching images
 						img = framework.createEl( 'pswp__img', 'img' );
 						img.style.opacity = 1;
@@ -3145,7 +3146,7 @@
 					}
 
 
-					if ( !_initialContentSet && index === _currentItemIndex ) {
+					if ( ! _initialContentSet && index === _currentItemIndex ) {
 						_currZoomElementStyle = baseDiv.style;
 						_showOrHide( item, ( img || item.img ) );
 					} else {
@@ -3177,14 +3178,14 @@
 		 */
 
 		var tapTimer,
-			tapReleasePoint   = {},
+			tapReleasePoint = {},
 			_dispatchTapEvent = function( origEvent, releasePoint, pointerType ) {
-				var e       = document.createEvent( 'CustomEvent' ),
+				var e = document.createEvent( 'CustomEvent' ),
 					eDetail = {
-						origEvent:    origEvent,
-						target:       origEvent.target,
+						origEvent: origEvent,
+						target: origEvent.target,
 						releasePoint: releasePoint,
-						pointerType:  pointerType || 'touch'
+						pointerType: pointerType || 'touch'
 					};
 
 				e.initCustomEvent( 'pswpTap', true, true, eDetail );
@@ -3193,7 +3194,7 @@
 
 		_registerModule( 'Tap', {
 			publicMethods: {
-				initTap:      function() {
+				initTap: function() {
 					_listen( 'firstTouchStart', self.onTapStart );
 					_listen( 'touchRelease', self.onTapRelease );
 					_listen( 'destroy', function() {
@@ -3201,18 +3202,18 @@
 						tapTimer = null;
 					} );
 				},
-				onTapStart:   function( touchList ) {
+				onTapStart: function( touchList ) {
 					if ( touchList.length > 1 ) {
 						clearTimeout( tapTimer );
 						tapTimer = null;
 					}
 				},
 				onTapRelease: function( e, releasePoint ) {
-					if ( !releasePoint ) {
+					if ( ! releasePoint ) {
 						return;
 					}
 
-					if ( !_moved && !_isMultitouch && !_numAnimations ) {
+					if ( ! _moved && ! _isMultitouch && ! _numAnimations ) {
 						var p0 = releasePoint;
 						if ( tapTimer ) {
 							clearTimeout( tapTimer );
@@ -3306,7 +3307,7 @@
 					self.mouseZoomedIn = false;
 
 					var hasDraggingClass,
-						updateZoomable      = function() {
+						updateZoomable = function() {
 							if ( self.mouseZoomedIn ) {
 								framework.removeClass( template, 'pswp--zoomed-in' );
 								self.mouseZoomedIn = false;
@@ -3335,7 +3336,7 @@
 					} );
 					_listen( 'pointerUp', removeDraggingClass );
 
-					if ( !onInit ) {
+					if ( ! onInit ) {
 						updateZoomable();
 					}
 
@@ -3346,7 +3347,7 @@
 					if ( _currZoomLevel <= self.currItem.fitRatio ) {
 						if ( _options.modal ) {
 
-							if ( !_options.closeOnScroll || _numAnimations || _isDragging ) {
+							if ( ! _options.closeOnScroll || _numAnimations || _isDragging ) {
 								e.preventDefault();
 							} else if ( _transformKey && Math.abs( e.deltaY ) > 2 ) {
 								// close PhotoSwipe
@@ -3416,10 +3417,10 @@
 					var doubleTapZoomLevel = _options.getDoubleTapZoom( true, self.currItem );
 					var zoomOut = _currZoomLevel === doubleTapZoomLevel;
 
-					self.mouseZoomedIn = !zoomOut;
+					self.mouseZoomedIn = ! zoomOut;
 
 					self.zoomTo( zoomOut ? self.currItem.initialZoomLevel : doubleTapZoomLevel, centerPoint, 333 );
-					framework[ ( !zoomOut ? 'add' : 'remove' ) + 'Class' ]( template, 'pswp--zoomed-in' );
+					framework[ ( ! zoomOut ? 'add' : 'remove' ) + 'Class' ]( template, 'pswp--zoomed-in' );
 				}
 
 			}
@@ -3444,7 +3445,7 @@
 
 
 		var _historyDefaultOptions = {
-			history:    true,
+			history: true,
 			galleryUID: 1
 		};
 
@@ -3462,10 +3463,10 @@
 
 			_supportsPushState,
 
-			_getHash               = function() {
+			_getHash = function() {
 				return _windowLoc.hash.substring( 1 );
 			},
-			_cleanHistoryTimeouts  = function() {
+			_cleanHistoryTimeouts = function() {
 
 				if ( _historyUpdateTimeout ) {
 					clearTimeout( _historyUpdateTimeout );
@@ -3479,16 +3480,17 @@
 			// pid - Picture index
 			// gid - Gallery index
 			_parseItemIndexFromURL = function() {
-				var hash   = _getHash(),
+				var hash = _getHash(),
 					params = {};
 
 				if ( hash.length < 5 ) { // pid=1
 					return params;
 				}
 
-				var i, vars = hash.split( '&' );
+				var i,
+					vars = hash.split( '&' );
 				for ( i = 0; i < vars.length; i++ ) {
-					if ( !vars[ i ] ) {
+					if ( ! vars[ i ] ) {
 						continue;
 					}
 					var pair = vars[ i ].split( '=' );
@@ -3515,7 +3517,7 @@
 				}
 				return params;
 			},
-			_updateHash            = function() {
+			_updateHash = function() {
 
 				if ( _hashAnimCheckTimeout ) {
 					clearTimeout( _hashAnimCheckTimeout );
@@ -3544,7 +3546,7 @@
 				}
 				var newHash = _initialHash + '&' + 'gid=' + _options.galleryUID + '&' + 'pid=' + pid;
 
-				if ( !_historyChanged ) {
+				if ( ! _historyChanged ) {
 					if ( _windowLoc.hash.indexOf( newHash ) === -1 ) {
 						_urlChangedOnce = true;
 					}
@@ -3579,11 +3581,11 @@
 
 
 			publicMethods: {
-				initHistory:  function() {
+				initHistory: function() {
 
 					framework.extend( _options, _historyDefaultOptions, true );
 
-					if ( !_options.history ) {
+					if ( ! _options.history ) {
 						return;
 					}
 
@@ -3610,7 +3612,7 @@
 
 					var returnToOriginal = function() {
 						_hashReseted = true;
-						if ( !_closedFromURL ) {
+						if ( ! _closedFromURL ) {
 
 							if ( _urlChangedOnce ) {
 								history.back();
@@ -3643,7 +3645,7 @@
 						}
 					} );
 					_listen( 'destroy', function() {
-						if ( !_hashReseted ) {
+						if ( ! _hashReseted ) {
 							returnToOriginal();
 						}
 					} );
@@ -3676,7 +3678,7 @@
 						self.close();
 						return;
 					}
-					if ( !_hashChangedByScript ) {
+					if ( ! _hashChangedByScript ) {
 
 						_hashChangedByHistory = true;
 						self.goTo( _parseItemIndexFromURL().pid );
@@ -3684,7 +3686,7 @@
 					}
 
 				},
-				updateURL:    function() {
+				updateURL: function() {
 
 					// Delay the update of URL, to avoid lag during transition,
 					// and to not to trigger actions like "refresh page sound" or "blinking favicon" to often
@@ -3696,7 +3698,7 @@
 						return;
 					}
 
-					if ( !_historyChanged ) {
+					if ( ! _historyChanged ) {
 						_updateHash(); // first time
 					} else {
 						_historyUpdateTimeout = setTimeout( _updateHash, 800 );

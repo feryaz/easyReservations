@@ -8,7 +8,7 @@
 ( function( factory ) {
 	if ( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
-		define( ['jquery'], factory );
+		define( [ 'jquery' ], factory );
 	} else if ( typeof module === 'object' && module.exports ) {
 		// Node/CommonJS
 		module.exports = function( root, jQuery ) {
@@ -42,8 +42,8 @@
 		}
 		var S2;
 		( function() {
-			if ( !S2 || !S2.requirejs ) {
-				if ( !S2 ) {
+			if ( ! S2 || ! S2.requirejs ) {
+				if ( ! S2 ) {
 					S2 = {};
 				} else {
 					require = S2;
@@ -56,15 +56,20 @@
 //be followed.
 				/*global setTimeout: false */
 
-				var requirejs, require, define;
+				var requirejs,
+					require,
+					define;
 				( function( undef ) {
-					var main, req, makeMap, handlers,
-						defined        = {},
-						waiting        = {},
-						config         = {},
-						defining       = {},
-						hasOwn         = Object.prototype.hasOwnProperty,
-						aps            = [].slice,
+					var main,
+						req,
+						makeMap,
+						handlers,
+						defined = {},
+						waiting = {},
+						config = {},
+						defining = {},
+						hasOwn = Object.prototype.hasOwnProperty,
+						aps = [].slice,
 						jsSuffixRegExp = /\.js$/;
 
 					function hasProp( obj, prop ) {
@@ -80,11 +85,21 @@
 					 * @returns {String} normalized name
 					 */
 					function normalize( name, baseName ) {
-						var nameParts, nameSegment, mapValue, foundMap, lastIndex,
-							foundI, foundStarMap, starI, i, j, part, normalizedBaseParts,
+						var nameParts,
+							nameSegment,
+							mapValue,
+							foundMap,
+							lastIndex,
+							foundI,
+							foundStarMap,
+							starI,
+							i,
+							j,
+							part,
+							normalizedBaseParts,
 							baseParts = baseName && baseName.split( "/" ),
-							map       = config.map,
-							starMap   = ( map && map[ '*' ] ) || {};
+							map = config.map,
+							starMap = ( map && map[ '*' ] ) || {};
 
 						//Adjust any relative paths.
 						if ( name ) {
@@ -169,13 +184,13 @@
 								//Check for a star map match, but just hold on to it,
 								//if there is a shorter segment match later in a matching
 								//config, then favor over this star map.
-								if ( !foundStarMap && starMap && starMap[ nameSegment ] ) {
+								if ( ! foundStarMap && starMap && starMap[ nameSegment ] ) {
 									foundStarMap = starMap[ nameSegment ];
 									starI = i;
 								}
 							}
 
-							if ( !foundMap && foundStarMap ) {
+							if ( ! foundMap && foundStarMap ) {
 								foundMap = foundStarMap;
 								foundI = starI;
 							}
@@ -202,7 +217,7 @@
 							if ( typeof args[ 0 ] !== 'string' && args.length === 1 ) {
 								args.push( null );
 							}
-							return req.apply( undef, args.concat( [relName, forceSync] ) );
+							return req.apply( undef, args.concat( [ relName, forceSync ] ) );
 						};
 					}
 
@@ -226,7 +241,7 @@
 							main.apply( undef, args );
 						}
 
-						if ( !hasProp( defined, name ) && !hasProp( defining, name ) ) {
+						if ( ! hasProp( defined, name ) && ! hasProp( defining, name ) ) {
 							throw new Error( 'No ' + name );
 						}
 						return defined[ name ];
@@ -242,7 +257,7 @@
 							prefix = name.substring( 0, index );
 							name = name.substring( index + 1, name.length );
 						}
-						return [prefix, name];
+						return [ prefix, name ];
 					}
 
 					//Creates a parts array for a relName where first part is plugin ID,
@@ -258,8 +273,8 @@
 					 */
 					makeMap = function( name, relParts ) {
 						var plugin,
-							parts           = splitPrefix( name ),
-							prefix          = parts[ 0 ],
+							parts = splitPrefix( name ),
+							prefix = parts[ 0 ],
 							relResourceName = relParts[ 1 ];
 
 						name = parts[ 1 ];
@@ -288,10 +303,10 @@
 
 						//Using ridiculous property names for space reasons
 						return {
-							f:  prefix ? prefix + '!' + name : name, //fullName
-							n:  name,
+							f: prefix ? prefix + '!' + name : name, //fullName
+							n: name,
 							pr: prefix,
-							p:  plugin
+							p: plugin
 						};
 					};
 
@@ -313,19 +328,24 @@
 								return ( defined[ name ] = {} );
 							}
 						},
-						module:  function( name ) {
+						module: function( name ) {
 							return {
-								id:      name,
-								uri:     '',
+								id: name,
+								uri: '',
 								exports: defined[ name ],
-								config:  makeConfig( name )
+								config: makeConfig( name )
 							};
 						}
 					};
 
 					main = function( name, deps, callback, relName ) {
-						var cjsModule, depName, ret, map, i, relParts,
-							args         = [],
+						var cjsModule,
+							depName,
+							ret,
+							map,
+							i,
+							relParts,
+							args = [],
 							callbackType = typeof callback,
 							usingExports;
 
@@ -338,7 +358,7 @@
 							//Pull out the defined dependencies and pass the ordered
 							//values to the callback.
 							//Default to [require, exports, module] if no deps
-							deps = !deps.length && callback.length ? ['require', 'exports', 'module'] : deps;
+							deps = ! deps.length && callback.length ? [ 'require', 'exports', 'module' ] : deps;
 							for ( i = 0; i < deps.length; i += 1 ) {
 								map = makeMap( deps[ i ], relParts );
 								depName = map.f;
@@ -374,7 +394,7 @@
 								if ( cjsModule && cjsModule.exports !== undef &&
 									cjsModule.exports !== defined[ name ] ) {
 									defined[ name ] = cjsModule.exports;
-								} else if ( ret !== undef || !usingExports ) {
+								} else if ( ret !== undef || ! usingExports ) {
 									//Use the return value from the function.
 									defined[ name ] = ret;
 								}
@@ -397,13 +417,13 @@
 							//is just the relName.
 							//Normalize module name, if it contains . or ..
 							return callDep( makeMap( deps, makeRelParts( callback ) ).f );
-						} else if ( !deps.splice ) {
+						} else if ( ! deps.splice ) {
 							//deps is a config object, not an array.
 							config = deps;
 							if ( config.deps ) {
 								req( config.deps, config.callback );
 							}
-							if ( !callback ) {
+							if ( ! callback ) {
 								return;
 							}
 
@@ -466,7 +486,7 @@
 						}
 
 						//This module may not have dependencies
-						if ( !deps.splice ) {
+						if ( ! deps.splice ) {
 							//deps is not an array, so probably means
 							//an object literal or factory function for
 							//the value. Adjust args.
@@ -474,8 +494,8 @@
 							deps = [];
 						}
 
-						if ( !hasProp( defined, name ) && !hasProp( waiting, name ) ) {
-							waiting[ name ] = [name, deps, callback];
+						if ( ! hasProp( defined, name ) && ! hasProp( waiting, name ) ) {
+							waiting[ name ] = [ name, deps, callback ];
 						}
 					};
 
@@ -628,7 +648,7 @@
 				if ( event in this.listeners ) {
 					this.listeners[ event ].push( callback );
 				} else {
-					this.listeners[ event ] = [callback];
+					this.listeners[ event ] = [ callback ];
 				}
 			};
 
@@ -702,7 +722,7 @@
 						// By default, dash-separated becomes camelCase
 						key = key.substring( 0, 1 ).toLowerCase() + key.substring( 1 );
 
-						if ( !( key in dataLevel ) ) {
+						if ( ! ( key in dataLevel ) ) {
 							dataLevel[ key ] = {};
 						}
 
@@ -747,12 +767,12 @@
 			Utils.escapeMarkup = function( markup ) {
 				var replaceMap = {
 					'\\': '&#92;',
-					'&':  '&amp;',
-					'<':  '&lt;',
-					'>':  '&gt;',
-					'"':  '&quot;',
+					'&': '&amp;',
+					'<': '&lt;',
+					'>': '&gt;',
+					'"': '&quot;',
 					'\'': '&#39;',
-					'/':  '&#47;'
+					'/': '&#47;'
 				};
 
 				// Do not try to escape the markup if it's not a string
@@ -948,8 +968,8 @@
 
 				var loading = {
 					disabled: true,
-					loading:  true,
-					text:     loadingMore( params )
+					loading: true,
+					text: loadingMore( params )
 				};
 				var $loading = this.option( loading );
 				$loading.className += ' loading-results';
@@ -966,9 +986,9 @@
 				option.className = 'select2-results__option';
 
 				var attrs = {
-					'role':          'option',
+					'role': 'option',
 					'data-selected': 'false',
-					'tabindex':      -1
+					'tabindex': -1
 				};
 
 				if ( data.disabled ) {
@@ -1021,7 +1041,7 @@
 
 					var $childrenContainer = $( '<ul></ul>', {
 						'class': 'select2-results__options select2-results__options--nested',
-						'role':  'listbox'
+						'role': 'listbox'
 					} );
 					$childrenContainer.append( $children );
 					$option.attr( 'role', 'list' );
@@ -1068,7 +1088,7 @@
 				} );
 
 				container.on( 'select', function() {
-					if ( !container.isOpen() ) {
+					if ( ! container.isOpen() ) {
 						return;
 					}
 
@@ -1077,7 +1097,7 @@
 				} );
 
 				container.on( 'unselect', function() {
-					if ( !container.isOpen() ) {
+					if ( ! container.isOpen() ) {
 						return;
 					}
 
@@ -1237,7 +1257,7 @@
 							if ( self.options.get( 'multiple' ) ) {
 								self.trigger( 'unselect', {
 									originalEvent: evt,
-									data:          data
+									data: data
 								} );
 							} else {
 								self.trigger( 'close', {} );
@@ -1248,7 +1268,7 @@
 
 						self.trigger( 'select', {
 							originalEvent: evt,
-							data:          data
+							data: data
 						} );
 					} );
 
@@ -1261,7 +1281,7 @@
 							.attr( 'aria-selected', 'false' );
 
 						self.trigger( 'results:focus', {
-							data:    data,
+							data: data,
 							element: $( this )
 						} );
 					} );
@@ -1324,22 +1344,22 @@
 		S2.define( 'select2/keys', [], function() {
 			var KEYS = {
 				BACKSPACE: 8,
-				TAB:       9,
-				ENTER:     13,
-				SHIFT:     16,
-				CTRL:      17,
-				ALT:       18,
-				ESC:       27,
-				SPACE:     32,
-				PAGE_UP:   33,
+				TAB: 9,
+				ENTER: 13,
+				SHIFT: 16,
+				CTRL: 17,
+				ALT: 18,
+				ESC: 27,
+				SPACE: 32,
+				PAGE_UP: 33,
 				PAGE_DOWN: 34,
-				END:       35,
-				HOME:      36,
-				LEFT:      37,
-				UP:        38,
-				RIGHT:     39,
-				DOWN:      40,
-				DELETE:    46
+				END: 35,
+				HOME: 36,
+				LEFT: 37,
+				UP: 38,
+				RIGHT: 39,
+				DOWN: 40,
+				DELETE: 46
 			};
 
 			return KEYS;
@@ -1575,7 +1595,7 @@
 
 				this.$selection.on( 'keydown', function( evt ) {
 					// If user starts typing an alphanumeric key on the keyboard, open if not opened.
-					if ( !container.isOpen() && evt.which >= 48 && evt.which <= 90 ) {
+					if ( ! container.isOpen() && evt.which >= 48 && evt.which <= 90 ) {
 						container.open();
 					}
 				} );
@@ -1585,7 +1605,7 @@
 				} );
 
 				container.on( 'focus', function( evt ) {
-					if ( !container.isOpen() ) {
+					if ( ! container.isOpen() ) {
 						self.$selection.focus();
 					}
 				} );
@@ -1678,14 +1698,14 @@
 
 						self.trigger( 'unselect', {
 							originalEvent: evt,
-							data:          data
+							data: data
 						} );
 					}
 				);
 
 				this.$selection.on( 'keydown', function( evt ) {
 					// If user starts typing an alphanumeric key on the keyboard, open if not opened.
-					if ( !container.isOpen() && evt.which >= 48 && evt.which <= 90 ) {
+					if ( ! container.isOpen() && evt.which >= 48 && evt.which <= 90 ) {
 						container.open();
 					}
 				} );
@@ -1783,7 +1803,7 @@
 			Placeholder.prototype.normalizePlaceholder = function( _, placeholder ) {
 				if ( typeof placeholder === 'string' ) {
 					placeholder = {
-						id:   '',
+						id: '',
 						text: placeholder
 					};
 				}
@@ -2110,7 +2130,7 @@
 			Search.prototype.handleSearch = function() {
 				this.resizeSearch();
 
-				if ( !this._keyUpPrevented ) {
+				if ( ! this._keyUpPrevented ) {
 					var input = this.$search.val();
 
 					this.trigger( 'query', {
@@ -2164,7 +2184,7 @@
 					'unselect', 'unselecting'
 				];
 
-				var preventableEvents = ['opening', 'closing', 'selecting', 'unselecting'];
+				var preventableEvents = [ 'opening', 'closing', 'selecting', 'unselecting' ];
 
 				decorated.call( this, container, $container );
 
@@ -2221,7 +2241,7 @@
 			Translation._cache = {};
 
 			Translation.loadPath = function( path ) {
-				if ( !( path in Translation._cache ) ) {
+				if ( ! ( path in Translation._cache ) ) {
 					var translations = require( path );
 
 					Translation._cache[ path ] = translations;
@@ -3174,7 +3194,7 @@
 					this.current( function( currentData ) {
 						var val = [];
 
-						data = [data];
+						data = [ data ];
 						data.push.apply( data, currentData );
 
 						for ( var d = 0; d < data.length; d++ ) {
@@ -3199,7 +3219,7 @@
 			SelectAdapter.prototype.unselect = function( data ) {
 				var self = this;
 
-				if ( !this.$element.prop( 'multiple' ) ) {
+				if ( ! this.$element.prop( 'multiple' ) ) {
 					return;
 				}
 
@@ -3261,7 +3281,7 @@
 				$options.each( function() {
 					var $option = $( this );
 
-					if ( !$option.is( 'option' ) && !$option.is( 'optgroup' ) ) {
+					if ( ! $option.is( 'option' ) && ! $option.is( 'optgroup' ) ) {
 						return;
 					}
 
@@ -3337,17 +3357,17 @@
 
 				if ( $option.is( 'option' ) ) {
 					data = {
-						id:       $option.val(),
-						text:     $option.text(),
+						id: $option.val(),
+						text: $option.text(),
 						disabled: $option.prop( 'disabled' ),
 						selected: $option.prop( 'selected' ),
-						title:    $option.prop( 'title' )
+						title: $option.prop( 'title' )
 					};
 				} else if ( $option.is( 'optgroup' ) ) {
 					data = {
-						text:     $option.prop( 'label' ),
+						text: $option.prop( 'label' ),
 						children: [],
-						title:    $option.prop( 'title' )
+						title: $option.prop( 'title' )
 					};
 
 					var $children = $option.children( 'option' );
@@ -3373,9 +3393,9 @@
 			};
 
 			SelectAdapter.prototype._normalizeItem = function( item ) {
-				if ( !$.isPlainObject( item ) ) {
+				if ( ! $.isPlainObject( item ) ) {
 					item = {
-						id:   item,
+						id: item,
 						text: item
 					};
 				}
@@ -3512,7 +3532,7 @@
 
 			AjaxAdapter.prototype._applyDefaults = function( options ) {
 				var defaults = {
-					data:      function( params ) {
+					data: function( params ) {
 						return $.extend( {}, params, {
 							q: params.term
 						} );
@@ -3565,7 +3585,7 @@
 
 						if ( self.options.get( 'debug' ) && window.console && console.error ) {
 							// Check to make sure that the response included a `results` key.
-							if ( !results || !results.results || !$.isArray( results.results ) ) {
+							if ( ! results || ! results.results || ! $.isArray( results.results ) ) {
 								console.error(
 									'Select2: The AJAX results did not return an array in the ' +
 									'`results` key of the response.'
@@ -3654,7 +3674,7 @@
 
 						var checkChildren = (
 							option.children != null &&
-							!wrapper( {
+							! wrapper( {
 								results: option.children
 							}, true )
 						);
@@ -3686,7 +3706,7 @@
 						var $option = self.option( tag );
 						$option.attr( 'data-select2-tag', true );
 
-						self.addOptions( [$option] );
+						self.addOptions( [ $option ] );
 
 						self.insertTag( data, tag );
 					}
@@ -3707,7 +3727,7 @@
 				}
 
 				return {
-					id:   term,
+					id: term,
 					text: term
 				};
 			};
@@ -3767,12 +3787,12 @@
 					} );
 
 					// If an existing option wasn't found for it, create the option
-					if ( !$existingOptions.length ) {
+					if ( ! $existingOptions.length ) {
 						var $option = self.option( item );
 						$option.attr( 'data-select2-tag', true );
 
 						self._removeOldTags();
-						self.addOptions( [$option] );
+						self.addOptions( [ $option ] );
 					}
 
 					// Select the item, now that we know there is an option for it
@@ -3809,7 +3829,7 @@
 
 				var createTag = this.createTag || function( params ) {
 					return {
-						id:   params.term,
+						id: params.term,
 						text: params.term
 					};
 				};
@@ -3863,10 +3883,10 @@
 				if ( params.term.length < this.minimumInputLength ) {
 					this.trigger( 'results:message', {
 						message: 'inputTooShort',
-						args:    {
+						args: {
 							minimum: this.minimumInputLength,
-							input:   params.term,
-							params:  params
+							input: params.term,
+							params: params
 						}
 					} );
 
@@ -3893,10 +3913,10 @@
 					params.term.length > this.maximumInputLength ) {
 					this.trigger( 'results:message', {
 						message: 'inputTooLong',
-						args:    {
+						args: {
 							maximum: this.maximumInputLength,
-							input:   params.term,
-							params:  params
+							input: params.term,
+							params: params
 						}
 					} );
 
@@ -3926,7 +3946,7 @@
 							count >= self.maximumSelectionLength ) {
 							self.trigger( 'results:message', {
 								message: 'maximumSelected',
-								args:    {
+								args: {
 									maximum: self.maximumSelectionLength
 								}
 							} );
@@ -4050,7 +4070,7 @@
 				} );
 
 				container.on( 'focus', function() {
-					if ( !container.isOpen() ) {
+					if ( ! container.isOpen() ) {
 						self.$search.focus();
 					}
 				} );
@@ -4073,7 +4093,7 @@
 			};
 
 			Search.prototype.handleSearch = function( evt ) {
-				if ( !this._keyUpPrevented ) {
+				if ( ! this._keyUpPrevented ) {
 					var input = this.$search.val();
 
 					this.trigger( 'query', {
@@ -4107,7 +4127,7 @@
 			HidePlaceholder.prototype.normalizePlaceholder = function( _, placeholder ) {
 				if ( typeof placeholder === 'string' ) {
 					placeholder = {
-						id:   '',
+						id: '',
 						text: placeholder
 					};
 				}
@@ -4176,7 +4196,7 @@
 						self.$loadingMore[ 0 ]
 					);
 
-					if ( self.loading || !isLoadMoreVisible ) {
+					if ( self.loading || ! isLoadMoreVisible ) {
 						return;
 					}
 
@@ -4243,7 +4263,7 @@
 					self._showDropdown();
 					self._attachPositioningHandler( container );
 
-					if ( !setupResultsEvents ) {
+					if ( ! setupResultsEvents ) {
 						setupResultsEvents = true;
 
 						container.on( 'results:all', function() {
@@ -4283,7 +4303,7 @@
 
 				$dropdown.css( {
 					position: 'absolute',
-					top:      -999999
+					top: -999999
 				} );
 
 				this.$container = $container;
@@ -4368,7 +4388,7 @@
 				};
 
 				var viewport = {
-					top:    $window.scrollTop(),
+					top: $window.scrollTop(),
 					bottom: $window.scrollTop() + $window.height()
 				};
 
@@ -4377,7 +4397,7 @@
 
 				var css = {
 					left: offset.left,
-					top:  container.bottom
+					top: container.bottom
 				};
 
 				// Determine what the parent element is to use for calciulating the offset
@@ -4394,13 +4414,13 @@
 				css.top -= parentOffset.top;
 				css.left -= parentOffset.left;
 
-				if ( !isCurrentlyAbove && !isCurrentlyBelow ) {
+				if ( ! isCurrentlyAbove && ! isCurrentlyBelow ) {
 					newDirection = 'below';
 				}
 
-				if ( !enoughRoomBelow && enoughRoomAbove && !isCurrentlyAbove ) {
+				if ( ! enoughRoomBelow && enoughRoomAbove && ! isCurrentlyAbove ) {
 					newDirection = 'above';
-				} else if ( !enoughRoomAbove && enoughRoomBelow && isCurrentlyAbove ) {
+				} else if ( ! enoughRoomAbove && enoughRoomBelow && isCurrentlyAbove ) {
 					newDirection = 'below';
 				}
 
@@ -4560,7 +4580,7 @@
 				}
 
 				this.trigger( 'close', {
-					originalEvent:        originalEvent,
+					originalEvent: originalEvent,
 					originalSelect2Event: evt
 				} );
 			};
@@ -4571,10 +4591,10 @@
 		S2.define( 'select2/i18n/en', [], function() {
 			// English
 			return {
-				errorLoading:    function() {
+				errorLoading: function() {
 					return 'The results could not be loaded.';
 				},
-				inputTooLong:    function( args ) {
+				inputTooLong: function( args ) {
 					var overChars = args.input.length - args.maximum;
 
 					var message = 'Please delete ' + overChars + ' character';
@@ -4585,14 +4605,14 @@
 
 					return message;
 				},
-				inputTooShort:   function( args ) {
+				inputTooShort: function( args ) {
 					var remainingChars = args.minimum - args.input.length;
 
 					var message = 'Please enter ' + remainingChars + ' or more characters';
 
 					return message;
 				},
-				loadingMore:     function() {
+				loadingMore: function() {
 					return 'Loading more results…';
 				},
 				maximumSelected: function( args ) {
@@ -4604,10 +4624,10 @@
 
 					return message;
 				},
-				noResults:       function() {
+				noResults: function() {
 					return 'No results found';
 				},
-				searching:       function() {
+				searching: function() {
 					return 'Searching…';
 				}
 			};
@@ -4650,15 +4670,15 @@
 
 			'./i18n/en'
 		], function( $, require,
-					 ResultsList,
-					 SingleSelection, MultipleSelection, Placeholder, AllowClear,
-					 SelectionSearch, EventRelay,
-					 Utils, Translation, DIACRITICS,
-					 SelectData, ArrayData, AjaxData, Tags, Tokenizer,
-					 MinimumInputLength, MaximumInputLength, MaximumSelectionLength,
-					 Dropdown, DropdownSearch, HidePlaceholder, InfiniteScroll,
-					 AttachBody, MinimumResultsForSearch, SelectOnClose, CloseOnSelect,
-					 EnglishTranslation ) {
+			ResultsList,
+			SingleSelection, MultipleSelection, Placeholder, AllowClear,
+			SelectionSearch, EventRelay,
+			Utils, Translation, DIACRITICS,
+			SelectData, ArrayData, AjaxData, Tags, Tokenizer,
+			MinimumInputLength, MaximumInputLength, MaximumSelectionLength,
+			Dropdown, DropdownSearch, HidePlaceholder, InfiniteScroll,
+			AttachBody, MinimumResultsForSearch, SelectOnClose, CloseOnSelect,
+			EnglishTranslation ) {
 			function Defaults() {
 				this.reset();
 			}
@@ -4848,9 +4868,9 @@
 						var languageParts = options.language.split( '-' );
 						var baseLanguage = languageParts[ 0 ];
 
-						options.language = [options.language, baseLanguage];
+						options.language = [ options.language, baseLanguage ];
 					} else {
-						options.language = [options.language];
+						options.language = [ options.language ];
 					}
 				}
 
@@ -4961,30 +4981,30 @@
 				}
 
 				this.defaults = {
-					amdBase:                 './',
-					amdLanguageBase:         './i18n/',
-					closeOnSelect:           true,
-					debug:                   false,
-					dropdownAutoWidth:       false,
-					escapeMarkup:            Utils.escapeMarkup,
-					language:                EnglishTranslation,
-					matcher:                 matcher,
-					minimumInputLength:      0,
-					maximumInputLength:      0,
-					maximumSelectionLength:  0,
+					amdBase: './',
+					amdLanguageBase: './i18n/',
+					closeOnSelect: true,
+					debug: false,
+					dropdownAutoWidth: false,
+					escapeMarkup: Utils.escapeMarkup,
+					language: EnglishTranslation,
+					matcher: matcher,
+					minimumInputLength: 0,
+					maximumInputLength: 0,
+					maximumSelectionLength: 0,
 					minimumResultsForSearch: 0,
-					selectOnClose:           false,
-					sorter:                  function( data ) {
+					selectOnClose: false,
+					sorter: function( data ) {
 						return data;
 					},
-					templateResult:          function( result ) {
+					templateResult: function( result ) {
 						return result.text;
 					},
-					templateSelection:       function( selection ) {
+					templateSelection: function( selection ) {
 						return selection.text;
 					},
-					theme:                   'default',
-					width:                   'resolve'
+					theme: 'default',
+					width: 'resolve'
 				};
 			};
 
@@ -5030,7 +5050,7 @@
 			}
 
 			Options.prototype.fromElement = function( $e ) {
-				var excludedData = ['select2'];
+				var excludedData = [ 'select2' ];
 
 				if ( this.options.multiple == null ) {
 					this.options.multiple = $e.prop( 'multiple' );
@@ -5333,8 +5353,8 @@
 					} );
 					this._observer.observe( this.$element[ 0 ], {
 						attributes: true,
-						childList:  true,
-						subtree:    false
+						childList: true,
+						subtree: false
 					} );
 				} else if ( this.$element[ 0 ].addEventListener ) {
 					this.$element[ 0 ].addEventListener(
@@ -5365,7 +5385,7 @@
 
 			Select2.prototype._registerSelectionEvents = function() {
 				var self = this;
-				var nonRelayEvents = ['toggle', 'focus'];
+				var nonRelayEvents = [ 'toggle', 'focus' ];
 
 				this.selection.on( 'toggle', function() {
 					self.toggleDropdown();
@@ -5424,13 +5444,13 @@
 				} );
 
 				this.on( 'query', function( params ) {
-					if ( !self.isOpen() ) {
+					if ( ! self.isOpen() ) {
 						self.trigger( 'open', {} );
 					}
 
 					this.dataAdapter.query( params, function( data ) {
 						self.trigger( 'results:all', {
-							data:  data,
+							data: data,
 							query: params
 						} );
 					} );
@@ -5439,7 +5459,7 @@
 				this.on( 'query:append', function( params ) {
 					this.dataAdapter.query( params, function( data ) {
 						self.trigger( 'results:append', {
-							data:  data,
+							data: data,
 							query: params
 						} );
 					} );
@@ -5479,7 +5499,7 @@
 						}
 
 						var $searchField = self.$dropdown.find( '.select2-search__field' );
-						if ( !$searchField.length ) {
+						if ( ! $searchField.length ) {
 							$searchField = self.$container.find( '.select2-search__field' );
 						}
 
@@ -5508,7 +5528,7 @@
 
 			Select2.prototype.focusOnActiveElement = function() {
 				// Don't mess with the focus on touchscreens because it causes havoc with on-screen keyboards.
-				if ( this.isOpen() && !Utils.isTouchscreen() ) {
+				if ( this.isOpen() && ! Utils.isTouchscreen() ) {
 					this.$results.find( 'li.select2-results__option--highlighted' ).focus();
 				}
 			};
@@ -5541,7 +5561,7 @@
 					return;
 				}
 
-				if ( !mutations ) {
+				if ( ! mutations ) {
 					// If mutation events aren't supported, then we can only assume that the
 					// change affected the selections
 					changed = true;
@@ -5574,9 +5594,9 @@
 			Select2.prototype.trigger = function( name, args ) {
 				var actualTrigger = Select2.__super__.trigger;
 				var preTriggerMap = {
-					'open':     'opening',
-					'close':    'closing',
-					'select':   'selecting',
+					'open': 'opening',
+					'close': 'closing',
+					'select': 'selecting',
 					'unselect': 'unselecting'
 				};
 
@@ -5588,8 +5608,8 @@
 					var preTriggerName = preTriggerMap[ name ];
 					var preTriggerArgs = {
 						prevented: false,
-						name:      name,
-						args:      args
+						name: name,
+						args: args
 					};
 
 					actualTrigger.call( this, preTriggerName, preTriggerArgs );
@@ -5625,7 +5645,7 @@
 			};
 
 			Select2.prototype.close = function() {
-				if ( !this.isOpen() ) {
+				if ( ! this.isOpen() ) {
 					return;
 				}
 
@@ -5660,10 +5680,10 @@
 				}
 
 				if ( args == null || args.length === 0 ) {
-					args = [true];
+					args = [ true ];
 				}
 
-				var disabled = !args[ 0 ];
+				var disabled = ! args[ 0 ];
 
 				this.$element.prop( 'disabled', disabled );
 			};
@@ -5775,7 +5795,9 @@
 			'jquery'
 		], function( $ ) {
 			function syncCssClasses( $dest, $src, adapter ) {
-				var classes, replacements = [], adapted;
+				var classes,
+					replacements = [],
+					adapted;
 
 				classes = $.trim( $dest.attr( 'class' ) );
 
@@ -5963,8 +5985,8 @@
 				this.initSelection.call( null, this.$element, function( data ) {
 					self._isInitialized = true;
 
-					if ( !$.isArray( data ) ) {
-						data = [data];
+					if ( ! $.isArray( data ) ) {
+						data = [ data ];
 					}
 
 					callback( data );
@@ -6032,7 +6054,7 @@
 			};
 
 			InputData.prototype.select = function( _, data ) {
-				if ( !this.options.get( 'multiple' ) ) {
+				if ( ! this.options.get( 'multiple' ) ) {
 					this.current( function( allData ) {
 						$.map( allData, function( data ) {
 							data.selected = false;
@@ -6122,7 +6144,7 @@
 							var doesMatch = matcher( params.term, child.text, child );
 
 							// If the child didn't match, pop it off
-							if ( !doesMatch ) {
+							if ( ! doesMatch ) {
 								match.children.splice( c, 1 );
 							}
 						}
@@ -6274,7 +6296,7 @@
 		( function( factory ) {
 			if ( typeof S2.define === 'function' && S2.define.amd ) {
 				// AMD. Register as an anonymous module.
-				S2.define( 'jquery-mousewheel', ['jquery'], factory );
+				S2.define( 'jquery-mousewheel', [ 'jquery' ], factory );
 			} else if ( typeof exports === 'object' ) {
 				// Node/CommonJS style for Browserify
 				module.exports = factory;
@@ -6284,11 +6306,12 @@
 			}
 		}( function( $ ) {
 
-			var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
+			var toFix = [ 'wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll' ],
 				toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
-					['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
-				slice  = Array.prototype.slice,
-				nullLowestDeltaTimeout, lowestDelta;
+					[ 'wheel' ] : [ 'mousewheel', 'DomMouseScroll', 'MozMousePixelScroll' ],
+				slice = Array.prototype.slice,
+				nullLowestDeltaTimeout,
+				lowestDelta;
 
 			if ( $.event.fixHooks ) {
 				for ( var i = toFix.length; i; ) {
@@ -6326,9 +6349,9 @@
 				},
 
 				getLineHeight: function( elem ) {
-					var $elem   = $( elem ),
+					var $elem = $( elem ),
 						$parent = $elem[ 'offsetParent' in $.fn ? 'offsetParent' : 'parent' ]();
-					if ( !$parent.length ) {
+					if ( ! $parent.length ) {
 						$parent = $( 'body' );
 					}
 					return parseInt( $parent.css( 'fontSize' ), 10 ) || parseInt( $elem.css( 'fontSize' ), 10 ) || 16;
@@ -6356,13 +6379,13 @@
 
 			function handler( event ) {
 				var orgEvent = event || window.event,
-					args     = slice.call( arguments, 1 ),
-					delta    = 0,
-					deltaX   = 0,
-					deltaY   = 0,
+					args = slice.call( arguments, 1 ),
+					delta = 0,
+					deltaX = 0,
+					deltaY = 0,
 					absDelta = 0,
-					offsetX  = 0,
-					offsetY  = 0;
+					offsetX = 0,
+					offsetY = 0;
 				event = $.event.fix( orgEvent );
 				event.type = 'mousewheel';
 
@@ -6426,7 +6449,7 @@
 				// Store lowest absolute delta to normalize the delta values
 				absDelta = Math.max( Math.abs( deltaY ), Math.abs( deltaX ) );
 
-				if ( !lowestDelta || absDelta < lowestDelta ) {
+				if ( ! lowestDelta || absDelta < lowestDelta ) {
 					lowestDelta = absDelta;
 
 					// Adjust older deltas if necessary
@@ -6507,7 +6530,7 @@
 		], function( $, _, Select2, Defaults ) {
 			if ( $.fn.selectWoo == null ) {
 				// All methods that should return the element
-				var thisMethods = ['open', 'close', 'destroy'];
+				var thisMethods = [ 'open', 'close', 'destroy' ];
 
 				$.fn.selectWoo = function( options ) {
 					options = options || {};
@@ -6565,7 +6588,7 @@
 
 		// Return the AMD loader configuration so it can be used outside of this file
 		return {
-			define:  S2.define,
+			define: S2.define,
 			require: S2.require
 		};
 	}() );

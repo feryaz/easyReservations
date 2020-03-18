@@ -486,7 +486,7 @@ class ER_Admin {
 
 			wp_localize_script(
 				'er-admin-order-meta-boxes',
-				'easyreservations_admin_meta_boxes_order',
+				'er_admin_meta_boxes_order_params',
 				array(
 					'countries'              => wp_json_encode( ER()->countries->get_states() ),
 					'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'easyReservations' ),

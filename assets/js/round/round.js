@@ -24,7 +24,10 @@ function round( value, precision, mode ) {
 	// *     returns 4: 1.17
 	// *     example 5: round(58551.799999999996, 2);
 	// *     returns 5: 58551.8
-	var m, f, isHalf, sgn; // helper variables
+	var m,
+		f,
+		isHalf,
+		sgn; // helper variables
 	precision |= 0; // making sure precision is integer
 	m = Math.pow( 10, precision );
 	value *= m;
@@ -44,7 +47,7 @@ function round( value, precision, mode ) {
 				break;
 			case '4':
 			case 'PHP_ROUND_HALF_ODD':
-				value = f + !( f % 2 ); // rounds .5 towards the next odd integer
+				value = f + ! ( f % 2 ); // rounds .5 towards the next odd integer
 				break;
 			default:
 				value = f + ( sgn > 0 ); // rounds .5 away from zero

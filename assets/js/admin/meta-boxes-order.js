@@ -1,20 +1,16 @@
-/*global easyreservations_admin_meta_boxes, er_admin_params, accounting, easyreservations_admin_meta_boxes_order */
+/*global easyreservations_admin_meta_boxes, er_admin_params, accounting, er_admin_meta_boxes_order_params */
 jQuery( function( $ ) {
-
 	/**
 	 * Order Data Panel
 	 */
-	var er_meta_boxes_order = {
+	var erMetaBoxesOrder = {
 		states: null,
 
 		init: function() {
-			if ( !( typeof easyreservations_admin_meta_boxes_order === 'undefined' || typeof easyreservations_admin_meta_boxes_order.countries === 'undefined' ) ) {
-				/* State/Country select boxes */
-				this.states = $.parseJSON( easyreservations_admin_meta_boxes_order.countries.replace( /&quot;/g, '"' ) );
-			}
+			this.states = $.parseJSON( er_admin_meta_boxes_order_params.countries.replace( /&quot;/g, '"' ) );
 
 			$( '.js_field-country' ).selectWoo().change( this.change_country );
-			$( '.js_field-country' ).trigger( 'change', [true] );
+			$( '.js_field-country' ).trigger( 'change', [ true ] );
 			$( document.body ).on( 'change', 'select.js_field-state', this.change_state );
 			$( '#easyreservations-order-actions input, #easyreservations-order-actions a' ).click( function() {
 				window.onbeforeunload = '';
@@ -31,20 +27,21 @@ jQuery( function( $ ) {
 			}
 
 			// Prevent if we don't have the metabox data
-			if ( er_meta_boxes_order.states === null ) {
+			if ( erMetaBoxesOrder.states === null ) {
 				return;
 			}
 
-			var $this       = $( this ),
-				country     = $this.val(),
-				$state      = $this.parents( 'div.edit_address' ).find( ':input.js_field-state' ),
-				$parent     = $state.parent(),
-				stateValue  = $state.val(),
-				input_name  = $state.attr( 'name' ),
-				input_id    = $state.attr( 'id' ),
-				value       = $this.data( 'easyreservations.stickState-' + country ) ? $this.data( 'easyreservations.stickState-' + country ) : stateValue,
-				placeholder = $state.attr( 'placeholder' ),
-				$newstate;
+			const $this = $( this ),
+				country = $this.val(),
+				$state = $this.parents( 'div.edit_address' ).find( ':input.js_field-state' ),
+				$parent = $state.parent(),
+				stateValue = $state.val(),
+				inputName = $state.attr( 'name' ),
+				inputId = $state.attr( 'id' ),
+				value = $this.data( 'easyreservations.stickState-' + country ) ? $this.data( 'easyreservations.stickState-' + country ) : stateValue,
+				placeholder = $state.attr( 'placeholder' );
+
+			let $newstate;
 
 			if ( stickValue ) {
 				$this.data( 'easyreservations.stickState-' + country, value );
@@ -53,25 +50,26 @@ jQuery( function( $ ) {
 			// Remove the previous DOM element
 			$parent.show().find( '.select2-container' ).remove();
 
-			if ( !$.isEmptyObject( er_meta_boxes_order.states[ country ] ) ) {
-				var state          = er_meta_boxes_order.states[ country ],
-					$defaultOption = $( '<option value=""></option>' )
-						.text( easyreservations_admin_meta_boxes_order.i18n_select_state_text );
+			if ( ! $.isEmptyObject( erMetaBoxesOrder.states[ country ] ) ) {
+				const state = erMetaBoxesOrder.states[ country ],
+					$defaultOption = $( '<option value=""></option>' ).text( er_admin_meta_boxes_order_params.i18n_select_state_text );
 
 				$newstate = $( '<select></select>' )
-					.prop( 'id', input_id )
-					.prop( 'name', input_name )
+					.prop( 'id', inputId )
+					.prop( 'name', inputName )
 					.prop( 'placeholder', placeholder )
 					.addClass( 'js_field-state select short' )
 					.append( $defaultOption );
 
 				$.each( state, function( index ) {
-					var $option = $( '<option></option>' )
+					const $option = $( '<option></option>' )
 						.prop( 'value', index )
 						.text( state[ index ] );
+
 					if ( index === stateValue ) {
 						$option.prop( 'selected' );
 					}
+
 					$newstate.append( $option );
 				} );
 
@@ -82,8 +80,8 @@ jQuery( function( $ ) {
 				$newstate.show().selectWoo().hide().change();
 			} else {
 				$newstate = $( '<input type="text" />' )
-					.prop( 'id', input_id )
-					.prop( 'name', input_name )
+					.prop( 'id', inputId )
+					.prop( 'name', inputName )
 					.prop( 'placeholder', placeholder )
 					.addClass( 'js_field-state' )
 					.val( stateValue );
@@ -91,16 +89,16 @@ jQuery( function( $ ) {
 			}
 
 			// This event has a typo - deprecated in 2.5.0
-			$( document.body ).trigger( 'contry-change.easyreservations', [country, $( this ).closest( 'div' )] );
-			$( document.body ).trigger( 'country-change.easyreservations', [country, $( this ).closest( 'div' )] );
+			$( document.body ).trigger( 'contry-change.easyreservations', [ country, $( this ).closest( 'div' ) ] );
+			$( document.body ).trigger( 'country-change.easyreservations', [ country, $( this ).closest( 'div' ) ] );
 		},
 
 		change_state: function() {
 			// Here we will find if state value on a select has changed and stick it to the country data
-			var $this    = $( this ),
-				state    = $this.val(),
+			const $this = $( this ),
+				state = $this.val(),
 				$country = $this.parents( 'div.edit_address' ).find( ':input.js_field-country' ),
-				country  = $country.val();
+				country = $country.val();
 
 			$country.data( 'easyreservations.stickState-' + country, state );
 		},
@@ -108,68 +106,67 @@ jQuery( function( $ ) {
 		edit_address: function( e ) {
 			e.preventDefault();
 
-			var $this          = $( this ),
-				$wrapper       = $this.closest( '.order_data_column' ),
-				$edit_address  = $wrapper.find( 'div.edit_address' ),
-				$address       = $wrapper.find( 'div.address' ),
-				$country_input = $edit_address.find( '.js_field-country' ),
-				$state_input   = $edit_address.find( '.js_field-state' );
+			const $this = $( this ),
+				$wrapper = $this.closest( '.order_data_column' ),
+				$editAddress = $wrapper.find( 'div.edit_address' ),
+				$address = $wrapper.find( 'div.address' ),
+				$countryInput = $editAddress.find( '.js_field-country' ),
+				$stateInput = $editAddress.find( '.js_field-state' );
 
 			$address.hide();
 			$this.parent().find( 'a' ).toggle();
 
-			if ( !$country_input.val() ) {
-				$country_input.val( easyreservations_admin_meta_boxes_order.default_country ).change();
-				$state_input.val( easyreservations_admin_meta_boxes_order.default_state ).change();
+			if ( ! $countryInput.val() ) {
+				$countryInput.val( er_admin_meta_boxes_order_params.default_country ).change();
+				$stateInput.val( er_admin_meta_boxes_order_params.default_state ).change();
 			}
 
-			$edit_address.show();
+			$editAddress.show();
 		},
 
 		change_customer_user: function() {
-			if ( !$( '#_billing_country' ).val() ) {
+			if ( ! $( '#_billing_country' ).val() ) {
 				$( 'a.edit_address' ).click();
-				er_meta_boxes_order.load_address( true );
+				erMetaBoxesOrder.load_address( true );
 			}
 		},
 
 		load_address: function( force ) {
 			if ( true === force || window.confirm( easyreservations_admin_meta_boxes.load_address ) ) {
-
 				// Get user ID to load data for
-				var user_id = $( '#customer_user' ).val();
+				const userId = $( '#customer_user' ).val();
 
-				if ( !user_id ) {
+				if ( ! userId ) {
 					window.alert( easyreservations_admin_meta_boxes.no_customer_selected );
 					return false;
 				}
 
-				var data = {
-					user_id:  user_id,
-					action:   'easyreservations_get_customer_details',
+				const data = {
+					user_id: userId,
+					action: 'easyreservations_get_customer_details',
 					security: easyreservations_admin_meta_boxes.get_customer_details_nonce
 				};
 
 				$( 'div.edit_address' ).block( {
-					message:    null,
+					message: null,
 					overlayCSS: {
 						background: '#fff',
-						opacity:    0.6
-					}
+						opacity: 0.6,
+					},
 				} );
 
 				$.ajax( {
-					url:     easyreservations_admin_meta_boxes.ajax_url,
-					data:    data,
-					type:    'POST',
+					url: easyreservations_admin_meta_boxes.ajax_url,
+					data: data,
+					type: 'POST',
 					success: function( response ) {
 						if ( response && response.billing ) {
-							$.each( response.billing, function( key, data ) {
-								$( ':input#_' + key ).val( data ).change();
+							$.each( response.billing, function( key, value ) {
+								$( ':input#_' + key ).val( value ).change();
 							} );
 						}
 						$( 'div.edit_address' ).unblock();
-					}
+					},
 				} );
 			}
 			return false;
@@ -179,33 +176,32 @@ jQuery( function( $ ) {
 	/**
 	 * Order Notes Panel
 	 */
-	var er_meta_boxes_order_notes = {
+	const erMetaBoxesOrderNotes = {
 		init: function() {
 			$( '#easyreservations-order-notes' )
 				.on( 'click', 'button.add_note', this.add_order_note )
 				.on( 'click', 'a.delete_note', this.delete_order_note );
-
 		},
 
 		add_order_note: function() {
-			if ( !$( 'textarea#add_order_note' ).val() ) {
+			if ( ! $( 'textarea#add_order_note' ).val() ) {
 				return;
 			}
 
 			$( '#easyreservations-order-notes' ).block( {
-				message:    null,
+				message: null,
 				overlayCSS: {
 					background: '#fff',
-					opacity:    0.6
-				}
+					opacity: 0.6,
+				},
 			} );
 
-			var data = {
-				action:    'easyreservations_add_order_note',
-				post_id:   easyreservations_admin_meta_boxes.post_id,
-				note:      $( 'textarea#add_order_note' ).val(),
+			const data = {
+				action: 'easyreservations_add_order_note',
+				post_id: easyreservations_admin_meta_boxes.post_id,
+				note: $( 'textarea#add_order_note' ).val(),
 				note_type: $( 'select#order_note_type' ).val(),
-				security:  easyreservations_admin_meta_boxes.add_order_note_nonce
+				security: easyreservations_admin_meta_boxes.add_order_note_nonce,
 			};
 
 			$.post( easyreservations_admin_meta_boxes.ajax_url, data, function( response ) {
@@ -219,20 +215,20 @@ jQuery( function( $ ) {
 
 		delete_order_note: function() {
 			if ( window.confirm( easyreservations_admin_meta_boxes.i18n_delete_note ) ) {
-				var note = $( this ).closest( 'li.note' );
+				const note = $( this ).closest( 'li.note' );
 
 				$( note ).block( {
-					message:    null,
+					message: null,
 					overlayCSS: {
 						background: '#fff',
-						opacity:    0.6
-					}
+						opacity: 0.6,
+					},
 				} );
 
-				var data = {
-					action:   'easyreservations_delete_order_note',
-					note_id:  $( note ).attr( 'rel' ),
-					security: easyreservations_admin_meta_boxes.delete_order_note_nonce
+				const data = {
+					action: 'easyreservations_delete_order_note',
+					note_id: $( note ).attr( 'rel' ),
+					security: easyreservations_admin_meta_boxes.delete_order_note_nonce,
 				};
 
 				$.post( easyreservations_admin_meta_boxes.ajax_url, data, function() {
@@ -241,9 +237,9 @@ jQuery( function( $ ) {
 			}
 
 			return false;
-		}
+		},
 	};
 
-	er_meta_boxes_order.init();
-	er_meta_boxes_order_notes.init();
+	erMetaBoxesOrder.init();
+	erMetaBoxesOrderNotes.init();
 } );
