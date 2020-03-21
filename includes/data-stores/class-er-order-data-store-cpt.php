@@ -138,20 +138,10 @@ class ER_Order_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implement
 		$updated_props     = array();
 		$id                = $order->get_id();
 		$meta_key_to_props = array(
-			'_first_name'           => 'first_name',
-			'_last_name'            => 'last_name',
-			'_company'              => 'company',
-			'_address_1'            => 'address_1',
-			'_address_2'            => 'address_2',
-			'_city'                 => 'city',
-			'_state'                => 'state',
-			'_postcode'             => 'postcode',
-			'_country'              => 'country',
-			'_email'                => 'email',
-			'_phone'                => 'phone',
 			'_easy_order_key'       => 'order_key',
 			'_locale'               => 'locale',
 			'_customer_user'        => 'customer_id',
+			'_order_key'            => 'order_key',
 			'_payment_method'       => 'payment_method',
 			'_payment_method_title' => 'payment_method_title',
 			'_transaction_id'       => 'transaction_id',
@@ -180,6 +170,34 @@ class ER_Order_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implement
 
 			if ( $updated ) {
 				$updated_props[] = $prop;
+			}
+		}
+
+		$address_props = array(
+			'_first_name' => 'address_first_name',
+			'_last_name'  => 'address_last_name',
+			'_company'    => 'address_company',
+			'_address_1'  => 'address_address_1',
+			'_address_2'  => 'address_address_2',
+			'_city'       => 'address_city',
+			'_state'      => 'address_state',
+			'_postcode'   => 'address_postcode',
+			'_country'    => 'address_country',
+			'_email'      => 'address_email',
+			'_phone'      => 'address_phone',
+		);
+
+		$props_to_update = $this->get_props_to_update( $order, $address_props );
+
+		foreach ( $props_to_update as $meta_key => $prop ) {
+			$prop    = str_replace( array( 'address_address_', 'address_', 'temp_' ), array( 'temp_', '', 'address_' ), $prop );
+			$value   = $order->{"get_$prop"}( 'edit' );
+			$value   = is_string( $value ) ? wp_slash( $value ) : $value;
+			$updated = $this->update_or_delete_post_meta( $order, $meta_key, $value );
+
+			if ( $updated ) {
+				$updated_props[] = $prop;
+				$updated_props[] = 'address';
 			}
 		}
 

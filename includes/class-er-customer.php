@@ -3,7 +3,6 @@
  * The easyReservations customer class handles storage of the current customer's data
  *
  * @package easyReservations/Classes
- * @version 3.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
