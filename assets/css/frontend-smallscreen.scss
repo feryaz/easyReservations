@@ -3,9 +3,6 @@
  * Optimises the default easyReservatioons frontend layout when viewed on smaller screens.
  */
 
-/**
- * Imports
- */
 @import "mixins";
 @import "variables";
 
@@ -57,7 +54,7 @@
 				}
 			}
 
-			&:nth-child( 2n ) {
+			&:nth-child(2n) {
 				td {
 					background-color: rgba(0, 0, 0, 0.025);
 				}
@@ -105,7 +102,7 @@
 			margin: 0 0 2.992em;
 			clear: both;
 
-			&:nth-child( 2n ) {
+			&:nth-child(2n) {
 				float: right;
 				clear: none !important; // This should never clear.
 			}
