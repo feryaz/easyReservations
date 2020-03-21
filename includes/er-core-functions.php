@@ -1679,8 +1679,6 @@ function er_incr_cache_prefix( $group ) {
  * Invalidate cache group.
  *
  * @param string $group Group of cache to clear.
- *
- * @since 3.9.0
  */
 function er_invalidate_cache_group( $group ) {
 	wp_cache_set( 'er_' . $group . '_cache_prefix', microtime(), $group );

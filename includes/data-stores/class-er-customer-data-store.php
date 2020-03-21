@@ -246,7 +246,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 			}
 		}
 
-		$billing_address_props = array(
+		$address_props = array(
 			'address_first_name' => 'address_first_name',
 			'address_last_name'  => 'address_last_name',
 			'address_company'    => 'address_company',
@@ -260,7 +260,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 			'address_phone'      => 'address_phone',
 		);
 
-		foreach ( $billing_address_props as $meta_key => $prop ) {
+		foreach ( $address_props as $meta_key => $prop ) {
 			$prop_key = substr( $prop, 8 );
 
 			if ( ! isset( $changed_props['billing'] ) || ! array_key_exists( $prop_key, $changed_props['billing'] ) ) {

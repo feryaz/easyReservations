@@ -290,6 +290,7 @@ final class easyReservations {
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-data.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-form.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-log-levels.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-privacy.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-receipt.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-receipt-item.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/abstracts/abstract-er-receipt-item-line.php' );
@@ -320,6 +321,7 @@ final class easyReservations {
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-order-query.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-payment.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-post-data.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-privacy.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-query.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-receipt-item-custom.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-receipt-item-fee.php' );

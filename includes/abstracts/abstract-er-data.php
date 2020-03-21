@@ -637,6 +637,7 @@ abstract class ER_Data {
 	public function set_props( $props, $context = 'set' ) {
 		$errors = false;
 
+
 		foreach ( $props as $prop => $value ) {
 			try {
 				/**

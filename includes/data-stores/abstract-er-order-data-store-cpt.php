@@ -151,8 +151,10 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 			} else {
 				wp_update_post( array_merge( array( 'ID' => $order->get_id() ), $post_data ) );
 			}
+
 			$order->read_meta_data( true ); // Refresh internal meta data, in case things were hooked into `save_post` or another WP hook.
 		}
+
 		$this->update_post_meta( $order );
 		$order->apply_changes();
 		$this->clear_caches( $order );

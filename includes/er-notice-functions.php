@@ -163,7 +163,7 @@ function er_print_notices( $return = false ) {
  *
  * @param string $message The text to display in the notice.
  * @param string $notice_type Optional. The singular name of the notice type - either error, success or notice.
- * @param array  $data Optional notice data. @since 3.9.0.
+ * @param array  $data Optional notice data.
  */
 function er_print_notice( $message, $notice_type = 'success', $data = array() ) {
 	if ( 'success' === $notice_type ) {
