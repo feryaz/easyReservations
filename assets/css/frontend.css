@@ -140,6 +140,17 @@
   font-weight: 700;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
+.easyreservations table.my_account_orders {
+  font-size: 0.85em;
+}
+.easyreservations table.my_account_orders th,
+.easyreservations table.my_account_orders td {
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+.easyreservations table.my_account_orders .button {
+  white-space: nowrap;
+}
 .easyreservations a.button,
 .easyreservations button.button,
 .easyreservations input.button,
@@ -827,6 +838,54 @@
 }
 .easyreservations .easyreservations-form-login .easyreservations-form-login__rememberme {
   display: inline-block;
+}
+
+/**
+ * Account page
+ */
+.easyreservations-account .easyreservations {
+  *zoom: 1;
+}
+.easyreservations-account .easyreservations::before, .easyreservations-account .easyreservations::after {
+  content: " ";
+  display: table;
+}
+.easyreservations-account .easyreservations::after {
+  clear: both;
+}
+.easyreservations-account .easyreservations-MyAccount-navigation {
+  float: left;
+  width: 30%;
+}
+.easyreservations-account .easyreservations-MyAccount-navigation ul {
+  list-style: none;
+}
+.easyreservations-account .easyreservations-MyAccount-content {
+  float: right;
+  width: 68%;
+}
+.easyreservations-account .addresses .title {
+  *zoom: 1;
+}
+.easyreservations-account .addresses .title::before, .easyreservations-account .addresses .title::after {
+  content: " ";
+  display: table;
+}
+.easyreservations-account .addresses .title::after {
+  clear: both;
+}
+.easyreservations-account .addresses .title h3 {
+  float: left;
+}
+.easyreservations-account .addresses .title .edit {
+  float: right;
+}
+.easyreservations-account ol.commentlist.notes li.note p.meta {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.easyreservations-account ol.commentlist.notes li.note .description p:last-child {
+  margin-bottom: 0;
 }
 
 /**

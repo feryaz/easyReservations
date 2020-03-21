@@ -111,6 +111,20 @@
 		}
 	}
 
+	table.my_account_orders {
+		font-size: 0.85em;
+
+		th,
+		td {
+			padding: 4px 8px;
+			vertical-align: middle;
+		}
+
+		.button {
+			white-space: nowrap;
+		}
+	}
+
 	/**
 	 * Buttons
 	 */
@@ -892,6 +906,53 @@
 
 		.easyreservations-form-login__rememberme {
 			display: inline-block;
+		}
+	}
+}
+
+/**
+ * Account page
+ */
+.easyreservations-account {
+
+	.easyreservations {
+		@include clearfix();
+	}
+
+	.easyreservations-MyAccount-navigation {
+		float: left;
+		width: 30%;
+
+		ul {
+			list-style: none;
+		}
+	}
+
+	.easyreservations-MyAccount-content {
+		float: right;
+		width: 68%;
+	}
+
+	.addresses .title {
+		@include clearfix();
+
+		h3 {
+			float: left;
+		}
+
+		.edit {
+			float: right;
+		}
+	}
+
+	ol.commentlist.notes li.note {
+		p.meta {
+			font-weight: 700;
+			margin-bottom: 0;
+		}
+
+		.description p:last-child {
+			margin-bottom: 0;
 		}
 	}
 }

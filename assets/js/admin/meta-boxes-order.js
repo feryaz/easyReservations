@@ -88,8 +88,6 @@ jQuery( function( $ ) {
 				$state.replaceWith( $newstate );
 			}
 
-			// This event has a typo - deprecated in 2.5.0
-			$( document.body ).trigger( 'contry-change.easyreservations', [ country, $( this ).closest( 'div' ) ] );
 			$( document.body ).trigger( 'country-change.easyreservations', [ country, $( this ).closest( 'div' ) ] );
 		},
 

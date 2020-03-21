@@ -1525,6 +1525,18 @@ function er_make_phone_clickable( $phone ) {
 }
 
 /**
+ * Get an item of post data if set, otherwise return a default value.
+ *
+ * @param string $key Meta key.
+ * @param string $default Default value.
+ *
+ * @return mixed Value sanitized by er_clean.
+ */
+function er_get_post_data_by_key( $key, $default = '' ) {
+	return er_clean( wp_unslash( er_get_var( $_POST[ $key ], $default ) ) ); // @codingStandardsIgnoreLine
+}
+
+/**
  * Get data if set, otherwise return a default value or null. Prevents notices when data is not set.
  *
  * @param mixed  $var Variable.
