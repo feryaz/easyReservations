@@ -10,6 +10,14 @@ class ER_Emails {
 	 * @var ER_Emails
 	 */
 	protected static $_instance = null;
+
+	/**
+	 * Background emailer class.
+	 *
+	 * @var ER_Background_Emailer
+	 */
+	protected static $background_emailer = null;
+
 	/**
 	 * Array of email notification classes
 	 *
@@ -22,7 +30,6 @@ class ER_Emails {
 	 *
 	 * Ensures only one instance of ER_Emails is loaded or can be loaded.
 	 *
-	 * @static
 	 * @return ER_Emails Main instance
 	 */
 	public static function instance() {
@@ -124,8 +131,54 @@ class ER_Emails {
 			)
 		);
 
-		foreach ( $email_actions as $action ) {
-			add_action( $action, array( __CLASS__, 'send_transactional_email' ), 10, 10 );
+		if ( apply_filters( 'easyreservations_defer_transactional_emails', false ) ) {
+			self::$background_emailer = new ER_Background_Emailer();
+
+			foreach ( $email_actions as $action ) {
+				add_action( $action, array( __CLASS__, 'queue_transactional_email' ), 10, 10 );
+			}
+		} else {
+			foreach ( $email_actions as $action ) {
+				add_action( $action, array( __CLASS__, 'send_transactional_email' ), 10, 10 );
+			}
+		}
+	}
+
+	/**
+	 * Queues transactional email so it's not sent in current request if enabled,
+	 * otherwise falls back to send now.
+	 *
+	 * @param mixed ...$args Optional arguments.
+	 */
+	public static function queue_transactional_email( ...$args ) {
+		if ( is_a( self::$background_emailer, 'ER_Background_Emailer' ) ) {
+			self::$background_emailer->push_to_queue(
+				array(
+					'filter' => current_filter(),
+					'args'   => func_get_args(),
+				)
+			);
+		} else {
+			self::send_transactional_email( ...$args );
+		}
+	}
+
+	/**
+	 * Init the mailer instance and call the notifications for the current filter.
+	 *
+	 * @param string $filter Filter name.
+	 * @param array  $args Email args (default: []).
+	 *
+	 * @internal
+	 */
+	public static function send_queued_transactional_email( $filter = '', $args = array() ) {
+		if ( apply_filters( 'easyreservations_allow_send_queued_transactional_email', true, $filter, $args ) ) {
+			self::instance(); // Init self so emails exist.
+
+			// Ensure gateways are loaded in case they need to insert data into the emails.
+			ER()->payment_gateways();
+
+			do_action_ref_array( $filter . '_notification', $args );
 		}
 	}
 
@@ -135,7 +188,6 @@ class ER_Emails {
 	 * @param array $args Email args (default: []).
 	 *
 	 * @internal
-	 *
 	 */
 	public static function send_transactional_email( $args = array() ) {
 		try {

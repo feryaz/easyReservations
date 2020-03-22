@@ -299,6 +299,7 @@ final class easyReservations {
 		include_once( RESERVATIONS_ABSPATH . 'includes/er-core-functions.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-ajax.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-autoloader.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-background-emailer.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-checkout.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-comments.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-customer.php' );
