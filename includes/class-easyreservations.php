@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.8';
+	public $version = '6.0-alpha.9';
 
 	/**
 	 * Session instance.
@@ -86,7 +86,7 @@ final class easyReservations {
 	 * Unserializing instances of this class is forbidden.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'easyReservations' ), '6.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Unserializ ing instances of this class is forbidden.', 'easyReservations' ), '6.0' );
 	}
 
 	/**
@@ -110,14 +110,6 @@ final class easyReservations {
 	public function init() {
 		// Before init action.
 		do_action( 'before_easyreservations_init' );
-
-		if ( isset( $_GET['lang'] ) ) {
-			define( 'WPLANG', sanitize_key( $_GET['lang'] ) );
-			global $sitepress;
-			if ( $sitepress && is_object( $sitepress ) ) {
-				$sitepress->switch_lang( sanitize_key( $_GET['lang'] ) );
-			}
-		}
 
 		// Set up localisation.
 		$this->load_plugin_textdomain();

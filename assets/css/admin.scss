@@ -3548,7 +3548,7 @@ table.er_emails {
 								line-height: 25px;
 								text-align: left;
 								text-decoration: none;
-								vertical-align: middle;
+								vertical-align: bottom;
 								background: #fff;
 							}
 						}
@@ -3789,7 +3789,7 @@ table.er_emails {
 						box-sizing: content-box;
 						table-layout: fixed;
 						border-spacing: 0;
-						border-collapse: collapse;
+						border-collapse: separate;
 
 						div.today {
 							position: absolute;

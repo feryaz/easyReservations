@@ -3624,7 +3624,7 @@ table.er_emails .er-email-settings-table-status .tips {
   line-height: 25px;
   text-align: left;
   text-decoration: none;
-  vertical-align: middle;
+  vertical-align: bottom;
   background: #fff;
 }
 .er-timeline > .content .container .resources table tbody tr td {
@@ -3803,7 +3803,7 @@ table.er_emails .er-email-settings-table-status .tips {
   box-sizing: content-box;
   table-layout: fixed;
   border-spacing: 0;
-  border-collapse: collapse;
+  border-collapse: separate;
 }
 .er-timeline > .content .container .timeline-container .timeline table div.today {
   position: absolute;

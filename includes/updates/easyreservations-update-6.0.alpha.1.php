@@ -38,9 +38,10 @@ foreach ( $reservations as $reservation_data ) {
 		$country    = sanitize_key( $reservation_data['country'] );
 		$price      = floatval( $reservation_data['price'] );
 		$paid       = floatval( $reservation_data['paid'] );
-		$name       = explode( ' ', $reservation_data['name'] );
-		$last_name  = array_pop( $name );
-		$first_name = implode( ' ', $name );
+		$name       = sanitize_text_field( $reservation_data['name'] );
+		$explode_name = explode( ' ', $name );
+		$last_name  = array_pop( $explode_name );
+		$first_name = implode( ' ', $explode_name );
 		$street     = false;
 		$phone      = false;
 		$postcode   = false;

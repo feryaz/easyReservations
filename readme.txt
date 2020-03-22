@@ -54,6 +54,10 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
+= 6.0-alpha.9 - 2020-03-22 =
+* Feature - My account
+* Feature - Removal of personal data
+
 = 6.0-alpha.8 - 2020-03-18 =
 * Fix - Tax settings js
 
