@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-18 01:05+0100\n"
+"POT-Creation-Date: 2020-03-22 13:20+0100\n"
 "PO-Revision-Date: 2015-09-07 11:14+0100\n"
 "Last-Translator: Feryaz Beer <support@easyreservations.org>\n"
 "Language-Team: Feryaz Beer <contact@easyreservations.org>\n"
@@ -498,6 +498,7 @@ msgstr ""
 
 #: easyreservations-premium/includes/admin/settings/class-er-settings-payment.php:33
 #: easyreservations-premium/includes/admin/settings/class-er-settings-payment.php:54
+#: easyreservations-premium/includes/er-account-functions.php:61
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:306
 msgid "Payment methods"
 msgstr ""
@@ -546,6 +547,7 @@ msgid "Deposit options"
 msgstr ""
 
 #: easyreservations-premium/includes/admin/settings/class-er-settings-payment.php:152
+#: easyreservations-premium/includes/er-account-functions.php:152
 msgid "Method"
 msgstr ""
 
@@ -780,19 +782,163 @@ msgstr ""
 msgid "Enter a valid URL"
 msgstr ""
 
-#: easyreservations-premium/includes/class-easyreservations-premium.php:143
+#: easyreservations-premium/includes/class-easyreservations-premium.php:145
 #, php-format
 msgid ""
 "Your installed easyReservations Premium version is outdated and was "
 "deactivated. Please %s and %s the latest version."
 msgstr ""
 
-#: easyreservations-premium/includes/class-easyreservations-premium.php:144
+#: easyreservations-premium/includes/class-easyreservations-premium.php:146
 msgid "download"
 msgstr ""
 
-#: easyreservations-premium/includes/class-easyreservations-premium.php:145
+#: easyreservations-premium/includes/class-easyreservations-premium.php:147
 msgid "install"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:73
+msgid "Order cancelled by customer."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:75
+msgid "Your order was cancelled."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:79
+msgid ""
+"Your order can no longer be cancelled. Please contact us if you need "
+"assistance."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:81
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:107
+#: easyreservations/includes/class-er-payment.php:429
+#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:96
+#: easyreservations/includes/shortcodes/class-er-shortcode-checkout.php:141
+msgid "Invalid order."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:146
+#: easyreservations-premium/includes/class-er-account.php:291
+#: easyreservations/includes/class-er-checkout.php:432
+#, php-format
+msgid "%s is a required field."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:161
+msgid "Please enter a valid Eircode."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:164
+msgid "Please enter a valid postcode / ZIP."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:172
+#: easyreservations/includes/class-er-checkout.php:395
+#, php-format
+msgid "%s is not a valid phone number."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:180
+#: easyreservations/includes/class-er-checkout.php:405
+#, php-format
+msgid "%s is not a valid email address."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:220
+msgid "Address changed successfully."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:274
+msgid "Display name cannot be changed to email address due to privacy concern."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:281
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:26
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:32
+#: easyreservations/includes/class-er-countries.php:441
+msgid "First name"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:282
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:30
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:36
+#: easyreservations/includes/class-er-countries.php:448
+msgid "Last name"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:283
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:36
+msgid "Display name"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:284
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:42
+#: easyreservations-premium/templates/myaccount/form-login.php:85
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:72
+#: easyreservations/includes/class-er-countries.php:1149
+msgid "Email address"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:298
+#: easyreservations/includes/er-user-functions.php:69
+msgid "Please provide a valid email address."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:300
+msgid "This email address is already registered."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:306
+msgid "Please fill out all password fields."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:309
+msgid "Please enter your current password."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:312
+msgid "Please re-enter your password."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:315
+msgid "New passwords do not match."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:318
+msgid "Your current password is incorrect."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:359
+msgid "Account details changed successfully."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:419
+msgid "Please enter your password."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:423
+msgid "Passwords do not match."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:466
+#: easyreservations-premium/includes/class-er-account.php:500
+#: easyreservations/includes/class-er-form-handler.php:265
+#: easyreservations/includes/class-er-form-handler.php:269
+msgid "Error:"
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:478
+msgid ""
+"Your account was created successfully and a password has been sent to your "
+"email address."
+msgstr ""
+
+#: easyreservations-premium/includes/class-er-account.php:480
+msgid ""
+"Your account was created successfully. Your login details have been sent to "
+"your email address."
 msgstr ""
 
 #: easyreservations-premium/includes/class-er-coupon.php:432
@@ -1106,6 +1252,156 @@ msgstr ""
 msgid "Invalid payment token."
 msgstr ""
 
+#: easyreservations-premium/includes/er-account-functions.php:58
+msgid "Dashboard"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:59
+#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:266
+#: easyreservations/includes/class-er-privacy-exporters.php:73
+#: easyreservations/includes/er-order-functions.php:10
+msgid "Orders"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:60
+#: easyreservations-premium/templates/emails/email-addresses.php:28
+#: easyreservations-premium/templates/myaccount/form-edit-address.php:24
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:114
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:249
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:35
+#: easyreservations/includes/class-er-privacy-exporters.php:237
+#: easyreservations/templates/emails/plain/email-addresses.php:19
+#: easyreservations/templates/order/order-details-customer.php:21
+msgid "Address"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:62
+msgid "Account details"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:63
+#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:326
+msgid "Logout"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:134
+#: easyreservations-premium/includes/gateways/paypal/includes/class-er-gateway-paypal-request.php:263
+#: easyreservations/includes/admin/class-er-admin-reservation.php:143
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:110
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:352
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:111
+msgid "Order"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:135
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:111
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:349
+#: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:601
+#: easyreservations/templates/form/date-selection.php:50
+msgid "Date"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:136
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:112
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:351
+#: easyreservations/includes/admin/settings/class-er-settings-status.php:14
+#: easyreservations/includes/admin/views/html-timeline.php:55
+msgid "Status"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:137
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:115
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:433
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:47
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-fee.php:55
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-fee.php:89
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:28
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:151
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-reservation.php:75
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-reservation.php:117
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-resource.php:56
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-resource.php:98
+#: easyreservations/templates/cart/cart-totals.php:61
+#: easyreservations/templates/cart/cart-totals.php:62
+#: easyreservations/templates/checkout/review-order.php:82
+#: easyreservations/templates/order/order-details.php:40
+msgid "Total"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:138
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:116
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:355
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-resources.php:103
+#: easyreservations/includes/admin/views/html-timeline.php:65
+msgid "Actions"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:153
+msgid "Expires"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:168
+#: easyreservations-premium/includes/er-account-functions.php:275
+msgid "Credit card"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:169
+#: easyreservations-premium/includes/er-account-functions.php:297
+msgid "eCheck"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:190
+#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:204
+#: easyreservations/templates/checkout/thankyou.php:29
+msgid "Pay"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:194
+#: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:59
+msgid "View"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:198
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:65
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:225
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:295
+msgid "Cancel"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:234
+#: easyreservations-premium/templates/emails/email-addresses.php:31
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:595
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:665
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:323
+#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:187
+#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:200
+#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:210
+#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:220
+#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:230
+#: easyreservations/includes/admin/settings/class-er-settings-emails.php:115
+#: easyreservations/includes/admin/settings/class-er-settings-emails.php:128
+#: easyreservations/includes/emails/class-er-email-cancelled-order.php:185
+#: easyreservations/includes/emails/class-er-email-customer-invoice.php:227
+#: easyreservations/includes/emails/class-er-email-customer-refunded-order.php:277
+#: easyreservations/includes/emails/class-er-email-failed-order.php:183
+#: easyreservations/includes/emails/class-er-email-new-order.php:190
+#: easyreservations/includes/emails/class-er-email.php:662
+#: easyreservations/templates/order/order-details-customer.php:24
+msgid "N/A"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:239
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:95
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:274
+#: easyreservations/includes/admin/views/html-admin-resource-header.php:28
+msgid "Delete"
+msgstr ""
+
+#: easyreservations-premium/includes/er-account-functions.php:248
+msgid "Make default"
+msgstr ""
+
 #: easyreservations-premium/includes/er-coupon-functions.php:18
 msgid "Percentage discount"
 msgstr ""
@@ -1122,144 +1418,144 @@ msgstr ""
 msgid "[Remove]"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:27
+#: easyreservations-premium/includes/er-payment-functions.php:28
 msgid "Automatically approvement"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:28
+#: easyreservations-premium/includes/er-payment-functions.php:29
 msgid ""
 "When to find first available space and approve the reservation automatically."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:36
+#: easyreservations-premium/includes/er-payment-functions.php:37
 msgid "Never"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:37
+#: easyreservations-premium/includes/er-payment-functions.php:38
 msgid "After ordering"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:38
+#: easyreservations-premium/includes/er-payment-functions.php:39
 msgid "After payment"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:118
+#: easyreservations-premium/includes/er-payment-functions.php:119
 msgid "MasterCard"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:119
+#: easyreservations-premium/includes/er-payment-functions.php:120
 msgid "Visa"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:120
+#: easyreservations-premium/includes/er-payment-functions.php:121
 msgid "Discover"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:121
+#: easyreservations-premium/includes/er-payment-functions.php:122
 msgid "American Express"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:122
+#: easyreservations-premium/includes/er-payment-functions.php:123
 msgid "Diners"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:123
+#: easyreservations-premium/includes/er-payment-functions.php:124
 msgid "JCB"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-functions.php:151
+#: easyreservations-premium/includes/er-payment-functions.php:152
 msgid "At least one reservation could not be approved due to unavailability."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:162
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:163
 msgid "The card number is not a valid credit card number."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:163
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:164
 msgid "The card's expiration month is invalid."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:164
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:165
 msgid "The card's expiration year is invalid."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:165
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:166
 msgid "The card's security code is invalid."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:166
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:167
 msgid "The card number is incorrect."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:167
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:168
 msgid "The card number is incomplete."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:168
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:169
 msgid "The card's security code is incomplete."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:169
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:170
 msgid "The card's expiration date is incomplete."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:170
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:171
 msgid "The card has expired."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:171
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:172
 msgid "The card's security code is incorrect."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:172
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:173
 msgid "The card's zip code failed validation."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:173
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:174
 msgid "The card's expiration year is in the past"
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:174
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:175
 msgid "The card was declined."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:175
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:176
 msgid "There is no card on a customer that is being charged."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:176
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:177
 msgid "An error occurred while processing the card."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:177
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:178
 #: easyreservations-premium/includes/gateways/stripe/class-er-stripe-order-handler.php:85
 msgid ""
 "Unable to process this payment, please try again or use alternative method."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:178
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:179
 msgid ""
 "The billing country is not accepted by SOFORT. Please try another country."
 msgstr ""
 
-#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:179
+#: easyreservations-premium/includes/er-payment-gateway-stripe-functions.php:180
 msgid "Invalid email address, please correct and try again."
 msgstr ""
 
-#: easyreservations-premium/includes/er-premium-core-functions.php:110
+#: easyreservations-premium/includes/er-premium-core-functions.php:133
 msgid "HTML"
 msgstr ""
 
-#: easyreservations-premium/includes/er-premium-core-functions.php:111
+#: easyreservations-premium/includes/er-premium-core-functions.php:134
 msgid "Multipart"
 msgstr ""
 
-#: easyreservations-premium/includes/er-premium-template-functions.php:22
+#: easyreservations-premium/includes/er-premium-template-functions.php:37
 #: easyreservations/includes/er-template-functions.php:588
 msgid "Place order"
 msgstr ""
 
-#: easyreservations-premium/includes/er-premium-template-functions.php:61
+#: easyreservations-premium/includes/er-premium-template-functions.php:76
 msgid "Pay for order"
 msgstr ""
 
@@ -1653,22 +1949,14 @@ msgstr ""
 msgid "PDT payment completed"
 msgstr ""
 
-#: easyreservations-premium/includes/gateways/paypal/includes/class-er-gateway-paypal-request.php:263
-#: easyreservations/includes/admin/class-er-admin-reservation.php:143
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:110
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:352
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:111
-msgid "Order"
-msgstr ""
-
 #: easyreservations-premium/includes/gateways/paypal/includes/class-er-gateway-paypal-request.php:447
 #: easyreservations-premium/templates/checkout/form-pay.php:11
+#: easyreservations-premium/templates/emails/email-order-details.php:41
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:431
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:25
 #: easyreservations/includes/class-er-form-handler.php:78
 #: easyreservations/templates/cart/cart.php:27
 #: easyreservations/templates/checkout/review-order.php:22
-#: easyreservations/templates/emails/email-order-details.php:41
 #: easyreservations/templates/order/order-details.php:39
 msgid "Item"
 msgstr ""
@@ -2199,6 +2487,7 @@ msgid "Name"
 msgstr ""
 
 #: easyreservations-premium/includes/gateways/stripe/includes/class-er-stripe-customer.php:130
+#: easyreservations-premium/templates/myaccount/form-login.php:78
 #: easyreservations/includes/class-er-checkout.php:100
 msgid "Username"
 msgstr ""
@@ -2568,6 +2857,40 @@ msgstr ""
 msgid "eCheck ending in %1$s"
 msgstr ""
 
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:50
+msgid "Your password has been reset successfully."
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:64
+#, php-format
+msgid ""
+"Are you sure you want to log out? <a href=\"%s\">Confirm and log out</a>"
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:107
+#: easyreservations/templates/checkout/thankyou.php:32
+msgid "My account"
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:232
+msgid "Enter a username or email address."
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:257
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:263
+msgid "Invalid username or email."
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:277
+msgid "Password reset is not allowed for this user"
+msgstr ""
+
+#: easyreservations-premium/includes/shortcodes/class-er-shortcode-my-account.php:312
+msgid ""
+"This key is invalid or has already been used. Please reset your password "
+"again if needed."
+msgstr ""
+
 #: easyreservations-premium/includes/shortcodes/class-er-shortcode-search.php:51
 msgid "Book now!"
 msgstr ""
@@ -2611,6 +2934,371 @@ msgid ""
 "Sorry, it seems that there are no available payment methods at the moment. "
 "Please contact us if you require assistance or wish to make alternate "
 "arrangements."
+msgstr ""
+
+#: easyreservations-premium/templates/emails/admin-cancelled-order.php:27
+#: easyreservations/templates/emails/plain/admin-cancelled-order.php:24
+#, php-format
+msgid ""
+"Alas. Just to let you know &mdash; order #%1$s belonging to %2$s has been "
+"cancelled:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/admin-failed-order.php:27
+#: easyreservations/templates/emails/plain/admin-failed-order.php:24
+#, php-format
+msgid "Payment for order #%1$s from %2$s has failed. The order was as follows:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/admin-new-order.php:27
+#: easyreservations/templates/emails/plain/admin-new-order.php:24
+#, php-format
+msgid "You’ve received the following order from %s:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-completed-order.php:27
+#: easyreservations-premium/templates/emails/customer-invoice.php:29
+#: easyreservations-premium/templates/emails/customer-new-account.php:22
+#: easyreservations-premium/templates/emails/customer-note.php:27
+#: easyreservations-premium/templates/emails/customer-on-hold-order.php:25
+#: easyreservations-premium/templates/emails/customer-processing-order.php:27
+#: easyreservations-premium/templates/emails/customer-refunded-order.php:25
+#: easyreservations-premium/templates/emails/customer-reset-password.php:26
+#: easyreservations/templates/emails/plain/customer-completed-order.php:24
+#: easyreservations/templates/emails/plain/customer-invoice.php:24
+#: easyreservations/templates/emails/plain/customer-new-account.php:24
+#: easyreservations/templates/emails/plain/customer-note.php:24
+#: easyreservations/templates/emails/plain/customer-on-hold-order.php:24
+#: easyreservations/templates/emails/plain/customer-processing-order.php:24
+#: easyreservations/templates/emails/plain/customer-refunded-order.php:24
+#: easyreservations/templates/emails/plain/customer-reset-password.php:24
+#, php-format
+msgid "Hi %s,"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-completed-order.php:29
+#: easyreservations/templates/emails/plain/customer-completed-order.php:26
+msgid "We have finished processing your order."
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-invoice.php:37
+#: easyreservations/templates/emails/plain/customer-invoice.php:30
+#, php-format
+msgid ""
+"An order has been created for you on %1$s. Your invoice is below, with a "
+"link to make payment when you’re ready: %2$s"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-invoice.php:45
+msgid "Pay for this order"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-invoice.php:54
+#: easyreservations/templates/emails/plain/customer-invoice.php:37
+#, php-format
+msgid "Here are the details of your order placed on %s:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-new-account.php:24
+#: easyreservations/templates/emails/plain/customer-new-account.php:26
+#, php-format
+msgid ""
+"Thanks for creating an account on %1$s. Your username is %2$s. You can "
+"access your account area to view orders, change your password, and more at: "
+"%3$s"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-new-account.php:27
+#, php-format
+msgid "Your password has been automatically generated: %s"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-note.php:28
+#: easyreservations/templates/emails/plain/customer-note.php:25
+msgid "The following note has been added to your order:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-note.php:32
+#: easyreservations/templates/emails/plain/customer-note.php:33
+msgid "As a reminder, here are your order details:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-on-hold-order.php:26
+#: easyreservations/templates/emails/plain/customer-on-hold-order.php:25
+msgid ""
+"Thanks for your order. It’s on-hold until we confirm that payment has been "
+"received. In the meantime, here’s a reminder of what you ordered:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-processing-order.php:29
+#: easyreservations/templates/emails/plain/customer-processing-order.php:26
+#, php-format
+msgid ""
+"Just to let you know &mdash; we've received your order #%s, and it is now "
+"being processed:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-refunded-order.php:31
+#: easyreservations/templates/emails/plain/customer-refunded-order.php:27
+#, php-format
+msgid ""
+"Your order on %s has been partially refunded. There are more details below "
+"for your reference:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-refunded-order.php:34
+#: easyreservations/templates/emails/plain/customer-refunded-order.php:30
+#, php-format
+msgid ""
+"Your order on %s has been refunded. There are more details below for your "
+"reference:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-reset-password.php:28
+#: easyreservations/templates/emails/plain/customer-reset-password.php:26
+#, php-format
+msgid "Someone has requested a new password for the following account on %s:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-reset-password.php:30
+#: easyreservations/templates/emails/plain/customer-reset-password.php:28
+#, php-format
+msgid "Username: %s"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-reset-password.php:31
+#: easyreservations/templates/emails/plain/customer-reset-password.php:29
+msgid ""
+"If you didn't make this request, just ignore this email. If you'd like to "
+"proceed:"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/customer-reset-password.php:34
+msgid "Click here to reset your password"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/email-customer-details.php:23
+#: easyreservations/templates/emails/plain/email-customer-details.php:21
+msgid "Customer details"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/email-order-details.php:33
+#, php-format
+msgid "[Order #%s]"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/email-order-details.php:42
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-resources.php:102
+#: easyreservations/includes/admin/settings/views/html-admin-settings-custom.php:82
+#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:25
+#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:622
+#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:641
+#: easyreservations/includes/admin/views/html-admin-resource-filters.php:203
+#: easyreservations/includes/admin/views/html-admin-resource-filters.php:233
+#: easyreservations/includes/admin/views/html-admin-resource-slot-add.php:177
+#: easyreservations/includes/admin/views/html-admin-resource-slots.php:22
+msgid "Price"
+msgstr ""
+
+#: easyreservations-premium/templates/emails/email-order-details.php:78
+#: easyreservations/templates/emails/plain/email-order-details.php:45
+#: easyreservations/templates/order/order-details.php:79
+msgid "Note:"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/dashboard.php:28
+#, php-format
+msgid "Hello %1$s (not %1$s? <a href=\"%2$s\">Log out</a>)"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/dashboard.php:38
+#, php-format
+msgid ""
+"From your account dashboard you can view your <a href=\"%1$s\">recent "
+"orders</a>, change your <a href=\"%2$s\">address</a>, and <a href=\"%3$s"
+"\">edit your password and account details</a>."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-add-payment-method.php:51
+#: easyreservations-premium/templates/myaccount/payment-methods.php:76
+#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:224
+msgid "Add payment method"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-add-payment-method.php:57
+msgid ""
+"New payment methods can only be added during checkout. Please contact us if "
+"you require assistance."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:37
+msgid ""
+"This will be how your name will be displayed in the account section and in "
+"reviews"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:47
+msgid "Password change"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:50
+msgid "Current password (leave blank to leave unchanged)"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:54
+msgid "New password (leave blank to leave unchanged)"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:58
+msgid "Confirm new password"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-account.php:68
+#: easyreservations/includes/admin/class-er-admin.php:371
+#: easyreservations/includes/admin/views/html-admin-resource-settings.php:393
+#: easyreservations/includes/admin/views/html-admin-resource-spaces-names.php:24
+#: easyreservations/includes/admin/views/html-admin-settings.php:39
+msgid "Save changes"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-edit-address.php:40
+msgid "Save address"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:31
+#: easyreservations/templates/global/form-login.php:50
+msgid "Login"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:38
+msgid "Username or email address"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:42
+#: easyreservations-premium/templates/myaccount/form-login.php:92
+#: easyreservations/includes/class-er-checkout.php:109
+#: easyreservations/templates/global/form-login.php:36
+msgid "Password"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:50
+#: easyreservations/templates/global/form-login.php:46
+msgid "Remember me"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:53
+msgid "Log in"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:56
+#: easyreservations/templates/global/form-login.php:53
+msgid "Lost your password?"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:69
+#: easyreservations-premium/templates/myaccount/form-login.php:106
+msgid "Register"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-login.php:98
+msgid "A password will be sent to your email address."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-lost-password.php:24
+msgid ""
+"Lost your password? Please enter your username or email address. You will "
+"receive a link to create a new password via email."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-lost-password.php:27
+#: easyreservations/templates/global/form-login.php:32
+msgid "Username or email"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-lost-password.php:37
+#: easyreservations/includes/emails/class-er-email-customer-reset-password.php:61
+msgid "Reset password"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-reset-password.php:24
+msgid "Enter a new password below."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-reset-password.php:27
+msgid "New password"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-reset-password.php:31
+msgid "Re-enter new password"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/form-reset-password.php:44
+#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:226
+msgid "Save"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/lost-password-confirmation.php:19
+msgid "Password reset email has been sent."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/lost-password-confirmation.php:24
+msgid ""
+"A password reset email has been sent to the email address on file for your "
+"account, but may take several minutes to show up in your inbox. Please wait "
+"at least 10 minutes before attempting another reset."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:48
+msgctxt "hash before order number"
+msgid "#"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:60
+#, php-format
+msgid "%1$s for %2$s item"
+msgid_plural "%1$s for %2$s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:88
+msgid "Previous"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:92
+msgid "Next"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:100
+msgid "Browse products"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/orders.php:102
+msgid "No order has been made yet."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/payment-methods.php:48
+#, php-format
+msgid "%1$s ending in %2$s"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/payment-methods.php:69
+msgid "No saved methods found."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/view-order.php:27
+#: easyreservations/templates/order/tracking.php:29
+#, php-format
+msgid "Order #%1$s was placed on %2$s and is currently %3$s."
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/view-order.php:36
+#: easyreservations/templates/order/tracking.php:40
+msgid "Order updates"
+msgstr ""
+
+#: easyreservations-premium/templates/myaccount/view-order.php:42
+#: easyreservations/templates/order/tracking.php:46
+msgid "l jS \\o\\f F Y, h:ia"
 msgstr ""
 
 #: easyreservations/assets/js/admin/er-blocks.js:12
@@ -9103,6 +9791,12 @@ msgstr ""
 msgid "Muchinga"
 msgstr ""
 
+#: easyreservations/includes/abstracts/abstract-er-background-process.php:172
+#: easyreservations/includes/libraries/wp-background-process.php:423
+#, php-format
+msgid "Every %d minutes"
+msgstr ""
+
 #: easyreservations/includes/abstracts/abstract-er-data.php:304
 #, php-format
 msgid ""
@@ -9302,31 +9996,31 @@ msgstr ""
 msgid "%s actions"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-notices.php:196
+#: easyreservations/includes/admin/class-er-admin-notices.php:208
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:22
 #: easyreservations/includes/emails/class-er-email.php:847
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-notices.php:200
+#: easyreservations/includes/admin/class-er-admin-notices.php:212
 #: easyreservations/includes/emails/class-er-email.php:851
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-notices.php:413
+#: easyreservations/includes/admin/class-er-admin-notices.php:431
 #, php-format
 msgid ""
 "Update required: easyReservations will soon require PHP version %1$s and "
 "WordPress version %2$s or newer."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-notices.php:420
+#: easyreservations/includes/admin/class-er-admin-notices.php:438
 #, php-format
 msgid ""
 "Update required: easyReservations will soon require PHP version %s or newer."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-notices.php:426
+#: easyreservations/includes/admin/class-er-admin-notices.php:444
 #, php-format
 msgid ""
 "Update required: easyReservations will soon require WordPress version %s or "
@@ -9378,7 +10072,7 @@ msgid ""
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin-permalink-settings.php:138
-#: easyreservations/includes/er-core-functions.php:1452
+#: easyreservations/includes/er-core-functions.php:1457
 msgctxt "slug"
 msgid "resource"
 msgstr ""
@@ -9825,6 +10519,7 @@ msgid "Reservations list"
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:142
+#: easyreservations/includes/class-er-privacy.php:30
 #: easyreservations/includes/er-order-functions.php:385
 #: easyreservations/includes/er-order-functions.php:508
 #: easyreservations/includes/er-order-functions.php:509
@@ -9964,13 +10659,6 @@ msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:370
 msgid "No departures"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin.php:371
-#: easyreservations/includes/admin/views/html-admin-resource-settings.php:393
-#: easyreservations/includes/admin/views/html-admin-resource-spaces-names.php:24
-#: easyreservations/includes/admin/views/html-admin-settings.php:39
-msgid "Save changes"
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:372
@@ -10128,6 +10816,8 @@ msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:855
 #: easyreservations/includes/class-er-countries.php:463
+#: easyreservations/includes/class-er-privacy-erasers.php:53
+#: easyreservations/includes/class-er-privacy-exporters.php:185
 msgid "Country / Region"
 msgstr ""
 
@@ -10241,58 +10931,10 @@ msgstr ""
 msgid "Learn more about orders"
 msgstr ""
 
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:111
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:349
-#: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:601
-#: easyreservations/templates/form/date-selection.php:50
-msgid "Date"
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:112
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:351
-#: easyreservations/includes/admin/settings/class-er-settings-status.php:14
-#: easyreservations/includes/admin/views/html-timeline.php:55
-msgid "Status"
-msgstr ""
-
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:113
 #: easyreservations/includes/admin/settings/class-er-settings-emails.php:291
 #: easyreservations/includes/class-er-install.php:396
 msgid "Customer"
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:114
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:249
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:35
-#: easyreservations/templates/emails/email-addresses.php:28
-#: easyreservations/templates/emails/plain/email-addresses.php:19
-#: easyreservations/templates/order/order-details-customer.php:21
-msgid "Address"
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:115
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:433
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:47
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-fee.php:55
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-fee.php:89
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:28
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:151
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-reservation.php:75
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-reservation.php:117
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-resource.php:56
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-resource.php:98
-#: easyreservations/templates/cart/cart-totals.php:61
-#: easyreservations/templates/cart/cart-totals.php:62
-#: easyreservations/templates/checkout/review-order.php:82
-#: easyreservations/templates/order/order-details.php:40
-msgid "Total"
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:116
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:355
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-resources.php:103
-#: easyreservations/includes/admin/views/html-timeline.php:65
-msgid "Actions"
 msgstr ""
 
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:135
@@ -10447,27 +11089,6 @@ msgstr ""
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:551
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:635
 msgid "Change status: "
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:595
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:665
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:323
-#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:187
-#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:200
-#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:210
-#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:220
-#: easyreservations/includes/admin/settings/class-er-settings-accounts.php:230
-#: easyreservations/includes/admin/settings/class-er-settings-emails.php:115
-#: easyreservations/includes/admin/settings/class-er-settings-emails.php:128
-#: easyreservations/includes/emails/class-er-email-cancelled-order.php:185
-#: easyreservations/includes/emails/class-er-email-customer-invoice.php:227
-#: easyreservations/includes/emails/class-er-email-customer-refunded-order.php:277
-#: easyreservations/includes/emails/class-er-email-failed-order.php:183
-#: easyreservations/includes/emails/class-er-email-new-order.php:190
-#: easyreservations/includes/emails/class-er-email.php:662
-#: easyreservations/templates/emails/email-addresses.php:31
-#: easyreservations/templates/order/order-details-customer.php:24
-msgid "N/A"
 msgstr ""
 
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:644
@@ -10640,19 +11261,6 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-resources.php:102
-#: easyreservations/includes/admin/settings/views/html-admin-settings-custom.php:82
-#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:25
-#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:622
-#: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:641
-#: easyreservations/includes/admin/views/html-admin-resource-filters.php:203
-#: easyreservations/includes/admin/views/html-admin-resource-filters.php:233
-#: easyreservations/includes/admin/views/html-admin-resource-slot-add.php:177
-#: easyreservations/includes/admin/views/html-admin-resource-slots.php:22
-#: easyreservations/templates/emails/email-order-details.php:42
-msgid "Price"
-msgstr ""
-
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-actions.php:32
 msgid "Email invoice / order details to customer"
 msgstr ""
@@ -10692,17 +11300,9 @@ msgstr ""
 msgid "Order details manually sent to customer."
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:32
-#: easyreservations/includes/class-er-countries.php:441
-msgid "First name"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:36
-#: easyreservations/includes/class-er-countries.php:448
-msgid "Last name"
-msgstr ""
-
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:40
+#: easyreservations/includes/class-er-privacy-erasers.php:47
+#: easyreservations/includes/class-er-privacy-exporters.php:179
 msgid "Company"
 msgstr ""
 
@@ -10716,6 +11316,8 @@ msgid "Address line 2"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:52
+#: easyreservations/includes/class-er-privacy-erasers.php:50
+#: easyreservations/includes/class-er-privacy-exporters.php:182
 msgid "City"
 msgstr ""
 
@@ -10736,11 +11338,6 @@ msgstr ""
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:67
 #: easyreservations/includes/class-er-countries.php:494
 msgid "State / County"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:72
-#: easyreservations/includes/class-er-countries.php:1149
-msgid "Email address"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:119
@@ -10828,6 +11425,7 @@ msgid "Other"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:349
+#: easyreservations/includes/class-er-privacy-exporters.php:286
 msgid "Transaction ID"
 msgstr ""
 
@@ -10914,22 +11512,9 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:65
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:225
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:295
-msgid "Cancel"
-msgstr ""
-
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:95
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
 msgid "Delete image"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:95
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
-#: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:274
-#: easyreservations/includes/admin/views/html-admin-resource-header.php:28
-msgid "Delete"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
@@ -11084,10 +11669,6 @@ msgstr ""
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:219
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:354
 msgid "Add tax"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:226
-msgid "Save"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:233
@@ -11249,8 +11830,8 @@ msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-accounts.php:117
 msgid ""
-"Adds an option to the orders screen for removing personal in bulk. Note that "
-"removing personal data cannot be undone."
+"Adds an option to the orders screen for removing personal data in bulk. Note "
+"that removing personal data cannot be undone."
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-accounts.php:132
@@ -11475,11 +12056,6 @@ msgid ""
 "the checkout process. They should be unique."
 msgstr ""
 
-#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:204
-#: easyreservations/templates/checkout/thankyou.php:29
-msgid "Pay"
-msgstr ""
-
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:205
 msgid "Endpoint for the \"Checkout &rarr; Pay\" page."
 msgstr ""
@@ -11490,10 +12066,6 @@ msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:215
 msgid "Endpoint for the \"Checkout &rarr; Order received\" page."
-msgstr ""
-
-#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:224
-msgid "Add payment method"
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:225
@@ -11525,11 +12097,6 @@ msgid ""
 "Endpoints are appended to your page URLs to handle specific actions on the "
 "accounts pages. They should be unique and can be left blank to disable the "
 "endpoint."
-msgstr ""
-
-#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:266
-#: easyreservations/includes/er-order-functions.php:10
-msgid "Orders"
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:267
@@ -11571,10 +12138,6 @@ msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:317
 msgid "Endpoint for the \"My account &rarr; Lost password\" page."
-msgstr ""
-
-#: easyreservations/includes/admin/settings/class-er-settings-advanced.php:326
-msgid "Logout"
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-advanced.php:327
@@ -12530,10 +13093,6 @@ msgstr ""
 
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:43
 msgid "Delete log"
-msgstr ""
-
-#: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:59
-msgid "View"
 msgstr ""
 
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:69
@@ -14144,27 +14703,26 @@ msgstr ""
 msgid "Block global"
 msgstr ""
 
-#: easyreservations/includes/class-easyreservations.php:80
+#: easyreservations/includes/class-easyreservations.php:82
 #: easyreservations/includes/class-er-emails.php:40
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: easyreservations/includes/class-easyreservations.php:87
-#: easyreservations/includes/class-er-emails.php:47
-msgid "Unserializing instances of this class is forbidden."
+#: easyreservations/includes/class-easyreservations.php:89
+msgid "Unserializ ing instances of this class is forbidden."
 msgstr ""
 
-#: easyreservations/includes/class-easyreservations.php:183
+#: easyreservations/includes/class-easyreservations.php:177
 #, php-format
 msgid "%1$s in %2$s on line %3$s"
 msgstr ""
 
-#: easyreservations/includes/class-easyreservations.php:424
+#: easyreservations/includes/class-easyreservations.php:420
 #: easyreservations/templates/form/date-selection.php:116
 msgid "Select"
 msgstr ""
 
-#: easyreservations/includes/class-easyreservations.php:425
+#: easyreservations/includes/class-easyreservations.php:421
 msgid "Wait"
 msgstr ""
 
@@ -14299,11 +14857,6 @@ msgstr ""
 msgid "Create account password"
 msgstr ""
 
-#: easyreservations/includes/class-er-checkout.php:109
-#: easyreservations/templates/global/form-login.php:36
-msgid "Password"
-msgstr ""
-
 #: easyreservations/includes/class-er-checkout.php:382
 #, php-format
 msgid ""
@@ -14316,24 +14869,9 @@ msgstr ""
 msgid "%s is not a valid postcode / ZIP."
 msgstr ""
 
-#: easyreservations/includes/class-er-checkout.php:395
-#, php-format
-msgid "%s is not a valid phone number."
-msgstr ""
-
-#: easyreservations/includes/class-er-checkout.php:405
-#, php-format
-msgid "%s is not a valid email address."
-msgstr ""
-
 #: easyreservations/includes/class-er-checkout.php:425
 #, php-format
 msgid "%1$s is not valid. Please enter one of the following: %2$s"
-msgstr ""
-
-#: easyreservations/includes/class-er-checkout.php:432
-#, php-format
-msgid "%s is a required field."
 msgstr ""
 
 #: easyreservations/includes/class-er-checkout.php:449
@@ -14438,6 +14976,8 @@ msgstr ""
 #: easyreservations/includes/class-er-countries.php:577
 #: easyreservations/includes/class-er-countries.php:872
 #: easyreservations/includes/class-er-countries.php:1027
+#: easyreservations/includes/class-er-privacy-erasers.php:52
+#: easyreservations/includes/class-er-privacy-exporters.php:184
 msgid "State"
 msgstr ""
 
@@ -14501,22 +15041,22 @@ msgstr ""
 msgid "ZIP"
 msgstr ""
 
-#: easyreservations/includes/class-er-customer.php:502
+#: easyreservations/includes/class-er-customer.php:501
 #: easyreservations/includes/class-er-order.php:807
 msgid "Invalid email address"
 msgstr ""
 
-#: easyreservations/includes/class-er-customer.php:532
+#: easyreservations/includes/class-er-customer.php:531
 #, php-format
 msgctxt "display name"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: easyreservations/includes/class-er-customer.php:544
+#: easyreservations/includes/class-er-customer.php:543
 msgid "Invalid role"
 msgstr ""
 
-#: easyreservations/includes/class-er-customer.php:682
+#: easyreservations/includes/class-er-customer.php:681
 msgid "Invalid address email address"
 msgstr ""
 
@@ -14524,6 +15064,10 @@ msgstr ""
 #: easyreservations/includes/class-er-data-store.php:100
 #: easyreservations/includes/class-er-data-store.php:106
 msgid "Invalid data store."
+msgstr ""
+
+#: easyreservations/includes/class-er-emails.php:47
+msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
 #: easyreservations/includes/class-er-emails.php:464
@@ -14542,11 +15086,6 @@ msgstr ""
 
 #: easyreservations/includes/class-er-form-handler.php:81
 msgid "Undo?"
-msgstr ""
-
-#: easyreservations/includes/class-er-form-handler.php:265
-#: easyreservations/includes/class-er-form-handler.php:269
-msgid "Error:"
 msgstr ""
 
 #: easyreservations/includes/class-er-form-handler.php:269
@@ -14668,12 +15207,6 @@ msgstr ""
 msgid "This payment method was successfully set as your default."
 msgstr ""
 
-#: easyreservations/includes/class-er-payment.php:429
-#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:96
-#: easyreservations/includes/shortcodes/class-er-shortcode-checkout.php:141
-msgid "Invalid order."
-msgstr ""
-
 #: easyreservations/includes/class-er-payment.php:437
 msgid "The payment gateway for this order does not exist."
 msgstr ""
@@ -14686,6 +15219,325 @@ msgstr ""
 msgid ""
 "An error occurred while attempting to create the refund using the payment "
 "gateway API."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:45
+#: easyreservations/includes/class-er-privacy-exporters.php:177
+msgid "First Name"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:46
+#: easyreservations/includes/class-er-privacy-exporters.php:178
+msgid "Last Name"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:48
+#: easyreservations/includes/class-er-privacy-exporters.php:180
+msgid "Address 1"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:49
+#: easyreservations/includes/class-er-privacy-exporters.php:181
+msgid "Address 2"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:51
+#: easyreservations/includes/class-er-privacy-exporters.php:183
+msgid "Postal/Zip Code"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:54
+#: easyreservations/includes/class-er-privacy-exporters.php:186
+#: easyreservations/includes/class-er-privacy-exporters.php:238
+msgid "Phone Number"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:55
+#: easyreservations/includes/class-er-privacy-exporters.php:187
+#: easyreservations/includes/class-er-privacy-exporters.php:239
+msgid "Email Address"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:76
+#, php-format
+msgid "Removed customer \"%s\""
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:131
+#, php-format
+msgid "Removed personal data from order %s."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:135
+#, php-format
+msgid "Personal data within order %s has been retained."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:276
+msgid "Personal data removed."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-erasers.php:322
+#, php-format
+msgid "Removed payment token \"%d\""
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:29
+msgid "Customer Data"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:120
+msgid "Purchased Downloads"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:131
+msgid "Access to Purchased Downloads"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:135
+msgid "Download ID"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:139
+msgid "Timestamp"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:143
+#: easyreservations/includes/class-er-privacy-exporters.php:235
+msgid "IP Address"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:231
+msgid "Order Number"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:232
+msgid "Order Date"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:233
+msgid "Order Total"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:234
+msgid "Items Purchased"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:236
+msgid "Browser User Agent"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:283
+msgid "Payer first name"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:284
+msgid "Payer last name"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:285
+msgid "Payer PayPal address"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:344
+msgid "Payment Tokens"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy-exporters.php:348
+msgid "Token"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:41
+#: easyreservations/includes/class-er-privacy.php:46
+msgid "easyReservations Customer Data"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:42
+#: easyreservations/includes/class-er-privacy.php:47
+msgid "easyReservations Customer Orders"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:43
+#: easyreservations/includes/class-er-privacy.php:48
+msgid "easyReservations Customer Payment Tokens"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:67
+msgid ""
+"This sample language includes the basics around what personal data your "
+"store may be collecting, storing and sharing, as well as who may have access "
+"to that data. Depending on what settings are enabled and which additional "
+"plugins are used, the specific information shared by your store will vary. "
+"We recommend consulting with a lawyer when deciding what information to "
+"disclose on your privacy policy."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:70
+msgid ""
+"We collect information about you during the checkout process on our store."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:71
+msgid "What we collect and store"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:72
+msgid "While you visit our site, we’ll track:"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:74
+msgid ""
+"Products you’ve viewed:  we’ll use this to, for example, show you products "
+"you’ve recently viewed"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:75
+msgid ""
+"Location, IP address and browser type: we’ll use this for purposes like "
+"estimating taxes and shipping"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:76
+msgid ""
+"Shipping address: we’ll ask you to enter this so we can, for instance, "
+"estimate shipping before you place an order, and send you the order!"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:78
+msgid ""
+"We’ll also use cookies to keep track of cart contents while you’re browsing "
+"our site."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:80
+msgid ""
+"Note: you may want to further detail your cookie policy, and link to that "
+"section from here."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:82
+msgid ""
+"When you purchase from us, we’ll ask you to provide information including "
+"your name, billing address, shipping address, email address, phone number, "
+"credit card/payment details and optional account information like username "
+"and password. We’ll use this information for purposes, such as, to:"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:84
+msgid "Send you information about your account and order"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:85
+msgid "Respond to your requests, including refunds and complaints"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:86
+msgid "Process payments and prevent fraud"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:87
+msgid "Set up your account for our store"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:88
+msgid "Comply with any legal obligations we have, such as calculating taxes"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:89
+msgid "Improve our store offerings"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:90
+msgid "Send you marketing messages, if you choose to receive them"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:92
+msgid ""
+"If you create an account, we will store your name, address, email and phone "
+"number, which will be used to populate the checkout for future orders."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:93
+msgid ""
+"We generally store information about you for as long as we need the "
+"information for the purposes for which we collect and use it, and we are not "
+"legally required to continue to keep it. For example, we will store order "
+"information for XXX years for tax and accounting purposes. This includes "
+"your name, email address and billing and shipping addresses."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:94
+msgid "We will also store comments or reviews, if you choose to leave them."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:95
+msgid "Who on our team has access"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:96
+msgid ""
+"Members of our team have access to the information you provide us. For "
+"example, both Administrators and Shop Managers can access:"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:98
+msgid ""
+"Order information like what was purchased, when it was purchased and where "
+"it should be sent, and"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:99
+msgid ""
+"Customer information like your name, email address, and billing and shipping "
+"information."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:101
+msgid ""
+"Our team members have access to this information to help fulfill orders, "
+"process refunds and support you."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:102
+msgid "What we share with others"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:104
+msgid ""
+"In this section you should list who you’re sharing data with, and for what "
+"purpose. This could include, but may not be limited to, analytics, "
+"marketing, payment gateways, shipping providers, and third party embeds."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:106
+msgid ""
+"We share information with third parties who help us provide our orders and "
+"store services to you; for example --"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:107
+msgid "Payments"
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:109
+msgid ""
+"In this subsection you should list which third party payment processors "
+"you’re using to take payments on your store since these may handle customer "
+"data. We’ve included PayPal as an example, but you should remove this if "
+"you’re not using PayPal."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:111
+msgid ""
+"We accept payments through PayPal. When processing payments, some of your "
+"data will be passed to PayPal, including information required to process or "
+"support the payment, such as the purchase total and billing information."
+msgstr ""
+
+#: easyreservations/includes/class-er-privacy.php:112
+msgid ""
+"Please see the <a href=\"https://www.paypal.com/us/webapps/mpp/ua/privacy-"
+"full\">PayPal Privacy Policy</a> for more details."
 msgstr ""
 
 #: easyreservations/includes/class-er-reservation-form.php:61
@@ -15004,12 +15856,12 @@ msgid ""
 "Optionally add some text for the terms checkbox that customers must accept."
 msgstr ""
 
-#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:218
+#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:220
 #, php-format
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:218
+#: easyreservations/includes/data-stores/abstract-er-order-data-store-cpt.php:220
 #: easyreservations/includes/data-stores/class-er-order-refund-data-store-cpt.php:107
 msgctxt "Order date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
@@ -15030,7 +15882,7 @@ msgid ""
 "was,what,when,where,who,will,with,www"
 msgstr ""
 
-#: easyreservations/includes/data-stores/class-er-order-data-store-cpt.php:320
+#: easyreservations/includes/data-stores/class-er-order-data-store-cpt.php:338
 msgid "Invalid customer query."
 msgstr ""
 
@@ -15310,10 +16162,6 @@ msgstr ""
 
 #: easyreservations/includes/emails/class-er-email-customer-refunded-order.php:266
 msgid "Partial refund email heading"
-msgstr ""
-
-#: easyreservations/includes/emails/class-er-email-customer-reset-password.php:61
-msgid "Reset password"
 msgstr ""
 
 #: easyreservations/includes/emails/class-er-email-customer-reset-password.php:62
@@ -16117,12 +16965,12 @@ msgstr ""
 msgid "%s does not exist."
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:1453
+#: easyreservations/includes/er-core-functions.php:1458
 msgctxt "slug"
 msgid "resource-category"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:1454
+#: easyreservations/includes/er-core-functions.php:1459
 msgctxt "slug"
 msgid "resource-tag"
 msgstr ""
@@ -16551,10 +17399,6 @@ msgstr ""
 msgid "Choose an option"
 msgstr ""
 
-#: easyreservations/includes/er-user-functions.php:69
-msgid "Please provide a valid email address."
-msgstr ""
-
 #: easyreservations/includes/er-user-functions.php:73
 msgid ""
 "An account is already registered with your email address. Please log in."
@@ -16701,10 +17545,6 @@ msgid ""
 "merchant has declined your transaction. Please attempt your purchase again."
 msgstr ""
 
-#: easyreservations/templates/checkout/thankyou.php:32
-msgid "My account"
-msgstr ""
-
 #: easyreservations/templates/checkout/thankyou.php:38
 #: easyreservations/templates/checkout/thankyou.php:80
 msgid "Thank you. Your order has been received."
@@ -16712,163 +17552,6 @@ msgstr ""
 
 #: easyreservations/templates/checkout/thankyou.php:54
 msgid "Email:"
-msgstr ""
-
-#: easyreservations/templates/emails/admin-cancelled-order.php:27
-#: easyreservations/templates/emails/plain/admin-cancelled-order.php:24
-#, php-format
-msgid ""
-"Alas. Just to let you know &mdash; order #%1$s belonging to %2$s has been "
-"cancelled:"
-msgstr ""
-
-#: easyreservations/templates/emails/admin-failed-order.php:27
-#: easyreservations/templates/emails/plain/admin-failed-order.php:24
-#, php-format
-msgid "Payment for order #%1$s from %2$s has failed. The order was as follows:"
-msgstr ""
-
-#: easyreservations/templates/emails/admin-new-order.php:27
-#: easyreservations/templates/emails/plain/admin-new-order.php:24
-#, php-format
-msgid "You’ve received the following order from %s:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-completed-order.php:27
-#: easyreservations/templates/emails/customer-invoice.php:29
-#: easyreservations/templates/emails/customer-new-account.php:22
-#: easyreservations/templates/emails/customer-note.php:27
-#: easyreservations/templates/emails/customer-on-hold-order.php:25
-#: easyreservations/templates/emails/customer-processing-order.php:27
-#: easyreservations/templates/emails/customer-refunded-order.php:25
-#: easyreservations/templates/emails/customer-reset-password.php:26
-#: easyreservations/templates/emails/plain/customer-completed-order.php:24
-#: easyreservations/templates/emails/plain/customer-invoice.php:24
-#: easyreservations/templates/emails/plain/customer-new-account.php:24
-#: easyreservations/templates/emails/plain/customer-note.php:24
-#: easyreservations/templates/emails/plain/customer-on-hold-order.php:24
-#: easyreservations/templates/emails/plain/customer-processing-order.php:24
-#: easyreservations/templates/emails/plain/customer-refunded-order.php:24
-#: easyreservations/templates/emails/plain/customer-reset-password.php:24
-#, php-format
-msgid "Hi %s,"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-completed-order.php:29
-#: easyreservations/templates/emails/plain/customer-completed-order.php:26
-msgid "We have finished processing your order."
-msgstr ""
-
-#: easyreservations/templates/emails/customer-invoice.php:37
-#: easyreservations/templates/emails/plain/customer-invoice.php:30
-#, php-format
-msgid ""
-"An order has been created for you on %1$s. Your invoice is below, with a "
-"link to make payment when you’re ready: %2$s"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-invoice.php:45
-msgid "Pay for this order"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-invoice.php:54
-#: easyreservations/templates/emails/plain/customer-invoice.php:37
-#, php-format
-msgid "Here are the details of your order placed on %s:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-new-account.php:24
-#: easyreservations/templates/emails/plain/customer-new-account.php:26
-#, php-format
-msgid ""
-"Thanks for creating an account on %1$s. Your username is %2$s. You can "
-"access your account area to view orders, change your password, and more at: "
-"%3$s"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-new-account.php:27
-#, php-format
-msgid "Your password has been automatically generated: %s"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-note.php:28
-#: easyreservations/templates/emails/plain/customer-note.php:25
-msgid "The following note has been added to your order:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-note.php:32
-#: easyreservations/templates/emails/plain/customer-note.php:33
-msgid "As a reminder, here are your order details:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-on-hold-order.php:26
-#: easyreservations/templates/emails/plain/customer-on-hold-order.php:25
-msgid ""
-"Thanks for your order. It’s on-hold until we confirm that payment has been "
-"received. In the meantime, here’s a reminder of what you ordered:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-processing-order.php:29
-#: easyreservations/templates/emails/plain/customer-processing-order.php:26
-#, php-format
-msgid ""
-"Just to let you know &mdash; we've received your order #%s, and it is now "
-"being processed:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-refunded-order.php:31
-#: easyreservations/templates/emails/plain/customer-refunded-order.php:27
-#, php-format
-msgid ""
-"Your order on %s has been partially refunded. There are more details below "
-"for your reference:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-refunded-order.php:34
-#: easyreservations/templates/emails/plain/customer-refunded-order.php:30
-#, php-format
-msgid ""
-"Your order on %s has been refunded. There are more details below for your "
-"reference:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-reset-password.php:28
-#: easyreservations/templates/emails/plain/customer-reset-password.php:26
-#, php-format
-msgid "Someone has requested a new password for the following account on %s:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-reset-password.php:30
-#: easyreservations/templates/emails/plain/customer-reset-password.php:28
-#, php-format
-msgid "Username: %s"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-reset-password.php:31
-#: easyreservations/templates/emails/plain/customer-reset-password.php:29
-msgid ""
-"If you didn't make this request, just ignore this email. If you'd like to "
-"proceed:"
-msgstr ""
-
-#: easyreservations/templates/emails/customer-reset-password.php:34
-msgid "Click here to reset your password"
-msgstr ""
-
-#: easyreservations/templates/emails/email-customer-details.php:23
-#: easyreservations/templates/emails/plain/email-customer-details.php:21
-msgid "Customer details"
-msgstr ""
-
-#: easyreservations/templates/emails/email-order-details.php:33
-#, php-format
-msgid "[Order #%s]"
-msgstr ""
-
-#: easyreservations/templates/emails/email-order-details.php:78
-#: easyreservations/templates/emails/plain/email-order-details.php:45
-#: easyreservations/templates/order/order-details.php:79
-msgid "Note:"
 msgstr ""
 
 #: easyreservations/templates/emails/plain/customer-new-account.php:30
@@ -16892,22 +17575,6 @@ msgstr ""
 
 #: easyreservations/templates/form/price.php:19
 msgid "Total price"
-msgstr ""
-
-#: easyreservations/templates/global/form-login.php:32
-msgid "Username or email"
-msgstr ""
-
-#: easyreservations/templates/global/form-login.php:46
-msgid "Remember me"
-msgstr ""
-
-#: easyreservations/templates/global/form-login.php:50
-msgid "Login"
-msgstr ""
-
-#: easyreservations/templates/global/form-login.php:53
-msgid "Lost your password?"
 msgstr ""
 
 #: easyreservations/templates/loop/button.php:22
@@ -16940,19 +17607,6 @@ msgid "Showing %1$d&ndash;%2$d of %3$d result"
 msgid_plural "Showing %1$d&ndash;%2$d of %3$d results"
 msgstr[0] ""
 msgstr[1] ""
-
-#: easyreservations/templates/order/tracking.php:29
-#, php-format
-msgid "Order #%1$s was placed on %2$s and is currently %3$s."
-msgstr ""
-
-#: easyreservations/templates/order/tracking.php:40
-msgid "Order updates"
-msgstr ""
-
-#: easyreservations/templates/order/tracking.php:46
-msgid "l jS \\o\\f F Y, h:ia"
-msgstr ""
 
 #: easyreservations/templates/single-resource/photoswipe.php:33
 msgid "Close (Esc)"
