@@ -105,7 +105,7 @@ class ER_Customer_Data_Store_Session extends ER_Data_Store_WP implements ER_Cust
 	protected function set_defaults( &$customer ) {
 		try {
 			if ( ! $customer->get_address_country() ) {
-				$customer->set_address_country( er_get_default_country() );
+				$customer->set_address_country( ER()->countries->get_base_country() );
 			}
 
 			if ( ! $customer->get_address_email() && is_user_logged_in() ) {

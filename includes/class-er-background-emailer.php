@@ -57,7 +57,7 @@ class ER_Background_Emailer extends ER_Background_Process {
 			try {
 				ER_Emails::send_queued_transactional_email( $callback['filter'], $callback['args'] );
 			} catch ( Exception $e ) {
-				if ( Constants::is_true( 'WP_DEBUG' ) ) {
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					trigger_error( 'Transactional email triggered fatal error for callback ' . esc_html( $callback['filter'] ), E_USER_WARNING ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 				}
 			}

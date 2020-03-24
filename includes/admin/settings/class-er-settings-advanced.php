@@ -30,6 +30,7 @@ class ER_Settings_Advanced extends ER_Settings_Page {
 
 		return apply_filters( 'easyreservations_admin_advanced_sections', array(
 			'page_setup' => __( 'Page setup', 'easyReservations' ),
+			'easyreservations' => __( 'easyReservations.org', 'easyReservations' ),
 		) );
 	}
 
@@ -335,6 +336,38 @@ class ER_Settings_Advanced extends ER_Settings_Page {
 						array(
 							'type' => 'sectionend',
 							'id'   => 'account_endpoint_options',
+						),
+					)
+				);
+
+				break;
+			case 'easyreservations':
+				$tracking_info_text = sprintf( '<a href="%s" target="_blank">%s</a>', 'https://woocommerce.com/usage-tracking', esc_html__( 'easyReservations.org Usage Tracking Documentation', 'easyReservations' ) );
+
+				return apply_filters(
+					'easyreservations_org_integration_settings',
+					array(
+						array(
+							'title' => esc_html__( 'Usage Tracking', 'easyReservations' ),
+							'type'  => 'title',
+							'id'    => 'tracking_options',
+							'desc'  => __( 'Gathering usage data allows us to make easyReservations better — your store will be considered as we evaluate new features, judge the quality of an update, or determine if an improvement makes sense.', 'easyReservations' ),
+						),
+						array(
+							'title'         => __( 'Enable tracking', 'easyReservations' ),
+							'desc'          => __( 'Allow usage of easyReservations to be tracked', 'easyReservations' ),
+							/* Translators: %s URL to tracking info screen. */
+							'desc_tip'      => sprintf( esc_html__( 'To opt out, leave this box unticked. Your store remains untracked, and no data will be collected. Read about what usage data is tracked at: %s.', 'easyReservations' ), $tracking_info_text ),
+							'id'            => 'reservations_allow_tracking',
+							'option'        => 'reservations_allow_tracking',
+							'type'          => 'checkbox',
+							'checkboxgroup' => 'start',
+							'default'       => 'no',
+							'autoload'      => false,
+						),
+						array(
+							'type' => 'sectionend',
+							'id'   => 'tracking_options',
 						),
 					)
 				);

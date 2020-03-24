@@ -29,7 +29,7 @@ if ( function_exists( 'curl_version' ) ) {
 
 $database = er_admin_get_server_database_info();
 
-$database_version = er_admin_get_server_database_version();
+$database_version = er_get_server_database_version();
 
 $default_timezone = date_default_timezone_get();
 
@@ -257,7 +257,7 @@ $active_theme_info = array(
 	'version_latest'               => er_admin_get_latest_theme_version( $active_theme ),
 	'author_url'                   => esc_url_raw( $active_theme->{'Author URI'} ),
 	'is_child_theme'               => is_child_theme(),
-	'has_easyreservations_support' => current_theme_supports( 'easyReservations' ),
+	'has_easyreservations_support' => current_theme_supports( 'easyreservations' ),
 	'has_outdated_templates'       => $outdated_templates,
 	'overrides'                    => $override_files,
 );

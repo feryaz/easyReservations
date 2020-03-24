@@ -308,6 +308,28 @@ class ER_Payment {
 				return;
 			}
 
+			// Test rate limit.
+			$current_user_id = get_current_user_id();
+			$rate_limit_id   = 'add_payment_method_' . $current_user_id;
+			$delay           = (int) apply_filters( 'easyreservations_payment_gateway_add_payment_method_delay', 20 );
+
+			if ( ER_Rate_Limiter::retried_too_soon( $rate_limit_id ) ) {
+				er_add_notice(
+				/* translators: %d number of seconds */
+					_n(
+						'You cannot add a new payment method so soon after the previous one. Please wait for %d second.',
+						'You cannot add a new payment method so soon after the previous one. Please wait for %d seconds.',
+						$delay,
+						'woocommerce'
+					),
+					'error'
+				);
+
+				return;
+			}
+
+			ER_Rate_Limiter::set_rate_limit( $rate_limit_id, $delay );
+
 			ob_start();
 
 			$payment_method_id  = er_clean( wp_unslash( $_POST['payment_method'] ) );

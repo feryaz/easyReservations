@@ -69,7 +69,7 @@ class ER_Checkout extends ER_Form {
 		}
 
 		$country           = $this->get_value( 'country' );
-		$country           = empty( $country ) ? er_get_default_country() : $country;
+		$country           = empty( $country ) ? ER()->countries->get_base_country() : $country;
 		$allowed_countries = ER()->countries->get_countries();
 
 		if ( ! array_key_exists( $country, $allowed_countries ) ) {

@@ -602,7 +602,7 @@ div.easy-slider.ui-slider .ui-slider-range {
 }
 
 .easy-ui .hidden {
-  display: none !important;
+  display: none;
 }
 
 /**

@@ -269,6 +269,7 @@ class ER_Install {
 		wp_clear_scheduled_hook( 'easyreservations_cleanup_sessions' );
 		wp_clear_scheduled_hook( 'easyreservations_cleanup_personal_data' );
 		wp_clear_scheduled_hook( 'easyreservations_cleanup_logs' );
+		wp_clear_scheduled_hook( 'easyreservations_tracker_send_event' );
 
 		$ve = get_option( 'gmt_offset' ) > 0 ? '-' : '+';
 
@@ -290,6 +291,7 @@ class ER_Install {
 		wp_schedule_event( time(), 'daily', 'easyreservations_cleanup_personal_data' );
 		wp_schedule_event( time() + ( 3 * HOUR_IN_SECONDS ), 'daily', 'easyreservations_cleanup_logs' );
 		wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'easyreservations_cleanup_sessions' );
+		wp_schedule_event( time() + 10, apply_filters( 'easyreservations_tracker_event_recurrence', 'daily' ), 'easyreservations_tracker_send_event' );
 	}
 
 	/**

@@ -1,5 +1,11 @@
 /*global easyreservations_admin_meta_boxes, er_admin_params, accounting, er_admin_meta_boxes_order_params */
 jQuery( function( $ ) {
+
+	// Stand-in wcTracks.recordEvent in case tracks is not available (for any reason).
+	window.erTracks = window.erTracks || {};
+	window.erTracks.recordEvent = window.erTracks.recordEvent || function() {
+	};
+
 	/**
 	 * Receipt Items Panel
 	 */
@@ -13,6 +19,7 @@ jQuery( function( $ ) {
 				.on( 'click', 'a.remove-coupon', this.remove_coupon )
 				.on( 'click', 'button.refund-items', this.refund_items )
 				.on( 'click', '.cancel-action', this.cancel )
+				.on( 'click', '.refund-actions .cancel-action', this.track_cancel )
 				.on( 'click', '.reservation-preview', this.preview_reservation )
 				.on( 'click', 'button.add-receipt-reservation', this.add_item )
 				.on( 'click', 'button.add-receipt-fee', this.add_fee )
@@ -99,17 +106,32 @@ jQuery( function( $ ) {
 			$( 'div.er-receipt-add-item' ).slideDown();
 			$( 'div.er-receipt-data-row-toggle' ).not( 'div.er-receipt-add-item' ).slideUp();
 
+			window.erTracks.recordEvent( 'receipt_edit_add_items_click', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
+
 			return false;
 		},
 
 		add_coupon: function() {
-			var value = window.prompt( easyreservations_admin_meta_boxes.i18n_apply_coupon );
+			window.erTracks.recordEvent( 'receipt_edit_add_coupon_click', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
 
-			if ( null !== value ) {
+			const value = window.prompt( easyreservations_admin_meta_boxes.i18n_apply_coupon );
+
+			if ( null == value ) {
+				window.erTracks.recordEvent( 'receipt_edit_add_coupon_cancel', {
+					object_id: easyreservations_admin_meta_boxes.post_id,
+					object_type: easyreservations_admin_meta_boxes.post_type,
+					status: $( '#order_status,#reservation_status' ).val(),
+				} );
+			} else {
 				er_meta_boxes_receipt_items.block();
-
-				var user_id = $( '#customer_user' ).val();
-				var user_email = $( '#_billing_email' ).val();
 
 				var data = {
 					action: 'easyreservations_add_order_coupon',
@@ -117,8 +139,8 @@ jQuery( function( $ ) {
 					order_id: easyreservations_admin_meta_boxes.post_id,
 					security: easyreservations_admin_meta_boxes.receipt_item_nonce,
 					coupon: value,
-					user_id: user_id,
-					user_email: user_email
+					user_id: $( '#customer_user' ).val(),
+					user_email: $( '#_billing_email' ).val(),
 				};
 
 				$.ajax( {
@@ -137,7 +159,12 @@ jQuery( function( $ ) {
 						er_meta_boxes_receipt_items.unblock();
 					},
 					complete: function() {
-					}
+						window.erTracks.recordEvent( 'receipt_edit_added_coupon', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
+					},
 				} );
 			}
 			return false;
@@ -175,6 +202,12 @@ jQuery( function( $ ) {
 			$( '#easyreservations-order-items' ).find( 'div.refund' ).show();
 			$( '.er-receipt-edit-line-item .er-receipt-edit-line-item-actions' ).hide();
 
+			window.erTracks.recordEvent( 'receipt_edit_refund_button_click', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
+
 			return false;
 		},
 
@@ -190,7 +223,21 @@ jQuery( function( $ ) {
 				er_meta_boxes_receipt_items.reload_items();
 			}
 
+			window.erTracks.recordEvent( 'receipt_edit_add_items_cancelled', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
+
 			return false;
+		},
+
+		track_cancel: function() {
+			window.erTracks.recordEvent( 'receipt_edit_refund_cancel', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
 		},
 
 		preview_reservation: function() {
@@ -200,7 +247,7 @@ jQuery( function( $ ) {
 			if ( $previewButton.data( 'reservation-data' ) ) {
 				$( this ).ERBackboneModal( {
 					template: 'er-modal-view-reservation',
-					variable: $previewButton.data( 'reservation-data' )
+					variable: $previewButton.data( 'reservation-data' ),
 				} );
 			} else {
 				$previewButton.addClass( 'disabled' );
@@ -210,7 +257,7 @@ jQuery( function( $ ) {
 					data: {
 						reservation_id: $reservation_id,
 						action: 'easyreservations_get_reservation_details',
-						security: easyreservations_admin_meta_boxes.preview_nonce
+						security: easyreservations_admin_meta_boxes.preview_nonce,
 					},
 					type: 'GET',
 					success: function( response ) {
@@ -221,10 +268,10 @@ jQuery( function( $ ) {
 
 							$( this ).ERBackboneModal( {
 								template: 'er-modal-view-reservation',
-								variable: response.data
+								variable: response.data,
 							} );
 						}
-					}
+					},
 				} );
 			}
 			return false;
@@ -263,9 +310,21 @@ jQuery( function( $ ) {
 		},
 
 		add_fee: function() {
+			window.erTracks.recordEvent( 'receipt_edit_add_fee_click', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
+
 			var value = window.prompt( easyreservations_admin_meta_boxes.i18n_add_fee );
 
-			if ( null !== value ) {
+			if ( null == value ) {
+				window.erTracks.recordEvent( 'receipt_edit_add_fee_cancel', {
+					object_id: easyreservations_admin_meta_boxes.post_id,
+					object_type: easyreservations_admin_meta_boxes.post_type,
+					status: $( '#order_status,#reservation_status' ).val(),
+				} );
+			} else {
 				er_meta_boxes_receipt_items.block();
 
 				var data = {
@@ -283,6 +342,11 @@ jQuery( function( $ ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 						er_meta_boxes_receipt_items.reloaded_items();
 						er_meta_boxes_receipt_items.unblock();
+						window.erTracks.recordEvent( 'receipt_edit_added_fee', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
 					} else {
 						window.alert( response.data.error );
 					}
@@ -305,6 +369,12 @@ jQuery( function( $ ) {
 			$( this ).hide();
 			$( 'button.add-line-item' ).click();
 			$( 'button.cancel-action' ).attr( 'data-reload', true );
+
+			window.erTracks.recordEvent( 'receipt_edit_edit_item_click', {
+				object_id: easyreservations_admin_meta_boxes.post_id,
+				object_type: easyreservations_admin_meta_boxes.post_type,
+				status: $( '#order_status,#reservation_status' ).val(),
+			} );
 
 			return false;
 		},
@@ -354,7 +424,12 @@ jQuery( function( $ ) {
 						er_meta_boxes_receipt_items.unblock();
 					},
 					complete: function() {
-					}
+						window.erTracks.recordEvent( 'receipt_edit_remove_item', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
+					},
 				} );
 			}
 			return false;
@@ -388,9 +463,21 @@ jQuery( function( $ ) {
 						er_meta_boxes_receipt_items.unblock();
 					},
 					complete: function() {
-					}
+						window.erTracks.recordEvent( 'receipt_edit_delete_tax', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
+					},
+				} );
+			} else {
+				window.erTracks.recordEvent( 'receipt_edit_delete_tax_cancel', {
+					object_id: easyreservations_admin_meta_boxes.post_id,
+					object_type: easyreservations_admin_meta_boxes.post_type,
+					status: $( '#order_status,#reservation_status' ).val(),
 				} );
 			}
+
 			return false;
 		},
 
@@ -422,7 +509,19 @@ jQuery( function( $ ) {
 					},
 					complete: function( response ) {
 						$( document.body ).trigger( 'receipt-totals-recalculate-complete', response );
-					}
+
+						window.erTracks.recordEvent( 'receipt_edit_recalc_totals', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
+					},
+				} );
+			} else {
+				window.erTracks.recordEvent( 'receipt_edit_recalc_totals', {
+					object_id: easyreservations_admin_meta_boxes.post_id,
+					object_type: easyreservations_admin_meta_boxes.post_type,
+					status: $( '#order_status,#reservation_status' ).val(),
 				} );
 			}
 
@@ -463,7 +562,12 @@ jQuery( function( $ ) {
 					}
 				},
 				complete: function() {
-				}
+					window.erTracks.recordEvent( 'receipt_edit_save_line_items', {
+						object_id: easyreservations_admin_meta_boxes.post_id,
+						object_type: easyreservations_admin_meta_boxes.post_type,
+						status: $( '#order_status,#reservation_status' ).val(),
+					} );
+				},
 			} );
 
 			$( this ).trigger( 'items_saved' );
@@ -512,7 +616,6 @@ jQuery( function( $ ) {
 						line_item_totals: JSON.stringify( line_item_totals, null, '' ),
 						line_item_tax_totals: JSON.stringify( line_item_tax_totals, null, '' ),
 						api_refund: $( this ).is( '.do-api-refund' ),
-						restock_refunded_items: $( '#restock_refunded_items:checked' ).length ? 'true' : 'false',
 						security: easyreservations_admin_meta_boxes.receipt_item_nonce
 					};
 
@@ -531,7 +634,14 @@ jQuery( function( $ ) {
 							}
 						},
 						complete: function() {
-						}
+							window.erTracks.recordEvent( 'receipt_edit_save_line_items', {
+								object_id: easyreservations_admin_meta_boxes.post_id,
+								object_type: easyreservations_admin_meta_boxes.post_type,
+								status: $( '#order_status,#reservation_status' ).val(),
+								api_refund: data.api_refund,
+								has_reason: Boolean( data.refund_reason.length ),
+							} );
+						},
 					} );
 				} else {
 					er_meta_boxes_receipt_items.unblock();
@@ -557,7 +667,7 @@ jQuery( function( $ ) {
 						type: 'POST',
 						success: function() {
 							er_meta_boxes_receipt_items.reload_items();
-						}
+						},
 					} );
 				}
 				return false;
@@ -594,7 +704,7 @@ jQuery( function( $ ) {
 					decimal: easyreservations_admin_meta_boxes.currency_format_decimal_sep,
 					thousand: easyreservations_admin_meta_boxes.currency_format_thousand_sep,
 					precision: easyreservations_admin_meta_boxes.currency_format_num_decimals,
-					format: easyreservations_admin_meta_boxes.currency_format
+					format: easyreservations_admin_meta_boxes.currency_format,
 				} ) );
 			},
 		},
@@ -620,7 +730,7 @@ jQuery( function( $ ) {
 
 			remove: function() {
 				if ( window.confirm( easyreservations_admin_meta_boxes.remove_item_meta ) ) {
-					var $row = $( this ).closest( 'tr' );
+					const $row = $( this ).closest( 'tr' );
 					$row.find( ':input' ).val( '' );
 					$row.hide();
 				}
@@ -712,8 +822,13 @@ jQuery( function( $ ) {
 						}
 					},
 					complete: function() {
+						window.erTracks.recordEvent( 'receipt_edit_add_resource', {
+							object_id: easyreservations_admin_meta_boxes.post_id,
+							object_type: easyreservations_admin_meta_boxes.post_type,
+							status: $( '#order_status,#reservation_status' ).val(),
+						} );
 					},
-					dataType: 'json'
+					dataType: 'json',
 				} );
 			},
 
@@ -754,7 +869,12 @@ jQuery( function( $ ) {
 							er_meta_boxes_receipt_items.unblock();
 						},
 						complete: function() {
-						}
+							window.erTracks.recordEvent( 'receipt_edit_add_tax', {
+								object_id: easyreservations_admin_meta_boxes.post_id,
+								object_type: easyreservations_admin_meta_boxes.post_type,
+								status: $( '#order_status,#reservation_status' ).val(),
+							} );
+						},
 					} );
 				} else {
 					window.alert( easyreservations_admin_meta_boxes.i18n_tax_rate_already_exists );

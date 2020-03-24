@@ -19,7 +19,7 @@ class ER_Admin {
 			add_action( 'init', array( $this, 'register_reservation_post_type' ) );
 			add_action( 'admin_init', array( $this, 'preview_emails' ) );
 			add_action( 'admin_menu', array( $this, 'add_menu' ) );
-			add_action( 'wp_loaded', array( $this, 'save_settings' ) );
+			add_action( 'wp_loaded', array( $this, 'init_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'load_blocks' ) );
 			add_action( 'current_screen', array( $this, 'conditional_includes' ) );
@@ -38,17 +38,36 @@ class ER_Admin {
 		include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-notices.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-post-types.php' );
 
-		if ( isset( $_GET['page'] ) ) {
-			if ( $_GET['page'] == 'reservation' ) {
-				include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-reservation.php' );
-			} elseif ( $_GET['page'] == 'resource' ) {
-				include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-resources.php' );
-			} elseif ( $_GET['page'] == 'reservation-availability' ) {
-				include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-availability.php' );
-			} elseif ( $_GET['page'] == 'er-settings' ) {
-				include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-settings.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-event.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-client.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-footer-pixel.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-site-tracking.php' );
+
+		if ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
+			switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				case 'reservation':
+					include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-reservation.php' );
+					break;
+
+				case 'resource':
+					include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-resources.php' );
+					break;
+
+				case 'reservation-availability':
+					include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-availability.php' );
+					break;
+
+				case 'er-settings':
+					include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-settings.php' );
+					break;
+
+				case 'er-setup':
+					include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-setup-wizard.php' );
+					break;
 			}
 		}
+
 	}
 
 	/**
@@ -431,9 +450,10 @@ class ER_Admin {
 				'add_order_note_nonce'         => wp_create_nonce( 'add-order-note' ),
 				'delete_order_note_nonce'      => wp_create_nonce( 'delete-order-note' ),
 				'post_id'                      => isset( $post->ID ) ? $post->ID : ( isset( $_GET['reservation'] ) ? absint( $_GET['reservation'] ) : '' ),
+				'post_type'                    => isset( $post->ID ) ? 'order' : 'reservation',
 				'order'                        => isset( $post->ID ) ? 'yes' : '',
 				'reservation'                  => ! isset( $post->ID ) ? 'yes' : '',
-				'base_country'                 => er_get_default_country(),
+				'base_country'                 => ER()->countries->get_base_country(),
 				'currency_format_num_decimals' => er_get_price_decimals(),
 				'currency_format_symbol'       => er_get_currency_symbol(),
 				'currency_format_decimal_sep'  => esc_attr( er_get_price_decimal_separator() ),
@@ -594,7 +614,7 @@ class ER_Admin {
 	 *
 	 * @return void
 	 */
-	public function save_settings() {
+	public function init_settings() {
 		global $current_tab, $current_section;
 
 		// We should only save on the settings page.
@@ -619,6 +639,8 @@ class ER_Admin {
 		} else {
 			do_action( 'easyreservations_no_settings_to_save' );
 		}
+
+		do_action( 'easyreservations_settings_page_init' );
 	}
 
 	/**

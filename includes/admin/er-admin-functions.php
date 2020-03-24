@@ -92,33 +92,6 @@ function er_admin_scan_template_files( $template_path ) {
 }
 
 /**
- * Retrieves the MySQL server version. Based on $wpdb.
- *
- * @return array Vesion information.
- */
-function er_admin_get_server_database_version() {
-	global $wpdb;
-
-	if ( empty( $wpdb->is_mysql ) ) {
-		return array(
-			'string' => '',
-			'number' => '',
-		);
-	}
-
-	if ( $wpdb->use_mysqli ) {
-		$server_info = mysqli_get_server_info( $wpdb->dbh ); // @codingStandardsIgnoreLine.
-	} else {
-		$server_info = mysql_get_server_info( $wpdb->dbh ); // @codingStandardsIgnoreLine.
-	}
-
-	return array(
-		'string' => $server_info,
-		'number' => preg_replace( '/([^\d.]+).*/', '', $server_info ),
-	);
-}
-
-/**
  * Get array of database information. Version, prefix, and table existence.
  *
  * @return array

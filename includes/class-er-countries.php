@@ -77,6 +77,72 @@ class ER_Countries {
 	}
 
 	/**
+	 * Get the base address (first line) for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_address() {
+		$base_address = get_option( 'reservations_store_address', '' );
+
+		return apply_filters( 'easyreservations_countries_base_address', $base_address );
+	}
+
+	/**
+	 * Get the base address (second line) for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_address_2() {
+		$base_address_2 = get_option( 'reservations_store_address_2', '' );
+
+		return apply_filters( 'easyreservations_countries_base_address_2', $base_address_2 );
+	}
+
+	/**
+	 * Get the base country for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_country() {
+		$default = er_get_default_location();
+
+		return apply_filters( 'easyreservations_countries_base_country', $default['country'] );
+	}
+
+	/**
+	 * Get the base state for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_state() {
+		$default = er_get_default_location();
+
+		return apply_filters( 'easyreservations_countries_base_state', $default['state'] );
+	}
+
+	/**
+	 * Get the base city for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_city() {
+		$base_city = get_option( 'reservations_store_city', '' );
+
+		return apply_filters( 'easyreservations_countries_base_city', $base_city );
+	}
+
+	/**
+	 * Get the base postcode for the store.
+	 *
+	 * @return string
+	 */
+	public function get_base_postcode() {
+		$base_postcode = get_option( 'reservations_store_postcode', '' );
+
+		return apply_filters( 'easyreservations_countries_base_postcode', $base_postcode );
+	}
+
+	/**
 	 * Gets an array of countries in the EU.
 	 *
 	 * @return string[]
@@ -187,7 +253,7 @@ class ER_Countries {
 	 * @return string
 	 */
 	public function tax_or_vat() {
-		$return = in_array( er_get_default_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( 'VAT', 'easyReservations' ) : __( 'Tax', 'easyReservations' );
+		$return = in_array( ER()->countries->get_base_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( 'VAT', 'easyReservations' ) : __( 'Tax', 'easyReservations' );
 
 		return apply_filters( 'easyreservations_countries_tax_or_vat', $return );
 	}
@@ -198,7 +264,7 @@ class ER_Countries {
 	 * @return string
 	 */
 	public function inc_tax_or_vat() {
-		$return = in_array( er_get_default_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( '(incl. VAT)', 'easyReservations' ) : __( '(incl. tax)', 'easyReservations' );
+		$return = in_array( ER()->countries->get_base_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( '(incl. VAT)', 'easyReservations' ) : __( '(incl. tax)', 'easyReservations' );
 
 		return apply_filters( 'easyreservations_countries_inc_tax_or_vat', $return );
 	}
@@ -209,7 +275,7 @@ class ER_Countries {
 	 * @return string
 	 */
 	public function ex_tax_or_vat() {
-		$return = in_array( er_get_default_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( '(ex. VAT)', 'easyReservations' ) : __( '(ex. tax)', 'easyReservations' );
+		$return = in_array( ER()->countries->get_base_country(), array_merge( $this->get_european_union_countries(), array( 'NO' ), $this->get_vat_countries() ), true ) ? __( '(ex. VAT)', 'easyReservations' ) : __( '(ex. tax)', 'easyReservations' );
 
 		return apply_filters( 'easyreservations_countries_ex_tax_or_vat', $return );
 	}
@@ -338,7 +404,7 @@ class ER_Countries {
 		$full_country = ( isset( $this->countries[ $country ] ) ) ? $this->countries[ $country ] : $country;
 
 		// Country is not needed if the same as base.
-		if ( $country === er_get_default_country() && ! apply_filters( 'easyreservations_formatted_address_force_country_display', false ) ) {
+		if ( $country === ER()->countries->get_base_country() && ! apply_filters( 'easyreservations_formatted_address_force_country_display', false ) ) {
 			$format = str_replace( '{country}', '', $format );
 		}
 
@@ -1090,7 +1156,7 @@ class ER_Countries {
 			// Default Locale Can be filtered to override fields in get_address_fields(). Countries with no specific locale will use default.
 			$this->locale['default'] = apply_filters( 'easyreservations_get_country_locale_default', $this->get_default_address_fields() );
 
-			$base_country = er_get_default_country();
+			$base_country = ER()->countries->get_base_country();
 
 			// Filter default AND shop base locales to allow overides via a single function. These will be used when changing countries on the checkout.
 			if ( ! isset( $this->locale[ $base_country ] ) ) {
@@ -1113,7 +1179,7 @@ class ER_Countries {
 	 */
 	public function get_address_fields( $country = '' ) {
 		if ( ! $country ) {
-			$country = er_get_default_country();
+			$country = ER()->countries->get_base_country();
 		}
 
 		$fields = $this->get_default_address_fields();

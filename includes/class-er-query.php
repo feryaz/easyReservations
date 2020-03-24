@@ -242,7 +242,7 @@ class ER_Query {
 					$q->is_home = false;
 
 					// WP supporting themes show post type archive.
-					if ( current_theme_supports( 'easyReservations' ) ) {
+					if ( current_theme_supports( 'easyreservations' ) ) {
 						$q->set( 'post_type', 'easy-rooms' );
 					} else {
 						$q->is_singular = true;

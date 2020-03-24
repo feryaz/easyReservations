@@ -1320,28 +1320,6 @@ function er_get_default_location() {
 }
 
 /**
- * Get the store's default country.
- *
- * @return string
- */
-function er_get_default_country() {
-	$location = er_get_default_location();
-
-	return apply_filters( 'easyreservations_get_default_country', $location['country'] );
-}
-
-/**
- * Get the store's default state.
- *
- * @return string
- */
-function er_get_default_state() {
-	$location = er_get_default_location();
-
-	return apply_filters( 'easyreservations_get_default_state', $location['state'] );
-}
-
-/**
  * Get user agent string.
  *
  * @return string
@@ -1720,4 +1698,31 @@ function er_print_help( $message, $allow_html = false ) {
  */
 function er_back_link( $label, $url ) {
 	echo '<small class="er-admin-breadcrumb"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $label ) . '">&#x2934;</a></small>';
+}
+
+/**
+ * Retrieves the MySQL server version. Based on $wpdb.
+ *
+ * @return array Vesion information.
+ */
+function er_get_server_database_version() {
+	global $wpdb;
+
+	if ( empty( $wpdb->is_mysql ) ) {
+		return array(
+			'string' => '',
+			'number' => '',
+		);
+	}
+
+	if ( $wpdb->use_mysqli ) {
+		$server_info = mysqli_get_server_info( $wpdb->dbh ); // @codingStandardsIgnoreLine.
+	} else {
+		$server_info = mysql_get_server_info( $wpdb->dbh ); // @codingStandardsIgnoreLine.
+	}
+
+	return array(
+		'string' => $server_info,
+		'number' => preg_replace( '/([^\d.]+).*/', '', $server_info ),
+	);
 }

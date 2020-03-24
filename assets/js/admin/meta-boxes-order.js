@@ -1,5 +1,10 @@
 /*global easyreservations_admin_meta_boxes, er_admin_params, accounting, er_admin_meta_boxes_order_params */
 jQuery( function( $ ) {
+
+	// Stand-in wcTracks.recordEvent in case tracks is not available (for any reason).
+	window.erTracks = window.erTracks || {};
+	window.erTracks.recordEvent = window.erTracks.recordEvent || function() {};
+
 	/**
 	 * Order Data Panel
 	 */
@@ -120,6 +125,11 @@ jQuery( function( $ ) {
 			}
 
 			$editAddress.show();
+
+			window.erTracks.recordEvent( 'order_edit_address_click', {
+				order_id: easyreservations_admin_meta_boxes.post_id,
+				status: $( '#order_status' ).val(),
+			} );
 		},
 
 		change_customer_user: function() {
@@ -206,6 +216,12 @@ jQuery( function( $ ) {
 				$( 'ul.order_notes' ).prepend( response );
 				$( '#easyreservations-order-notes' ).unblock();
 				$( '#add_order_note' ).val( '' );
+
+				window.erTracks.recordEvent( 'order_edit_add_order_note', {
+					order_id: data.post_id,
+					note_type: data.note_type || 'private',
+					status: $( '#order_status' ).val(),
+				} );
 			} );
 
 			return false;
