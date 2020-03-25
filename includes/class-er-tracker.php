@@ -165,7 +165,7 @@ class ER_Tracker {
 	public static function get_theme_info() {
 		$theme_data        = wp_get_theme();
 		$theme_child_theme = er_bool_to_string( is_child_theme() );
-		$theme_er_support  = er_bool_to_string( current_theme_supports( 'woocommerce' ) );
+		$theme_er_support  = er_bool_to_string( current_theme_supports( 'easyreservations' ) );
 
 		return array(
 			'name'        => $theme_data->Name, // @phpcs:ignore

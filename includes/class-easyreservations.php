@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.9';
+	public $version = '6.0-alpha.11';
 
 	/**
 	 * Session instance.

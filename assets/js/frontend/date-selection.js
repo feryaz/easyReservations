@@ -67,8 +67,10 @@
 		} );
 
 		$( '*[name=resource]' ).bind( 'change', function() {
-			settings.resource = $( this ).val();
+			resetArrival();
+			resetDeparture();
 
+			settings.resource = $( this ).val();
 			frequency = er_both_params.resources[ settings.resource ].frequency;
 			resourceQuantity = er_both_params.resources[ settings.resource ].quantity;
 
@@ -544,7 +546,7 @@
 							$( 'head' ).append( '<style>' + '.easy-date-selection td.' + className + '  a:after {content: \'' + data[ key ].price + '\'}</style>' );
 							dynamicCSSRules.push( className );
 						}
-					} else if ( settings.price && ! slots ) {
+					} else if ( settings.price && ! slots && frequency === 86400 ) {
 						className = 'price-placeholder';
 					}
 
@@ -594,7 +596,7 @@
 						}
 					}
 
-					return [ true, 'available ' + className, 'Hey ho coll boy' ];
+					return [ true, 'available ' + className, '' ];
 				}
 			}
 

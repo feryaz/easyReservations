@@ -320,7 +320,7 @@ class ER_Payment {
 						'You cannot add a new payment method so soon after the previous one. Please wait for %d second.',
 						'You cannot add a new payment method so soon after the previous one. Please wait for %d seconds.',
 						$delay,
-						'woocommerce'
+						'easyReservations'
 					),
 					'error'
 				);

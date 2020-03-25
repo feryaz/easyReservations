@@ -1,7 +1,6 @@
 /*global easyreservations_admin_meta_boxes, er_admin_params, accounting, er_admin_meta_boxes_order_params */
 jQuery( function( $ ) {
-
-	// Stand-in wcTracks.recordEvent in case tracks is not available (for any reason).
+	// Stand-in erTracks.recordEvent in case tracks is not available (for any reason).
 	window.erTracks = window.erTracks || {};
 	window.erTracks.recordEvent = window.erTracks.recordEvent || function() {};
 

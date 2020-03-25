@@ -54,6 +54,15 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
+= 6.0-alpha.11 - 2020-03-25 =
+* Fix - Price activated resulted in misalignment in hourly frequency
+
+= 6.0-alpha.10 - 2020-03-25 =
+* Enhancement - Option to display price in calendar for daily resources and slots
+* Enhancement - Background emails
+* Fix - Calendar slots greying out days before arrival when selecting departure
+* Fix - JS error in filter settings
+
 = 6.0-alpha.9 - 2020-03-22 =
 * Feature - My account
 * Feature - Removal of personal data
