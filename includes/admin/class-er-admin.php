@@ -38,11 +38,13 @@ class ER_Admin {
 		include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-notices.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/admin/class-er-admin-post-types.php' );
 
+		/*
 		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-event.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-client.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-tracks-footer-pixel.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/tracks/class-er-site-tracking.php' );
+		*/
 
 		if ( isset( $_GET['page'] ) && ! empty( $_GET['page'] ) ) {
 			switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended

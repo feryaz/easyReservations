@@ -296,6 +296,10 @@
   display: inline-block;
   padding-top: 0.5em;
 }
+.easyreservations form .easy-form {
+  font-size: 16px;
+  line-height: 28px;
+}
 .easyreservations form .easy-form .easy-price {
   display: none;
   padding: 3px;
@@ -1558,6 +1562,7 @@
   border-top: 0;
 }
 .easy-date-selection .calendar .ui-widget-content .ui-widget-header .ui-datepicker-title {
+  font-weight: 500;
   line-height: 30px;
 }
 .easy-date-selection .calendar .ui-datepicker-group-first .ui-datepicker-calendar {
@@ -1577,22 +1582,31 @@
   border-right-color: #fff;
   border-bottom-color: #fff;
 }
+.easy-date-selection .calendar .ui-datepicker-inline td > a,
+.easy-date-selection .calendar .ui-datepicker-inline td > span {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 10%;
+}
+.easy-date-selection .calendar .ui-datepicker-inline td.price-placeholder span::after {
+  content: "-";
+}
 .easy-date-selection .calendar .ui-datepicker-inline td.ui-state-disabled {
   background: #f6f7f8;
   opacity: 1;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.ui-state-disabled span {
-  color: #c1c1c3;
+  color: #dedee0;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.unavailable {
-  background: #b55250;
+  background: #d06f6f;
   opacity: 1;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.unavailable span {
   color: #fff;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.rule {
-  background: #ebecef;
+  background: #f6f7f8;
   opacity: 1;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.rule span {
@@ -1614,7 +1628,7 @@
   background: #40a0ff;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td a.ui-state-hover:not(.ui-state-active) {
-  background: #2b8f6e;
+  background: #2f9d79;
 }
 .easy-date-selection .calendar tr.time-picker > td {
   background: #fbfbfb;
@@ -1626,7 +1640,7 @@
   font-size: 15px;
   font-weight: 600;
   line-height: 2;
-  color: #40a0ff;
+  color: #333;
   text-align: center;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -1637,6 +1651,13 @@
   margin: 5px 0;
   font-size: 14px;
   font-weight: 600;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button .price {
+  padding-left: 5px;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button span {
+  padding: 0;
+  display: inline-block;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option {
   display: inline-block;

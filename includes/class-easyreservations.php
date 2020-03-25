@@ -383,7 +383,7 @@ final class easyReservations {
 		}
 
 		if ( $this->is_request( 'cron' ) && 'yes' === get_option( 'reservations_allow_tracking', 'no' ) ) {
-			include_once( RESERVATIONS_ABSPATH . 'includes/class-er-tracker.php' );
+			//include_once( RESERVATIONS_ABSPATH . 'includes/class-er-tracker.php' );
 		}
 
 		$this->add_theme_support();

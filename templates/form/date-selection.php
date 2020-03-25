@@ -28,27 +28,29 @@ $departure_time = isset( $_POST['departure_hour'] ) ? intval( $_POST['departure_
             <div class="departure">
 				<?php esc_html_e( 'Departure', 'easyReservations' ); ?>
                 <span class="text">
-                <span class="date">
-                    <?php if ( $departure !== false ) {
-	                    echo esc_html( $departure );
-                    } else {
-	                    echo '&#8212;';
-                    } ?>
+                    <span class="date">
+                        <?php
+                        if ( $departure !== false ) {
+	                        echo esc_html( $departure );
+                        } else {
+	                        echo '&#8212;';
+                        }
+                        ?>
+                    </span>
+                    <span class="time">
+                        <?php echo $departure_time ? esc_html( date( er_time_format(), $departure_time ) ) : ''; ?>
+                    </span>
                 </span>
-                <span class="time">
-                    <?php if ( $departure_time ) {
-	                    echo esc_html( date( er_time_format(), $departure_time ) );
-                    } ?>
-                </span>
-            </span>
             </div>
 		<?php endif; ?>
         <div class="arrival">
-			<?php if ( $departure ) {
+			<?php
+			if ( $display_departure ) {
 				esc_html_e( 'Arrival', 'easyReservations' );
 			} else {
 				esc_html_e( 'Date', 'easyReservations' );
-			} ?>
+			}
+			?>
             <span class="text">
                 <span class="date">
                     <?php

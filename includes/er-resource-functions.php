@@ -217,16 +217,16 @@ function er_get_resource_term_ids( $resource_id, $taxonomy ) {
 /**
  * Get slot matrix
  *
- * @param ER_Resource_Availability $availability
  * @param ER_Resource              $resource
  * @param ER_DateTime              $date
- * @param bool                     $check_availability
+ * @param ER_Resource_Availability|bool $availability
+ * @param bool                     $price
  * @param int                      $adults
  * @param int                      $children
  *
  * @return array|bool
  */
-function er_resource_get_slot_matrix( $availability, $resource, $date, $check_availability = true, $adults = 1, $children = 0 ) {
+function er_resource_get_slot_matrix( $resource, $date, $availability = false, $price = false, $adults = 1, $children = 0 ) {
 	if ( $resource->get_slots() ) {
 		$matrix = array();
 		$day    = $date->format( 'N' );
@@ -236,19 +236,8 @@ function er_resource_get_slot_matrix( $availability, $resource, $date, $check_av
 				if ( in_array( $day, $slot['days'] ) ) {
 					$arrival   = er_date_add_seconds( $date, $slot['from'] * 60 );
 					$duration  = $slot['to'] * 60 + ( $slot['duration'] * DAY_IN_SECONDS ) - $slot['from'] * 60;
-					$departure = er_date_add_seconds( $arrival, $duration );
-					$avail     = $resource->get_quantity();
 
-					if ( $check_availability ) {
-						$check = $availability->check_whole_period( $arrival, $departure );
-						$avail = is_numeric( $check ) ? $avail - $check : - 1;
-					}
-
-					$matrix[ $arrival->format( 'H:i' ) ][] = array(
-						'availability' => $avail,
-						'key'          => $key,
-						'departure'    => $departure->format( er_date_format() . ' H:i' )
-					);
+					$matrix[ $arrival->format( 'H:i' ) ][] = er_resource_check_slot( $resource, $arrival, $duration, $availability, $key, $price, $adults, $children );
 
 					if ( isset( $slot['repeat'] ) ) {
 						for ( $i = 1; $i <= $slot['repeat']; $i ++ ) {
@@ -258,19 +247,7 @@ function er_resource_get_slot_matrix( $availability, $resource, $date, $check_av
 								$arrival->addSeconds( intval( $slot['repeat-break'] ) * 60 );
 							}
 
-							$departure = er_date_add_seconds( $arrival, $duration );
-							$avail     = $resource->get_quantity();
-
-							if ( $check_availability ) {
-								$check = $availability->check_whole_period( $arrival, $departure );
-								$avail = is_numeric( $check ) ? $avail - $check : - 1;
-							}
-
-							$matrix[ $arrival->format( 'H:i' ) ][] = array(
-								'availability' => $avail,
-								'key'          => $key,
-								'departure'    => $departure->format( er_date_format() . ' H:i' )
-							);
+							$matrix[ $arrival->format( 'H:i' ) ][] = er_resource_check_slot( $resource, $arrival, $duration, $availability, $key, $price, $adults, $children );
 						}
 					}
 				}
@@ -281,6 +258,53 @@ function er_resource_get_slot_matrix( $availability, $resource, $date, $check_av
 	}
 
 	return false;
+}
+
+/**
+ * Check a specific slot for availability and/or price
+ *
+ * @param ER_Resource $resource
+ * @param ER_DateTime $arrival
+ * @param int $duration
+ * @param ER_Resource_Availability|bool $availability
+ * @param int $key
+ * @param bool $price
+ * @param int  $adults
+ * @param int  $children
+ *
+ * @return array
+ */
+function er_resource_check_slot( $resource, $arrival, $duration, $availability, $key, $price, $adults, $children ) {
+	$departure = er_date_add_seconds( $arrival, $duration );
+	$avail     = $resource->get_quantity();
+
+	if ( $availability ) {
+		$check = $availability->check_whole_period( $arrival, $departure );
+		$avail = is_numeric( $check ) ? $avail - $check : - 1;
+	}
+
+	if( $price ){
+		$reservation = new ER_Reservation( 0 );
+		$reservation->set_arrival( $arrival );
+		$reservation->set_departure( $arrival );
+		$reservation->set_resource_id( $resource->get_id() );
+		$reservation->set_slot( $key );
+		$reservation->set_adults( $adults );
+		$reservation->set_children( $children );
+
+		$reservation->calculate_price();
+		$reservation->calculate_taxes( false );
+		$reservation->calculate_totals( false );
+
+		$price = er_price( $reservation->get_total(), true );
+	}
+
+	return array(
+		'availability' => $avail,
+		'price'        => $price,
+		'key'          => $key,
+		'departure'    => $departure->format( er_date_format() . ' H:i' )
+	);
 }
 
 /**

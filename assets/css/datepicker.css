@@ -5,7 +5,10 @@
 /* Layout helpers
 ----------------------------------*/
 .ui-state-disabled {
-  cursor: default !important;
+  cursor: default;
+}
+.ui-state-disabled.unavailable, .ui-state-disabled.past {
+  cursor: not-allowed;
 }
 
 .ui-icon {
@@ -129,15 +132,14 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.ui-icon.ui-icon-circle-triangle-w:before {
+.ui-icon.ui-icon-circle-triangle-w::before {
   position: absolute;
   top: 0;
   left: -10000px;
-  cursor: pointer;
   content: "";
 }
 
-.ui-icon.ui-icon-circle-triangle-e:before {
+.ui-icon.ui-icon-circle-triangle-e::before {
   position: absolute;
   top: 0;
   left: -10000px;
@@ -157,27 +159,24 @@
   position: relative;
   padding: 0.4em 0;
 }
-.easy-datepicker .ui-datepicker-prev, .easy-datepicker .ui-datepicker-next {
+.easy-datepicker .ui-datepicker-prev,
+.easy-datepicker .ui-datepicker-next {
   position: absolute;
   width: 1.8em;
   height: 1.8em;
   text-decoration: none;
   box-shadow: none;
 }
-.easy-datepicker .ui-datepicker-prev:hover, .easy-datepicker .ui-datepicker-next:hover {
+.easy-datepicker .ui-datepicker-prev:hover,
+.easy-datepicker .ui-datepicker-next:hover {
   color: #000;
   text-decoration: none;
   background: inherit;
   box-shadow: none;
   transition: none;
 }
-.easy-datepicker .ui-datepicker-prev {
-  left: 4px;
-}
-.easy-datepicker .ui-datepicker-next {
-  right: 4px;
-}
-.easy-datepicker .ui-datepicker-prev span, .easy-datepicker .ui-datepicker-next span {
+.easy-datepicker .ui-datepicker-prev span,
+.easy-datepicker .ui-datepicker-next span {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -186,6 +185,24 @@
   height: 16px;
   margin-top: -8px;
   margin-left: -8px;
+}
+.easy-datepicker .ui-datepicker-prev {
+  left: 5px;
+}
+.easy-datepicker .ui-datepicker-prev:hover {
+  left: 4px;
+}
+.easy-datepicker .ui-datepicker-prev:hover.ui-state-disabled {
+  left: 5px;
+}
+.easy-datepicker .ui-datepicker-next {
+  right: 5px;
+}
+.easy-datepicker .ui-datepicker-next:hover {
+  right: 4px;
+}
+.easy-datepicker .ui-datepicker-next:hover.ui-state-disabled {
+  right: 5px;
 }
 .easy-datepicker .ui-datepicker-title {
   margin: 0 2.3em;
@@ -230,7 +247,6 @@
   font-size: 14px;
   color: #333;
   border: 0;
-  border: 0;
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
 }
@@ -242,6 +258,13 @@
   text-align: center;
   text-decoration: none !important;
   box-shadow: none !important;
+}
+.easy-datepicker table tr td span::after,
+.easy-datepicker table tr td a::after {
+  content: "";
+  display: block;
+  text-align: center;
+  font-size: small;
 }
 .easy-datepicker table tr > td:last-of-type {
   border-right: 0;

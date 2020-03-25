@@ -163,6 +163,7 @@ class ER_AJAX {
 
 		$adults       = isset( $_POST['adults'] ) ? absint( $_POST['adults'] ) : 1;
 		$children     = isset( $_POST['children'] ) ? absint( $_POST['children'] ) : 0;
+		$display_price        = isset( $_POST['price'] ) ? er_string_to_bool( $_POST['price'] ) : false;
 		$resource     = ER()->resources()->get( absint( $_POST['resource'] ) );
 		$req          = $resource->get_requirements();
 		$quantity     = $resource->get_quantity();
@@ -237,7 +238,7 @@ class ER_AJAX {
 			}
 
 			if ( $resource->get_slots() ) {
-				$matrix = er_resource_get_slot_matrix( $availability, $resource, $date, true, $adults, $children );
+				$matrix = er_resource_get_slot_matrix( $resource, $date, $availability, $display_price, $adults, $children );
 
 				$days[ $date_string ] = empty( $matrix ) ? array( 0 ) : $matrix;
 
@@ -247,6 +248,7 @@ class ER_AJAX {
 			}
 
 			$left = false;
+			$price = 0;
 
 			if ( $arrival && empty( $_POST['arrivalTime'] ) ) {
 				$arrival->setTime( 0, 0 );
@@ -320,12 +322,31 @@ class ER_AJAX {
 							$date_to_check->add( new DateInterval( 'PT' . $resource->get_frequency() . 'S' ) );
 						}
 					} else {
+						$new_arrival = er_date_add_seconds( $date, $latest_possible_arrival * HOUR_IN_SECONDS );
+						$new_departure = er_date_add_seconds( $date, $earliest_possible_departure * HOUR_IN_SECONDS + $req['nights-min'] * $resource->get_billing_interval() );
+
 						$avail = $availability->check_arrivals_and_departures(
-							er_date_add_seconds( $date, $latest_possible_arrival * HOUR_IN_SECONDS ),
-							er_date_add_seconds( $date, $earliest_possible_departure * HOUR_IN_SECONDS + $req['nights-min'] * $resource->get_billing_interval() ),
+							$new_arrival,
+							$new_departure,
 							'arrival'
 						);
 
+						if( $display_price ){
+							$reservation = new ER_Reservation( 0 );
+							$reservation->set_arrival( $new_arrival );
+							$reservation->set_departure( $new_departure );
+							$reservation->set_resource_id( $resource->get_id() );
+							$reservation->set_adults( $adults );
+							$reservation->set_children( $children );
+
+							$reservation->calculate_price();
+							$reservation->calculate_taxes( false );
+							$reservation->calculate_totals( false );
+
+							$price = sprintf( er_get_price_format(), html_entity_decode( er_get_currency_symbol() ), intval( $reservation->get_total() ) );
+						}
+
+						//If an availability filter is matched the check returns a numeric value instead
 						if ( ! is_object( $avail ) ) {
 							//If numeric day is unavailable else only arrival is not possible
 							$avail = is_numeric( $avail ) ? $quantity : $quantity + 1;
@@ -370,6 +391,7 @@ class ER_AJAX {
 						$left      = array();
 						$departure = er_date_add_seconds( $date, $time[0] * HOUR_IN_SECONDS );
 						$until     = er_date_add_seconds( $date, $time[1] * HOUR_IN_SECONDS + 3599 );
+
 						while ( $departure < $until ) {
 							$billing_units = $resource->get_billing_units( $arrival, $departure );
 
@@ -417,6 +439,22 @@ class ER_AJAX {
 						if ( ! $was_unavailable && $req['nights-min'] <= $billing_units ) {
 							$avail = $availability->check_arrivals_and_departures( $resource->availability_by( 'unit' ) ? $arrival : $last_departure, $departure, 'departure' );
 
+
+							if ( $display_price ) {
+								$reservation = new ER_Reservation( 0 );
+								$reservation->set_arrival( $arrival );
+								$reservation->set_departure( $departure );
+								$reservation->set_resource_id( $resource->get_id() );
+								$reservation->set_adults( $adults );
+								$reservation->set_children( $children );
+
+								$reservation->calculate_price();
+								$reservation->calculate_taxes( false );
+								$reservation->calculate_totals( false );
+
+								$price = sprintf( er_get_price_format(), html_entity_decode( er_get_currency_symbol() ), intval( $reservation->get_total() ) );
+							}
+
 							//If an availability filter is matched the check returns a numeric value instead
 							if ( ! is_object( $avail ) ) {
 								//If numeric day is unavailable else only departure is not possible
@@ -461,6 +499,7 @@ class ER_AJAX {
 
 			$days[ $date_string ] = array(
 				'availability' => $left,
+				'price'        => $display_price ? $price : false,
 				'time'         => $time,
 			);
 

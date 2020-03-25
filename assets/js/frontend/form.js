@@ -25,7 +25,7 @@
 			$( document.body ).on( 'submit', 'form[rel=js-easy-form]', this.submit );
 
 			$( 'form[rel=js-easy-form] > div > label, .easyreservations-additional-fields > label' ).each( function() {
-				$( this ).next( 'div.content, div.easy-date-selection' ).andSelf().wrapAll( '<div class="form-row"/>' );
+				$( this ).next( 'div.content, div.easy-date-selection' ).addBack().wrapAll( '<div class="form-row"/>' );
 			} );
 
 			er_form.$form.attr( 'novalidate', 'novalidate' );

@@ -85,78 +85,6 @@ class ER_Privacy_Exporters {
 	}
 
 	/**
-	 * Finds and exports customer download logs by email address.
-	 *
-	 * @param string $email_address The user email address.
-	 * @param int    $page  Page.
-	 * @throws Exception When ER_Data_Store validation fails.
-	 * @return array An array of personal data in name value pairs
-	 */
-	public static function download_data_exporter( $email_address, $page ) {
-		$done            = true;
-		$page            = (int) $page;
-		$user            = get_user_by( 'email', $email_address ); // Check if user has an ID in the DB to load stored personal data.
-		$data_to_export  = array();
-		$downloads_query = array(
-			'limit' => 10,
-			'page'  => $page,
-		);
-
-		if ( $user instanceof WP_User ) {
-			$downloads_query['user_id'] = (int) $user->ID;
-		} else {
-			$downloads_query['user_email'] = $email_address;
-		}
-
-		$customer_download_data_store     = ER_Data_Store::load( 'customer-download' );
-		$customer_download_log_data_store = ER_Data_Store::load( 'customer-download-log' );
-		$downloads                        = $customer_download_data_store->get_downloads( $downloads_query );
-
-		if ( 0 < count( $downloads ) ) {
-			foreach ( $downloads as $download ) {
-				$data_to_export[] = array(
-					'group_id'    => 'easyreservations_downloads',
-					/* translators: This is the headline for a list of downloads purchased from the store for a given user. */
-					'group_label' => __( 'Purchased Downloads', 'easyReservations' ),
-					'item_id'     => 'download-' . $download->get_id(),
-					'data'        => self::get_download_personal_data( $download ),
-				);
-
-				$download_logs = $customer_download_log_data_store->get_download_logs_for_permission( $download->get_id() );
-
-				foreach ( $download_logs as $download_log ) {
-					$data_to_export[] = array(
-						'group_id'    => 'easyreservations_download_logs',
-						/* translators: This is the headline for a list of access logs for downloads purchased from the store for a given user. */
-						'group_label' => __( 'Access to Purchased Downloads', 'easyReservations' ),
-						'item_id'     => 'download-log-' . $download_log->get_id(),
-						'data'        => array(
-							array(
-								'name'  => __( 'Download ID', 'easyReservations' ),
-								'value' => $download_log->get_permission_id(),
-							),
-							array(
-								'name'  => __( 'Timestamp', 'easyReservations' ),
-								'value' => $download_log->get_timestamp(),
-							),
-							array(
-								'name'  => __( 'IP Address', 'easyReservations' ),
-								'value' => $download_log->get_user_ip_address(),
-							),
-						),
-					);
-				}
-			}
-			$done = 10 > count( $downloads );
-		}
-
-		return array(
-			'data' => $data_to_export,
-			'done' => $done,
-		);
-	}
-
-	/**
 	 * Get personal data (key/value pairs) for a user object.
 	 *
 	 * @param WP_User $user user object.
@@ -255,8 +183,7 @@ class ER_Privacy_Exporters {
 				case 'date_created':
 					$value = er_format_datetime( $order->get_date_created(), get_option( 'date_format' ) . ', ' . get_option( 'time_format' ) );
 					break;
-				case 'formatted_billing_address':
-				case 'formatted_shipping_address':
+				case 'formatted_address':
 					$value = preg_replace( '#<br\s*/?>#i', ', ', $order->{"get_$prop"}() );
 					break;
 				default:

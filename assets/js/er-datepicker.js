@@ -5,14 +5,14 @@ jQuery( function( $ ) {
 		return false;
 	}
 
-	var default_args = er_datepicker_get_args();
+	const defaultArgs = erDatepickerArgs();
 
 	function init() {
 		$( '.er-datepicker' ).each( function() {
 			$( this ).attr( 'autocomplete', 'off' );
 
-			var data_target = $( this ).attr( 'data-target' ),
-				data_format = $( this ).attr( 'data-format' ),
+			const dataTarget = $( this ).attr( 'data-target' ),
+				dataFormat = $( this ).attr( 'data-format' ),
 				args = $.extend( {
 					changeMonth: true,
 					changeYear: true,
@@ -20,22 +20,22 @@ jQuery( function( $ ) {
 					beforeShow: function( _, inst ) {
 						inst.dpDiv.removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 					},
-				}, default_args );
+				}, defaultArgs );
 
 			if ( $( this ).is( 'div' ) ) {
 				$( this ).removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' ).addClass( 'easy-ui' );
 			}
 
-			if ( data_format && typeof data_format !== "undefined" ) {
-				args.dateFormat = data_format;
+			if ( dataFormat && typeof dataFormat !== "undefined" ) {
+				args.dateFormat = dataFormat;
 			}
 
-			if ( data_target && typeof data_target !== "undefined" ) {
+			if ( dataTarget && typeof dataTarget !== "undefined" ) {
 				args.onSelect = function( selectedDate ) {
-					var instance = $( this ).data( "datepicker" );
-					var date = $.datepicker.parseDate( instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
-					$( '#' + data_target ).datepicker( "option", "minDate", date );
-				}
+					const instance = $( this ).data( 'datepicker' );
+					const date = $.datepicker.parseDate( instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings );
+					$( '#' + dataTarget ).datepicker( 'option', 'minDate', date );
+				};
 			}
 
 			$( this ).datepicker( args );
@@ -46,46 +46,47 @@ jQuery( function( $ ) {
 
 	$( document ).on( 'er-init-datepicker', function() {
 		init();
-	} )
+	} );
 } );
 
-function er_datepicker_get_args() {
-	var date_format = er_date_picker_params.date_format;
-	switch ( date_format ) {
+function erDatepickerArgs() {
+	let dateFormat = er_date_picker_params.date_format;
+
+	switch ( dateFormat ) {
 		case 'Y/m/d':
-			date_format = 'yy/mm/dd';
+			dateFormat = 'yy/mm/dd';
 			break;
 		case 'm/d/Y':
-			date_format = 'mm/dd/yy';
+			dateFormat = 'mm/dd/yy';
 			break;
 		case 'd-m-Y':
-			date_format = 'dd-mm-yy';
+			dateFormat = 'dd-mm-yy';
 			break;
 		case 'Y-m-d':
-			date_format = 'yy-mm-dd';
+			dateFormat = 'yy-mm-dd';
 			break;
 		default:
-			date_format = 'dd.mm.yy';
+			dateFormat = 'dd.mm.yy';
 			break;
 	}
 
-	var day_names = er_date_picker_params.day_names.slice();
-	day_names.unshift( day_names[ 6 ] );
-	day_names.length = 7;
+	const dayNames = er_date_picker_params.day_names.slice();
+	dayNames.unshift( dayNames[ 6 ] );
+	dayNames.length = 7;
 
-	var day_names_short = er_date_picker_params.day_names_short.slice();
-	day_names_short.unshift( day_names_short[ 6 ] );
-	day_names_short.length = 7;
+	const dayNamesShort = er_date_picker_params.day_names_short.slice();
+	dayNamesShort.unshift( dayNamesShort[ 6 ] );
+	dayNamesShort.length = 7;
 
-	var day_names_min = er_date_picker_params.day_names_min.slice();
-	day_names_min.unshift( day_names_min[ 6 ] );
-	day_names_min.length = 7;
+	const dayNamesMin = er_date_picker_params.day_names_min.slice();
+	dayNamesMin.unshift( dayNamesMin[ 6 ] );
+	dayNamesMin.length = 7;
 
-	var args = {
-		dateFormat: date_format,
-		dayNames: day_names,
-		dayNamesShort: day_names_short,
-		dayNamesMin: day_names_min,
+	const args = {
+		dateFormat: dateFormat,
+		dayNames: dayNames,
+		dayNamesShort: dayNamesShort,
+		dayNamesMin: dayNamesMin,
 		monthNames: er_date_picker_params.month_names,
 		monthNamesShort: er_date_picker_params.month_names_short,
 		prevText: '',
@@ -93,9 +94,9 @@ function er_datepicker_get_args() {
 	};
 
 	if ( er_date_picker_params.is_frontend_request === 'yes' ) {
-		var earliest_possible = parseInt( er_date_picker_params.earliest_possible, 10 ) / 86400;
-		if ( earliest_possible >= 1 ) {
-			args.minDate = earliest_possible;
+		const earliestPossible = parseInt( er_date_picker_params.earliest_possible, 10 ) / 86400;
+		if ( earliestPossible >= 1 ) {
+			args.minDate = earliestPossible;
 		}
 	}
 

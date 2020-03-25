@@ -1,3 +1,5 @@
+/* global er_both_params */
+
 function easyFormatDate( date, format ) {
 	if ( ! format ) {
 		format = er_both_params.date_format;
@@ -47,33 +49,53 @@ function easyFormatTime( hour, minute, format ) {
 }
 
 function easyStringToDate( string ) {
-	var regex = "/(?<day>\d{2}).(?<month>\d{2}).(?<year>\d{4})/";
-	if ( er_both_params.date_format == 'Y/m/d' ) {
-		regex = "/(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/";
-	} else if ( er_both_params.date_format == 'm/d/Y' ) {
-		regex = "/(?<month>\d{2})\/(?<day>\d{2})\/(?<year>\d{4})/";
-	} else if ( er_both_params.date_format == 'Y-m-d' ) {
-		regex = "/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/";
-	} else if ( er_both_params.date_format == 'd-m-Y' ) {
-		regex = "/(?<day>\d{2})-(?<month>\d{2})-(?<year>\d{4})/";
+	const explode = string.split( ' ' );
+
+	let dateObject,
+		year,
+		month,
+		day,
+		hour = 0,
+		minute = 0;
+
+	if ( er_both_params.date_format === 'Y/m/d' ) {
+		dateObject = /(\d{4})\/(\d{2})\/(\d{2})/.exec( explode[ 0 ] );
+		day = dateObject[ 3 ];
+		month = dateObject[ 2 ];
+		year = dateObject[ 1 ];
+	} else if ( er_both_params.date_format === 'm/d/Y' ) {
+		dateObject = /(\d{2})\/(\d{2})\/(\d{4})/.exec( explode[ 0 ] );
+		day = dateObject[ 2 ];
+		month = dateObject[ 1 ];
+		year = dateObject[ 3 ];
+	} else if ( er_both_params.date_format === 'Y-m-d' ) {
+		dateObject = /(\d{4})-(\d{2})-(\d{2})/.exec( explode[ 0 ] );
+		day = dateObject[ 3 ];
+		month = dateObject[ 2 ];
+		year = dateObject[ 1 ];
+	} else if ( er_both_params.date_format === 'd-m-Y' ) {
+		dateObject = /(\d{2})-(\d{2})-(\d{4})/.exec( explode[ 0 ] );
+		day = dateObject[ 1 ];
+		month = dateObject[ 2 ];
+		year = dateObject[ 3 ];
+	} else {
+		dateObject = /(\d{2}).(\d{2}).(\d{4})/.exec( explode[ 0 ] );
+		day = dateObject[ 1 ];
+		month = dateObject[ 2 ];
+		year = dateObject[ 3 ];
 	}
 
-	var hour = 0;
-	var minute = 0;
-	var explode = string.split( ' ' );
-	var date_object = regex.exec( explode[ 0 ] );
-
 	if ( explode[ 1 ] ) {
-		var explode_time = explode[ 1 ].split( ':' );
-		hour = parseInt( explode_time[ 0 ], 10 );
-		minute = parseInt( explode_time[ 1 ], 10 );
+		const explodeTime = explode[ 1 ].split( ':' );
+		hour = parseInt( explodeTime[ 0 ], 10 );
+		minute = parseInt( explodeTime[ 1 ], 10 );
 
 		if ( explode[ 2 ] ) {
 			hour = hour * 2;
 		}
 	}
 
-	return new Date( parseInt( date_object.groups.year, 10 ), parseInt( date_object.groups.month, 10 ) - 1, parseInt( date_object.groups.day, 10 ), hour, minute, 0, 0 );
+	return new Date( parseInt( year, 10 ), parseInt( month, 10 ) - 1, parseInt( day, 10 ), hour, minute, 0, 0 );
 }
 
 function easyAddZero( nr ) {

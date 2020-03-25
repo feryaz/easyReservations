@@ -25,6 +25,7 @@ if ( is_null( get_option( 'last_processed_reservation', null ) ) ) {
 }
 
 $reservations = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}reservations ORDER BY id ASC", ARRAY_A );
+$count = count( $reservations );
 
 $custom_fields = ER_Custom_Data::get_settings();
 $start_time    = time();
@@ -164,7 +165,11 @@ foreach ( $reservations as $reservation_data ) {
 		update_option( 'last_processed_reservation', $id );
 
 		if ( time() - $start_time > 20 ) {
-			echo 'Stopped update process to prevent timeout at a bad moment. Please run the updater again to continue.';
+			echo sprintf(
+				esc_html__( 'Updated reservations until #%1$d of %2$d. Stopped to prevent timeout at a bad moment. Please refresh or run the updater again to continue.', 'easyReservations' ),
+				$id,
+				$count
+			);
 
 			exit;
 		}

@@ -395,7 +395,7 @@
 		er_terms_toggle.init();
 
 		$( 'form.checkout > label' ).each( function() {
-			$( this ).next( 'div.content' ).andSelf().wrapAll( '<p class="form-row"/>' );
+			$( this ).next( 'div.content' ).addBack().wrapAll( '<p class="form-row"/>' );
 		} );
 
 	} );

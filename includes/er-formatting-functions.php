@@ -422,6 +422,7 @@ function er_price( $amount = 0, $currency_symbol = false, $ex_tax_label = false 
 	} else {
 		$formatted_price .= esc_html( $price );
 	}
+
 	$return = '<span class="easyreservations-Price-amount amount">' . $formatted_price . '</span>';
 
 	if ( $ex_tax_label && er_tax_enabled() ) {

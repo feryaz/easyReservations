@@ -549,6 +549,7 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
 				'init'            => isset( $_POST['arrival'] ) ? false : true,
 				'form'            => $form_hash,
 				'time'            => isset( $tag['time'] ) ? true : false,
+				'price'           => isset( $tag['price'] ) ? true : false,
 			);
 
 			wp_enqueue_script( 'er-date-selection' );

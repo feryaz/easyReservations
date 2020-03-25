@@ -726,14 +726,14 @@ $time_options = er_form_time_options();
 	}
 
 	jQuery( '.paste-input' ).bind( 'input', function( e ) {
-		var is_json = true;
+		let isJson = true;
 		try {
 			var json = jQuery.parseJSON( jQuery( this ).val() );
 		} catch ( err ) {
-			is_json = false;
+			isJson = false;
 		}
 
-		if ( is_json && json !== null && typeof json == 'object' ) {
+		if ( isJson && json !== null && typeof json == 'object' ) {
 			filter_edit( false, json );
 			jQuery( this ).val( '' ).addClass( 'hidden' );
 		}
@@ -751,23 +751,23 @@ $time_options = er_form_time_options();
 	function filter_edit( i, single_filter ) {
 		reset_filter_form();
 		if ( i === false ) {
-			the_filter = single_filter;
+			theFilter = single_filter;
 		} else {
-			var the_filter = filter[ i ];
+			var theFilter = filter[ i ];
 			document.getElementById( 'filter_form_button_input' ).value = '<?php echo addslashes( sprintf( esc_html__( 'Edit %s', 'easyReservations' ), esc_html__( 'filter', 'easyReservations' ) ) ); ?>';
 			document.getElementById( 'filter_form_hidden' ).innerHTML = '<input type="hidden" id="price_filter_edit" name="price_filter_edit" value="' + i + '">';
 		}
-		var type = the_filter[ 'type' ];
-		document.getElementById( 'filter_form_name_field' ).value = the_filter[ 'name' ];
+		var type = theFilter[ 'type' ];
+		document.getElementById( 'filter_form_name_field' ).value = theFilter[ 'name' ];
 
-		if ( type === 'price' || type === 'unavail' || type === 'req' || the_filter[ 'timecond' ] ) {
-			var cond = the_filter[ 'cond' ];
-			if ( the_filter[ 'timecond' ] ) {
-				cond = the_filter[ 'timecond' ];
+		if ( type === 'price' || type === 'unavail' || type === 'req' || theFilter[ 'timecond' ] ) {
+			var cond = theFilter[ 'cond' ];
+			if ( theFilter[ 'timecond' ] ) {
+				cond = theFilter[ 'timecond' ];
 			}
 			if ( cond === 'date' ) {
 				document.getElementById( 'price_filter_cond_range' ).checked = true;
-				var timestamp_date = the_filter[ 'date_str' ];
+				var timestamp_date = theFilter[ 'date_str' ];
 				if ( timestamp_date !== '' ) {
 					var date_date = new Date( timestamp_date );
 					document.getElementById( 'filter_range_from_hour' ).selectedIndex = date_date.getHours();
@@ -777,54 +777,54 @@ $time_options = er_form_time_options();
 					document.getElementById( 'price_filter_range_from' ).value = ( ( date_date.getDate() < 10 ) ? '0' + date_date.getDate() : date_date.getDate() ) + '.' + ( ( ( date_date.getMonth() + 1 ) < 10 ) ? '0' + ( date_date.getMonth() + 1 ) : ( date_date.getMonth() + 1 ) ) + '.' + ( ( date_date.getYear() < 999 ) ? date_date.getYear() + 1900 : date_date.getYear() );
 					document.getElementById( 'price_filter_range_to' ).value = ( ( date_date.getDate() < 10 ) ? '0' + date_date.getDate() : date_date.getDate() ) + '.' + ( ( ( date_date.getMonth() + 1 ) < 10 ) ? '0' + ( date_date.getMonth() + 1 ) : ( date_date.getMonth() + 1 ) ) + '.' + ( ( date_date.getYear() < 999 ) ? date_date.getYear() + 1900 : date_date.getYear() );
 				}
-			} else if ( cond === 'range' || the_filter[ 'from' ] ) {
-				if ( the_filter[ 'every' ] ) {
+			} else if ( cond === 'range' || theFilter[ 'from' ] ) {
+				if ( theFilter[ 'every' ] ) {
 					document.getElementById( 'price_filter_range_every' ).checked = true;
 				}
 				document.getElementById( 'price_filter_cond_range' ).checked = true;
-				if ( the_filter[ 'from_str' ] !== '' ) {
-					var date_from = new Date( the_filter[ 'from_str' ] );
+				if ( theFilter[ 'from_str' ] !== '' ) {
+					var date_from = new Date( theFilter[ 'from_str' ] );
 					document.getElementById( 'filter_range_from_hour' ).selectedIndex = date_from.getHours();
 					document.getElementById( 'filter_range_from_minute' ).selectedIndex = date_from.getMinutes();
 					document.getElementById( 'price_filter_range_from' ).value = ( ( date_from.getDate() < 10 ) ? '0' + date_from.getDate() : date_from.getDate() ) + '.' + ( ( ( date_from.getMonth() + 1 ) < 10 ) ? '0' + ( date_from.getMonth() + 1 ) : ( date_from.getMonth() + 1 ) ) + '.' + ( ( date_from.getYear() < 999 ) ? date_from.getYear() + 1900 : date_from.getYear() );
 				} else {
-					document.getElementById( 'price_filter_range_from' ).value = the_filter[ 'from' ];
+					document.getElementById( 'price_filter_range_from' ).value = theFilter[ 'from' ];
 				}
 
-				if ( the_filter[ 'to_str' ] !== '' ) {
-					var date_to = new Date( the_filter[ 'to_str' ] );
+				if ( theFilter[ 'to_str' ] !== '' ) {
+					var date_to = new Date( theFilter[ 'to_str' ] );
 					document.getElementById( 'filter_range_to_hour' ).selectedIndex = date_to.getHours();
 					document.getElementById( 'filter_range_to_minute' ).selectedIndex = date_to.getMinutes();
 					document.getElementById( 'price_filter_range_to' ).value = ( ( date_to.getDate() < 10 ) ? '0' + date_to.getDate() : date_to.getDate() ) + '.' + ( ( ( date_to.getMonth() + 1 ) < 10 ) ? '0' + ( date_to.getMonth() + 1 ) : ( date_to.getMonth() + 1 ) ) + '.' + ( ( date_to.getYear() < 999 ) ? date_to.getYear() + 1900 : date_to.getYear() );
 				} else {
-					document.getElementById( 'price_filter_range_to' ).value = the_filter[ 'to' ];
+					document.getElementById( 'price_filter_range_to' ).value = theFilter[ 'to' ];
 				}
 			}
-			if ( ( the_filter[ 'timecond' ] && the_filter[ 'timecond' ] === 'unit' ) || ( the_filter[ 'cond' ] && the_filter[ 'cond' ] === 'unit' ) ) {
+			if ( ( theFilter[ 'timecond' ] && theFilter[ 'timecond' ] === 'unit' ) || ( theFilter[ 'cond' ] && theFilter[ 'cond' ] === 'unit' ) ) {
 				document.getElementById( 'price_filter_cond_unit' ).checked = true;
 				var hour_checkboxes = document.getElementsByName( 'price_filter_unit_hour[]' );
-				if ( hour_checkboxes && the_filter[ 'hour' ] != '' && the_filter[ 'hour' ] ) {
-					var hours = the_filter[ 'hour' ];
+				if ( hour_checkboxes && theFilter[ 'hour' ] != '' && theFilter[ 'hour' ] ) {
+					var hours = theFilter[ 'hour' ];
 					var explode_hours = hours.split( "," );
 					for ( var x = 0; x < explode_hours.length; x++ ) {
 						var nr = explode_hours[ x ];
 						hour_checkboxes[ nr ].checked = true;
 					}
 				}
-				var day_checkboxes = document.getElementsByName( 'price_filter_unit_days[]' );
-				if ( day_checkboxes && the_filter[ 'day' ] != '' && the_filter[ 'day' ] ) {
-					var days = the_filter[ 'day' ];
+				var dayCheckboxes = document.getElementsByName( 'price_filter_unit_days[]' );
+				if ( dayCheckboxes && theFilter[ 'day' ] != '' && theFilter[ 'day' ] ) {
+					var days = theFilter[ 'day' ];
 					var explode_days = days.split( "," );
 					for ( var x = 0; x < explode_days.length; x++ ) {
 						var nr = explode_days[ x ];
-						if ( day_checkboxes[ nr - 1 ] ) {
-							day_checkboxes[ nr - 1 ].checked = true;
+						if ( dayCheckboxes[ nr - 1 ] ) {
+							dayCheckboxes[ nr - 1 ].checked = true;
 						}
 					}
 				}
 				var cw_checkboxes = document.getElementsByName( 'price_filter_unit_cw[]' );
-				if ( the_filter[ 'cw' ] != '' && the_filter[ 'cw' ] ) {
-					var cws = the_filter[ 'cw' ];
+				if ( theFilter[ 'cw' ] != '' && theFilter[ 'cw' ] ) {
+					var cws = theFilter[ 'cw' ];
 					var explode_cws = cws.split( "," );
 					for ( var x = 0; x < explode_cws.length; x++ ) {
 						var nr = explode_cws[ x ];
@@ -834,8 +834,8 @@ $time_options = er_form_time_options();
 					}
 				}
 				var month_checkboxes = document.getElementsByName( 'price_filter_unit_month[]' );
-				if ( the_filter[ 'month' ] != '' && the_filter[ 'month' ] ) {
-					var month = the_filter[ 'month' ];
+				if ( theFilter[ 'month' ] != '' && theFilter[ 'month' ] ) {
+					var month = theFilter[ 'month' ];
 					var explode_month = month.split( "," );
 					for ( var x = 0; x < explode_month.length; x++ ) {
 						var nr = explode_month[ x ];
@@ -845,8 +845,8 @@ $time_options = er_form_time_options();
 					}
 				}
 				var q_checkboxes = document.getElementsByName( 'price_filter_unit_quarter[]' );
-				if ( the_filter[ 'quarter' ] != '' && the_filter[ 'quarter' ] ) {
-					var quarters = the_filter[ 'quarter' ];
+				if ( theFilter[ 'quarter' ] != '' && theFilter[ 'quarter' ] ) {
+					var quarters = theFilter[ 'quarter' ];
 					var explode_quarters = quarters.split( "," );
 					for ( var x = 0; x < explode_quarters.length; x++ ) {
 						var nr = explode_quarters[ x ];
@@ -855,14 +855,14 @@ $time_options = er_form_time_options();
 						}
 					}
 				}
-				var year_checkboxes = document.getElementsByName( 'price_filter_unit_year[]' );
-				if ( the_filter[ 'year' ] != '' && the_filter[ 'year' ] ) {
-					var years = the_filter[ 'year' ];
+				var yearCheckboxes = document.getElementsByName( 'price_filter_unit_year[]' );
+				if ( theFilter[ 'year' ] != '' && theFilter[ 'year' ] ) {
+					var years = theFilter[ 'year' ];
 					var explode_years = years.split( "," );
 					for ( var x = 0; x < explode_years.length; x++ ) {
 						var nr = explode_years[ x ] - 2014;
-						if ( year_checkboxes[ nr - 1 ] ) {
-							year_checkboxes[ nr - 1 ].checked = true;
+						if ( yearCheckboxes[ nr - 1 ] ) {
+							yearCheckboxes[ nr - 1 ].checked = true;
 						}
 					}
 				}
@@ -870,34 +870,34 @@ $time_options = er_form_time_options();
 		}
 
 		if ( type === 'unavail' ) {
-			if ( the_filter[ 'arrival' ] ) {
+			if ( theFilter[ 'arrival' ] ) {
 				jQuery( '#filter_form_arrival_checkbox' ).prop( 'checked', true );
 			}
-			if ( the_filter[ 'departure' ] ) {
+			if ( theFilter[ 'departure' ] ) {
 				jQuery( '#filter_form_departure_checkbox' ).prop( 'checked', true );
 			}
 
-			if ( !the_filter[ 'arrival' ] && !the_filter[ 'arrival' ] ) {
+			if ( !theFilter[ 'arrival' ] && !theFilter[ 'arrival' ] ) {
 				jQuery( '#filter_form_unavailable_checkbox' ).prop( 'checked', true );
 			}
 
 			show_add_avail();
 		} else if ( type === 'req' ) {
-			var reqs = the_filter[ 'req' ];
+			var reqs = theFilter[ 'req' ];
 			document.getElementById( 'req_filter_min_pers' ).selectedIndex = parseFloat( reqs[ 'pers-min' ] ) - 1;
 			document.getElementById( 'req_filter_max_pers' ).selectedIndex = reqs[ 'pers-max' ];
 			document.getElementById( 'req_filter_min_nights' ).selectedIndex = parseFloat( reqs[ 'nights-min' ] ) - 1;
 			document.getElementById( 'req_filter_max_nights' ).selectedIndex = reqs[ 'nights-max' ];
-			var day_checkboxes = document.getElementsByName( 'req_filter_start_on[]' );
-			jQuery( day_checkboxes ).prop( 'checked', false );
-			if ( day_checkboxes && reqs[ 'start-on' ] !== '' ) {
+			var dayCheckboxes = document.getElementsByName( 'req_filter_start_on[]' );
+			jQuery( dayCheckboxes ).prop( 'checked', false );
+			if ( dayCheckboxes && reqs[ 'start-on' ] !== '' ) {
 				if ( reqs[ 'start-on' ] == 0 ) {
-					jQuery( day_checkboxes ).prop( 'checked', true );
+					jQuery( dayCheckboxes ).prop( 'checked', true );
 				}
 				var explode_days = reqs[ 'start-on' ];
 				for ( var x = 0; x < explode_days.length; x++ ) {
 					var nr = explode_days[ x ];
-					day_checkboxes[ nr - 1 ].checked = true;
+					dayCheckboxes[ nr - 1 ].checked = true;
 				}
 			}
 
@@ -929,16 +929,16 @@ $time_options = er_form_time_options();
 			var timecond = false;
 			var condcond = false;
 			var condtype = false;
-			if ( the_filter[ 'imp' ] ) {
-				document.getElementById( 'price_filter_imp' ).selectedIndex = the_filter[ 'imp' ] - 1;
+			if ( theFilter[ 'imp' ] ) {
+				document.getElementById( 'price_filter_imp' ).selectedIndex = theFilter[ 'imp' ] - 1;
 			}
 
-			var price = the_filter[ 'price' ];
+			var price = theFilter[ 'price' ];
 			var pricemodus = document.getElementsByName( 'filter-price-mode' );
 			jQuery( '#filter-price-field' ).val( price )
 
-			if ( the_filter[ 'children-price' ] ) {
-				document.getElementById( 'filter-children-price' ).value = the_filter[ 'children-price' ];
+			if ( theFilter[ 'children-price' ] ) {
+				document.getElementById( 'filter-children-price' ).value = theFilter[ 'children-price' ];
 			}
 
 			if ( type == 'price' ) {
@@ -952,23 +952,23 @@ $time_options = er_form_time_options();
 
 			if ( type == 'price' ) {
 				jQuery( '#filter-mode-field' ).addClass( 'hidden' );
-				if ( the_filter[ 'cond' ] ) {
+				if ( theFilter[ 'cond' ] ) {
 					timecond = 'cond';
 				}
-				if ( the_filter[ 'basecond' ] ) {
+				if ( theFilter[ 'basecond' ] ) {
 					condcond = 'basecond';
 				}
-				if ( the_filter[ 'condtype' ] ) {
+				if ( theFilter[ 'condtype' ] ) {
 					condtype = 'condtype';
 				}
 			} else {
-				if ( the_filter[ 'timecond' ] ) {
+				if ( theFilter[ 'timecond' ] ) {
 					timecond = 'timecond';
 				}
-				if ( the_filter[ 'cond' ] ) {
+				if ( theFilter[ 'cond' ] ) {
 					condcond = 'cond';
 				}
-				if ( the_filter[ 'type' ] ) {
+				if ( theFilter[ 'type' ] ) {
 					condtype = 'type';
 				}
 			}
@@ -976,13 +976,13 @@ $time_options = er_form_time_options();
 				show_use_time( 1 );
 			}
 			if ( condcond ) {
-				type = the_filter[ condtype ];
+				type = theFilter[ condtype ];
 				jQuery( '#filter_form_discount_type' ).val( type );
 				setWord( type );
-				document.getElementById( 'filter_form_discount_cond' ).selectedIndex = the_filter[ condcond ] - 1;
+				document.getElementById( 'filter_form_discount_cond' ).selectedIndex = theFilter[ condcond ] - 1;
 
-				if ( the_filter[ 'modus' ] ) {
-					jQuery( '#filter_form_discount_mode' ).val( the_filter[ 'modus' ] );
+				if ( theFilter[ 'modus' ] ) {
+					jQuery( '#filter_form_discount_mode' ).val( theFilter[ 'modus' ] );
 				}
 				show_use_condition( 1 );
 			}
@@ -1063,27 +1063,13 @@ $time_options = er_form_time_options();
 			var verb = '<?php echo er_date_get_interval_label( isset( $resource ) ? $resource->get_billing_interval() : DAY_IN_SECONDS ); ?>';
 		}
 		if ( v == 'pers' ) {
-			var verb = '<?php echo addslashes( esc_html__( '
-			adults
-			and
-			children
-			', '
-			easyReservations
-			' ) ); ?>';
+			var verb = '<?php echo addslashes( esc_html__( 'adults and children', 'easyReservations' ) ); ?>';
 		}
 		if ( v == 'adul' ) {
-			var verb = '<?php echo addslashes( esc_html__( '
-			adults
-			', '
-			easyReservations
-			' ) ); ?>';
+			var verb = '<?php echo addslashes( esc_html__( 'adults', 'easyReservations' ) ); ?>';
 		}
 		if ( v == 'child' ) {
-			var verb = '<?php echo addslashes( esc_html__( '
-			children
-			', '
-			easyReservations
-			' ) ); ?>';
+			var verb = '<?php echo addslashes( esc_html__( 'children', 'easyReservations' ) ); ?>';
 		}
 		document.getElementById( 'filter_form_discount_cond_verb' ).innerHTML = verb;
 	}
