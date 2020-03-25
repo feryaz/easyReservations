@@ -613,6 +613,12 @@ wp_enqueue_script( 'er-settings-form' );
 						checked: 'true',
 						default: 'true'
 					},
+					price:            {
+						title:   '<?php echo addslashes( esc_html__( 'Display price', 'easyReservations' ) ); ?>',
+						input:   'check',
+						checked: 'true',
+						default: 'true'
+					},
 					resource:        {
 						title: '<?php echo addslashes( esc_html__( 'Default resource', 'easyReservations' ) ); ?>',
 						input: resourceSelect

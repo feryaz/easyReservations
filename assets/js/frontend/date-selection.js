@@ -460,9 +460,11 @@
 			} else {
 				if ( arrival === dateString ) {
 					resetArrival();
+
 					e.find( '.time-picker > td > div' ).slideUp( 50, function() {
 						calendarContainer.find( '.ui-state-active' ).removeClass( 'ui-state-highlight' ).removeClass( 'ui-state-active' );
 					} );
+
 					return false;
 				}
 
