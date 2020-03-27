@@ -134,15 +134,18 @@ class ER_Admin {
 			case 'options-permalink':
 				include 'class-er-admin-permalink-settings.php';
 				break;
-			case 'plugins':
-			case 'dashboard':
-			case 'dashboard-network':
-			case 'update-core':
 			case 'users':
 			case 'user':
 			case 'profile':
 			case 'user-edit':
+				include 'class-er-admin-profile.php';
 				break;
+
+			case 'plugins':
+			case 'dashboard':
+			case 'dashboard-network':
+			case 'update-core':
+			    break;
 		}
 	}
 
