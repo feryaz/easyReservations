@@ -28,21 +28,14 @@ class ER_Frontend {
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_enqueue_script( 'er-frontend', RESERVATIONS_URL . 'assets/js/frontend/frontend' . $suffix . '.js', array( 'jquery' ), RESERVATIONS_VERSION );
+		wp_enqueue_script( 'er-cart-fragments', RESERVATIONS_URL . 'assets/js/frontend/cart-fragments' . $suffix . '.js', array( 'jquery', 'js-cookie' ), RESERVATIONS_VERSION );
+
 		wp_register_script( 'jquery-payment', RESERVATIONS_URL . 'assets/js/jquery-payment/jquery.payment' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
 		wp_register_script( 'er-country-select', RESERVATIONS_URL . 'assets/js/frontend/country-select' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
-		wp_register_script( 'er-form', RESERVATIONS_URL . 'assets/js/frontend/form' . $suffix . '.js', array(
-			"jquery-blockui",
-			"jquery-ui-slider",
-			'easy-ui'
-		), RESERVATIONS_VERSION );
+		wp_register_script( 'er-form', RESERVATIONS_URL . 'assets/js/frontend/form' . $suffix . '.js', array( 'jquery-blockui', 'jquery-ui-slider', 'easy-ui' ), RESERVATIONS_VERSION );
+		wp_register_script( 'js-cookie', RESERVATIONS_URL . 'assets/js/js-cookie/js.cookie' . $suffix . '.js', array(), '2.1.4', true );
 
-		wp_register_script( 'er-checkout', RESERVATIONS_URL . 'assets/js/frontend/checkout' . $suffix . '.js', array(
-			'jquery',
-			'easy-ui',
-			'er-form',
-			'er-country-select',
-			'er-address-i18n'
-		), RESERVATIONS_VERSION );
+		wp_register_script( 'er-checkout', RESERVATIONS_URL . 'assets/js/frontend/checkout' . $suffix . '.js', array( 'jquery', 'easy-ui', 'er-form', 'er-country-select', 'er-address-i18n' ), RESERVATIONS_VERSION );
 
 		wp_register_script( 'er-single-resource', RESERVATIONS_URL . 'assets/js/frontend/single-resource' . $suffix . '.js', array( 'jquery' ), RESERVATIONS_VERSION );
 
@@ -159,6 +152,14 @@ class ER_Frontend {
 			'locale_fields'      => wp_json_encode( ER()->countries->get_country_locale_field_selectors() ),
 			'i18n_required_text' => esc_attr__( 'required', 'easyReservations' ),
 			'i18n_optional_text' => esc_html__( 'optional', 'easyReservations' ),
+		) );
+
+		wp_localize_script( 'er-cart-fragments', 'er_cart_fragments_params', array(
+			'ajax_url'        => admin_url( 'admin-ajax.php', 'relative' ),
+			'er_ajax_url'     => ER_AJAX::get_endpoint( '%%endpoint%%' ),
+			'cart_hash_key'   => apply_filters( 'easyreservations_cart_hash_key', 'er_cart_hash_' . md5( get_current_blog_id() . '_' . get_site_url( get_current_blog_id(), '/' ) . get_template() ) ),
+			'fragment_name'   => apply_filters( 'easyreservations_cart_fragment_name', 'er_fragments_' . md5( get_current_blog_id() . '_' . get_site_url( get_current_blog_id(), '/' ) . get_template() ) ),
+			'request_timeout' => 5000,
 		) );
 	}
 }

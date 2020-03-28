@@ -1611,8 +1611,8 @@ class ER_Order extends ER_Abstract_Order {
 				$item->set_reservation_id( $reservation->get_id() );
 				$item->set_resource_id( $reservation->get_resource_id() );
 				$item->set_name( $reservation->get_name() );
-				$item->set_subtotal( $price ? $price : $reservation->get_subtotal() );
-				$item->set_total( $price ? $price : $reservation->get_subtotal() );
+				$item->set_subtotal( $price ? $price : $reservation->get_subtotal() + $reservation->get_discount_total() );
+				$item->set_total( $price ? $price : $reservation->get_subtotal() + $reservation->get_discount_total() );
 
 				//Total and subtotal taxes are the same as coupons only get applied to orders
 				$item->set_taxes( array(

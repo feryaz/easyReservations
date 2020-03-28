@@ -313,7 +313,7 @@ abstract class ER_Receipt extends ER_Data {
 	 *
 	 * @param string $context View or edit context.
 	 *
-	 * @return string
+	 * @return float
 	 */
 	public function get_discount_total( $context = 'view' ) {
 		return $this->get_prop( 'discount_total', $context );
@@ -324,7 +324,7 @@ abstract class ER_Receipt extends ER_Data {
 	 *
 	 * @param string $context View or edit context.
 	 *
-	 * @return string
+	 * @return float
 	 */
 	public function get_discount_tax( $context = 'view' ) {
 		return $this->get_prop( 'discount_tax', $context );
@@ -978,7 +978,7 @@ abstract class ER_Receipt extends ER_Data {
 			}
 		}
 
-		$this->set_discount_total( $subtotal - $total );
+		$this->set_discount_total( $subtotal - $total + $fees_total );
 		$this->set_discount_tax( er_round_tax_total( $subtotal_tax - $total_tax ) );
 		$this->set_total( round( $total + $fees_total + $this->get_total_tax(), er_get_price_decimals() ) );
 

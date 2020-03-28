@@ -98,6 +98,7 @@ class ER_AJAX {
 			'send_calendar'                 => true,
 			'apply_coupon'                  => true,
 			'update_order_review'           => true,
+			'get_refreshed_fragments'       => true,
 			'remove_coupon'                 => true,
 			'timeline_data'                 => false,
 			'timeline_update_reservation'   => false,
@@ -611,6 +612,29 @@ class ER_AJAX {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Get a refreshed cart fragment, including the mini cart HTML.
+	 */
+	public static function get_refreshed_fragments() {
+		ob_start();
+
+		easyreservations_mini_cart();
+
+		$mini_cart = ob_get_clean();
+
+		$data = array(
+			'fragments' => apply_filters(
+				'easyreservations_add_to_cart_fragments',
+				array(
+					'div.widget_shopping_cart_content' => '<div class="widget_shopping_cart_content">' . $mini_cart . '</div>',
+				)
+			),
+			'cart_hash' => ER()->cart->get_cart_hash(),
+		);
+
+		wp_send_json( $data );
 	}
 
 	/**

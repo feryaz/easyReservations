@@ -175,7 +175,7 @@ class ER_Form_Handler {
 			}
 		}
 
-		//Either a reservation or a custom fields have been added to cart but we won't checkout now
+		//Either a reservation or custom field(s) have been added to cart but we won't checkout now
 		if ( $done && ! $do_checkout ) {
 			$url = esc_url_raw( $_POST['redirect'] );
 
@@ -194,7 +194,8 @@ class ER_Form_Handler {
 
 					wp_send_json( array(
 						'result'   => 'success',
-						'messages' => $messages
+						'added_to_cart'   => true,
+						'messages' => $messages,
 					) );
 
 					exit;

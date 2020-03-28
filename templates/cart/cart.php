@@ -63,7 +63,7 @@ do_action( 'easyreservations_before_cart' ); ?>
 
 					// @codingStandardsIgnoreLine
 					echo apply_filters( 'easyreservations_cart_item_remove_link', sprintf(
-						'<a href="%s" class="remove" aria-label="%s" data-reservation_id="%s">&times;</a>',
+						'<a href="%s" class="remove" aria-label="%s" data-cart_item_key="%s">&times;</a>',
 						esc_url( er_get_cart_remove_url( $cart_item_key ) ),
 						__( 'Remove this item', 'easyreservations' ),
 						esc_attr( $cart_item_key )

@@ -66,7 +66,9 @@
 
 			if ( submit ) {
 				data[ 'submit' ] = 'yes';
+				$( document.body ).trigger( 'adding_to_cart' );
 			}
+
 			$.ajax( {
 				type: 'POST',
 				url: er_both_params.ajaxurl,
@@ -101,6 +103,10 @@
 									er_form.scroll_to_notices();
 								} else {
 									form.find( '.input-text, select, input:checkbox, input:text, textarea' ).trigger( 'validate' ).blur();
+								}
+
+								if ( result.added_to_cart ) {
+									$( document.body ).trigger( 'added_to_cart' ).trigger( 'updated_er_div' );
 								}
 
 								form.removeClass( 'processing' ).unblock();

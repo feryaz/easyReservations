@@ -26,6 +26,13 @@ add_action( 'easyreservations_checkout_terms_and_conditions', 'er_checkout_priva
 add_action( 'easyreservations_checkout_terms_and_conditions', 'er_terms_and_conditions_page_content', 30 );
 
 /**
+ * Cart widget
+ */
+add_action( 'easyreservations_widget_shopping_cart_buttons', 'easyreservations_widget_shopping_cart_button_view_cart', 10 );
+add_action( 'easyreservations_widget_shopping_cart_buttons', 'easyreservations_widget_shopping_cart_proceed_to_checkout', 20 );
+add_action( 'easyreservations_widget_shopping_cart_total', 'easyreservations_widget_shopping_cart_subtotal', 10 );
+
+/**
  * Cart.
  *
  * @see er_cart_totals()
@@ -548,6 +555,43 @@ function er_reset_resource_grid_settings() {
 }
 
 add_action( 'after_switch_theme', 'er_reset_resource_grid_settings' );
+
+/**
+ * Output the view cart button.
+ */
+function easyreservations_widget_shopping_cart_button_view_cart() {
+    echo '<a href="' . esc_url( er_get_cart_url() ) . '" class="button er-forward">' . esc_html__( 'View cart', 'easyReservations' ) . '</a>';
+}
+
+/**
+ * Output the proceed to checkout button.
+ */
+function easyreservations_widget_shopping_cart_proceed_to_checkout() {
+    echo '<a href="' . esc_url( er_get_checkout_url() ) . '" class="button checkout er-forward">' . esc_html__( 'Checkout', 'easyReservations' ) . '</a>';
+}
+
+/**
+ * Output to view cart subtotal.
+ */
+function easyreservations_widget_shopping_cart_subtotal() {
+    echo '<strong>' . esc_html__( 'Subtotal', 'easyReservations' ) . ':</strong> ' . ER()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
+ * Output the Mini-cart - used by cart widget.
+ *
+ * @param array $args Arguments.
+ */
+function easyreservations_mini_cart( $args = array() ) {
+
+	$defaults = array(
+		'list_class' => '',
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	er_get_template( 'cart/mini-cart.php', $args );
+}
 
 /**
  * Output the easyReservations Login Form.

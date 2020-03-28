@@ -176,10 +176,10 @@
 						// Remove any notices added previously
 						$( '.easyreservations-NoticeGroup-updateOrderReview' ).remove();
 
-						var termsCheckBoxChecked = $( '#terms' ).prop( 'checked' );
+						const termsCheckBoxChecked = $( '#terms' ).prop( 'checked' );
 
 						// Save payment details to a temporary object
-						var paymentDetails = {};
+						const paymentDetails = {};
 						$( '.payment-box :input' ).each( function() {
 							var ID = $( this ).attr( 'id' );
 
@@ -202,6 +202,7 @@
 							} );
 							er_checkout_form.fragments = data.fragments;
 						}
+
 						// Recheck the terms and conditions box, if needed
 						if ( termsCheckBoxChecked ) {
 							$( '#terms' ).prop( 'checked', true );
@@ -210,7 +211,7 @@
 						// Fill in the payment details if possible without overwriting data if set.
 						if ( ! $.isEmptyObject( paymentDetails ) ) {
 							$( '.payment-box :input' ).each( function() {
-								var ID = $( this ).attr( 'id' );
+								const ID = $( this ).attr( 'id' );
 
 								if ( ID ) {
 									if ( $.inArray( $( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
@@ -226,7 +227,7 @@
 
 						// Check for error
 						if ( data && 'failure' === data.result ) {
-							var $form = $( 'form.checkout' );
+							const $form = $( 'form.checkout' );
 
 							// Remove notices from all sources
 							$( '.easyreservations-error, .easyreservations-message' ).remove();
@@ -249,8 +250,7 @@
 
 						// Fire updated_checkout event.
 						$( document.body ).trigger( 'updated_checkout', [ data ] );
-					}
-
+					},
 				} );
 			},
 		};
