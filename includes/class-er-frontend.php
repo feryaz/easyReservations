@@ -27,6 +27,7 @@ class ER_Frontend {
 
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
+		wp_enqueue_script( 'er-frontend', RESERVATIONS_URL . 'assets/js/frontend/frontend' . $suffix . '.js', array( 'jquery' ), RESERVATIONS_VERSION );
 		wp_register_script( 'jquery-payment', RESERVATIONS_URL . 'assets/js/jquery-payment/jquery.payment' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
 		wp_register_script( 'er-country-select', RESERVATIONS_URL . 'assets/js/frontend/country-select' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
 		wp_register_script( 'er-form', RESERVATIONS_URL . 'assets/js/frontend/form' . $suffix . '.js', array(

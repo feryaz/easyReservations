@@ -2,7 +2,6 @@
 /**
  * Background Emailer
  *
- * @version 3.0.1
  * @package easyReservations/Classes
  */
 

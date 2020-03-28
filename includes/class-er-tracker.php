@@ -6,7 +6,6 @@
  * No personal information is tracked, only general easyReservations settings, general product, order and user counts and admin email for discount code.
  *
  * @class ER_Tracker
- * @since 2.3.0
  * @package easyReservations/Classes
  */
 

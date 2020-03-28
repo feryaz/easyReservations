@@ -15,6 +15,7 @@ include_once( RESERVATIONS_ABSPATH . 'includes/er-reservation-functions.php' );
 include_once( RESERVATIONS_ABSPATH . 'includes/er-resource-functions.php' );
 include_once( RESERVATIONS_ABSPATH . 'includes/er-term-functions.php' );
 include_once( RESERVATIONS_ABSPATH . 'includes/er-user-functions.php' );
+include_once( RESERVATIONS_ABSPATH . 'includes/er-widget-functions.php' );
 
 /**
  * Short Description (excerpt).

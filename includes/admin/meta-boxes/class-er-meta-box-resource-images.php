@@ -27,6 +27,7 @@ class ER_Meta_Box_Resource_Images {
 		$current_visibility = $resource_object->get_catalog_visibility();
 
 		$current_featured   = er_bool_to_string( $resource_object->get_featured() );
+		$current_onsale   = er_bool_to_string( $resource_object->is_on_sale() );
 		$visibility_options = er_get_resource_visibility_options();
 
 		wp_nonce_field( 'easyreservations_save_data', 'easyreservations_meta_nonce' );
@@ -43,6 +44,10 @@ class ER_Meta_Box_Resource_Images {
 					if ( 'yes' === $current_featured ) {
 						echo ', ' . esc_html__( 'Featured', 'easyReservations' );
 					}
+
+					if ( 'yes' === $current_onsale ) {
+						echo ', ' . esc_html__( 'On-sale', 'easyReservations' );
+					}
 					?>
                 </a>
             </div>
@@ -50,6 +55,7 @@ class ER_Meta_Box_Resource_Images {
             <div class="components-panel__row" id="catalog-visibility-select" class="hide-if-js" style="display: none">
                 <input type="hidden" name="current_visibility" id="current_visibility" value="<?php echo esc_attr( $current_visibility ); ?>"/>
                 <input type="hidden" name="current_featured" id="current_featured" value="<?php echo esc_attr( $current_featured ); ?>"/>
+                <input type="hidden" name="current_onsale" id="current_onsale" value="<?php echo esc_attr( $current_onsale ); ?>"/>
 
 				<?php
 				echo '<p>' . esc_html__( 'This setting determines which shop pages resources will be listed on.', 'easyReservations' ) . '</p>';
@@ -59,6 +65,7 @@ class ER_Meta_Box_Resource_Images {
 				}
 
 				echo '<br /><input type="checkbox" name="_featured" id="_featured" ' . checked( $current_featured, 'yes', false ) . ' /> <label for="_featured">' . esc_html__( 'This is a featured resource', 'easyReservations' ) . '</label><br />';
+				echo '<br /><input type="checkbox" name="_onsale" id="_onsale" ' . checked( $current_onsale, 'yes', false ) . ' /> <label for="_onsale">' . esc_html__( 'This resource is on sale', 'easyReservations' ) . '</label><br />';
 				?>
                 <p>
                     <a href="#" class="save-post-visibility hide-if-no-js button"><?php esc_html_e( 'OK', 'easyReservations' ); ?></a>
@@ -69,6 +76,7 @@ class ER_Meta_Box_Resource_Images {
         <div id="resource_images_container">
             <input type="hidden" name="resource_visibility" id="resource_visibility" value="<?php echo esc_attr( $current_visibility ); ?>">
             <input type="hidden" name="resource_featured" id="resource_featured" value="<?php echo esc_attr( $current_featured ); ?>"/>
+            <input type="hidden" name="resource_onsale" id="resource_onsale" value="<?php echo esc_attr( $current_onsale ); ?>"/>
 
             <ul class="resource_images">
 				<?php
@@ -153,6 +161,10 @@ class ER_Meta_Box_Resource_Images {
 
 		if ( isset( $_POST['resource_featured'] ) && $_POST['resource_featured'] === 'yes' ) {
 			$terms[] = 'featured';
+		}
+
+		if ( isset( $_POST['resource_onsale'] ) && $_POST['resource_onsale'] === 'yes' ) {
+			$terms[] = 'onsale';
 		}
 
 		if ( ! is_wp_error( wp_set_post_terms( $resource->get_id(), $terms, 'resource_visibility', false ) ) ) {

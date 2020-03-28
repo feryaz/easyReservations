@@ -1,30 +1,38 @@
-/*global woocommerce_admin_meta_boxes */
-
+/*global easyreservations_admin_meta_boxes */
 jQuery( function( $ ) {
-	// Catalog Visibility.
 	$( '#catalog-visibility' ).find( '.edit-catalog-visibility' ).click( function() {
 		if ( $( '#catalog-visibility-select' ).is( ':hidden' ) ) {
 			$( '#catalog-visibility-select' ).slideDown( 'fast' ).css( 'display', 'block' );
 		}
 		return false;
 	} );
+
 	$( '#catalog-visibility' ).find( '.save-post-visibility' ).click( function() {
 		$( '#catalog-visibility-select' ).slideUp( 'fast' );
 
 		let label = $( 'input[name=_visibility]:checked' ).attr( 'data-label' );
 
 		if ( $( 'input[name=_featured]' ).is( ':checked' ) ) {
-			//label = label + ', ' + woocommerce_admin_meta_boxes.featured_label;
+			label = label + ', ' + easyreservations_admin_meta_boxes.featured_label;
 			$( 'input[name=_featured]' ).attr( 'checked', 'checked' );
 			$( '#resource_featured' ).val( 'yes' );
 		} else {
 			$( '#resource_featured' ).val( 'no' );
 		}
 
+		if ( $( 'input[name=_onsale]' ).is( ':checked' ) ) {
+			label = label + ', ' + easyreservations_admin_meta_boxes.onsale_label;
+			$( 'input[name=_onsale]' ).attr( 'checked', 'checked' );
+			$( '#resource_onsale' ).val( 'yes' );
+		} else {
+			$( '#resource_onsale' ).val( 'no' );
+		}
+
 		$( '#resource_visibility' ).val( $( 'input[name=_visibility]:checked' ).val() );
 		$( '.edit-catalog-visibility' ).text( label );
 		return false;
 	} );
+
 	$( '#catalog-visibility' ).find( '.cancel-post-visibility' ).click( function() {
 		$( '#catalog-visibility-select' ).slideUp( 'fast' );
 		$( '#catalog-visibility' ).find( '.edit-catalog-visibility' ).show();
@@ -32,16 +40,18 @@ jQuery( function( $ ) {
 		$( 'input[name=_visibility]' ).removeAttr( 'checked' );
 		$( 'input[name=_visibility][value=' + $( '#current_visibility' ).val() + ']' ).attr( 'checked', 'checked' );
 
-		let label = $( 'input[name=_visibility]:checked' ).attr( 'data-label' );
-
 		if ( 'yes' === $( '#current_featured' ).val() ) {
-			//label = label + ', ' + woocommerce_admin_meta_boxes.featured_label;
 			$( 'input[name=_featured]' ).attr( 'checked', 'checked' );
 		} else {
 			$( 'input[name=_featured]' ).removeAttr( 'checked' );
 		}
 
-		$( '.edit-catalog-visibility' ).text( label );
+		if ( 'yes' === $( '#current_onsale' ).val() ) {
+			$( 'input[name=_onsale]' ).attr( 'checked', 'checked' );
+		} else {
+			$( 'input[name=_onsale]' ).removeAttr( 'checked' );
+		}
+
 		return false;
 	} );
 

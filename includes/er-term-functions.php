@@ -30,6 +30,7 @@ function er_get_resource_visibility_term_ids() {
 				'exclude-from-catalog' => 0,
 				'exclude-from-search'  => 0,
 				'featured'             => 0,
+				'onsale'               => 0,
 			)
 		)
 	);

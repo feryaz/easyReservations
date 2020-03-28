@@ -55,6 +55,8 @@ If you encounter issues with the catalog/category pages after an update, flush t
 == Changelog ==
 
 = 6.0-alpha.12 - 2020-03-X =
+* Feature - Resources widget
+* Feature - Set resource to be onsale
 * Feature - Address in admin edit user profile
 
 = 6.0-alpha.11 - 2020-03-25 =

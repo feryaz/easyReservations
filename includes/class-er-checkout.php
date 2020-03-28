@@ -216,7 +216,7 @@ class ER_Checkout extends ER_Form {
 			$order->set_customer_ip_address( er_get_ip_address() );
 			$order->set_customer_user_agent( er_get_user_agent() );
 			$order->set_customer_note( isset( $data['order_comments'] ) ? $data['order_comments'] : '' );
-			$order->set_locale( get_user_locale() );
+			$order->set_locale( determine_locale() );
 			$order->set_prices_include_tax( er_prices_include_tax() );
 
 			if ( isset( $data['payment_method'] ) ) {

@@ -45,6 +45,9 @@
    * Buttons
    */
   /**
+   * Cart sidebar
+   */
+  /**
    * Reservation form
    */
   /**
@@ -295,6 +298,127 @@
 .easyreservations a.added_to_cart {
   display: inline-block;
   padding-top: 0.5em;
+}
+.easyreservations ul.cart_list,
+.easyreservations ul.resource_list_widget {
+  list-style: none outside;
+  padding: 0;
+  margin: 0;
+}
+.easyreservations ul.cart_list li,
+.easyreservations ul.resource_list_widget li {
+  padding: 4px 0;
+  margin: 0;
+  *zoom: 1;
+  list-style: none;
+}
+.easyreservations ul.cart_list li::before, .easyreservations ul.cart_list li::after,
+.easyreservations ul.resource_list_widget li::before,
+.easyreservations ul.resource_list_widget li::after {
+  content: " ";
+  display: table;
+}
+.easyreservations ul.cart_list li::after,
+.easyreservations ul.resource_list_widget li::after {
+  clear: both;
+}
+.easyreservations ul.cart_list li a,
+.easyreservations ul.resource_list_widget li a {
+  display: block;
+  font-weight: 700;
+}
+.easyreservations ul.cart_list li img,
+.easyreservations ul.resource_list_widget li img {
+  float: right;
+  margin-left: 4px;
+  width: 32px;
+  height: auto;
+  box-shadow: none;
+}
+.easyreservations ul.cart_list li dl,
+.easyreservations ul.resource_list_widget li dl {
+  margin: 0;
+  padding-left: 1em;
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+  *zoom: 1;
+}
+.easyreservations ul.cart_list li dl::before, .easyreservations ul.cart_list li dl::after,
+.easyreservations ul.resource_list_widget li dl::before,
+.easyreservations ul.resource_list_widget li dl::after {
+  content: " ";
+  display: table;
+}
+.easyreservations ul.cart_list li dl::after,
+.easyreservations ul.resource_list_widget li dl::after {
+  clear: both;
+}
+.easyreservations ul.cart_list li dl dt,
+.easyreservations ul.cart_list li dl dd,
+.easyreservations ul.resource_list_widget li dl dt,
+.easyreservations ul.resource_list_widget li dl dd {
+  display: inline-block;
+  float: left;
+  margin-bottom: 1em;
+}
+.easyreservations ul.cart_list li dl dt,
+.easyreservations ul.resource_list_widget li dl dt {
+  font-weight: 700;
+  padding: 0 0 0.25em;
+  margin: 0 4px 0 0;
+  clear: left;
+}
+.easyreservations ul.cart_list li dl dd,
+.easyreservations ul.resource_list_widget li dl dd {
+  padding: 0 0 0.25em;
+}
+.easyreservations ul.cart_list li dl dd p:last-child,
+.easyreservations ul.resource_list_widget li dl dd p:last-child {
+  margin-bottom: 0;
+}
+.easyreservations ul.cart_list li .star-rating,
+.easyreservations ul.resource_list_widget li .star-rating {
+  float: none;
+}
+.easyreservations.widget_shopping_cart .total,
+.easyreservations .widget_shopping_cart .total {
+  border-top: 3px double #ebe9eb;
+  padding: 4px 0 0;
+}
+.easyreservations.widget_shopping_cart .total strong,
+.easyreservations .widget_shopping_cart .total strong {
+  min-width: 40px;
+  display: inline-block;
+}
+.easyreservations.widget_shopping_cart .cart_list li,
+.easyreservations .widget_shopping_cart .cart_list li {
+  padding-left: 2em;
+  position: relative;
+  padding-top: 0;
+}
+.easyreservations.widget_shopping_cart .cart_list li a.remove,
+.easyreservations .widget_shopping_cart .cart_list li a.remove {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.easyreservations.widget_shopping_cart .buttons,
+.easyreservations .widget_shopping_cart .buttons {
+  *zoom: 1;
+}
+.easyreservations.widget_shopping_cart .buttons::before, .easyreservations.widget_shopping_cart .buttons::after,
+.easyreservations .widget_shopping_cart .buttons::before,
+.easyreservations .widget_shopping_cart .buttons::after {
+  content: " ";
+  display: table;
+}
+.easyreservations.widget_shopping_cart .buttons::after,
+.easyreservations .widget_shopping_cart .buttons::after {
+  clear: both;
+}
+.easyreservations.widget_shopping_cart .buttons a,
+.easyreservations .widget_shopping_cart .buttons a {
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 .easyreservations form .easy-form {
   font-size: 16px;
@@ -558,7 +682,7 @@
 }
 .easyreservations div.resource span.price,
 .easyreservations div.resource p.price {
-  font-size: 1.25em;
+  font-size: 1em;
   color: #77a464;
 }
 .easyreservations div.resource span.price ins,
@@ -738,6 +862,24 @@
 .easyreservations div.resource div.social iframe {
   float: left;
   margin-top: 3px;
+}
+.easyreservations span.onsale {
+  min-height: 3.236em;
+  min-width: 3.236em;
+  padding: 0.202em;
+  font-size: 1em;
+  font-weight: 700;
+  position: absolute;
+  text-align: center;
+  line-height: 3.236;
+  top: -0.5em;
+  left: -0.5em;
+  margin: 0;
+  border-radius: 100%;
+  background-color: #77a464;
+  color: white;
+  font-size: 0.857em;
+  z-index: 9;
 }
 .easyreservations ul.resources {
   padding: 0;

@@ -40,8 +40,17 @@ add_action( 'easyreservations_proceed_to_checkout', 'er_button_proceed_to_checko
 add_action( 'easyreservations_before_shop_loop', 'easyreservations_result_count', 20 );
 //add_action( 'easyreservations_before_shop_loop', 'easyreservations_catalog_ordering', 30 );
 add_action( 'easyreservations_no_resources_found', 'er_no_resources_found', 10 );
-
 add_action( 'easyreservations_archive_description', 'easyreservations_resource_archive_description', 10 );
+
+/**
+ * Sale flashes.
+ *
+ * @see easyreservations_template_loop_sale_flash()
+ * @see easyreservations_template_single_sale_flash()
+ */
+add_action( 'easyreservations_before_shop_loop_item_title', 'easyreservations_template_loop_sale_flash', 10 );
+add_action( 'easyreservations_before_single_resource_summary', 'easyreservations_template_single_sale_flash', 10 );
+
 /**
  * Pagination after shop loops.
  *
@@ -330,6 +339,10 @@ function er_get_resource_class( $class = '', $resource = null ) {
 	}
 	if ( $resource->get_featured() ) {
 		$classes[] = 'featured';
+	}
+
+	if ( $resource->is_on_sale() ) {
+		$classes[] = 'onsale';
 	}
 
 	/**
@@ -671,6 +684,13 @@ function easyreservations_template_loop_price() {
 }
 
 /**
+ * Get the resource price for the loop.
+ */
+function easyreservations_template_loop_sale_flash() {
+	er_get_template( 'loop/sale-flash.php' );
+}
+
+/**
  * Get the resource button for the loop.
  */
 function easyreservations_template_loop_button() {
@@ -750,6 +770,13 @@ function easyreservations_template_single_price() {
 	if ( get_option( 'reservations_resource_page_display_price', 'yes' ) === 'yes' ) {
 		er_get_template( 'single-resource/price.php' );
 	}
+}
+
+/**
+ * Output the resource form.
+ */
+function easyreservations_template_single_sale_flash() {
+	er_get_template( 'single-resource/sale-flash.php' );
 }
 
 /**

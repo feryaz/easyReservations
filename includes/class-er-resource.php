@@ -26,6 +26,7 @@ class ER_Resource {
 	protected $availability_by = 'unit';
 	protected $catalog_visibility = 'hidden';
 	protected $featured = false;
+	protected $onsale = false;
 	protected $filter = false;
 	protected $slots = false;
 
@@ -126,6 +127,7 @@ class ER_Resource {
 		$terms           = get_the_terms( $this->get_id(), 'resource_visibility' );
 		$term_names      = is_array( $terms ) ? wp_list_pluck( $terms, 'name' ) : array();
 		$featured        = in_array( 'featured', $term_names );
+		$onsale        = in_array( 'onsale', $term_names );
 		$exclude_search  = in_array( 'exclude-from-search', $term_names );
 		$exclude_catalog = in_array( 'exclude-from-catalog', $term_names );
 
@@ -141,6 +143,7 @@ class ER_Resource {
 
 		$this->set_catalog_visibility( $catalog_visibility );
 		$this->set_featured( $featured );
+		$this->set_onsale( $onsale );
 	}
 
 	public function get_id() {
@@ -418,6 +421,17 @@ class ER_Resource {
 	 */
 	public function get_featured( $context = 'view' ) {
 		return $this->featured;
+	}
+
+	/**
+	 * Get onsale.
+	 *
+	 * @param string $context What the value is for. Valid values are view and edit.
+	 *
+	 * @return string
+	 */
+	public function is_on_sale( $context = 'view' ) {
+		return $this->onsale;
 	}
 
 	/**
@@ -708,6 +722,15 @@ class ER_Resource {
 	 */
 	public function set_featured( $featured ) {
 		$this->featured = (bool) $featured;
+	}
+
+	/**
+	 * Set onsale.
+	 *
+	 * @param string $onsale
+	 */
+	public function set_onsale( $onsale ) {
+		$this->onsale = (bool) $onsale;
 	}
 
 	/**

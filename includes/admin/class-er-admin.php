@@ -442,6 +442,7 @@ class ER_Admin {
 				'calc_totals'                  => __( 'Recalculate totals?', 'easyReservations' ),
 				'load_address'                 => __( "Load the customer's address information? This will remove any currently entered address information.", 'easyReservations' ),
 				'featured_label'               => __( 'Featured', 'easyReservations' ),
+				'onsale_label'                  => __( 'On-sale', 'easyReservations' ),
 				'prices_include_tax'           => esc_attr( get_option( 'reservations_prices_include_tax' ) ),
 				'round_at_subtotal'            => esc_attr( get_option( 'reservations_tax_round_at_subtotal' ) ),
 				'no_customer_selected'         => __( 'No customer selected', 'easyReservations' ),
