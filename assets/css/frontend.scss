@@ -243,9 +243,9 @@
 	 */
 	ul.cart_list,
 	ul.resource_list_widget {
-		list-style: none outside;
 		padding: 0;
 		margin: 0;
+		list-style: none outside;
 
 		li {
 			padding: 4px 0;
@@ -261,15 +261,15 @@
 
 			img {
 				float: right;
-				margin-left: 4px;
 				width: 32px;
 				height: auto;
+				margin-left: 4px;
 				box-shadow: none;
 			}
 
 			dl {
-				margin: 0;
 				padding-left: 1em;
+				margin: 0;
 				border-left: 2px solid rgba(0, 0, 0, 0.1);
 
 				@include clearfix();
@@ -282,10 +282,10 @@
 				}
 
 				dt {
-					font-weight: 700;
 					padding: 0 0 0.25em;
 					margin: 0 4px 0 0;
 					clear: left;
+					font-weight: 700;
 				}
 
 				dd {
@@ -307,19 +307,19 @@
 	.widget_shopping_cart {
 
 		.total {
-			border-top: 3px double $secondary;
 			padding: 4px 0 0;
+			border-top: 3px double $secondary;
 
 			strong {
-				min-width: 40px;
 				display: inline-block;
+				min-width: 40px;
 			}
 		}
 
 		.cart_list li {
-			padding-left: 2em;
 			position: relative;
 			padding-top: 0;
+			padding-left: 2em;
 
 			a.remove {
 				position: absolute;
@@ -879,22 +879,22 @@
 	}
 
 	span.onsale {
-		min-height: 3.236em;
-		min-width: 3.236em;
-		padding: 0.202em;
-		font-size: 1em;
-		font-weight: 700;
 		position: absolute;
-		text-align: center;
-		line-height: 3.236;
 		top: -0.5em;
 		left: -0.5em;
-		margin: 0;
-		border-radius: 100%;
-		background-color: $highlight;
-		color: $highlightext;
-		font-size: 0.857em;
 		z-index: 9;
+		min-width: 3.236em;
+		min-height: 3.236em;
+		padding: 0.202em;
+		margin: 0;
+		font-size: 1em;
+		font-size: 0.857em;
+		font-weight: 700;
+		line-height: 3.236;
+		color: $highlightext;
+		text-align: center;
+		background-color: $highlight;
+		border-radius: 100%;
 	}
 
 	ul.resources {
@@ -1068,8 +1068,8 @@
 
 	ol.commentlist.notes li.note {
 		p.meta {
-			font-weight: 700;
 			margin-bottom: 0;
+			font-weight: 700;
 		}
 
 		.description p:last-child {
@@ -1459,15 +1459,16 @@
 .easyreservations-message,
 .easyreservations-error,
 .easyreservations-info {
+	@include clearfix();
+
 	position: relative;
 	width: auto;
 	padding: 1em 2em 1em 3.5em;
 	margin: 0 0 2em;
+	font-size: 16px;
 	color: $secondarytext;
 	word-wrap: break-word;
 	list-style: none outside;
-
-	@include clearfix();
 	background-color: lighten($secondary, 5%);
 	border-top: 3px solid $primary;
 
@@ -1635,9 +1636,9 @@
 
 				> a,
 				> span {
+					padding: 10%;
 					font-size: 14px;
 					line-height: 24px;
-					padding: 10%;
 				}
 
 				&.price-placeholder {
@@ -1729,8 +1730,8 @@
 					}
 
 					span {
-						padding: 0;
 						display: inline-block;
+						padding: 0;
 					}
 				}
 

@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.11';
+	public $version = '6.0-alpha.12';
 
 	/**
 	 * Session instance.
@@ -117,7 +117,6 @@ final class easyReservations {
 		// Load class instances.
 		$this->countries       = new ER_Countries();
 		$this->structured_data = new ER_Structured_Data();
-		$this->form_handler();
 
 		load_plugin_textdomain( 'easyReservations', false, basename( dirname( RESERVATIONS_PLUGIN_FILE ) ) . '/i18n/languages' );
 
@@ -656,13 +655,6 @@ final class easyReservations {
 	 */
 	public function reservation_manager() {
 		return ER_Reservation_Manager::instance();
-	}
-
-	/**
-	 * @return ER_Form_Handler
-	 */
-	public function form_handler() {
-		return ER_Form_Handler::instance();
 	}
 
 	/**

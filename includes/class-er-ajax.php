@@ -144,8 +144,7 @@ class ER_AJAX {
 	public static function form() {
 		check_ajax_referer( 'easyreservations-form', 'easy-form-nonce' );
 
-		$form = ER()->form_handler();
-		$form->process_reservation_and_checkout();
+		do_action( 'easyreservations_process_reservation_and_checkout' );
 
 		wp_send_json( array(
 			'result' => 'success'

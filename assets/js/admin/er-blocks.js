@@ -18,7 +18,7 @@
 			color: { type: 'string' },
 			form_template: { type: 'string' },
 			redirect: { type: 'string' },
-			//direct_checkout: {type: 'bool'},
+			direct_checkout: {type: 'bool'},
 			price: { type: 'bool' },
 			inline: { type: 'bool' },
 		},
@@ -76,17 +76,17 @@
 						el(
 							'div',
 							{ className: 'easyreservations-block-list-element' },
-							/*el(wp.components.CheckboxControl, {
-								label: wp.i18n.__('Direct checkout', 'easyReservations'),
+							el( wp.components.CheckboxControl, {
+								label: wp.i18n.__( 'Direct checkout', 'easyReservations' ),
 								checked: props.attributes.direct_checkout,
-								onChange: function (val) {
-									if (val) {
-										props.setAttributes({direct_checkout: true})
+								onChange: function( val ) {
+									if ( val ) {
+										props.setAttributes( { direct_checkout: true } );
 									} else {
-										props.setAttributes({direct_checkout: false})
+										props.setAttributes( { direct_checkout: false } );
 									}
-								}
-							}),*/
+								},
+							} ),
 							el( wp.components.CheckboxControl, {
 								label: wp.i18n.__( 'Inline style', 'easyReservations' ),
 								checked: props.attributes.inline,
@@ -125,9 +125,9 @@
 				shortcode += ' inline="1"';
 			}
 
-			//if(props.attributes.direct_checkout){
-			//    shortcode += ' direct_checkout="1"';
-			//}
+			if ( props.attributes.direct_checkout ) {
+				shortcode += ' direct_checkout="1"';
+			}
 
 			if ( props.attributes.price ) {
 				shortcode += ' price="1"';

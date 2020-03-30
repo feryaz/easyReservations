@@ -48,8 +48,8 @@
 					message: null,
 					overlayCSS: {
 						background: '#fff',
-						opacity: 0.6
-					}
+						opacity: 0.6,
+					},
 				} );
 			}
 
@@ -57,15 +57,16 @@
 				message: null,
 				overlayCSS: {
 					background: '#fff',
-					opacity: 0.6
-				}
+					opacity: 0.6,
+				},
 			} );
 
-			var data = form.serializeObject();
-			data[ 'action' ] = 'easyreservations_form';
+			const data = form.serializeObject();
+
+			data.action = 'easyreservations_form';
 
 			if ( submit ) {
-				data[ 'submit' ] = 'yes';
+				data.submit = 'yes';
 				$( document.body ).trigger( 'adding_to_cart' );
 			}
 

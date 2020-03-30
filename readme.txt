@@ -39,7 +39,7 @@ It's very flexible and intuitive and has a huge amount of functions and possibil
 = Automatic installation =
 
 Automatic installation is the easiest option -- WordPress will handles the file transfer, and you won’t need to leave your web browser. To do an automatic install of WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu, and click “Add New.”
- 
+
 In the search field type easyReservations,” then click “Search Plugins.” Once you’ve found us,  you can view details about it such as the point release, rating, and description. Most importantly of course, you can install it by! Click “Install Now,” and WordPress will take it from there.
 
 = Manual installation =
@@ -54,7 +54,11 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
-= 6.0-alpha.12 - 2020-03-X =
+= 6.0-alpha.13 - 2020-04-X =
+* Feature - Direct checkout (option if form block)
+* Fix - Deposit form on order payment page
+
+= 6.0-alpha.12 - 2020-03-30 =
 * Feature - Cart widget
 * Feature - Resources widget
 * Feature - Set resource to be onsale

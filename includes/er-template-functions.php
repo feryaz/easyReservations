@@ -1,10 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
+add_action( 'before_easyreservations_pay', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_before_checkout_form_cart_notices', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_before_cart', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_cart_is_empty', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_before_checkout_form', 'easyreservations_output_all_notices', 10 );
+add_action( 'easyreservations_before_form', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_before_single_resource', 'easyreservations_output_all_notices', 10 );
 add_action( 'easyreservations_before_shop_loop', 'easyreservations_output_all_notices', 10 );
 

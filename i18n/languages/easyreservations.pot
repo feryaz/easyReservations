@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: easyReservations\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-25 18:44+0100\n"
+"POT-Creation-Date: 2020-03-30 10:16+0200\n"
 "PO-Revision-Date: 2015-09-07 11:14+0100\n"
 "Last-Translator: Feryaz Beer <support@easyreservations.org>\n"
 "Language-Team: Feryaz Beer <contact@easyreservations.org>\n"
@@ -79,7 +79,7 @@ msgstr ""
 
 #: easyreservations-premium/assets/js/search-block.js:211
 #: easyreservations-premium/assets/js/search-block.min.js:1
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:415
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:414
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:248
 #: easyreservations/includes/er-cart-functions.php:176
 #: easyreservations/includes/er-cart-functions.php:185
@@ -376,11 +376,13 @@ msgstr ""
 
 #: easyreservations-premium/includes/admin/meta-boxes/class-erp-meta-box-coupon-data.php:215
 #: easyreservations/includes/admin/class-er-admin-resources.php:338
-#: easyreservations/includes/admin/class-er-admin.php:556
+#: easyreservations/includes/admin/class-er-admin.php:560
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:166
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:799
 #: easyreservations/includes/admin/views/html-admin-resources-header.php:9
 #: easyreservations/includes/er-resource-functions.php:17
+#: easyreservations/includes/widgets/class-er-widget-resources.php:22
+#: easyreservations/includes/widgets/class-er-widget-resources.php:26
 msgid "Resources"
 msgstr ""
 
@@ -858,6 +860,7 @@ msgstr ""
 
 #: easyreservations-premium/includes/class-er-account.php:281
 #: easyreservations-premium/templates/myaccount/form-edit-account.php:26
+#: easyreservations/includes/admin/class-er-admin-profile.php:44
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:32
 #: easyreservations/includes/class-er-countries.php:507
 msgid "First name"
@@ -865,6 +868,7 @@ msgstr ""
 
 #: easyreservations-premium/includes/class-er-account.php:282
 #: easyreservations-premium/templates/myaccount/form-edit-account.php:30
+#: easyreservations/includes/admin/class-er-admin-profile.php:48
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:36
 #: easyreservations/includes/class-er-countries.php:514
 msgid "Last name"
@@ -878,7 +882,8 @@ msgstr ""
 #: easyreservations-premium/includes/class-er-account.php:284
 #: easyreservations-premium/templates/myaccount/form-edit-account.php:42
 #: easyreservations-premium/templates/myaccount/form-login.php:85
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:568
+#: easyreservations/includes/admin/class-er-admin-profile.php:88
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:567
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:72
 #: easyreservations/includes/class-er-countries.php:1215
 msgid "Email address"
@@ -927,8 +932,8 @@ msgstr ""
 
 #: easyreservations-premium/includes/class-er-account.php:466
 #: easyreservations-premium/includes/class-er-account.php:500
-#: easyreservations/includes/class-er-form-handler.php:265
-#: easyreservations/includes/class-er-form-handler.php:269
+#: easyreservations/includes/class-er-form-handler.php:266
+#: easyreservations/includes/class-er-form-handler.php:270
 msgid "Error:"
 msgstr ""
 
@@ -1053,7 +1058,7 @@ msgid "Coupon does not exist!"
 msgstr ""
 
 #: easyreservations-premium/includes/class-er-coupon.php:897
-#: easyreservations/includes/class-er-ajax.php:625
+#: easyreservations/includes/class-er-ajax.php:649
 msgid "Please enter a coupon code."
 msgstr ""
 
@@ -1177,8 +1182,8 @@ msgid "Coupon does not exist."
 msgstr ""
 
 #: easyreservations-premium/includes/class-er-coupons.php:449
-#: easyreservations/includes/class-er-ajax.php:947
-#: easyreservations/includes/class-er-ajax.php:1007
+#: easyreservations/includes/class-er-ajax.php:971
+#: easyreservations/includes/class-er-ajax.php:1031
 msgid "Invalid coupon"
 msgstr ""
 
@@ -1269,7 +1274,7 @@ msgstr ""
 #: easyreservations-premium/includes/er-account-functions.php:60
 #: easyreservations-premium/templates/emails/email-addresses.php:28
 #: easyreservations-premium/templates/myaccount/form-edit-address.php:24
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:296
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:295
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:114
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:249
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:35
@@ -1301,6 +1306,7 @@ msgstr ""
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:111
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:349
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:601
+#: easyreservations/includes/widgets/class-er-widget-resources.php:52
 #: easyreservations/templates/form/date-selection.php:51
 msgid "Date"
 msgstr ""
@@ -1366,7 +1372,7 @@ msgid "View"
 msgstr ""
 
 #: easyreservations-premium/includes/er-account-functions.php:198
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:65
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:72
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:225
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-items.php:295
 msgid "Cancel"
@@ -1395,8 +1401,8 @@ msgid "N/A"
 msgstr ""
 
 #: easyreservations-premium/includes/er-account-functions.php:239
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:95
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:103
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:128
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:274
 #: easyreservations/includes/admin/views/html-admin-resource-header.php:28
 msgid "Delete"
@@ -1555,7 +1561,7 @@ msgid "Multipart"
 msgstr ""
 
 #: easyreservations-premium/includes/er-premium-template-functions.php:37
-#: easyreservations/includes/er-template-functions.php:588
+#: easyreservations/includes/er-template-functions.php:646
 msgid "Place order"
 msgstr ""
 
@@ -1617,6 +1623,8 @@ msgstr ""
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:569
 #: easyreservations/includes/admin/settings/views/html-admin-settings-form.php:587
 #: easyreservations/includes/admin/views/html-admin-resource-add.php:27
+#: easyreservations/includes/widgets/class-er-widget-cart.php:29
+#: easyreservations/includes/widgets/class-er-widget-resources.php:27
 #: easyreservations/templates/cart/cart.php:84
 msgid "Title"
 msgstr ""
@@ -2484,7 +2492,7 @@ msgid "There was a problem connecting to the Stripe API endpoint."
 msgstr ""
 
 #: easyreservations-premium/includes/gateways/stripe/includes/class-er-stripe-customer.php:130
-#: easyreservations/includes/admin/class-er-admin.php:436
+#: easyreservations/includes/admin/class-er-admin.php:439
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-report.php:1035
 #: easyreservations/includes/admin/views/html-admin-resource-slots.php:18
 msgid "Name"
@@ -3101,6 +3109,7 @@ msgstr ""
 #: easyreservations/includes/admin/views/html-admin-resource-filters.php:233
 #: easyreservations/includes/admin/views/html-admin-resource-slot-add.php:177
 #: easyreservations/includes/admin/views/html-admin-resource-slots.php:22
+#: easyreservations/includes/widgets/class-er-widget-resources.php:53
 msgid "Price"
 msgstr ""
 
@@ -3158,7 +3167,7 @@ msgid "Confirm new password"
 msgstr ""
 
 #: easyreservations-premium/templates/myaccount/form-edit-account.php:68
-#: easyreservations/includes/admin/class-er-admin.php:392
+#: easyreservations/includes/admin/class-er-admin.php:395
 #: easyreservations/includes/admin/views/html-admin-resource-settings.php:393
 #: easyreservations/includes/admin/views/html-admin-resource-spaces-names.php:24
 #: easyreservations/includes/admin/views/html-admin-settings.php:39
@@ -10076,7 +10085,7 @@ msgid ""
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin-permalink-settings.php:138
-#: easyreservations/includes/er-core-functions.php:1435
+#: easyreservations/includes/er-core-functions.php:1436
 msgctxt "slug"
 msgid "resource"
 msgstr ""
@@ -10329,11 +10338,83 @@ msgstr ""
 msgid "Terms and Conditions Page"
 msgstr ""
 
+#: easyreservations/includes/admin/class-er-admin-profile.php:41
+msgid "Customer address"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:52
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:40
+#: easyreservations/includes/class-er-privacy-erasers.php:47
+#: easyreservations/includes/class-er-privacy-exporters.php:107
+msgid "Company"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:56
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:44
+msgid "Address line 1"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:60
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:298
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:48
+#: easyreservations/includes/customizer/class-er-shop-customizer.php:563
+msgid "Address line 2"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:64
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:303
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:52
+#: easyreservations/includes/class-er-privacy-erasers.php:50
+#: easyreservations/includes/class-er-privacy-exporters.php:110
+msgid "City"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:68
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:313
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:56
+#: easyreservations/includes/class-er-countries.php:568
+msgid "Postcode / ZIP"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:72
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:289
+#: easyreservations/includes/admin/class-er-admin.php:883
+#: easyreservations/includes/class-er-countries.php:529
+#: easyreservations/includes/class-er-privacy-erasers.php:53
+#: easyreservations/includes/class-er-privacy-exporters.php:113
+msgid "Country / Region"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:76
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:64
+#: easyreservations/includes/er-template-functions.php:1318
+msgid "Select a country / region&hellip;"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:79
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:67
+#: easyreservations/includes/class-er-countries.php:560
+msgid "State / County"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:80
+msgid "State / County or state code"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin-profile.php:84
+#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:365
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:75
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:43
+#: easyreservations/includes/class-er-countries.php:1205
+#: easyreservations/includes/customizer/class-er-shop-customizer.php:564
+msgid "Phone"
+msgstr ""
+
 #: easyreservations/includes/admin/class-er-admin-reservation.php:33
 #: easyreservations/includes/admin/class-er-admin-reservation.php:51
-#: easyreservations/includes/class-er-ajax.php:1137
-#: easyreservations/includes/class-er-ajax.php:1349
-#: easyreservations/includes/class-er-ajax.php:1432
+#: easyreservations/includes/class-er-ajax.php:1161
+#: easyreservations/includes/class-er-ajax.php:1373
+#: easyreservations/includes/class-er-ajax.php:1456
 #: easyreservations/includes/class-er-order.php:1628
 msgid "Invalid reservation"
 msgstr ""
@@ -10483,12 +10564,12 @@ msgstr ""
 msgid "Ready!"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:184
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:183
 msgid "easyReservations &rsaquo; Setup Wizard"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:191
-#: easyreservations/includes/admin/class-er-admin.php:163
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:190
+#: easyreservations/includes/admin/class-er-admin.php:166
 #: easyreservations/includes/class-er-privacy.php:30
 #: easyreservations/includes/er-order-functions.php:385
 #: easyreservations/includes/er-order-functions.php:508
@@ -10496,56 +10577,35 @@ msgstr ""
 msgid "easyReservations"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:201
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:200
 msgid "Continue with the old setup wizard"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:203
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:202
 msgid "Not right now"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:205
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:204
 msgid "Skip this step"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:285
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:284
 msgid ""
 "The following wizard will help you configure your store and get you started "
 "quickly."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:289
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:288
 msgid "Where is your store based?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:290
-#: easyreservations/includes/admin/class-er-admin.php:879
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:289
+#: easyreservations/includes/admin/class-er-admin.php:883
 msgid "Choose a country / region&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:290
-#: easyreservations/includes/admin/class-er-admin.php:879
-#: easyreservations/includes/class-er-countries.php:529
-#: easyreservations/includes/class-er-privacy-erasers.php:53
-#: easyreservations/includes/class-er-privacy-exporters.php:113
-msgid "Country / Region"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:299
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:48
-#: easyreservations/includes/customizer/class-er-shop-customizer.php:563
-msgid "Address line 2"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:304
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:52
-#: easyreservations/includes/class-er-privacy-erasers.php:50
-#: easyreservations/includes/class-er-privacy-exporters.php:110
-msgid "City"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:309
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:311
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:308
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:310
 #: easyreservations/includes/class-er-countries.php:643
 #: easyreservations/includes/class-er-countries.php:938
 #: easyreservations/includes/class-er-countries.php:1093
@@ -10554,63 +10614,57 @@ msgstr ""
 msgid "State"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:311
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:310
 msgid "Choose a state&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:314
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:56
-#: easyreservations/includes/class-er-countries.php:568
-msgid "Postcode / ZIP"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:322
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:321
 msgid "What currency do you accept payments in?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:328
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:331
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:327
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:330
 msgid "Choose a currency&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:339
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:338
 #, php-format
 msgid "%1$s (%2$s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:342
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:341
 #, php-format
 msgid "%1$s (%2$s %3$s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:363
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:362
 msgid "I will also be selling products or services in person."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:372
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:371
 msgid "Let's go!"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:388
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:387
 msgid "Help improve easyReservations with usage tracking"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:396
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:395
 #, php-format
 msgid ""
 "Learn more about how usage tracking works, and how you'll be helping in our "
 "<a href=\"%1$s\" target=\"_blank\">usage tracking documentation</a>."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:410
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:409
 msgid "Enable usage tracking and help improve easyReservations"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:514
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:513
 msgid "Finish setting up your store"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:552
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:551
 #, php-format
 msgid ""
 "Watch our <a href=\"%1$s\" target=\"_blank\">guided tour videos</a> to learn "
@@ -10618,63 +10672,63 @@ msgid ""
 "about <a href=\"%2$s\" target=\"_blank\">getting started</a>."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:557
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:556
 msgid "You're ready to start selling!"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:560
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:559
 msgid ""
 "We're here for you — get tips, product updates, and inspiration straight to "
 "your mailbox."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:574
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:578
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:573
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:577
 msgid "Yes please!"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:587
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:586
 msgid "Next step"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:588
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:587
 msgid "Create some resources"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:589
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:588
 msgid "You're ready to add resources to your store."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:594
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:593
 msgid "Create a resource"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:601
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:600
 msgid "Have an existing store?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:602
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:608
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:601
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:607
 msgid "Import resources"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:603
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:602
 msgid "Transfer existing resources to your new store — just import a CSV file."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:615
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:614
 msgid "You can also:"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:620
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:619
 msgid "Visit Dashboard"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:623
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:622
 msgid "Review Settings"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:626
+#: easyreservations/includes/admin/class-er-admin-setup-wizard.php:625
 msgid "View &amp; Customize"
 msgstr ""
 
@@ -10729,269 +10783,274 @@ msgstr ""
 msgid "Reservations list"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:192
+#: easyreservations/includes/admin/class-er-admin.php:195
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:243
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:659
 msgid "No page set"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:201
+#: easyreservations/includes/admin/class-er-admin.php:204
 msgid "Nothing"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:207
+#: easyreservations/includes/admin/class-er-admin.php:210
 msgid "Amount of free spaces"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:271
-#: easyreservations/includes/class-er-frontend.php:144
+#: easyreservations/includes/admin/class-er-admin.php:274
+#: easyreservations/includes/class-er-frontend.php:138
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:272
-#: easyreservations/includes/class-er-frontend.php:145
+#: easyreservations/includes/admin/class-er-admin.php:275
+#: easyreservations/includes/class-er-frontend.php:139
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:273
-#: easyreservations/includes/class-er-frontend.php:146
+#: easyreservations/includes/admin/class-er-admin.php:276
+#: easyreservations/includes/class-er-frontend.php:140
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:274
-#: easyreservations/includes/class-er-frontend.php:147
+#: easyreservations/includes/admin/class-er-admin.php:277
+#: easyreservations/includes/class-er-frontend.php:141
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:275
-#: easyreservations/includes/class-er-frontend.php:148
+#: easyreservations/includes/admin/class-er-admin.php:278
+#: easyreservations/includes/class-er-frontend.php:142
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:276
-#: easyreservations/includes/class-er-frontend.php:149
+#: easyreservations/includes/admin/class-er-admin.php:279
+#: easyreservations/includes/class-er-frontend.php:143
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:277
-#: easyreservations/includes/class-er-frontend.php:150
+#: easyreservations/includes/admin/class-er-admin.php:280
+#: easyreservations/includes/class-er-frontend.php:144
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:278
-#: easyreservations/includes/class-er-frontend.php:151
+#: easyreservations/includes/admin/class-er-admin.php:281
+#: easyreservations/includes/class-er-frontend.php:145
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:279
-#: easyreservations/includes/class-er-frontend.php:152
+#: easyreservations/includes/admin/class-er-admin.php:282
+#: easyreservations/includes/class-er-frontend.php:146
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:280
-#: easyreservations/includes/class-er-frontend.php:153
+#: easyreservations/includes/admin/class-er-admin.php:283
+#: easyreservations/includes/class-er-frontend.php:147
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:299
+#: easyreservations/includes/admin/class-er-admin.php:302
 msgid "Global availability"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:300
+#: easyreservations/includes/admin/class-er-admin.php:303
 msgid ""
 "Availability filters apply to all resources. The resources availability "
 "filter only get applied if none of these match. "
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:337
+#: easyreservations/includes/admin/class-er-admin.php:340
 #, php-format
 msgid "Please enter with one decimal point (%s) without thousand separators."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:339
+#: easyreservations/includes/admin/class-er-admin.php:342
 #, php-format
 msgid ""
 "Please enter with one monetary decimal point (%s) without thousand "
 "separators and currency symbols."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:340
+#: easyreservations/includes/admin/class-er-admin.php:343
 msgid "Please enter in country code with two capital letters."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:341
+#: easyreservations/includes/admin/class-er-admin.php:344
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:342
+#: easyreservations/includes/admin/class-er-admin.php:345
 msgid "Item moved up"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:343
+#: easyreservations/includes/admin/class-er-admin.php:346
 msgid "Item moved down"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:344
+#: easyreservations/includes/admin/class-er-admin.php:347
 msgid ""
 "Selecting no country or region to sell to prevents from completing the "
 "checkout. Continue anyway?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:388
+#: easyreservations/includes/admin/class-er-admin.php:391
 msgid "Please enter a title for the event."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:389
+#: easyreservations/includes/admin/class-er-admin.php:392
 #: easyreservations/includes/class-er-reservation.php:110
 msgid "No resource selected"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:390
+#: easyreservations/includes/admin/class-er-admin.php:393
 msgid "No arrivals"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:391
+#: easyreservations/includes/admin/class-er-admin.php:394
 msgid "No departures"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:393
+#: easyreservations/includes/admin/class-er-admin.php:396
 #: easyreservations/includes/admin/views/html-timeline.php:67
 msgid "Allow edit"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:394
+#: easyreservations/includes/admin/class-er-admin.php:397
 msgid "No pending reservations"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:395
+#: easyreservations/includes/admin/class-er-admin.php:398
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:60
 msgid "Not attached to any order"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:396
+#: easyreservations/includes/admin/class-er-admin.php:399
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-data.php:66
 #, php-format
 msgid "Attached to order %s"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:429
-msgid "Are you sure you want to remove the selected items?"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin.php:430
-msgid ""
-"Are you sure you want to remove the selected reservation from this order?"
-msgstr ""
-
-#: easyreservations/includes/admin/class-er-admin.php:431
-msgid "Please select some items."
-msgstr ""
-
 #: easyreservations/includes/admin/class-er-admin.php:432
-msgid ""
-"Are you sure you wish to process this refund? This action cannot be undone."
+msgid "Are you sure you want to remove the selected items?"
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:433
 msgid ""
-"Are you sure you wish to delete this refund? This action cannot be undone."
+"Are you sure you want to remove the selected reservation from this order?"
 msgstr ""
 
 #: easyreservations/includes/admin/class-er-admin.php:434
+msgid "Please select some items."
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin.php:435
+msgid ""
+"Are you sure you wish to process this refund? This action cannot be undone."
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin.php:436
+msgid ""
+"Are you sure you wish to delete this refund? This action cannot be undone."
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin.php:437
 msgid ""
 "Are you sure you wish to delete this tax column? This action cannot be "
 "undone."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:435
+#: easyreservations/includes/admin/class-er-admin.php:438
 msgid "Remove this item meta?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:437
+#: easyreservations/includes/admin/class-er-admin.php:440
 msgid "Remove"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:438
+#: easyreservations/includes/admin/class-er-admin.php:441
 msgid "Value(s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:439
+#: easyreservations/includes/admin/class-er-admin.php:442
 msgid "Recalculate totals?"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:440
+#: easyreservations/includes/admin/class-er-admin.php:443
 msgid ""
 "Load the customer's address information? This will remove any currently "
 "entered address information."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:441
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:44
+#: easyreservations/includes/admin/class-er-admin.php:444
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:45
 msgid "Featured"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:444
+#: easyreservations/includes/admin/class-er-admin.php:445
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:49
+msgid "On-sale"
+msgstr ""
+
+#: easyreservations/includes/admin/class-er-admin.php:448
 msgid "No customer selected"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:469
+#: easyreservations/includes/admin/class-er-admin.php:473
 msgid "You cannot add the same tax rate twice!"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:470
+#: easyreservations/includes/admin/class-er-admin.php:474
 msgid ""
 "Are you sure you wish to delete this note? This action cannot be undone."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:471
+#: easyreservations/includes/admin/class-er-admin.php:475
 msgid ""
 "Enter a coupon code to apply. Discounts are applied to line totals, before "
 "taxes."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:472
+#: easyreservations/includes/admin/class-er-admin.php:476
 msgid "Enter a fixed amount or percentage to apply as a fee."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:473
+#: easyreservations/includes/admin/class-er-admin.php:477
 msgid "Enter a reservation id."
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:514
-#: easyreservations/includes/class-er-frontend.php:143
-#: easyreservations/includes/er-template-functions.php:1268
-#: easyreservations/includes/er-template-functions.php:1269
+#: easyreservations/includes/admin/class-er-admin.php:518
+#: easyreservations/includes/class-er-frontend.php:137
+#: easyreservations/includes/er-template-functions.php:1340
+#: easyreservations/includes/er-template-functions.php:1341
 msgid "Select an option&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:517
+#: easyreservations/includes/admin/class-er-admin.php:521
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-item-meta.php:51
 msgid "Name (required)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:518
+#: easyreservations/includes/admin/class-er-admin.php:522
 #: easyreservations/includes/admin/meta-boxes/views/html-receipt-item-meta.php:52
 msgid "Value (required)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:547
-#: easyreservations/includes/admin/class-er-admin.php:561
+#: easyreservations/includes/admin/class-er-admin.php:551
+#: easyreservations/includes/admin/class-er-admin.php:565
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-resources.php:101
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:51
 msgid "Reservations"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:568
+#: easyreservations/includes/admin/class-er-admin.php:572
 #: easyreservations/includes/admin/settings/class-er-settings-general.php:312
 #: easyreservations/includes/admin/views/html-admin-resource-filter-add.php:26
 #: easyreservations/includes/admin/views/html-admin-resource-filters.php:213
@@ -10999,36 +11058,36 @@ msgstr ""
 msgid "Availability"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:573
+#: easyreservations/includes/admin/class-er-admin.php:577
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-report.php:910
 #: easyreservations/includes/admin/views/html-admin-resource-header.php:33
 msgid "Settings"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:593
+#: easyreservations/includes/admin/class-er-admin.php:597
 msgid "HTML email template"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:862
+#: easyreservations/includes/admin/class-er-admin.php:866
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:889
+#: easyreservations/includes/admin/class-er-admin.php:893
 #: easyreservations/includes/er-formatting-functions.php:863
 msgid "Day(s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:890
+#: easyreservations/includes/admin/class-er-admin.php:894
 #: easyreservations/includes/er-formatting-functions.php:864
 msgid "Week(s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:891
+#: easyreservations/includes/admin/class-er-admin.php:895
 #: easyreservations/includes/er-formatting-functions.php:865
 msgid "Month(s)"
 msgstr ""
 
-#: easyreservations/includes/admin/class-er-admin.php:892
+#: easyreservations/includes/admin/class-er-admin.php:896
 #: easyreservations/includes/er-formatting-functions.php:866
 msgid "Year(s)"
 msgstr ""
@@ -11197,7 +11256,7 @@ msgstr ""
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:278
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:722
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:227
-#: easyreservations/includes/class-er-ajax.php:783
+#: easyreservations/includes/class-er-ajax.php:807
 #, php-format
 msgid "%1$s (#%2$s &ndash; %3$s)"
 msgstr ""
@@ -11225,14 +11284,6 @@ msgstr ""
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:39
 #: easyreservations/includes/admin/settings/class-er-settings-emails.php:263
 msgid "Email"
-msgstr ""
-
-#: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:365
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:75
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-reservation-order.php:43
-#: easyreservations/includes/class-er-countries.php:1205
-#: easyreservations/includes/customizer/class-er-shop-customizer.php:564
-msgid "Phone"
 msgstr ""
 
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-orders.php:370
@@ -11428,6 +11479,7 @@ msgstr[1] ""
 
 #: easyreservations/includes/admin/list-tables/class-er-admin-list-table-reservations.php:789
 #: easyreservations/includes/admin/settings/views/html-admin-settings-tax.php:64
+#: easyreservations/includes/widgets/class-er-widget-resources.php:42
 msgid "All resources"
 msgstr ""
 
@@ -11492,28 +11544,8 @@ msgstr ""
 msgid "Order details manually sent to customer."
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:40
-#: easyreservations/includes/class-er-privacy-erasers.php:47
-#: easyreservations/includes/class-er-privacy-exporters.php:107
-msgid "Company"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:44
-msgid "Address line 1"
-msgstr ""
-
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:60
 msgid "Country"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:64
-#: easyreservations/includes/er-template-functions.php:1246
-msgid "Select a country / region&hellip;"
-msgstr ""
-
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:67
-#: easyreservations/includes/class-er-countries.php:560
-msgid "State / County"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/class-er-meta-box-order-data.php:119
@@ -11672,36 +11704,40 @@ msgstr ""
 msgid "Search for an Order&hellip;"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:36
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:37
 msgid "Catalog"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:55
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:61
 msgid "This setting determines which shop pages resources will be listed on."
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:61
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:67
 msgid "This is a featured resource"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:64
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:68
+msgid "This resource is on sale"
+msgstr ""
+
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:71
 msgid "OK"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:95
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:103
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:128
 msgid "Delete image"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:128
 msgid "Add images to resource gallery"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:128
 msgid "Add to gallery"
 msgstr ""
 
-#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:120
+#: easyreservations/includes/admin/meta-boxes/class-er-meta-box-resource-images.php:128
 msgid "Add resource gallery images"
 msgstr ""
 
@@ -11719,7 +11755,7 @@ msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/views/html-order-notes.php:28
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-logs.php:54
-#: easyreservations/includes/class-er-ajax.php:1571
+#: easyreservations/includes/class-er-ajax.php:1595
 #, php-format
 msgid "%1$s at %2$s"
 msgstr ""
@@ -11728,13 +11764,13 @@ msgstr ""
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-report.php:785
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-report.php:835
 #: easyreservations/includes/admin/settings/views/html-admin-settings-status-report.php:897
-#: easyreservations/includes/class-er-ajax.php:1577
+#: easyreservations/includes/class-er-ajax.php:1601
 #, php-format
 msgid "by %s"
 msgstr ""
 
 #: easyreservations/includes/admin/meta-boxes/views/html-order-notes.php:37
-#: easyreservations/includes/class-er-ajax.php:1580
+#: easyreservations/includes/class-er-ajax.php:1604
 msgid "Delete note"
 msgstr ""
 
@@ -12041,7 +12077,7 @@ msgid ""
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-accounts.php:156
-#: easyreservations/includes/er-template-functions.php:1124
+#: easyreservations/includes/er-template-functions.php:1196
 #, php-format
 msgid ""
 "Your personal data will be used to support your experience throughout this "
@@ -12062,7 +12098,7 @@ msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-accounts.php:167
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:622
-#: easyreservations/includes/er-template-functions.php:1120
+#: easyreservations/includes/er-template-functions.php:1192
 #, php-format
 msgid ""
 "Your personal data will be used to process your order, support your "
@@ -12371,7 +12407,7 @@ msgid "Custom field"
 msgstr ""
 
 #: easyreservations/includes/admin/settings/class-er-settings-custom.php:80
-#: easyreservations/includes/class-er-reservation-form.php:128
+#: easyreservations/includes/class-er-reservation-form.php:130
 #: easyreservations/includes/class-er-reservation.php:583
 #: easyreservations/includes/class-er-reservation.php:615
 #, php-format
@@ -14916,94 +14952,94 @@ msgstr ""
 msgid "Wait"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:535
+#: easyreservations/includes/class-er-ajax.php:536
 msgid "Sorry, your session has expired."
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:535
+#: easyreservations/includes/class-er-ajax.php:536
 msgid "Return to shop"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:641
+#: easyreservations/includes/class-er-ajax.php:665
 msgid "Sorry there was a problem removing this coupon."
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:644
+#: easyreservations/includes/class-er-ajax.php:668
 msgid "Coupon has been removed."
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:836
-#: easyreservations/includes/class-er-ajax.php:897
-#: easyreservations/includes/class-er-ajax.php:1053
+#: easyreservations/includes/class-er-ajax.php:860
+#: easyreservations/includes/class-er-ajax.php:921
+#: easyreservations/includes/class-er-ajax.php:1077
 msgid "Invalid object"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:854
+#: easyreservations/includes/class-er-ajax.php:878
 #, php-format
 msgid "%s fee"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:903
+#: easyreservations/includes/class-er-ajax.php:927
 msgid "Invalid rate"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:943
-#: easyreservations/includes/class-er-ajax.php:1003
-#: easyreservations/includes/class-er-ajax.php:1131
-#: easyreservations/includes/class-er-ajax.php:1360
-#: easyreservations/includes/class-er-ajax.php:1411
+#: easyreservations/includes/class-er-ajax.php:967
+#: easyreservations/includes/class-er-ajax.php:1027
+#: easyreservations/includes/class-er-ajax.php:1155
+#: easyreservations/includes/class-er-ajax.php:1384
+#: easyreservations/includes/class-er-ajax.php:1435
 msgid "Invalid order"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1057
-#: easyreservations/includes/class-er-ajax.php:1142
+#: easyreservations/includes/class-er-ajax.php:1081
+#: easyreservations/includes/class-er-ajax.php:1166
 msgid "Invalid items"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1079
+#: easyreservations/includes/class-er-ajax.php:1103
 #, php-format
 msgid "Deleted %s"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1155
+#: easyreservations/includes/class-er-ajax.php:1179
 #, php-format
 msgid "Deleted custom data %s"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1214
+#: easyreservations/includes/class-er-ajax.php:1238
 msgid "Object not editable"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1353
+#: easyreservations/includes/class-er-ajax.php:1377
 #, php-format
 msgid "Reservation already attached to order #%d"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1364
+#: easyreservations/includes/class-er-ajax.php:1388
 msgid "Reservation already attached to order"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1417
+#: easyreservations/includes/class-er-ajax.php:1441
 msgid "Reservation not attached to order"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1648
+#: easyreservations/includes/class-er-ajax.php:1672
 msgid "Reservation could not be added as the requested space is full"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1779
+#: easyreservations/includes/class-er-ajax.php:1803
 msgid "Reservation status changed in timeline:"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1795
+#: easyreservations/includes/class-er-ajax.php:1819
 msgid "Reservation could not be updated as the requested space is full"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1914
+#: easyreservations/includes/class-er-ajax.php:1938
 msgid "Invalid refund amount"
 msgstr ""
 
-#: easyreservations/includes/class-er-ajax.php:1918
+#: easyreservations/includes/class-er-ajax.php:1942
 msgid "Error processing refund. Please try again."
 msgstr ""
 
@@ -15270,21 +15306,21 @@ msgstr ""
 msgid "Undo?"
 msgstr ""
 
-#: easyreservations/includes/class-er-form-handler.php:269
+#: easyreservations/includes/class-er-form-handler.php:270
 msgid "Username is required."
 msgstr ""
 
-#: easyreservations/includes/class-er-frontend.php:138
+#: easyreservations/includes/class-er-frontend.php:132
 msgid "Error processing checkout. Please try again."
 msgstr ""
 
-#: easyreservations/includes/class-er-frontend.php:159
-#: easyreservations/includes/er-template-functions.php:1185
+#: easyreservations/includes/class-er-frontend.php:153
+#: easyreservations/includes/er-template-functions.php:1257
 msgid "required"
 msgstr ""
 
-#: easyreservations/includes/class-er-frontend.php:160
-#: easyreservations/includes/er-template-functions.php:1187
+#: easyreservations/includes/class-er-frontend.php:154
+#: easyreservations/includes/er-template-functions.php:1259
 msgid "optional"
 msgstr ""
 
@@ -15721,15 +15757,15 @@ msgstr ""
 msgid "You must be logged in to checkout."
 msgstr ""
 
-#: easyreservations/includes/class-er-reservation-form.php:105
+#: easyreservations/includes/class-er-reservation-form.php:107
 msgid "Resource not existing"
 msgstr ""
 
-#: easyreservations/includes/class-er-reservation-form.php:128
+#: easyreservations/includes/class-er-reservation-form.php:130
 msgid "your arrival date"
 msgstr ""
 
-#: easyreservations/includes/class-er-reservation-form.php:195
+#: easyreservations/includes/class-er-reservation-form.php:197
 msgid "We were unable to process your reservation, please try again."
 msgstr ""
 
@@ -15999,6 +16035,7 @@ msgid "Images will display using the aspect ratio in which they were uploaded"
 msgstr ""
 
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:553
+#: easyreservations/includes/er-template-functions.php:571
 msgid "Checkout"
 msgstr ""
 
@@ -16013,7 +16050,7 @@ msgid "%s field"
 msgstr ""
 
 #: easyreservations/includes/customizer/class-er-shop-customizer.php:610
-#: easyreservations/includes/er-template-functions.php:1091
+#: easyreservations/includes/er-template-functions.php:1163
 #, php-format
 msgid "I have read and agree to the website %s"
 msgstr ""
@@ -16481,672 +16518,673 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: easyreservations/includes/er-cart-functions.php:178
+#: easyreservations/includes/er-template-functions.php:564
 msgid "View cart"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:225
+#: easyreservations/includes/er-core-functions.php:226
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:226
+#: easyreservations/includes/er-core-functions.php:227
 msgid "Afghan afghani"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:227
+#: easyreservations/includes/er-core-functions.php:228
 msgid "Albanian lek"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:228
+#: easyreservations/includes/er-core-functions.php:229
 msgid "Armenian dram"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:229
+#: easyreservations/includes/er-core-functions.php:230
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:230
+#: easyreservations/includes/er-core-functions.php:231
 msgid "Angolan kwanza"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:231
+#: easyreservations/includes/er-core-functions.php:232
 msgid "Argentine peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:232
+#: easyreservations/includes/er-core-functions.php:233
 msgid "Australian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:233
+#: easyreservations/includes/er-core-functions.php:234
 msgid "Aruban florin"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:234
+#: easyreservations/includes/er-core-functions.php:235
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:235
+#: easyreservations/includes/er-core-functions.php:236
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:236
+#: easyreservations/includes/er-core-functions.php:237
 msgid "Barbadian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:237
+#: easyreservations/includes/er-core-functions.php:238
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:238
+#: easyreservations/includes/er-core-functions.php:239
 msgid "Bulgarian lev"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:239
+#: easyreservations/includes/er-core-functions.php:240
 msgid "Bahraini dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:240
+#: easyreservations/includes/er-core-functions.php:241
 msgid "Burundian franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:241
+#: easyreservations/includes/er-core-functions.php:242
 msgid "Bermudian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:242
+#: easyreservations/includes/er-core-functions.php:243
 msgid "Brunei dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:243
+#: easyreservations/includes/er-core-functions.php:244
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:244
+#: easyreservations/includes/er-core-functions.php:245
 msgid "Brazilian real"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:245
+#: easyreservations/includes/er-core-functions.php:246
 msgid "Bahamian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:246
+#: easyreservations/includes/er-core-functions.php:247
 msgid "Bitcoin"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:247
+#: easyreservations/includes/er-core-functions.php:248
 msgid "Bhutanese ngultrum"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:248
+#: easyreservations/includes/er-core-functions.php:249
 msgid "Botswana pula"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:249
+#: easyreservations/includes/er-core-functions.php:250
 msgid "Belarusian ruble (old)"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:250
+#: easyreservations/includes/er-core-functions.php:251
 msgid "Belarusian ruble"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:251
+#: easyreservations/includes/er-core-functions.php:252
 msgid "Belize dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:252
+#: easyreservations/includes/er-core-functions.php:253
 msgid "Canadian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:253
+#: easyreservations/includes/er-core-functions.php:254
 msgid "Congolese franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:254
+#: easyreservations/includes/er-core-functions.php:255
 msgid "Swiss franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:255
+#: easyreservations/includes/er-core-functions.php:256
 msgid "Chilean peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:256
+#: easyreservations/includes/er-core-functions.php:257
 msgid "Chinese yuan"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:257
+#: easyreservations/includes/er-core-functions.php:258
 msgid "Colombian peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:258
+#: easyreservations/includes/er-core-functions.php:259
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:259
+#: easyreservations/includes/er-core-functions.php:260
 msgid "Cuban convertible peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:260
+#: easyreservations/includes/er-core-functions.php:261
 msgid "Cuban peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:261
+#: easyreservations/includes/er-core-functions.php:262
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:262
+#: easyreservations/includes/er-core-functions.php:263
 msgid "Czech koruna"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:263
+#: easyreservations/includes/er-core-functions.php:264
 msgid "Djiboutian franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:264
+#: easyreservations/includes/er-core-functions.php:265
 msgid "Danish krone"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:265
+#: easyreservations/includes/er-core-functions.php:266
 msgid "Dominican peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:266
+#: easyreservations/includes/er-core-functions.php:267
 msgid "Algerian dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:267
+#: easyreservations/includes/er-core-functions.php:268
 msgid "Egyptian pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:268
+#: easyreservations/includes/er-core-functions.php:269
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:269
+#: easyreservations/includes/er-core-functions.php:270
 msgid "Ethiopian birr"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:270
+#: easyreservations/includes/er-core-functions.php:271
 msgid "Euro"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:271
+#: easyreservations/includes/er-core-functions.php:272
 msgid "Fijian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:272
+#: easyreservations/includes/er-core-functions.php:273
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:273
+#: easyreservations/includes/er-core-functions.php:274
 msgid "Pound sterling"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:274
+#: easyreservations/includes/er-core-functions.php:275
 msgid "Georgian lari"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:275
+#: easyreservations/includes/er-core-functions.php:276
 msgid "Guernsey pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:276
+#: easyreservations/includes/er-core-functions.php:277
 msgid "Ghana cedi"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:277
+#: easyreservations/includes/er-core-functions.php:278
 msgid "Gibraltar pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:278
+#: easyreservations/includes/er-core-functions.php:279
 msgid "Gambian dalasi"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:279
+#: easyreservations/includes/er-core-functions.php:280
 msgid "Guinean franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:280
+#: easyreservations/includes/er-core-functions.php:281
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:281
+#: easyreservations/includes/er-core-functions.php:282
 msgid "Guyanese dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:282
+#: easyreservations/includes/er-core-functions.php:283
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:283
+#: easyreservations/includes/er-core-functions.php:284
 msgid "Honduran lempira"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:284
+#: easyreservations/includes/er-core-functions.php:285
 msgid "Croatian kuna"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:285
+#: easyreservations/includes/er-core-functions.php:286
 msgid "Haitian gourde"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:286
+#: easyreservations/includes/er-core-functions.php:287
 msgid "Hungarian forint"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:287
+#: easyreservations/includes/er-core-functions.php:288
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:288
+#: easyreservations/includes/er-core-functions.php:289
 msgid "Israeli new shekel"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:289
+#: easyreservations/includes/er-core-functions.php:290
 msgid "Manx pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:290
+#: easyreservations/includes/er-core-functions.php:291
 msgid "Indian rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:291
+#: easyreservations/includes/er-core-functions.php:292
 msgid "Iraqi dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:292
+#: easyreservations/includes/er-core-functions.php:293
 msgid "Iranian rial"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:293
+#: easyreservations/includes/er-core-functions.php:294
 msgid "Iranian toman"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:294
+#: easyreservations/includes/er-core-functions.php:295
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:295
+#: easyreservations/includes/er-core-functions.php:296
 msgid "Jersey pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:296
+#: easyreservations/includes/er-core-functions.php:297
 msgid "Jamaican dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:297
+#: easyreservations/includes/er-core-functions.php:298
 msgid "Jordanian dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:298
+#: easyreservations/includes/er-core-functions.php:299
 msgid "Japanese yen"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:299
+#: easyreservations/includes/er-core-functions.php:300
 msgid "Kenyan shilling"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:300
+#: easyreservations/includes/er-core-functions.php:301
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:301
+#: easyreservations/includes/er-core-functions.php:302
 msgid "Cambodian riel"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:302
+#: easyreservations/includes/er-core-functions.php:303
 msgid "Comorian franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:303
+#: easyreservations/includes/er-core-functions.php:304
 msgid "North Korean won"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:304
+#: easyreservations/includes/er-core-functions.php:305
 msgid "South Korean won"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:305
+#: easyreservations/includes/er-core-functions.php:306
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:306
+#: easyreservations/includes/er-core-functions.php:307
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:307
+#: easyreservations/includes/er-core-functions.php:308
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:308
+#: easyreservations/includes/er-core-functions.php:309
 msgid "Lao kip"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:309
+#: easyreservations/includes/er-core-functions.php:310
 msgid "Lebanese pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:310
+#: easyreservations/includes/er-core-functions.php:311
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:311
+#: easyreservations/includes/er-core-functions.php:312
 msgid "Liberian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:312
+#: easyreservations/includes/er-core-functions.php:313
 msgid "Lesotho loti"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:313
+#: easyreservations/includes/er-core-functions.php:314
 msgid "Libyan dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:314
+#: easyreservations/includes/er-core-functions.php:315
 msgid "Moroccan dirham"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:315
+#: easyreservations/includes/er-core-functions.php:316
 msgid "Moldovan leu"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:316
+#: easyreservations/includes/er-core-functions.php:317
 msgid "Malagasy ariary"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:317
+#: easyreservations/includes/er-core-functions.php:318
 msgid "Macedonian denar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:318
+#: easyreservations/includes/er-core-functions.php:319
 msgid "Burmese kyat"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:319
+#: easyreservations/includes/er-core-functions.php:320
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:320
+#: easyreservations/includes/er-core-functions.php:321
 msgid "Macanese pataca"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:321
+#: easyreservations/includes/er-core-functions.php:322
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:322
+#: easyreservations/includes/er-core-functions.php:323
 msgid "Mauritian rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:323
+#: easyreservations/includes/er-core-functions.php:324
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:324
+#: easyreservations/includes/er-core-functions.php:325
 msgid "Malawian kwacha"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:325
+#: easyreservations/includes/er-core-functions.php:326
 msgid "Mexican peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:326
+#: easyreservations/includes/er-core-functions.php:327
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:327
+#: easyreservations/includes/er-core-functions.php:328
 msgid "Mozambican metical"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:328
+#: easyreservations/includes/er-core-functions.php:329
 msgid "Namibian dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:329
+#: easyreservations/includes/er-core-functions.php:330
 msgid "Nigerian naira"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:330
+#: easyreservations/includes/er-core-functions.php:331
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:331
+#: easyreservations/includes/er-core-functions.php:332
 msgid "Norwegian krone"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:332
+#: easyreservations/includes/er-core-functions.php:333
 msgid "Nepalese rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:333
+#: easyreservations/includes/er-core-functions.php:334
 msgid "New Zealand dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:334
+#: easyreservations/includes/er-core-functions.php:335
 msgid "Omani rial"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:335
+#: easyreservations/includes/er-core-functions.php:336
 msgid "Panamanian balboa"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:336
+#: easyreservations/includes/er-core-functions.php:337
 msgid "Sol"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:337
+#: easyreservations/includes/er-core-functions.php:338
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:338
+#: easyreservations/includes/er-core-functions.php:339
 msgid "Philippine peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:339
+#: easyreservations/includes/er-core-functions.php:340
 msgid "Pakistani rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:340
+#: easyreservations/includes/er-core-functions.php:341
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:341
+#: easyreservations/includes/er-core-functions.php:342
 msgid "Transnistrian ruble"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:342
+#: easyreservations/includes/er-core-functions.php:343
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:343
+#: easyreservations/includes/er-core-functions.php:344
 msgid "Qatari riyal"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:344
+#: easyreservations/includes/er-core-functions.php:345
 msgid "Romanian leu"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:345
+#: easyreservations/includes/er-core-functions.php:346
 msgid "Serbian dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:346
+#: easyreservations/includes/er-core-functions.php:347
 msgid "Russian ruble"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:347
+#: easyreservations/includes/er-core-functions.php:348
 msgid "Rwandan franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:348
+#: easyreservations/includes/er-core-functions.php:349
 msgid "Saudi riyal"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:349
+#: easyreservations/includes/er-core-functions.php:350
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:350
+#: easyreservations/includes/er-core-functions.php:351
 msgid "Seychellois rupee"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:351
+#: easyreservations/includes/er-core-functions.php:352
 msgid "Sudanese pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:352
+#: easyreservations/includes/er-core-functions.php:353
 msgid "Swedish krona"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:353
+#: easyreservations/includes/er-core-functions.php:354
 msgid "Singapore dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:354
+#: easyreservations/includes/er-core-functions.php:355
 msgid "Saint Helena pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:355
+#: easyreservations/includes/er-core-functions.php:356
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:356
+#: easyreservations/includes/er-core-functions.php:357
 msgid "Somali shilling"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:357
+#: easyreservations/includes/er-core-functions.php:358
 msgid "Surinamese dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:358
+#: easyreservations/includes/er-core-functions.php:359
 msgid "South Sudanese pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:359
+#: easyreservations/includes/er-core-functions.php:360
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:360
+#: easyreservations/includes/er-core-functions.php:361
 msgid "Syrian pound"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:361
+#: easyreservations/includes/er-core-functions.php:362
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:362
+#: easyreservations/includes/er-core-functions.php:363
 msgid "Thai baht"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:363
+#: easyreservations/includes/er-core-functions.php:364
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:364
+#: easyreservations/includes/er-core-functions.php:365
 msgid "Turkmenistan manat"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:365
+#: easyreservations/includes/er-core-functions.php:366
 msgid "Tunisian dinar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:366
+#: easyreservations/includes/er-core-functions.php:367
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:367
+#: easyreservations/includes/er-core-functions.php:368
 msgid "Turkish lira"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:368
+#: easyreservations/includes/er-core-functions.php:369
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:369
+#: easyreservations/includes/er-core-functions.php:370
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:370
+#: easyreservations/includes/er-core-functions.php:371
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:371
+#: easyreservations/includes/er-core-functions.php:372
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:372
+#: easyreservations/includes/er-core-functions.php:373
 msgid "Ugandan shilling"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:373
+#: easyreservations/includes/er-core-functions.php:374
 msgid "United States (US) dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:374
+#: easyreservations/includes/er-core-functions.php:375
 msgid "Uruguayan peso"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:375
+#: easyreservations/includes/er-core-functions.php:376
 msgid "Uzbekistani som"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:376
+#: easyreservations/includes/er-core-functions.php:377
 msgid "Venezuelan bol&iacute;var"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:377
+#: easyreservations/includes/er-core-functions.php:378
 msgid "Bol&iacute;var soberano"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:378
+#: easyreservations/includes/er-core-functions.php:379
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:379
+#: easyreservations/includes/er-core-functions.php:380
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:380
+#: easyreservations/includes/er-core-functions.php:381
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:381
+#: easyreservations/includes/er-core-functions.php:382
 msgid "Central African CFA franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:382
+#: easyreservations/includes/er-core-functions.php:383
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:383
+#: easyreservations/includes/er-core-functions.php:384
 msgid "West African CFA franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:384
+#: easyreservations/includes/er-core-functions.php:385
 msgid "CFP franc"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:385
+#: easyreservations/includes/er-core-functions.php:386
 msgid "Yemeni rial"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:386
+#: easyreservations/includes/er-core-functions.php:387
 msgid "South African rand"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:387
+#: easyreservations/includes/er-core-functions.php:388
 msgid "Zambian kwacha"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:657
+#: easyreservations/includes/er-core-functions.php:658
 #, php-format
 msgid "%s does not exist."
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:1436
+#: easyreservations/includes/er-core-functions.php:1437
 msgctxt "slug"
 msgid "resource-category"
 msgstr ""
 
-#: easyreservations/includes/er-core-functions.php:1437
+#: easyreservations/includes/er-core-functions.php:1438
 msgctxt "slug"
 msgid "resource-tag"
 msgstr ""
@@ -17529,49 +17567,59 @@ msgstr ""
 msgid "Placeholder"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:118
+#: easyreservations/includes/er-template-functions.php:135
 msgid "Checkout is not available whilst your cart is empty."
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:803
+#: easyreservations/includes/er-template-functions.php:578
+#: easyreservations/templates/cart/cart-totals.php:29
+#: easyreservations/templates/cart/cart-totals.php:30
+#: easyreservations/templates/cart/cart.php:28
+#: easyreservations/templates/cart/cart.php:92
+#: easyreservations/templates/checkout/review-order.php:23
+#: easyreservations/templates/checkout/review-order.php:50
+msgid "Subtotal"
+msgstr ""
+
+#: easyreservations/includes/er-template-functions.php:875
 #, php-format
 msgid "Search results: &ldquo;%s&rdquo;"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:807
+#: easyreservations/includes/er-template-functions.php:879
 #, php-format
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:923
+#: easyreservations/includes/er-template-functions.php:995
 msgid "Default sorting"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:924
+#: easyreservations/includes/er-template-functions.php:996
 msgid "Sort by latest"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:925
+#: easyreservations/includes/er-template-functions.php:997
 msgid "Sort by price: low to high"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:926
+#: easyreservations/includes/er-template-functions.php:998
 msgid "Sort by price: high to low"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:934
+#: easyreservations/includes/er-template-functions.php:1006
 msgid "Relevance"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:1039
+#: easyreservations/includes/er-template-functions.php:1111
 msgid "privacy policy"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:1040
+#: easyreservations/includes/er-template-functions.php:1112
 msgid "terms and conditions"
 msgstr ""
 
-#: easyreservations/includes/er-template-functions.php:1315
+#: easyreservations/includes/er-template-functions.php:1387
 msgid "Choose an option"
 msgstr ""
 
@@ -17642,6 +17690,73 @@ msgid ""
 "bad moment. Please refresh or run the updater again to continue."
 msgstr ""
 
+#: easyreservations/includes/widgets/class-er-widget-cart.php:22
+msgid "Display the customer shopping cart."
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-cart.php:24
+#: easyreservations/includes/widgets/class-er-widget-cart.php:28
+#: easyreservations/includes/widgets/class-er-widget-cart.php:61
+msgid "Cart"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-cart.php:34
+msgid "Hide if cart is empty"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:20
+msgid "A list of your store's products."
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:35
+msgid "Number of resources to show"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:40
+msgid "Show"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:43
+msgid "Featured resources"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:44
+msgid "On-sale resources"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:50
+msgid "Order by"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:54
+msgid "Random"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:55
+msgid "Sales"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:61
+msgctxt "Sorting order"
+msgid "Order"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:63
+msgid "ASC"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:64
+msgid "DESC"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:70
+msgid "Hide free resources"
+msgstr ""
+
+#: easyreservations/includes/widgets/class-er-widget-resources.php:75
+msgid "Show hidden resources"
+msgstr ""
+
 #: easyreservations/templates/cart/cart-empty.php:21
 msgid "Your cart is currently empty."
 msgstr ""
@@ -17650,21 +17765,17 @@ msgstr ""
 msgid "Cart totals"
 msgstr ""
 
-#: easyreservations/templates/cart/cart-totals.php:29
-#: easyreservations/templates/cart/cart-totals.php:30
-#: easyreservations/templates/cart/cart.php:28
-#: easyreservations/templates/cart/cart.php:92
-#: easyreservations/templates/checkout/review-order.php:23
-#: easyreservations/templates/checkout/review-order.php:50
-msgid "Subtotal"
-msgstr ""
-
 #: easyreservations/templates/cart/cart.php:68
+#: easyreservations/templates/cart/mini-cart.php:55
 msgid "Remove this item"
 msgstr ""
 
 #: easyreservations/templates/cart/cart.php:111
 msgid "Coupon:"
+msgstr ""
+
+#: easyreservations/templates/cart/mini-cart.php:99
+msgid "No items in the cart."
 msgstr ""
 
 #: easyreservations/templates/cart/proceed-to-checkout-button.php:21
@@ -17790,6 +17901,11 @@ msgid "Showing %1$d&ndash;%2$d of %3$d result"
 msgid_plural "Showing %1$d&ndash;%2$d of %3$d results"
 msgstr[0] ""
 msgstr[1] ""
+
+#: easyreservations/templates/loop/sale-flash.php:26
+#: easyreservations/templates/single-resource/sale-flash.php:26
+msgid "Sale!"
+msgstr ""
 
 #: easyreservations/templates/single-resource/photoswipe.php:33
 msgid "Close (Esc)"

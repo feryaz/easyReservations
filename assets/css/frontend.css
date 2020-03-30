@@ -301,9 +301,9 @@
 }
 .easyreservations ul.cart_list,
 .easyreservations ul.resource_list_widget {
-  list-style: none outside;
   padding: 0;
   margin: 0;
+  list-style: none outside;
 }
 .easyreservations ul.cart_list li,
 .easyreservations ul.resource_list_widget li {
@@ -330,15 +330,15 @@
 .easyreservations ul.cart_list li img,
 .easyreservations ul.resource_list_widget li img {
   float: right;
-  margin-left: 4px;
   width: 32px;
   height: auto;
+  margin-left: 4px;
   box-shadow: none;
 }
 .easyreservations ul.cart_list li dl,
 .easyreservations ul.resource_list_widget li dl {
-  margin: 0;
   padding-left: 1em;
+  margin: 0;
   border-left: 2px solid rgba(0, 0, 0, 0.1);
   *zoom: 1;
 }
@@ -362,10 +362,10 @@
 }
 .easyreservations ul.cart_list li dl dt,
 .easyreservations ul.resource_list_widget li dl dt {
-  font-weight: 700;
   padding: 0 0 0.25em;
   margin: 0 4px 0 0;
   clear: left;
+  font-weight: 700;
 }
 .easyreservations ul.cart_list li dl dd,
 .easyreservations ul.resource_list_widget li dl dd {
@@ -381,19 +381,19 @@
 }
 .easyreservations.widget_shopping_cart .total,
 .easyreservations .widget_shopping_cart .total {
-  border-top: 3px double #ebe9eb;
   padding: 4px 0 0;
+  border-top: 3px double #ebe9eb;
 }
 .easyreservations.widget_shopping_cart .total strong,
 .easyreservations .widget_shopping_cart .total strong {
-  min-width: 40px;
   display: inline-block;
+  min-width: 40px;
 }
 .easyreservations.widget_shopping_cart .cart_list li,
 .easyreservations .widget_shopping_cart .cart_list li {
-  padding-left: 2em;
   position: relative;
   padding-top: 0;
+  padding-left: 2em;
 }
 .easyreservations.widget_shopping_cart .cart_list li a.remove,
 .easyreservations .widget_shopping_cart .cart_list li a.remove {
@@ -864,22 +864,22 @@
   margin-top: 3px;
 }
 .easyreservations span.onsale {
-  min-height: 3.236em;
-  min-width: 3.236em;
-  padding: 0.202em;
-  font-size: 1em;
-  font-weight: 700;
   position: absolute;
-  text-align: center;
-  line-height: 3.236;
   top: -0.5em;
   left: -0.5em;
-  margin: 0;
-  border-radius: 100%;
-  background-color: #77a464;
-  color: white;
-  font-size: 0.857em;
   z-index: 9;
+  min-width: 3.236em;
+  min-height: 3.236em;
+  padding: 0.202em;
+  margin: 0;
+  font-size: 1em;
+  font-size: 0.857em;
+  font-weight: 700;
+  line-height: 3.236;
+  color: white;
+  text-align: center;
+  background-color: #77a464;
+  border-radius: 100%;
 }
 .easyreservations ul.resources {
   padding: 0;
@@ -1027,8 +1027,8 @@
   float: right;
 }
 .easyreservations-account ol.commentlist.notes li.note p.meta {
-  font-weight: 700;
   margin-bottom: 0;
+  font-weight: 700;
 }
 .easyreservations-account ol.commentlist.notes li.note .description p:last-child {
   margin-bottom: 0;
@@ -1557,14 +1557,15 @@
 .easyreservations-message,
 .easyreservations-error,
 .easyreservations-info {
+  *zoom: 1;
   position: relative;
   width: auto;
   padding: 1em 2em 1em 3.5em;
   margin: 0 0 2em;
+  font-size: 16px;
   color: #515151;
   word-wrap: break-word;
   list-style: none outside;
-  *zoom: 1;
   background-color: #f7f6f7;
   border-top: 3px solid #40a0ff;
 }
@@ -1726,9 +1727,9 @@
 }
 .easy-date-selection .calendar .ui-datepicker-inline td > a,
 .easy-date-selection .calendar .ui-datepicker-inline td > span {
+  padding: 10%;
   font-size: 14px;
   line-height: 24px;
-  padding: 10%;
 }
 .easy-date-selection .calendar .ui-datepicker-inline td.price-placeholder span::after {
   content: "-";
@@ -1798,8 +1799,8 @@
   padding-left: 5px;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .easy-button span {
-  padding: 0;
   display: inline-block;
+  padding: 0;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option {
   display: inline-block;

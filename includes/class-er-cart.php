@@ -825,7 +825,7 @@ class ER_Cart {
 	public function calculate_totals( $temporary_reservation = false ) {
 		$this->reset_totals();
 
-		if ( $this->is_empty() ) {
+		if ( ! $temporary_reservation && $this->is_empty() ) {
 			$this->session->set_session();
 
 			return;
@@ -834,8 +834,18 @@ class ER_Cart {
 		do_action( 'easyreservations_cart_before_calculate_totals', $this );
 
 		$order = $this->get_order();
+
 		if ( $temporary_reservation ) {
 			$order->add_reservation( $temporary_reservation, false );
+
+			$errors  = new WP_Error();
+			$customs = ER()->checkout()->get_form_data_custom( $errors, $order, 'checkout' );
+
+			if ( $customs && ! $errors->has_errors() ) {
+				foreach ( $customs as $custom ) {
+					$order->add_custom( $custom );
+				}
+			}
 		}
 
 		$order->calculate_taxes( false );
@@ -880,7 +890,9 @@ class ER_Cart {
 		$this->set_fee_tax( array_sum( $fees_taxes ) );
 		$this->set_fee_taxes( $fees_taxes );
 
-		do_action( 'easyreservations_cart_after_calculate_totals', $this );
+		if ( !$temporary_reservation ) {
+			do_action( 'easyreservations_cart_after_calculate_totals', $this );
+		}
 	}
 
 	protected function round_at_subtotal() {
@@ -1126,7 +1138,7 @@ class ER_Cart {
 	/**
 	 * Reset cart totals to the defaults. Useful before running calculations.
 	 */
-	private function reset_totals() {
+	public function reset_totals() {
 		$this->totals = $this->default_totals;
 		do_action( 'easyreservations_cart_reset', $this, false );
 	}

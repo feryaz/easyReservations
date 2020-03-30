@@ -8,32 +8,20 @@ defined( 'ABSPATH' ) || exit;
 class ER_Form_Handler {
 
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var ER_Resources|null
-	 */
-	protected static $instance = null;
-
-	/**
-	 * Return instance of ER_Form_Handler
-	 *
-	 * @return ER_Form_Handler
-	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * ER_Form_Handler constructor.
 	 */
-	public function __construct() {
+	public static function init() {
+		add_action( 'easyreservations_process_reservation_and_checkout', array( __CLASS__, 'process_reservation_and_checkout' ), 20 );
+
 		add_action( 'wp_loaded', array( __CLASS__, 'update_cart_action' ), 20 );
 		add_action( 'wp_loaded', array( __CLASS__, 'reservation_and_checkout_action' ), 20 );
 		add_action( 'wp_loaded', array( __CLASS__, 'process_login' ), 20 );
+
+		// May need $wp global to access query vars.
+		add_action( 'wp', array( __CLASS__, 'pay_action' ), 20 );
+		add_action( 'wp', array( __CLASS__, 'add_payment_method_action' ), 20 );
+		add_action( 'wp', array( __CLASS__, 'delete_payment_method_action' ), 20 );
+		add_action( 'wp', array( __CLASS__, 'set_default_payment_method_action' ), 20 );
 	}
 
 	/**
@@ -151,6 +139,7 @@ class ER_Form_Handler {
 		if ( isset( $_POST['arrival'], $_POST['departure'] ) ) {
 			//Reservation
 			$done = ER()->reservation_form()->process_reservation( $submit );
+
 			if ( $done && ! $do_checkout && ! $submit ) {
 				wp_send_json( array(
 					'result' => 'success',
@@ -161,7 +150,7 @@ class ER_Form_Handler {
 			}
 		}
 
-		if ( ( ! $done || isset( $_POST['direct_checkout'] ) ) && isset( $_POST['easy_form_hash'] ) ) {
+		if ( ! $done && isset( $_POST['easy_form_hash'] ) ) {
 			//check for custom fields in own form
 			$errors  = new WP_Error();
 			$customs = ER()->checkout()->get_form_data_custom( $errors, false, 'checkout' );
@@ -212,7 +201,7 @@ class ER_Form_Handler {
 
 		//Checkout
 		if ( $do_checkout ) {
-			$checkout = ER()->checkout()->process_checkout( $submit );
+			$checkout = $submit ? ER()->checkout()->process_checkout( $submit ) : true;
 
 			if ( $checkout ) {
 				if ( $done ) {
@@ -223,6 +212,10 @@ class ER_Form_Handler {
 					do_action( 'easyreservations_checkout_order_review' );
 
 					$order_review = ob_get_clean();
+
+					if( isset( $_POST['direct_checkout'] ) && $_POST['direct_checkout'] === '1' ){
+						ER()->cart->reset_totals();
+					}
 
 					wp_send_json( array(
 						'result'       => 'success',
@@ -302,4 +295,222 @@ class ER_Form_Handler {
 			}
 		}
 	}
+
+	/**
+	 * Process the pay form.
+	 *
+	 * @throws Exception On payment error.
+	 */
+	public static function pay_action() {
+		global $wp;
+
+		if ( isset( $_POST['easyreservations_pay'], $_GET['key'] ) ) {
+			nocache_headers();
+
+			$nonce_value = er_get_var( $_REQUEST['easyreservations-process-checkout-nonce'], er_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
+
+			if ( ! wp_verify_nonce( $nonce_value, 'easyreservations-process-checkout' ) ) {
+				return;
+			}
+
+			ob_start();
+
+			// Pay for existing order.
+			$order_key = wp_unslash( $_GET['key'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$order_id  = absint( $wp->query_vars['order-payment'] );
+			$order     = er_get_order( $order_id );
+
+
+			if ( $order_id === $order->get_id() && hash_equals( $order->get_order_key(), $order_key ) && $order->needs_payment() ) {
+
+				do_action( 'easyreservations_before_pay_action', $order );
+
+				ER()->customer->set_props(
+					array(
+						'country'  => $order->get_country() ? $order->get_country() : null,
+						'state'    => $order->get_state() ? $order->get_state() : null,
+						'postcode' => $order->get_postcode() ? $order->get_postcode() : null,
+						'city'     => $order->get_city() ? $order->get_city() : null,
+					)
+				);
+
+				ER()->customer->save();
+
+				if ( ! empty( $_POST['terms-field'] ) && empty( $_POST['terms'] ) ) {
+					er_add_notice( __( 'Please read and accept the terms and conditions to proceed with your order.', 'easyReservations' ), 'error' );
+
+					return;
+				}
+				var_dump( 354 );
+
+				// Update payment method.
+				if ( $order->needs_payment() ) {
+					try {
+						$payment_method_id = isset( $_POST['payment_method'] ) ? er_clean( wp_unslash( $_POST['payment_method'] ) ) : false;
+
+						if ( ! $payment_method_id ) {
+							throw new Exception( __( 'Invalid payment method.', 'easyReservations' ) );
+						}
+
+						$available_gateways = ER()->payment_gateways()->get_available_payment_gateways();
+						$payment_method     = isset( $available_gateways[ $payment_method_id ] ) ? $available_gateways[ $payment_method_id ] : false;
+
+						if ( ! $payment_method ) {
+							throw new Exception( __( 'Invalid payment method.', 'easyReservations' ) );
+						}
+
+						$order->set_payment_method( $payment_method );
+						$order->save();
+
+						$payment_method->validate_fields();
+
+						if ( 0 === er_notice_count( 'error' ) ) {
+
+							$result = $payment_method->process_payment( $order_id );
+
+							// Redirect to success/confirmation/payment page.
+							if ( isset( $result['result'] ) && 'success' === $result['result'] ) {
+								$result = apply_filters( 'easyreservations_payment_successful_result', $result, $order_id );
+
+								wp_redirect( $result['redirect'] ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+								exit;
+							}
+						}
+					} catch ( Exception $e ) {
+						er_add_notice( $e->getMessage(), 'error' );
+					}
+				} else {
+					// No payment was required for order.
+					$order->payment_complete();
+					wp_safe_redirect( $order->get_checkout_order_received_url() );
+					exit;
+				}
+
+				do_action( 'easyreservations_after_pay_action', $order );
+			}
+		}
+	}
+
+	/**
+	 * Process the add payment method form.
+	 */
+	public static function add_payment_method_action() {
+		if ( isset( $_POST['easyreservations_add_payment_method'], $_POST['payment_method'] ) ) {
+			nocache_headers();
+
+			$nonce_value = er_get_var( $_REQUEST['easyreservations-add-payment-method-nonce'], er_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
+
+			if ( ! wp_verify_nonce( $nonce_value, 'easyreservations-add-payment-method' ) ) {
+				return;
+			}
+
+			// Test rate limit.
+			$current_user_id = get_current_user_id();
+			$rate_limit_id   = 'add_payment_method_' . $current_user_id;
+			$delay           = (int) apply_filters( 'easyreservations_payment_gateway_add_payment_method_delay', 20 );
+
+			if ( ER_Rate_Limiter::retried_too_soon( $rate_limit_id ) ) {
+				er_add_notice(
+				/* translators: %d number of seconds */
+					_n(
+						'You cannot add a new payment method so soon after the previous one. Please wait for %d second.',
+						'You cannot add a new payment method so soon after the previous one. Please wait for %d seconds.',
+						$delay,
+						'easyReservations'
+					),
+					'error'
+				);
+
+				return;
+			}
+
+			ER_Rate_Limiter::set_rate_limit( $rate_limit_id, $delay );
+
+			ob_start();
+
+			$payment_method_id  = er_clean( wp_unslash( $_POST['payment_method'] ) );
+			$available_gateways = ER()->payment_gateways()->get_available_payment_gateways();
+
+			if ( isset( $available_gateways[ $payment_method_id ] ) ) {
+				$gateway = $available_gateways[ $payment_method_id ];
+
+				if ( ! $gateway->supports( 'add_payment_method' ) && ! $gateway->supports( 'tokenization' ) ) {
+					er_add_notice( __( 'Invalid payment gateway.', 'easyReservations' ), 'error' );
+
+					return;
+				}
+
+				$gateway->validate_fields();
+
+				if ( er_notice_count( 'error' ) > 0 ) {
+					return;
+				}
+
+				$result = $gateway->add_payment_method();
+
+				if ( 'success' === $result['result'] ) {
+					er_add_notice( __( 'Payment method successfully added.', 'easyReservations' ) );
+				}
+
+				if ( 'failure' === $result['result'] ) {
+					er_add_notice( __( 'Unable to add payment method to your account.', 'easyReservations' ), 'error' );
+				}
+
+				if ( ! empty( $result['redirect'] ) ) {
+					wp_redirect( $result['redirect'] ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+					exit();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Process the delete payment method form.
+	 */
+	public static function delete_payment_method_action() {
+		global $wp;
+
+		if ( isset( $wp->query_vars['delete-payment-method'] ) ) {
+			nocache_headers();
+
+			$token_id = absint( $wp->query_vars['delete-payment-method'] );
+			$token    = ER_Payment_Tokens::get( $token_id );
+
+			if ( is_null( $token ) || get_current_user_id() !== $token->get_user_id() || ! isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ), 'delete-payment-method-' . $token_id ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				er_add_notice( __( 'Invalid payment method.', 'easyReservations' ), 'error' );
+			} else {
+				ER_Payment_Tokens::delete( $token_id );
+				er_add_notice( __( 'Payment method deleted.', 'easyReservations' ) );
+			}
+
+			wp_safe_redirect( er_get_account_endpoint_url( 'payment-methods' ) );
+			exit();
+		}
+	}
+
+	/**
+	 * Process the delete payment method form.
+	 */
+	public static function set_default_payment_method_action() {
+		global $wp;
+
+		if ( isset( $wp->query_vars['set-default-payment-method'] ) ) {
+			nocache_headers();
+
+			$token_id = absint( $wp->query_vars['set-default-payment-method'] );
+			$token    = ER_Payment_Tokens::get( $token_id );
+
+			if ( is_null( $token ) || get_current_user_id() !== $token->get_user_id() || ! isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ), 'set-default-payment-method-' . $token_id ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				er_add_notice( __( 'Invalid payment method.', 'easyReservations' ), 'error' );
+			} else {
+				ER_Payment_Tokens::set_users_default( $token->get_user_id(), intval( $token_id ) );
+				er_add_notice( __( 'This payment method was successfully set as your default.', 'easyReservations' ) );
+			}
+
+			wp_safe_redirect( er_get_account_endpoint_url( 'payment-methods' ) );
+			exit();
+		}
+	}
 }
+
+ER_Form_Handler::init();

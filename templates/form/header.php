@@ -27,4 +27,5 @@ if ( $atts['inline'] ) {
     <input type="hidden" name="easy_form_id" value="<?php echo esc_attr( $form_id ); ?>">
     <input type="hidden" name="easy_form_hash" value="<?php echo esc_attr( $form_hash ); ?>">
     <input type="hidden" name="redirect" value="<?php echo esc_url( $atts['redirect'] ); ?>">
+    <input type="hidden" name="direct_checkout" value="<?php echo esc_attr( $atts['direct_checkout'] ); ?>">
     <div class="easy-ui easy-form <?php echo esc_attr( $form_class ); ?>">

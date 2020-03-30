@@ -90,7 +90,7 @@ add_action( 'get_header', 'er_clear_cart_after_payment' );
  * @param ER_Receipt_Item_Fee $fee Fee data.
  */
 function er_cart_totals_fee_html( $fee ) {
-	$cart_totals_fee_html = ER()->cart->display_prices_including_tax() ? er_price( $fee->get_total() + $fee->get_total_tax() ) : er_price( $fee->get_total() );
+	$cart_totals_fee_html = ER()->cart->display_prices_including_tax() ? er_price( $fee->get_total() + $fee->get_total_tax(), true ) : er_price( $fee->get_total(), true );
 
 	echo apply_filters( 'easyreservations_cart_totals_fee_html', $cart_totals_fee_html, $fee ); // WPCS: XSS ok.
 }

@@ -310,6 +310,8 @@ class ER_Checkout extends ER_Form {
 			// WPCS: input var ok, CSRF ok.
 			'createaccount'                           => (int) ! empty( $_POST['createaccount'] ),
 			// WPCS: input var ok, CSRF ok.
+			'direct_checkout'                         => isset( $_POST['direct_checkout'] ) ? $_POST['direct_checkout'] === "1" : false,
+			// WPCS: input var ok, CSRF ok.
 			'payment_method'                          => isset( $_POST['payment_method'] ) ? er_clean( wp_unslash( $_POST['payment_method'] ) ) : '',
 			// WPCS: input var ok, CSRF ok.
 			'easyreservations_checkout_update_totals' => isset( $_POST['easyreservations_checkout_update_totals'] ),
@@ -449,7 +451,7 @@ class ER_Checkout extends ER_Form {
 			$errors->add( 'terms', __( 'Please read and accept the terms and conditions to proceed with your order.', 'easyReservations' ) );
 		}
 
-		if ( ER()->cart->needs_payment() ) {
+		if ( !$data['direct_checkout'] && ER()->cart->needs_payment() ) {
 			$available_gateways = ER()->payment_gateways()->get_available_payment_gateways();
 
 			if ( ! isset( $available_gateways[ $data['payment_method'] ] ) ) {
@@ -685,7 +687,7 @@ class ER_Checkout extends ER_Form {
 				do_action( 'easyreservations_checkout_order_processed', $order, $posted_data );
 
 				if ( ER()->cart->needs_payment() ) {
-					if ( ! empty( $posted_data['direct_checkout'] ) ) {
+					if ( $posted_data['direct_checkout'] ) {
 						ER()->payment_gateways()->direct_checkout_redirect( $order );
 					} else {
 						ER()->payment_gateways()->process_order_payment( $order_id, $posted_data['payment_method'] );

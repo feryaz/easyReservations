@@ -52,16 +52,18 @@ class ER_Reservation_Form extends ER_Form {
 			$form_id = sanitize_key( $atts[0] );
 		}
 
-		if ( $atts['direct_checkout'] === 1 ) {
+		if ( $atts['direct_checkout'] ) {
 			wp_enqueue_script( 'er-checkout' );
 			do_action( 'easyreservations_before_checkout_form' );
 
 			// If checkout registration is disabled and not logged in, the user cannot checkout.
 			if ( ! er_is_registration_enabled() && er_is_registration_required() && ! is_user_logged_in() ) {
-				echo esc_html( apply_filters( 'easyreservations_checkout_must_be_logged_in_message', __( 'You must be logged in to checkout.', 'easyReservations' ) ) );
+				echo esc_html( apply_filters( 'easyreservations_checkout_must_be_logged_in_message', __( 'You must be logged in to reserve.', 'easyReservations' ) ) );
 
 				return;
 			}
+		} else {
+			do_action( 'easyreservations_before_form' );
 		}
 
 		er_get_template( 'form/header.php', array(
@@ -73,7 +75,7 @@ class ER_Reservation_Form extends ER_Form {
 
 		echo $this->generate( $form_id, $form_hash );
 
-		if ( $atts['direct_checkout'] === 1 ) {
+		if ( $atts['direct_checkout'] ) {
 			er_get_template( 'form/direct-checkout.php', array(
 				'button_text' => $atts['button_text']
 			) );
