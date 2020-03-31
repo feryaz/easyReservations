@@ -55,8 +55,9 @@ If you encounter issues with the catalog/category pages after an update, flush t
 == Changelog ==
 
 = 6.0-alpha.13 - 2020-04-X =
-* Feature - Direct checkout (option if form block)
-* Fix - Deposit form on order payment page
+* Feature - Direct checkout (option in form block)
+* Enhancement - Deposit form on order payment page
+* Enhancement - Display deposit amount to pay in admin edit order
 
 = 6.0-alpha.12 - 2020-03-30 =
 * Feature - Cart widget

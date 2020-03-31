@@ -183,7 +183,17 @@ if ( er_tax_enabled() ) {
             </tr>
 		<?php endif; ?>
 
-		<?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_refunded', $object->get_id() ); ?>
+	    <?php if ( $object->get_type() === 'easy_order' && $amount_to_pay = $object->get_meta( 'amount_to_pay' ) ) : ?>
+            <tr>
+                <td class="label"><?php esc_html_e( 'Deposit to pay', 'easyReservations' ); ?>:</td>
+                <td width="1%"></td>
+                <td class="total">
+				    <?php echo er_price( $amount_to_pay, true ); // WPCS: XSS ok. ?>
+                </td>
+            </tr>
+	    <?php endif; ?>
+
+        <?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_refunded', $object->get_id() ); ?>
 
     </table>
     <div class="clear"></div>
