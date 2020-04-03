@@ -362,6 +362,7 @@
 				erSidebar.stop_edit( editMode.id );
 			}
 
+			erTimeline.set_element_as_droppable( table.find( 'td.cell' ) );
 			editMode = JSON.parse( JSON.stringify( reservations[ id ] ) );
 			addMode = false;
 
@@ -661,6 +662,7 @@
 							}
 
 							editMode = JSON.parse( JSON.stringify( reservation ) );
+							erTimeline.set_element_as_droppable( table.find( 'td.cell' ) );
 
 							reservation.status = 'approved';
 
@@ -757,6 +759,7 @@
 		 * Init timeline
 		 */
 		init: function() {
+			console.log(312);
 			const height = ( $( window ).height() - resourcesVertical.offset().top - 5 ) / ( data.reservation_id > 0 ? 3 : 1 );
 
 			resourcesVertical.css( 'max-height', height );
@@ -787,6 +790,7 @@
 			end = moment( start );
 			lastQueryEnd = moment( start );
 			lastQueryStart = moment( start );
+			var t0 = performance.now();
 
 			for ( let i = 0; i < cells; i++ ) {
 				erTimeline.generate_column( end, false );
@@ -794,6 +798,8 @@
 					end.add( 1, intervalString );
 				}
 			}
+			var t1 = performance.now();
+			console.log( "Call to doSomething took " + ( t1 - t0 ) + " milliseconds." );
 
 			erTimeline.load_remaining();
 
@@ -809,8 +815,8 @@
 		 * Highlights currently hovered column
 		 *
 		 * @param {moment} date
-		 * @param {int} resourceId
-		 * @param {int} space
+		 * @param {number} resourceId
+		 * @param {number} space
 		 */
 		highlight_current: function( date, resourceId, space ) {
 			//table.find( 'td.hover, th.hover' ).removeClass( 'hover' );
@@ -1561,6 +1567,54 @@
 		},
 
 		/**
+		 * Set element(s) to be droppable for reservations
+		 *
+		 * @param {jQuery} element
+		 */
+		set_element_as_droppable: function( element ) {
+			element
+				.droppable( {
+					scope: 'reservations', //we only accept reservations
+					tolerance: 'pointer', //targets the cell under the mouse
+					drop: function( event, ui ) {
+						let $this = $( this );
+
+						if ( lastHover && lastHover.getAttribute( 'data-space' ) ) {
+							$this = $( lastHover );
+						}
+
+						const id = parseInt( ui.draggable.attr( 'data-id' ), 10 ),
+							difference = interval / cellDimensions.width * ( ui.position.left - dragStartPosition.left ),
+							reservation = {
+								id: id,
+								arrival: moment( reservations[ id ].arrival ).add( difference, 'seconds' ),
+								departure: moment( reservations[ id ].departure ).add( difference, 'seconds' ),
+								resource: parseInt( $this.attr( 'data-resource' ), 10 ),
+								space: parseInt( $this.attr( 'data-space' ), 10 ),
+							};
+
+						if ( data.resources[ reservation.resource ].availability_by !== 'unit' || erTimeline.check_availability( reservation ) ) {
+							erTimeline.recursively_remove_reservation( reservations[ id ] );
+
+							reservations[ id ].arrival = reservation.arrival;
+							reservations[ id ].departure = reservation.departure;
+							reservations[ id ].resource = reservation.resource;
+							reservations[ id ].space = reservation.space;
+							reservations[ id ].changed = true;
+
+							if ( reservations[ id ].status === 'pending' ) {
+								reservations[ id ].status = 'approved';
+							}
+
+							ui.helper.remove();
+
+							erTimeline.draw_reservations();
+						}
+					},
+				} );
+		},
+
+		/**
 		 * Generate and appends calendar column
 		 *
 		 * @param {moment} date of cell to add
@@ -1676,46 +1730,9 @@
 						$( tbody[ tbodyNumber ] ).find( 'tr:nth-child(' + i + ')' ).append( cell );
 					}
 
-					cell
-						.droppable( {
-							scope: 'reservations', //we only accept reservations
-							tolerance: 'pointer', //targets the cell under the mouse
-							drop: function( event, ui ) {
-								let $this = $( this );
-
-								if ( lastHover && lastHover.getAttribute( 'data-space' ) ) {
-									$this = $( lastHover );
-								}
-
-								const id = parseInt( ui.draggable.attr( 'data-id' ), 10 ),
-									difference = interval / cellDimensions.width * ( ui.position.left - dragStartPosition.left ),
-									reservation = {
-										id: id,
-										arrival: moment( reservations[ id ].arrival ).add( difference, 'seconds' ),
-										departure: moment( reservations[ id ].departure ).add( difference, 'seconds' ),
-										resource: parseInt( $this.attr( 'data-resource' ), 10 ),
-										space: parseInt( $this.attr( 'data-space' ), 10 ),
-									};
-
-								if ( data.resources[ reservation.resource ].availability_by !== 'unit' || erTimeline.check_availability( reservation ) ) {
-									erTimeline.recursively_remove_reservation( reservations[ id ] );
-
-									reservations[ id ].arrival = reservation.arrival;
-									reservations[ id ].departure = reservation.departure;
-									reservations[ id ].resource = reservation.resource;
-									reservations[ id ].space = reservation.space;
-									reservations[ id ].changed = true;
-
-									if ( reservations[ id ].status === 'pending' ) {
-										reservations[ id ].status = 'approved';
-									}
-
-									ui.helper.remove();
-
-									erTimeline.draw_reservations();
-								}
-							},
-						} );
+					if ( editMode ) {
+						erTimeline.set_element_as_droppable( cell );
+					}
 				}
 				tbodyNumber++;
 			} );
@@ -1752,16 +1769,20 @@
 		cellDimensions.width = 48;
 	}
 
-	erSidebar.draw_pending();
-	erSidebar.display_calendar();
-	master.css( 'display', 'flex' );
-	erTimeline.init();
+	//Async so other js does not have to wait
+	setTimeout( function() {
+		erSidebar.draw_pending();
+		erSidebar.display_calendar();
+		master.css( 'display', 'flex' );
+
+		if ( data.reservation_arrival ) {
+			erTimeline.jump_to_date( moment( data.reservation_arrival ) );
+		} else {
+			erTimeline.init();
+		}
+	}, 0 );
 
 	if ( data.reservation_resource > 0 ) {
 		resources.find( '.resource-handler:not([data-resource="' + data.reservation_resource + '"],.retracted),.resource-handler.retracted[data-resource="' + data.reservation_resource + '"]' ).click();
-	}
-
-	if ( data.reservation_arrival ) {
-		erTimeline.jump_to_date( moment( data.reservation_arrival ) );
 	}
 }( jQuery, er_timeline_params ) );

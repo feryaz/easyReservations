@@ -38,13 +38,13 @@ It's very flexible and intuitive and has a huge amount of functions and possibil
 
 = Automatic installation =
 
-Automatic installation is the easiest option -- WordPress will handles the file transfer, and you won’t need to leave your web browser. To do an automatic install of WooCommerce, log in to your WordPress dashboard, navigate to the Plugins menu, and click “Add New.”
+Automatic installation is the easiest option -- WordPress will handles the file transfer, and you won’t need to leave your web browser. To do an automatic install of easyReservations, log in to your WordPress dashboard, navigate to the Plugins menu, and click “Add New.”
 
 In the search field type easyReservations,” then click “Search Plugins.” Once you’ve found us,  you can view details about it such as the point release, rating, and description. Most importantly of course, you can install it by! Click “Install Now,” and WordPress will take it from there.
 
 = Manual installation =
 
-Manual installation method requires downloading the WooCommerce plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
+Manual installation method requires downloading the easyReservations plugin and uploading it to your web server via your favorite FTP application. The WordPress codex contains [instructions on how to do this here](https://wordpress.org/support/article/managing-plugins/#manual-plugin-installation).
 
 = Updating =
 
@@ -56,8 +56,10 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 = 6.0-alpha.13 - 2020-04-X =
 * Feature - Direct checkout (option in form block)
+* Enhancement - Admin can now set reservations to not belong to any resource
 * Enhancement - Deposit form on order payment page
 * Enhancement - Display deposit amount to pay in admin edit order
+* Performance - Timeline generation time by 40%
 
 = 6.0-alpha.12 - 2020-03-30 =
 * Feature - Cart widget

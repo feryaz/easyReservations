@@ -58,10 +58,13 @@ class ER_Admin_Reservation {
 			ER_Meta_Box_Receipt_Items::save( $reservation_id, true );
 		} elseif ( isset( $_POST['reservation_status'] ) ) {
 			$reservation = ER()->reservation_manager()->get( $reservation_id );
+			$new_status  = sanitize_key( $_POST['reservation_status'] );
 
-			$reservation->update_status( sanitize_key( $_POST['reservation_status'] ), '', true );
+			if( $reservation->get_status() !== $new_status ){
+				$reservation->update_status( $new_status, '', true );
 
-			ER_Admin_Notices::add_temporary_error( __( 'Status of reservation changed.', 'easyReservations' ) );
+				ER_Admin_Notices::add_temporary_success( __( 'Status of reservation changed.', 'easyReservations' ) );
+			}
 		} elseif ( isset( $_POST['er_reservation_action'] ) ) {
 			ER_Meta_Box_Reservation_Actions::save( $reservation_id );
 		}

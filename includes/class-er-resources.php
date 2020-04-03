@@ -41,9 +41,9 @@ class ER_Resources {
 			$id = $id->ID;
 		}
 
-		$id = absint( $id );
+		if ( $id !== false ) {
+			$id = absint( $id );
 
-		if ( $id ) {
 			if ( isset( $this->resources[ $id ] ) ) {
 				return $this->resources[ $id ];
 			}

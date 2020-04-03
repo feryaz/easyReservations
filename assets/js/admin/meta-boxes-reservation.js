@@ -1,8 +1,9 @@
+/* global easyreservations_admin_meta_boxes */
 jQuery( function( $ ) {
 	/**
 	 * Reservations Data Panel
 	 */
-	var er_meta_boxes_reservation = {
+	var erMetaBoxesReservation = {
 		init: function() {
 			jQuery( 'li#toplevel_page_reservations, li#toplevel_page_reservations > a' ).addClass( 'wp-has-current-submenu wp-menu-open' ).removeClass( 'wp-not-current-submenu' );
 
@@ -14,29 +15,40 @@ jQuery( function( $ ) {
 				.on( 'er_backbone_modal_loaded', this.backbone.init )
 				.on( 'er_backbone_modal_response', this.backbone.response );
 
-			er_meta_boxes_reservation.change_resource();
+			erMetaBoxesReservation.change_resource();
 		},
 
 		change_resource: function( e ) {
-			$( '.resource-space' ).css( 'display', 'none' );
-			$( '.resource-space select' ).prop( "disabled", true );
+			$( '.resource-space, .er-reservation-space' ).css( 'display', 'none' );
+			$( '.resource-space select' ).prop( 'disabled', true );
 
-			var container = $( '.resource-space.resource-' + $( '#resource' ).val() ).css( 'display', 'block' );
+			const resource = $( '#resource' ),
+				resourceId = resource.val(),
+				container = $( '.resource-space.resource-' + resourceId );
 
-			if ( $( '#resource' ).is( ':enabled' ) ) {
-				container.find( 'select' ).prop( "disabled", false );
-				container.find( 'select' ).attr( 'name', 'space' )
+			if ( container.length > 0 ) {
+				container.css( 'display', 'block' );
+
+				if ( resource.is( ':enabled' ) ) {
+					container.find( 'select' ).prop( 'disabled', false );
+					container.find( 'select' ).attr( 'name', 'space' );
+				}
+
+				if ( resourceId > 0 ) {
+					$( '.er-reservation-space' ).css( 'display', 'block' );
+				}
+
+				if ( e ) {
+					container.find( 'select' ).val( 1 );
+				}
 			}
 
-			if ( e ) {
-				container.find( 'select' ).val( 1 );
-			}
 		},
 
 		add_to_order: function( e ) {
 			e.preventDefault();
 			$( this ).ERBackboneModal( {
-				template: 'er-modal-add-to-order'
+				template: 'er-modal-add-to-order',
 			} );
 		},
 
@@ -45,16 +57,14 @@ jQuery( function( $ ) {
 			if ( window.confirm( easyreservations_admin_meta_boxes.i18n_delete_tax ) ) {
 				$( '#easyreservations-reservation-order' ).block();
 
-				var data = {
-					reservation_id: $( '#object_id' ).val(),
-					order_id: $( this ).attr( 'data-order_id' ),
-					action: 'easyreservations_remove_reservation_from_order',
-					security: easyreservations_admin_meta_boxes.receipt_item_nonce
-				};
-
 				$.ajax( {
 					url: easyreservations_admin_meta_boxes.ajax_url,
-					data: data,
+					data: {
+						reservation_id: $( '#object_id' ).val(),
+						order_id: $( this ).attr( 'data-order_id' ),
+						action: 'easyreservations_remove_reservation_from_order',
+						security: easyreservations_admin_meta_boxes.receipt_item_nonce,
+					},
 					type: 'POST',
 					success: function( response ) {
 						if ( response.success ) {
@@ -63,10 +73,11 @@ jQuery( function( $ ) {
 						} else {
 							window.alert( response.data.error );
 						}
+
 						$( '#easyreservations-reservation-order' ).unblock();
 					},
 					complete: function() {
-					}
+					},
 				} );
 			}
 			return false;
@@ -84,17 +95,15 @@ jQuery( function( $ ) {
 					if ( data.order_id ) {
 						$( '#easyreservations-reservation-order' ).block();
 
-						var data = {
-							reservation_id: $( '#object_id' ).val(),
-							order_id: data.order_id,
-							reservation: 1,
-							action: 'easyreservations_add_reservation_to_order',
-							security: easyreservations_admin_meta_boxes.receipt_item_nonce
-						};
-
 						$.ajax( {
 							url: easyreservations_admin_meta_boxes.ajax_url,
-							data: data,
+							data: {
+								reservation_id: $( '#object_id' ).val(),
+								order_id: data.order_id,
+								reservation: 1,
+								action: 'easyreservations_add_reservation_to_order',
+								security: easyreservations_admin_meta_boxes.receipt_item_nonce,
+							},
 							type: 'POST',
 							success: function( response ) {
 								if ( response.success ) {
@@ -103,16 +112,17 @@ jQuery( function( $ ) {
 								} else {
 									window.alert( response.data.error );
 								}
+
 								$( '#easyreservations-reservation-order' ).unblock();
 							},
 							complete: function() {
-							}
+							},
 						} );
 					}
 				}
 			},
-		}
+		},
 	};
 
-	er_meta_boxes_reservation.init();
+	erMetaBoxesReservation.init();
 } );

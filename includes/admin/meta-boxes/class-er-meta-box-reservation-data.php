@@ -28,6 +28,10 @@ class ER_Meta_Box_Reservation_Data {
 		$time_options = er_form_time_options();
 		$date_created = $reservation->get_date_created();
 
+		$resource_options    = er_form_resources_options();
+		$resource_options[0] = __( 'No resource selected', 'easyReservations' );
+		ksort( $resource_options );
+
 		if ( $reservation->get_order_id() ) {
 			$order = er_get_order( $reservation->get_order_id() );
 		}
@@ -164,7 +168,7 @@ class ER_Meta_Box_Reservation_Data {
 									'id'         => 'resource',
 									'type'       => 'select',
 									'attributes' => array( 'disabled' => $disabled ),
-									'options'    => er_form_resources_options(),
+									'options'    => $resource_options,
 									'value'      => $reservation->get_resource_id()
 								) );
 								?>
@@ -175,17 +179,19 @@ class ER_Meta_Box_Reservation_Data {
                                 </label>
 								<?php
 								foreach ( ER()->resources()->get() as $resource ) {
-									echo '<span class="resource-space resource-' . esc_attr( $resource->get_id() ) . '" style="display:none">';
+								    if( $resource->availability_by( 'unit' )){
+									    echo '<span class="resource-space resource-' . esc_attr( $resource->get_id() ) . '" style="display:none">';
 
-									er_form_get_field( array(
-										'id'       => 'space-' . $resource->get_id(),
-										'type'     => 'select',
-										'disabled' => true,
-										'options'  => $resource->get_spaces_options(),
-										'value'    => $reservation->get_space()
-									) );
+									    er_form_get_field( array(
+										    'id'       => 'space-' . $resource->get_id(),
+										    'type'     => 'select',
+										    'disabled' => true,
+										    'options'  => $resource->get_spaces_options(),
+										    'value'    => $reservation->get_space()
+									    ) );
 
-									echo '</span>';
+									    echo '</span>';
+								    }
 								}
 								?>
                             </p>
@@ -254,9 +260,20 @@ class ER_Meta_Box_Reservation_Data {
 		// Ensure gateways are loaded in case they need to insert data into the emails.
 		$reservation = er_get_reservation( $reservation_id );
 
-		$reservation_data = ER()->reservation_form()->get_posted_data();
+		$arrival = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) );
+		$arrival->setTime( $_POST['arrival_hour'], $_POST['arrival_minute'] );
 
-		$reservation->set_props( $reservation_data );
+		$departure = new ER_DateTime( sanitize_text_field( $_POST['departure'] ) );
+		$departure->setTime( $_POST['departure_hour'], $_POST['departure_minute'] );
+
+		$reservation->set_props( array(
+			'title'       => sanitize_text_field( $_POST['title'] ),
+			'resource_id' => absint( $_POST['resource'] ),
+			'arrival'     => $arrival,
+			'departure'   => $departure,
+			'adults'      => intval( $_POST['adults'] ),
+			'children'    => intval( $_POST['children'] ),
+		) );
 
 		if ( isset( $_POST['space'] ) ) {
 			$reservation->set_space( $_POST['space'] );
@@ -271,18 +288,27 @@ class ER_Meta_Box_Reservation_Data {
 
 		$reservation->set_date_created( $date );
 
-		// Set created via prop if new post.
-		if ( ! $reservation->get_id() ) {
-			ER_Admin_Notices::add_temporary_success( __( 'Reservation added', 'easyReservations' ) );
-		} else {
-			ER_Admin_Notices::add_temporary_success( sprintf( __( 'Reservation #%d updated', 'easyReservations' ), $reservation->get_id() ) );
-		}
+		//Update status
+		$new_status = er_clean( wp_unslash( $_POST['reservation_status'] ) );
+        if( $new_status !== $reservation->get_status() ){
+            if( $reservation->get_resource() || in_array( $new_status, array(ER_Reservation_Status::PENDING, ER_Reservation_Status::TEMPORARY, ER_Reservation_Status::TRASH)) ){
+	            $reservation->set_status( $new_status, '', true );
+            } else {
+	            ER_Admin_Notices::add_temporary_error( __( 'Set a resource before approving the reservation.', 'easyReservations' ) );
+            }
+        }
 
-		// Save reservation data.
-		$reservation->set_status( er_clean( wp_unslash( $_POST['reservation_status'] ) ), '', true );
+        if( ! ER_Admin_Notices::has_errors() ){
+	        if ( ! $reservation->get_id() ) {
+		        ER_Admin_Notices::add_temporary_success( __( 'Reservation added', 'easyReservations' ) );
+	        } else {
+		        ER_Admin_Notices::add_temporary_success( sprintf( __( 'Reservation #%d updated', 'easyReservations' ), $reservation->get_id() ) );
+	        }
 
-		$reservation = apply_filters( 'easyreservations_save_reservation_data', $reservation );
+	        $reservation = apply_filters( 'easyreservations_save_reservation_data', $reservation );
 
-		$reservation->save();
+	        $reservation->save();
+        }
+
 	}
 }

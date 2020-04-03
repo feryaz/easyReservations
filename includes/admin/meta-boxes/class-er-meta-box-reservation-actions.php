@@ -38,7 +38,6 @@ class ER_Meta_Box_Reservation_Actions {
                 <button class="button er-reload"><span><?php esc_html_e( 'Apply', 'easyReservations' ); ?></span>
                 </button>
             </li>
-
             <li class="wide">
                 <div id="delete-action">
 					<?php
@@ -80,9 +79,9 @@ class ER_Meta_Box_Reservation_Actions {
 		$reservation = er_get_reservation( $reservation_id );
 
 		// Handle button actions.
-		if ( ! empty( $_POST['er_reservation_action'] ) ) { // @codingStandardsIgnoreLine
+		if ( ! empty( $_POST['er_reservation_action'] ) ) {
 
-			$action = er_clean( wp_unslash( $_POST['er_reservation_action'] ) ); // @codingStandardsIgnoreLine
+			$action = er_clean( wp_unslash( $_POST['er_reservation_action'] ) );
 
 			if ( 'send_order_details' === $action ) {
 

@@ -1173,7 +1173,7 @@ abstract class ER_Receipt extends ER_Data {
 				)
 			);
 
-			$this->add_note( __( 'Update status event failed.', 'easyReservations' ) . ' ' . $e->getMessage() );
+			$this->add_order_note( __( 'Update status event failed.', 'easyReservations' ) . ' ' . $e->getMessage() );
 
 			return false;
 		}
@@ -1218,7 +1218,7 @@ abstract class ER_Receipt extends ER_Data {
 						$this->get_id()
 					)
 				);
-				$this->add_note( __( 'Error during status transition.', 'easyReservations' ) . ' ' . $e->getMessage() );
+				$this->add_order_note( __( 'Error during status transition.', 'easyReservations' ) . ' ' . $e->getMessage() );
 			}
 		}
 	}

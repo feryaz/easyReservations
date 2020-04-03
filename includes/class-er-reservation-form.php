@@ -122,8 +122,6 @@ class ER_Reservation_Form extends ER_Form {
 				$array['title'] = sanitize_text_field( $_POST['title'] );
 			}
 
-			$arrival = er_date_add_seconds( wp_date( er_date_format() ), $resource->get_frequency() );
-
 			if ( isset( $_POST['arrival'] ) ) {
 				if ( empty( $_POST['arrival'] ) ) {
 					if ( $submit ) {
@@ -134,6 +132,8 @@ class ER_Reservation_Form extends ER_Form {
 				} else {
 					$arrival = new ER_DateTime( sanitize_text_field( $_POST['arrival'] ) . ' 00:00:00' );
 				}
+			} else {
+				$arrival = er_date_add_seconds( wp_date( er_date_format() ), $resource->get_frequency() );
 			}
 
 			$arrival_hour     = isset( $_POST['arrival_hour'] ) && ! empty( $_POST['arrival_hour'] ) ? intval( $_POST['arrival_hour'] ) : false;
