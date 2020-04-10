@@ -1179,8 +1179,12 @@ code {
 			}
 		}
 
-		.edit-receipt-item::before {
+		.recalculate-receipt-item::before {
+			@include icon_dashicons("\f531");
+			position: relative;
+		}
 
+		.edit-receipt-item::before {
 			@include icon_dashicons("\f464");
 			position: relative;
 		}
@@ -1189,7 +1193,6 @@ code {
 		.delete_refund {
 
 			&::before {
-
 				@include icon_dashicons("\f158");
 				position: relative;
 			}

@@ -659,10 +659,16 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 			array(
 				'data'             => $reservation->get_data(),
 				'reservation_id'   => $reservation->get_id(),
-				'resource_name'    => $reservation->get_resource()->get_title(),
+				'resource_name'    => $reservation->get_resource() ? $reservation->get_resource()->get_title() : __( 'No resource selected', 'easyReservations' ),
 				'item_html'        => '',//self::get_order_preview_item_html( $order ),
 				'actions_html'     => self::get_reservation_preview_actions_html( $reservation ),
-				'formatted_custom' => $custom ? $custom : __( 'N/A', 'easyReservations' ),
+				'formatted_custom' => $custom ? er_display_meta( $custom, array(
+					'before'    => '',
+					'separator' => ', ',
+					'after'     => '',
+					'echo'      => false,
+					'autop'     => false,
+				) ) : __( 'N/A', 'easyReservations' ),
 				'status'           => $reservation->get_status(),
 				'status_name'      => ER_Reservation_Status::get_title( $reservation->get_status() ),
 			),

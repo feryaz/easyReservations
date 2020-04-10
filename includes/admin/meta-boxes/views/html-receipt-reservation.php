@@ -7,8 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 $reservation      = $item->get_reservation();
 $resource         = $item->get_resource();
-$reservation_link = $resource ? admin_url( 'admin.php?page=reservation&reservation=' . $item->get_reservation_id() . '&action=edit' ) : '';
 $thumbnail        = $resource ? apply_filters( 'easyreservations_admin_order_item_thumbnail', $resource->get_image( 'thumbnail', array( 'title' => '' ), false ), $item_id, $item ) : '';
+$reservation_link = admin_url( 'admin.php?page=reservation&reservation=' . $item->get_reservation_id() . '&action=edit' );
 $row_class        = apply_filters( 'easyreservations_admin_html_order_item_class', ! empty( $class ) ? $class : '', $item, $object );
 ?>
 <tr class="item <?php echo esc_attr( $row_class ); ?>" data-receipt_item_id="<?php echo esc_attr( $item_id ); ?>" data-reservation_id="<?php echo esc_attr( $item->get_reservation_id() ); ?>">
@@ -24,7 +24,7 @@ $row_class        = apply_filters( 'easyreservations_admin_html_order_item_class
             <a href="#" class="reservation-preview" data-reservation-id="<?php echo esc_attr( $item->get_reservation_id() ); ?>" title="<?php esc_attr_e( 'Preview', 'easyReservations' ); ?>" style="float:right">
 				<?php esc_html_e( 'Preview', 'easyReservations' ); ?>
             </a>
-			<?php if ( $resource->availability_by( 'unit' ) && ! $reservation->get_space() && $reservation->has_status( 'approved', 'checked', 'completed' ) ): ?>
+			<?php if ( $resource && $resource->availability_by( 'unit' ) && ! $reservation->get_space() && $reservation->has_status( 'approved', 'checked', 'completed' ) ): ?>
                 <div class="attention">
 					<?php esc_html_e( 'No resource space selected - reservation does not affect availability.', 'easyReservations' ); ?>
                 </div>
@@ -130,8 +130,7 @@ $row_class        = apply_filters( 'easyreservations_admin_html_order_item_class
     <td class="er-receipt-edit-line-item" width="1%">
         <div class="er-receipt-edit-line-item-actions">
 			<?php if ( $object->is_editable() ) : ?>
-                <a class="edit-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Edit item', 'easyReservations' ); ?>"></a>
-                <a class="delete-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Delete item', 'easyReservations' ); ?>"></a>
+                <a class="edit-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Edit item', 'easyReservations' ); ?>"></a><a class="recalculate-receipt-item tips" href="#" data-item-id="<?php echo esc_attr( $item_id ); ?>" data-tip="<?php esc_attr_e( 'Load price from reservation', 'easyReservations' ); ?>"></a><a class="delete-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Delete item', 'easyReservations' ); ?>"></a>
 			<?php endif; ?>
         </div>
     </td>

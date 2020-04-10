@@ -132,7 +132,7 @@ function er_save_receipt_items( $object, $items ) {
 		}
 	}
 
-	$object->update_taxes();
+	$object->update_taxes( false );
 	$object->calculate_totals( false );
 	$object->save();
 

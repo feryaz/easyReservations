@@ -984,7 +984,7 @@ abstract class ER_Receipt extends ER_Data {
 
 		do_action( 'easyreservations_after_calculate_totals', $and_taxes, $this );
 
-		if ( $this->get_type() === 'reservation' && $this->get_order_id() ) {
+		if ( $this->get_type() === 'reservation' && $this->get_order_id() && 1 == 2 ) {
 			//If is a reservation attached to an order update order line and totals
 			$order = er_get_order( $this->get_order_id() );
 

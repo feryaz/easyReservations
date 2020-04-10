@@ -28,6 +28,7 @@ jQuery( function( $ ) {
 				.on( 'click', 'a.delete-receipt-tax', this.delete_tax )
 				.on( 'click', 'button.calculate-action', this.recalculate )
 				.on( 'click', 'a.edit-receipt-item', this.edit_item )
+				.on( 'click', 'a.recalculate-receipt-item', this.recalculate_item )
 				.on( 'click', 'a.delete-receipt-item', this.delete_item )
 
 				// Refunds
@@ -76,7 +77,7 @@ jQuery( function( $ ) {
 		},
 
 		reload_items: function() {
-			var data = {
+			const data = {
 				object_id: $( '#object_id' ).val(),
 				object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
 				action: 'easyreservations_load_receipt_items',
@@ -94,7 +95,9 @@ jQuery( function( $ ) {
 					$( '#easyreservations-order-items' ).find( '.inside' ).append( response );
 					er_meta_boxes_receipt_items.reloaded_items();
 					er_meta_boxes_receipt_items.unblock();
-				}
+
+					$( document.body ).trigger( 'init_tooltips' );
+				},
 			} );
 		},
 
@@ -153,6 +156,8 @@ jQuery( function( $ ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 							er_meta_boxes_receipt_items.reloaded_items();
 							er_meta_boxes_receipt_items.unblock();
+
+							$( document.body ).trigger( 'init_tooltips' );
 						} else {
 							window.alert( response.data.error );
 						}
@@ -188,6 +193,8 @@ jQuery( function( $ ) {
 					$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 					er_meta_boxes_receipt_items.reloaded_items();
 					er_meta_boxes_receipt_items.unblock();
+
+					$( document.body ).trigger( 'init_tooltips' );
 				} else {
 					window.alert( response.data.error );
 				}
@@ -300,6 +307,8 @@ jQuery( function( $ ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 						er_meta_boxes_receipt_items.reloaded_items();
 						er_meta_boxes_receipt_items.unblock();
+
+						$( document.body ).trigger( 'init_tooltips' );
 					} else {
 						window.alert( response.data.error );
 					}
@@ -342,6 +351,9 @@ jQuery( function( $ ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 						er_meta_boxes_receipt_items.reloaded_items();
 						er_meta_boxes_receipt_items.unblock();
+
+						$( document.body ).trigger( 'init_tooltips' );
+
 						window.erTracks.recordEvent( 'receipt_edit_added_fee', {
 							object_id: easyreservations_admin_meta_boxes.post_id,
 							object_type: easyreservations_admin_meta_boxes.post_type,
@@ -418,6 +430,8 @@ jQuery( function( $ ) {
 
 							er_meta_boxes_receipt_items.reloaded_items();
 							er_meta_boxes_receipt_items.unblock();
+
+							$( document.body ).trigger( 'init_tooltips' );
 						} else {
 							window.alert( response.data.error );
 						}
@@ -457,6 +471,8 @@ jQuery( function( $ ) {
 							$( '#easyreservations-order-items' ).find( '.inside' ).append( response.data.html );
 							er_meta_boxes_receipt_items.reloaded_items();
 							er_meta_boxes_receipt_items.unblock();
+
+							$( document.body ).trigger( 'init_tooltips' );
 						} else {
 							window.alert( response.data.error );
 						}
@@ -481,6 +497,40 @@ jQuery( function( $ ) {
 			return false;
 		},
 
+		recalculate_item: function( e ) {
+			e.preventDefault();
+			er_meta_boxes_receipt_items.block();
+
+			var data = {
+				object_id: $( '#object_id' ).val(),
+				object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
+				action: 'easyreservations_recalc_line',
+				items_id: $( this ).attr( 'data-item-id' ),
+				security: easyreservations_admin_meta_boxes.calc_totals_nonce,
+			};
+
+			$.ajax( {
+				url: easyreservations_admin_meta_boxes.ajax_url,
+				data: data,
+				type: 'POST',
+				success: function( response ) {
+					$( '#easyreservations-order-items' ).find( '.inside' ).empty();
+					$( '#easyreservations-order-items' ).find( '.inside' ).append( response );
+					er_meta_boxes_receipt_items.reloaded_items();
+					er_meta_boxes_receipt_items.unblock();
+
+					$( document.body ).trigger( 'init_tooltips' );
+				},
+				complete: function( response ) {
+					window.erTracks.recordEvent( 'receipt_edit_recalc_line', {
+						object_id: easyreservations_admin_meta_boxes.post_id,
+						object_type: easyreservations_admin_meta_boxes.post_type,
+						status: $( '#order_status,#reservation_status' ).val(),
+					} );
+				},
+			} );
+		},
+
 		recalculate: function() {
 			if ( window.confirm( easyreservations_admin_meta_boxes.calc_totals ) ) {
 				er_meta_boxes_receipt_items.block();
@@ -490,7 +540,7 @@ jQuery( function( $ ) {
 					object_type: easyreservations_admin_meta_boxes.order ? 'order' : 'reservation',
 					action: 'easyreservations_calc_line_taxes',
 					items: $( 'table.easyreservations_receipt_items :input[name], .er-receipt-totals-items :input[name]' ).serialize(),
-					security: easyreservations_admin_meta_boxes.calc_totals_nonce
+					security: easyreservations_admin_meta_boxes.calc_totals_nonce,
 				};
 
 				$( document.body ).trigger( 'receipt-totals-recalculate-before', data );
@@ -504,6 +554,8 @@ jQuery( function( $ ) {
 						$( '#easyreservations-order-items' ).find( '.inside' ).append( response );
 						er_meta_boxes_receipt_items.reloaded_items();
 						er_meta_boxes_receipt_items.unblock();
+
+						$( document.body ).trigger( 'init_tooltips' );
 
 						$( document.body ).trigger( 'receipt-totals-recalculate-success', response );
 					},

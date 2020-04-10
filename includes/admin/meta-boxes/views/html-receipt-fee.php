@@ -102,7 +102,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <td class="er-receipt-edit-line-item">
 		<?php if ( $object->is_editable() ) : ?>
             <div class="er-receipt-edit-line-item-actions">
-                <a class="edit-receipt-item" href="#"></a><a class="delete-receipt-item" href="#"></a>
+                <a class="edit-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Edit item', 'easyReservations' ); ?>"></a><a class="delete-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Delete item', 'easyReservations' ); ?>"></a>
             </div>
 		<?php endif; ?>
     </td>

@@ -111,6 +111,7 @@ class ER_AJAX {
 			'delete_refund'                 => false,
 			'load_receipt_items'            => false,
 			'save_receipt_items'            => false,
+			'recalc_line'                   => false,
 			'calc_line_taxes'               => false,
 			'add_custom'                    => false,
 			'add_order_coupon'              => false,
@@ -1258,6 +1259,62 @@ class ER_AJAX {
 
 		// wp_send_json_success must be outside the try block not to break phpunit tests.
 		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Calc line tax.
+	 */
+	public static function recalc_line() {
+		check_ajax_referer( 'calc-totals', 'security' );
+
+		if ( ! current_user_can( 'edit_easy_orders' ) || ! isset( $_POST['object_id'], $_POST['items_id'] ) ) {
+			wp_die( - 1 );
+		}
+
+		$object_id   = absint( $_POST['object_id'] );
+		$object_type = sanitize_key( $_POST['object_type'] );
+
+		if ( $object_type === 'order' ) {
+			$object = er_get_order( $object_id );
+		} else {
+			$object = er_get_reservation( $object_id );
+		}
+
+		// Parse the jQuery serialized items.
+		$item = $object->get_item( absint( $_POST['items_id'] ) );
+
+		if ( $object_type === 'order' ) {
+			$reservation = $item->get_reservation();
+
+			if( $reservation ){
+				$taxes = $reservation->get_taxes_totals();
+
+				$item->set_total( $reservation->get_subtotal() + $reservation->get_discount_total() );
+				$item->set_subtotal( $reservation->get_subtotal() + $reservation->get_discount_total() );
+
+				//Total and subtotal taxes are the same as coupons only get applied to orders
+				$item->set_taxes( array(
+					'total'    => $taxes,
+					'subtotal' => $taxes,
+				) );
+
+				$item->save();
+
+				$object = er_get_order( $object_id );
+			}
+		} else {
+			$total = $object->calculate_price();
+
+			$item->set_total( $total );
+			$item->set_subtotal( $total );
+			$item->calculate_taxes( ER_Tax::get_rates( $object->get_resource_id() ) );
+			$item->save();
+
+			$object = er_get_reservation( $object_id );
+		}
+
+		include 'admin/meta-boxes/views/html-receipt-items.php';
+		wp_die();
 	}
 
 	/**

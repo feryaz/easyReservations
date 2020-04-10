@@ -593,13 +593,13 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 				'item_html'         => self::get_order_preview_item_html( $order ),
 				'actions_html'      => self::get_order_preview_actions_html( $order ),
 				'formatted_address' => $address ? $address : __( 'N/A', 'easyReservations' ),
-				'formatted_custom'  => er_display_meta( $custom, array(
+				'formatted_custom'  => $custom ? er_display_meta( $custom, array(
 					'before'    => '',
 					'separator' => ', ',
 					'after'     => '',
 					'echo'      => false,
 					'autop'     => false,
-				) ),
+				) ) : __( 'N/A', 'easyReservations' ),
 				'payment_via'       => $payment_via,
 				'status'            => $order->get_status(),
 				'status_name'       => ER_Order_Status::get_title( $order->get_status() ),

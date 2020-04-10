@@ -42,8 +42,10 @@
 			settings.resource = $( '*[name=resource]' ).val();
 		}
 
-		frequency = er_both_params.resources[ settings.resource ].frequency;
-		resourceQuantity = er_both_params.resources[ settings.resource ].quantity;
+		if( settings.resource && settings.resource > 0 ) {
+			frequency = er_both_params.resources[ settings.resource ].frequency;
+			resourceQuantity = er_both_params.resources[ settings.resource ].quantity;
+		}
 
 		e.find( 'div.arrival' ).bind( 'click', function() {
 			init();
@@ -77,7 +79,7 @@
 			init();
 		} );
 
-		if ( settings.init && e.find( 'input[name=arrival]' ).val() === '' ) {
+		if ( settings.init && e.find( 'input[name=arrival]' ).val() === '' && settings.resource && settings.resource > 0 ) {
 			init();
 		}
 

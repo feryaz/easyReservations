@@ -125,9 +125,7 @@ class ER_Shortcode_Checkout {
 			$order     = er_get_order( $order_id );
 
 			if ( $order && $order->get_id() === $order_id && hash_equals( $order->get_order_key(), $order_key ) ) {
-
 				if ( $order->needs_payment() ) {
-
 					er_get_template( 'checkout/order-receipt.php', array( 'order' => $order ) );
 					do_action( 'easyreservations_pay_order', $order );
 				} else {

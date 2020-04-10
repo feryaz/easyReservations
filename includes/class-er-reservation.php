@@ -92,6 +92,32 @@ class ER_Reservation extends ER_Receipt {
 		}
 	}
 
+	/**
+	 * Save data to the database.
+	 *
+	 * @return int order ID
+	 */
+	public function save() {
+		if ( $this->get_id() && array_key_exists( 'resource_id', $this->changes ) ) {
+			//Update resource in receipt item
+			$items = $this->get_items( 'resource' );
+
+			$resource = $this->get_resource();
+
+			foreach( $items as $item ){
+				$item->set_resource_id( $resource ? $resource->get_id() : 0 );
+				$item->set_name( $resource ? $resource->get_title() : __( 'No resource selected', 'easyReservations' ) );
+
+				$item->save();
+			}
+		}
+
+		parent::save();
+		$this->status_transition();
+
+		return $this->get_id();
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| Getters
@@ -112,7 +138,7 @@ class ER_Reservation extends ER_Receipt {
 				'arrival_string'       => $this->get_arrival( 'edit' )->format( er_datetime_format() ),
 				'departure_string'     => $this->get_departure( 'edit' )->format( er_datetime_format() ),
 				'billing_units'        => $this->get_billing_units( 'edit' ),
-				'billing_units_string' => $this->get_billing_units( 'edit' ) . ' ' . er_date_get_interval_label( $this->resource->get_billing_interval() ),
+				'billing_units_string' => $this->resource ? $this->get_billing_units( 'edit' ) . ' ' . er_date_get_interval_label( $this->resource->get_billing_interval() ) : '',
 			),
 			$this->data,
 			array( 'meta_data' => $this->get_meta_data() )
@@ -455,9 +481,10 @@ class ER_Reservation extends ER_Receipt {
 	 * @param $resource ER_Resource|int
 	 */
 	protected function set_resource( $resource ) {
-		if ( is_integer( $resource ) ) {
+		if ( is_integer( $resource ) && $resource > 0 ) {
 			$resource_id = $resource;
 			$resource    = ER()->resources()->get( $resource_id );
+
 			if ( ! $resource ) {
 				er_get_logger()->error(
 					sprintf(
@@ -472,6 +499,8 @@ class ER_Reservation extends ER_Receipt {
 		}
 
 		if ( ! is_a( $resource, 'ER_Resource' ) ) {
+			$this->resource = null;
+
 			return;
 		}
 
@@ -809,162 +838,168 @@ class ER_Reservation extends ER_Receipt {
 	 * @return float|array calculated grand total.
 	 */
 	public function calculate_price( $return_receipt = false ) {
-		$resource       = $this->get_resource();
-		$interval       = $resource->get_billing_interval();
-		$all_filter     = $resource->get_filter();
-		$base_price     = $resource->get_base_price();
-		$children_price = $resource->get_children_price();
-		$return_receipt = $return_receipt ? array() : false;
+		$resource = $this->get_resource();
+		$total    = 0;
 
-		$stay_prices_adults   = array();
-		$stay_prices_children = array();
-		$multiplier_adults    = 1;
-		$multiplier_children  = 0;
-		$total                = 0;
+		if( $resource ){
+			$interval       = $resource->get_billing_interval();
+			$all_filter     = $resource->get_filter();
+			$base_price     = $resource->get_base_price();
+			$children_price = $resource->get_children_price();
+			$return_receipt = $return_receipt ? array() : false;
 
-		$billing_units = $this->get_slot() < 0 ? $this->get_billing_units() : 1;
+			$stay_prices_adults   = array();
+			$stay_prices_children = array();
+			$multiplier_adults    = 1;
+			$multiplier_children  = 0;
 
-		if ( $resource->bill_per_person() == 1 ) {
-			$multiplier_adults = $this->get_adults();
-			if ( $this->get_children() > 0 ) {
-				$multiplier_children = $this->get_children();
+			$billing_units = $this->get_slot() < 0 ? $this->get_billing_units() : 1;
+
+			if ( $resource->bill_per_person() == 1 ) {
+				$multiplier_adults = $this->get_adults();
+				if ( $this->get_children() > 0 ) {
+					$multiplier_children = $this->get_children();
+				}
 			}
-		}
 
-		$arrival = clone $this->get_arrival();
+			$arrival = clone $this->get_arrival();
 
-		//We check each billing unit for a base price filter and fill the arrays accordingly
-		if ( ! empty( $all_filter ) ) {
-			foreach ( $all_filter as $key => $filter ) {
-				if ( $filter['type'] == 'price' ) {
-					if ( $resource->filter( $filter, $this->get_arrival(), $billing_units, $this->get_adults(), $this->get_children(), $this->get_date_created() ) ) {
-						for ( $t = 0; $t < $billing_units; $t ++ ) {
+			//We check each billing unit for a base price filter and fill the arrays accordingly
+			if ( ! empty( $all_filter ) ) {
+				foreach ( $all_filter as $key => $filter ) {
+					if ( $filter['type'] == 'price' ) {
+						if ( $resource->filter( $filter, $this->get_arrival(), $billing_units, $this->get_adults(), $this->get_children(), $this->get_date_created() ) ) {
+							for ( $t = 0; $t < $billing_units; $t ++ ) {
 
-							if ( ( $resource->bill_only_once() || $this->get_slot() > - 1 ) && $t > 0 ) {
-								break;
-							}
+								if ( ( $resource->bill_only_once() || $this->get_slot() > - 1 ) && $t > 0 ) {
+									break;
+								}
 
-							$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
-							$i = $arrival->getTimestamp();
+								$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
+								$i = $arrival->getTimestamp();
 
-							if ( ! in_array( $i, $stay_prices_adults ) || ( $this->get_children() > 0 && ! in_array( $i, $stay_prices_children ) && isset( $filter['children-price'] ) ) ) {
-								if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
-									if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && ! empty( $filter['children-price'] ) && ! in_array( $i, $stay_prices_children ) ) {
-										if ( strpos( $filter['children-price'], '%' ) !== false ) {
-											$amount = round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
-										} else {
-											$amount = empty( $filter['children-price'] ) ? 0 : $filter['children-price'];
+								if ( ! in_array( $i, $stay_prices_adults ) || ( $this->get_children() > 0 && ! in_array( $i, $stay_prices_children ) && isset( $filter['children-price'] ) ) ) {
+									if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
+										if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && ! empty( $filter['children-price'] ) && ! in_array( $i, $stay_prices_children ) ) {
+											if ( strpos( $filter['children-price'], '%' ) !== false ) {
+												$amount = round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
+											} else {
+												$amount = empty( $filter['children-price'] ) ? 0 : $filter['children-price'];
+											}
+
+											$stay_prices_children[ $i ] = $amount;
 										}
 
-										$stay_prices_children[ $i ] = $amount;
-									}
+										if ( ! in_array( $i, $stay_prices_adults ) ) {
+											if ( strpos( $filter['price'], '%' ) !== false ) {
+												$amount = round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
+											} else {
+												$amount = empty( $filter['price'] ) ? 0 : $filter['price'];
+											}
 
-									if ( ! in_array( $i, $stay_prices_adults ) ) {
-										if ( strpos( $filter['price'], '%' ) !== false ) {
-											$amount = round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
-										} else {
-											$amount = empty( $filter['price'] ) ? 0 : $filter['price'];
+											$stay_prices_adults[ $i ] = $amount;
 										}
-
-										$stay_prices_adults[ $i ] = $amount;
 									}
 								}
 							}
 						}
+						unset( $all_filter[ $key ] );
+					} else {
+						break;
 					}
-					unset( $all_filter[ $key ] );
-				} else {
+				}
+			}
+
+			$arrival = clone $this->get_arrival();
+
+			//A slot only has one real billing unit
+			for ( $t = 0; $t < $billing_units; $t ++ ) {
+
+				$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
+				$i = $arrival->getTimestamp();
+
+				if ( ( $resource->bill_only_once() || $this->get_slot() > - 1 ) && $t > 0 ) {
 					break;
 				}
-			}
-		}
 
-		$arrival = clone $this->get_arrival();
+				$t_price_adults   = isset( $stay_prices_adults[ $i ] ) ? $stay_prices_adults[ $i ] : $base_price;
+				$t_price_children = isset( $stay_prices_children[ $i ] ) ? $stay_prices_children[ $i ] : $children_price;
 
-		//A slot only has one real billing unit
-		for ( $t = 0; $t < $billing_units; $t ++ ) {
+				if ( $this->get_slot() > - 1 && ( ! isset( $stay_prices_adults[ $i ] ) || ( ! isset( $stay_prices_children[ $i ] ) && $this->get_children() > 0 ) ) ) {
+					if ( $resource->has_slot( $this->get_slot() ) ) {
+						$slot = $resource->get_slot( $this->get_slot() );
 
-			$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
-			$i = $arrival->getTimestamp();
-
-			if ( ( $resource->bill_only_once() || $this->get_slot() > - 1 ) && $t > 0 ) {
-				break;
-			}
-
-			$t_price_adults   = isset( $stay_prices_adults[ $i ] ) ? $stay_prices_adults[ $i ] : $base_price;
-			$t_price_children = isset( $stay_prices_children[ $i ] ) ? $stay_prices_children[ $i ] : $children_price;
-
-			if ( $this->get_slot() > - 1 && ( ! isset( $stay_prices_adults[ $i ] ) || ( ! isset( $stay_prices_children[ $i ] ) && $this->get_children() > 0 ) ) ) {
-				if ( $resource->has_slot( $this->get_slot() ) ) {
-					$slot = $resource->get_slot( $this->get_slot() );
-
-					if ( ! isset( $stay_prices_adults[ $i ] ) ) {
-						$t_price_adults = $slot['base-price'];
-					}
-
-					if ( ! isset( $stay_prices_children[ $i ] ) ) {
-						$t_price_children = $slot['children-price'];
-					}
-				}
-			}
-
-			$t_total_adults   = $t_price_adults * $multiplier_adults;
-			$t_total_children = $t_price_children * $multiplier_children;
-			$t_total          = $t_total_adults + $t_total_children;
-
-			if ( is_array( $return_receipt ) ) {
-				$return_receipt[] = array(
-					'type'           => 'resource',
-					'resource_id'    => $resource->get_id(),
-					'adult_price'    => $t_price_adults,
-					'children_price' => $t_price_children,
-					'total'          => $t_total,
-					'date'           => $i,
-					'name'           => $resource->get_title(),
-				);
-			}
-
-			$total += $t_total;
-		}
-
-		$stay_total = $total;
-
-		if ( ! empty( $all_filter ) ) {
-			$full = array();
-			foreach ( $all_filter as $filter ) {
-				if ( $resource->filter( $filter, $this->get_arrival(), $billing_units, $this->get_adults(), $this->get_children(), $this->get_date_created(), $full ) ) {
-					$full[] = $filter['type'];
-					$amount = $filter['price'];
-
-					if ( isset( $filter['modus'] ) ) {
-						$amount = er_reservation_multiply_amount( $this, $filter['modus'], $filter['price'], $stay_total );
-					}
-
-					if ( $amount !== 0 ) {
-						if ( is_array( $return_receipt ) ) {
-							$return_receipt[] = array(
-								'type'        => 'filter',
-								'resource_id' => $resource->get_id(),
-								'filter_type' => $filter['type'],
-								'total'       => $amount,
-								'name'        => $filter['name'],
-							);
+						if ( ! isset( $stay_prices_adults[ $i ] ) ) {
+							$t_price_adults = $slot['base-price'];
 						}
 
-						$total += $amount;
+						if ( ! isset( $stay_prices_children[ $i ] ) ) {
+							$t_price_children = $slot['children-price'];
+						}
+					}
+				}
+
+				$t_total_adults   = $t_price_adults * $multiplier_adults;
+				$t_total_children = $t_price_children * $multiplier_children;
+				$t_total          = $t_total_adults + $t_total_children;
+
+				if ( is_array( $return_receipt ) ) {
+					$return_receipt[] = array(
+						'type'           => 'resource',
+						'resource_id'    => $resource->get_id(),
+						'adult_price'    => $t_price_adults,
+						'children_price' => $t_price_children,
+						'total'          => $t_total,
+						'date'           => $i,
+						'name'           => $resource->get_title(),
+					);
+				}
+
+				$total += $t_total;
+			}
+
+			$stay_total = $total;
+
+			if ( ! empty( $all_filter ) ) {
+				$full = array();
+				foreach ( $all_filter as $filter ) {
+					if ( $resource->filter( $filter, $this->get_arrival(), $billing_units, $this->get_adults(), $this->get_children(), $this->get_date_created(), $full ) ) {
+						$full[] = $filter['type'];
+						$amount = $filter['price'];
+
+						if ( isset( $filter['modus'] ) ) {
+							$amount = er_reservation_multiply_amount( $this, $filter['modus'], $filter['price'], $stay_total );
+						}
+
+						if ( $amount !== 0 ) {
+							if ( is_array( $return_receipt ) ) {
+								$return_receipt[] = array(
+									'type'        => 'filter',
+									'resource_id' => $resource->get_id(),
+									'filter_type' => $filter['type'],
+									'total'       => $amount,
+									'name'        => $filter['name'],
+								);
+							}
+
+							$total += $amount;
+						}
 					}
 				}
 			}
 		}
 
 		//$total = round( $total, er_get_price_decimals() );
-		$item = new ER_Receipt_Item_Resource();
-		$item->set_name( $this->get_resource()->get_title() );
-		$item->set_resource_id( $this->get_resource_id() );
-		$item->set_subtotal( $total );
-		$item->set_total( $total );
 
-		$this->add_item( $item );
+		if ( empty( $this->get_items( 'resource' ) ) ) {
+			$item = new ER_Receipt_Item_Resource();
+			$item->set_name( $this->get_resource()->get_title() );
+			$item->set_resource_id( $this->get_resource_id() );
+			$item->set_subtotal( $total );
+			$item->set_total( $total );
+
+			$this->add_item( $item );
+		}
 
 		if ( $return_receipt ) {
 			return $return_receipt;

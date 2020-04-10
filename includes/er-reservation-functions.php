@@ -108,7 +108,7 @@ function er_reservation_parse_tag( $tag, $reservation ) {
 			break;
 		case 'resource':
 		case 'rooms':
-			return $reservation->get_resource() ? esc_html( __( $reservation->get_resource()->get_title() ) ) : '';
+			return $reservation->get_resource() ? esc_html( __( $reservation->get_resource()->get_title() ) ) : __( 'No resource selected', 'easyReservations' );
 			break;
 		case 'resource-space':
 		case 'resource-number':

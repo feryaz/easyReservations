@@ -60,6 +60,8 @@ If you encounter issues with the catalog/category pages after an update, flush t
 * Enhancement - Deposit form on order payment page
 * Enhancement - Display deposit amount to pay in admin edit order
 * Performance - Timeline generation time by 40%
+* Fix - Update reservations receipt item when changing resource
+* Fix - Display custom data in reservation preview
 
 = 6.0-alpha.12 - 2020-03-30 =
 * Feature - Cart widget

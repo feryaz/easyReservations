@@ -111,7 +111,7 @@ $row_class     = apply_filters( 'easyreservations_admin_html_order_item_class', 
     <td class="er-receipt-edit-line-item" width="1%">
         <div class="er-receipt-edit-line-item-actions">
 			<?php if ( $object->is_editable() ) : ?>
-                <a class="edit-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Edit item', 'easyReservations' ); ?>"></a>
+                <a class="edit-receipt-item tips" href="#" data-tip="<?php esc_attr_e( 'Edit item', 'easyReservations' ); ?>"></a><a class="recalculate-receipt-item tips" href="#" data-item-id="<?php echo esc_attr( $item_id ); ?>" data-tip="<?php esc_attr_e( 'Recalculate', 'easyReservations' ); ?>"></a>
 			<?php endif; ?>
         </div>
     </td>
