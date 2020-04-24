@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.12';
+	public $version = '6.0-alpha.13';
 
 	/**
 	 * Session instance.
@@ -373,12 +373,6 @@ final class easyReservations {
 			include_once( RESERVATIONS_ABSPATH . 'includes/class-er-session-handler.php' );
 			include_once( RESERVATIONS_ABSPATH . 'includes/class-er-template-loader.php' );
 			include_once( RESERVATIONS_ABSPATH . 'includes/class-er-form-handler.php' );
-			include_once( RESERVATIONS_ABSPATH . 'includes/shortcodes/class-er-shortcode-cart.php' );
-			include_once( RESERVATIONS_ABSPATH . 'includes/shortcodes/class-er-shortcode-checkout.php' );
-			include_once( RESERVATIONS_ABSPATH . 'includes/shortcodes/class-er-shortcode-form.php' );
-			include_once( RESERVATIONS_ABSPATH . 'includes/shortcodes/class-er-shortcode-resources.php' );
-
-			add_shortcode( 'easy_calendar', 'easyreservations_calendar_shortcode' );
 		}
 
 		if ( $this->is_request( 'cron' ) && 'yes' === get_option( 'reservations_allow_tracking', 'no' ) ) {

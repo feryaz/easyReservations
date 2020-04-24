@@ -51,6 +51,7 @@
 								{ className: 'components-base-control' },
 								el( wp.components.SelectControl, {
 									label: wp.i18n.__( 'Form template', 'easyReservations' ),
+									style: { 'display': 'block' },
 									className: 'components-text-control__input',
 									value: props.attributes.form_template,
 									onChange: function( value ) {
@@ -65,6 +66,7 @@
 							{ className: 'easyreservations-block-list-element' },
 							el( wp.components.SelectControl, {
 								label: wp.i18n.__( 'After submit redirect to', 'easyReservations' ),
+								style: { 'display': 'block' },
 								className: 'components-text-control__input',
 								value: props.attributes.redirect,
 								onChange: function( value ) {

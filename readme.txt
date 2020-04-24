@@ -2,7 +2,7 @@
 Contributors: feryaz
 Tags: booking, reservations, hotel, reservation form, calendar, reservation, restaurant, booking form, hospitality, events, tours, availability, bookings, booking calendar, availability calendar
 Requires at least: 5.3
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: 5.0.11
 License: GPLv3
@@ -54,7 +54,7 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
-= 6.0-alpha.13 - 2020-04-X =
+= 6.0-alpha.13 - 2020-04-24 =
 * Feature - Direct checkout (option in form block)
 * Enhancement - Admin can now set reservations to not belong to any resource
 * Enhancement - Deposit form on order payment page

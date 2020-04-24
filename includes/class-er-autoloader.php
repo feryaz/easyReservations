@@ -59,6 +59,8 @@ if ( ! class_exists( 'ER_Autoloader' ) ):
 			//Add subfolder to path if necessary
 			if ( strpos( $class, 'er_admin' ) === 0 ) {
 				$path .= 'admin/';
+			} elseif ( 0 === strpos( $class, 'er_shortcode_' ) ) {
+				$path = $this->include_path . 'shortcodes/';
 			} elseif ( strpos( $class, 'er_meta_box' ) === 0 || strpos( $class, 'erp_meta_box' ) === 0 ) {
 				$path .= 'admin/meta-boxes/';
 			}

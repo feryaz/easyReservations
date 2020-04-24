@@ -978,7 +978,7 @@ abstract class ER_Receipt extends ER_Data {
 			}
 		}
 
-		$this->set_discount_total( $subtotal - $total + $fees_total );
+		$this->set_discount_total( $subtotal - $total );
 		$this->set_discount_tax( er_round_tax_total( $subtotal_tax - $total_tax ) );
 		$this->set_total( round( $total + $fees_total + $this->get_total_tax(), er_get_price_decimals() ) );
 
@@ -1257,14 +1257,12 @@ abstract class ER_Receipt extends ER_Data {
 	 * @return int                       Comment ID.
 	 */
 	public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false ) {
-		if ( method_exists( $this, 'add_order_note' ) ) {
-			return $this->add_order_note( $note, $is_customer_note, $added_by_user );
-		} elseif ( method_exists( $this, 'get_order_id' ) ) {
+		if ( method_exists( $this, 'get_order_id' ) ) {
 			$note .= ' ' . sprintf( __( 'in reservation #%d.', 'easyReservations' ), $this->get_id() );
 
 			return er_order_add_note( $this->get_order_id(), $note, $is_customer_note, $added_by_user );
+		} else {
+			return er_order_add_note( $this->get_id(), $note, $is_customer_note, $added_by_user );
 		}
-
-		return 0;
 	}
 }
