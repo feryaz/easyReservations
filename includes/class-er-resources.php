@@ -110,7 +110,7 @@ class ER_Resources {
 			"SELECT ID, post_title, menu_order, post_name, post_content, post_excerpt, post_status, post_password
 			FROM {$wpdb->prefix}posts 
 			WHERE post_type = 'easy-rooms' AND post_status != 'auto-draft' 
-			ORDER BY menu_order ASC"
+			ORDER BY menu_order, ID ASC"
 		);
 
 		return $resources;

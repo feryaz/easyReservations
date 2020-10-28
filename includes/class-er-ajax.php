@@ -215,6 +215,7 @@ class ER_AJAX {
 		}
 
 		$days                      = array();
+		$occupied_spaces           = array();
 		$was_unavailable           = false;
 		$earliest_possible_arrival = new DateTimeImmutable( wp_date( 'd.m.Y H:i' ) );
 		$earliest_possible_arrival = $earliest_possible_arrival->add( new DateInterval( 'PT' . er_earliest_arrival() . 'S' ) );
@@ -438,8 +439,7 @@ class ER_AJAX {
 						}
 
 						if ( ! $was_unavailable && $req['nights-min'] <= $billing_units ) {
-							$avail = $availability->check_arrivals_and_departures( $resource->availability_by( 'unit' ) ? $arrival : $last_departure, $departure, 'departure' );
-
+							$avail = $availability->check_spaces( $resource->availability_by( 'unit' ) ? $arrival : $last_departure, $departure, 'departure' );
 
 							if ( $display_price ) {
 								$reservation = new ER_Reservation( 0 );
@@ -461,9 +461,7 @@ class ER_AJAX {
 								//If numeric day is unavailable else only departure is not possible
 								$avail = is_numeric( $avail ) ? $quantity : $quantity + 1;
 							} else {
-								if ( $avail->count_all >= $quantity ) {
-									$avail->count_all = $avail->count_all + $avail->arrival - $avail->departure;
-
+								if ( count($avail->count_all) >= $quantity ) {
 									//[0] Minimum departure time
 									//[1] Maximum departure time
 									if ( ! empty( $avail->max_arrival ) ) {

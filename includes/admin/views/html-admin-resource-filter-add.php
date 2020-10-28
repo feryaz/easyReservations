@@ -205,7 +205,7 @@ $time_options = er_form_time_options();
 						<?php echo er_date_get_interval_label( DAY_IN_SECONDS, 0, true ); ?>
 					</label>
 				</th>
-				<td style="line-height: 20px">
+				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
                     <span>
                         <i>
                             <?php echo sprintf( esc_html__( 'Select nothing to apply to entire %s', 'easyReservations' ), esc_html__( 'calendar week', 'easyReservations' ) ); ?>
@@ -232,7 +232,7 @@ $time_options = er_form_time_options();
 						<?php esc_html_e( 'Calendar week', 'easyReservations' ); ?>
 					</label>
 				</th>
-				<td style="line-height: 20px">
+				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
                     <span style="">
                         <i>
                            <?php echo sprintf( esc_html__( 'Select nothing to apply to entire %s', 'easyReservations' ), er_date_get_interval_label( MONTH_IN_SECONDS, 1 ) ); ?>
@@ -313,7 +313,7 @@ $time_options = er_form_time_options();
 						<?php esc_html_e( 'Months', 'easyReservations' ); ?>
 					</label>
 				</th>
-				<td style="line-height: 20px">
+				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
                     <span>
                         <i>
                             <?php echo sprintf( esc_html__( 'Select nothing to apply to entire %s', 'easyReservations' ), esc_html__( 'quarter', 'easyReservations' ) ); ?>
@@ -369,7 +369,7 @@ $time_options = er_form_time_options();
 						<?php esc_html_e( 'Quarter', 'easyReservations' ); ?>
 					</label>
 				</th>
-				<td style="line-height: 20px">
+				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
                     <span>
                         <i>
                             <?php echo sprintf( esc_html__( 'Select nothing to apply to entire %s', 'easyReservations' ), esc_html__( 'year', 'easyReservations' ) ); ?>
@@ -389,7 +389,7 @@ $time_options = er_form_time_options();
 						<?php esc_html_e( 'year', 'easyReservations' ); ?>
 					</label>
 				</th>
-				<td style="line-height: 20px">
+				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
 					<div>
 						<label style="width:75px"><input type="checkbox" name="price_filter_unit_year[]" value="2023">2023</label>
 						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2019">2019</label>

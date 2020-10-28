@@ -17,21 +17,6 @@ foreach ( $resources as $resource ) {
 	}
 }
 
-$dummy    = new easyReservations_form_widget();
-$settings = $dummy->get_settings();
-$changed  = false;
-foreach ( $settings as $k => $setting ) {
-	if ( isset( $setting['form_editor'] ) ) {
-		$changed = true;
-		add_option( 'reservations_form_old-widget-' . $k, html_entity_decode( str_replace( '<br>', "\n", $setting['form_editor'] ) ), false, false );
-		$settings[ $k ]['form_template'] = 'old-widget-' . $k;
-		unset( $settings[ $k ]['form_editor'] );
-	}
-}
-if ( $changed ) {
-	$dummy->save_settings( $settings );
-}
-
 $the_search_bar = get_option( 'reservations_search_bar' );
 if ( $the_search_bar && ! empty( $the_search_bar ) ) {
 	add_option( 'reservations_form_old-search-bar', html_entity_decode( str_replace( '<br>', "\n", $the_search_bar ) ), false, false );

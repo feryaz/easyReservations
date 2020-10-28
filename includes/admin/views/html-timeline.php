@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $resources = ER()->resources()->get_accessible();
+
 ?>
 <div class="er-timeline-tooltip"></div>
 <div class="er-timeline">

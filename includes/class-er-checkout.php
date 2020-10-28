@@ -519,6 +519,7 @@ class ER_Checkout extends ER_Form {
 		if ( ER()->session ) {
 			ER()->session->set( 'order_awaiting_payment', false );
 		}
+
 		er_empty_cart();
 
 		if ( ! is_easyreservations_ajax() ) {

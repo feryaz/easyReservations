@@ -341,7 +341,6 @@ class ER_Form_Handler {
 
 					return;
 				}
-				var_dump( 354 );
 
 				// Update payment method.
 				if ( $order->needs_payment() ) {

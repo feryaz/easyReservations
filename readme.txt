@@ -54,6 +54,13 @@ If you encounter issues with the catalog/category pages after an update, flush t
 
 == Changelog ==
 
+= 6.0-alpha.14 - 2020-10-28 =
+* Enhancement - Display of possible departure dates in calendar
+* Enhancement - Order of resources if no menu order is defined
+* Fix - Email settings overridden templates
+* Fix - Center view on calendar in form
+* Fix - Wrong month after selecting arrival
+
 = 6.0-alpha.13 - 2020-04-24 =
 * Feature - Direct checkout (option in form block)
 * Enhancement - Admin can now set reservations to not belong to any resource

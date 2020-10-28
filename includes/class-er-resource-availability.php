@@ -305,6 +305,72 @@ class ER_Resource_Availability {
 			return $filter;
 		}
 
+		$day = $arrival->format( "Y-m-d" );
+
+		if ( $this->per_person ) {
+			$sql = $wpdb->prepare(
+				"SELECT SUM(CASE WHEN arrival >= %s AND arrival <= %s THEN {$this->per_person} END) AS arrival, " .
+				"SUM(CASE WHEN departure >= %s AND departure <= %s THEN {$this->per_person} END) AS departure, " .
+				"SUM({$this->per_person}) AS count_all, " .
+				"MAX(CASE WHEN arrival >= %s AND arrival <= %s THEN arrival END) AS max_arrival, " .
+				"MIN(CASE WHEN departure >= %s AND departure <= %s THEN departure END) as min_departure " .
+				"FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s <= {$this->departure} AND %s >= {$this->arrival}",
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$arrival->format( "Y-m-d" ) . ' 00:00:00',
+				$departure->format( "Y-m-d" ) . ' 23:59:59'
+			);
+
+			$result = $wpdb->get_row( $sql );
+		} else {
+			$sql = $wpdb->prepare(
+				"SELECT COUNT((CASE WHEN arrival >= %s AND arrival <= %s THEN space END)) AS arrival, " .
+				"COUNT((CASE WHEN departure >= %s AND departure <= %s THEN space END)) AS departure, " .
+				"COUNT(DISTINCT space) AS count_all, " .
+				"MAX(CASE WHEN arrival >= %s AND arrival <= %s THEN arrival END) AS max_arrival, " .
+				"MIN(CASE WHEN departure >= %s AND departure <= %s THEN departure END) as min_departure " .
+				"FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s <= {$this->departure} AND %s >= {$this->arrival}",
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$day . ' 00:00:00',
+				$day . ' 23:59:59',
+				$arrival->format( "Y-m-d H:i:s" ),
+				$departure->format( "Y-m-d H:i:s" )
+			);
+
+			$result = $wpdb->get_row( $sql );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Check spaces
+	 *
+	 * @param ER_DateTime $arrival
+	 * @param ER_DateTime $departure
+	 * @param bool|string $check_arrivals_and_departures
+	 *
+	 * @return object|int|string
+	 */
+	public function check_spaces( $arrival, $departure, $check_arrivals_and_departures = true ) {
+		global $wpdb;
+
+		$filter = $this->check_filter( $arrival, $departure, false, $check_arrivals_and_departures );
+		if ( $filter !== 0 ) {
+			return $filter;
+		}
+
 		$check_from  = $arrival->format( "Y-m-d H:i:s" );
 		$check_until = $departure->format( "Y-m-d H:i:s" );
 
@@ -329,14 +395,15 @@ class ER_Resource_Availability {
 			$sql = $wpdb->prepare(
 				"SELECT COUNT(DISTINCT(CASE WHEN DATE(arrival) = DATE(%s) THEN space END)) AS arrival, " .
 				"COUNT(DISTINCT(CASE WHEN DATE(departure) = DATE(%s) THEN space END)) AS departure, " .
-				"COUNT(DISTINCT space) AS count_all, " .
+				"COUNT(DISTINCT(CASE WHEN DATE(arrival) != DATE(%s) THEN space END)) AS count_all, " .
 				"MAX(CASE WHEN DATE(arrival) = DATE(%s) THEN arrival END) AS max_arrival, " .
 				"MIN(CASE WHEN DATE(departure) = DATE(%s) THEN departure END) as min_departure " .
 				"FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s <= {$this->departure} AND %s >= {$this->arrival}",
-				$check_from,
-				$check_from,
-				$check_from,
-				$check_from,
+				$check_until,
+				$check_until,
+				$check_until,
+				$check_until,
+				$check_until,
 				$check_from,
 				$check_until
 			);
@@ -362,7 +429,7 @@ class ER_Resource_Availability {
 		$excluded_spaces = array();
 		$billing_units   = $this->resource->get_frequency_units( $arrival, $departure, $this->interval );
 
-		for ( $i = 0; $i <= $billing_units; $i ++ ) {
+		for ( $i = 0; $i < $billing_units; $i ++ ) {
 			if ( isset( $error[ $i ] ) ) {
 				continue;
 			}
@@ -397,7 +464,7 @@ class ER_Resource_Availability {
 			} else {
 				$count = $wpdb->get_col(
 					$wpdb->prepare(
-						"SELECT DISTINCT(space) as spaces, SUM(adults+children) as persons FROM {$wpdb->prefix}reservations " .
+						"SELECT DISTINCT(space) as spaces FROM {$wpdb->prefix}reservations " .
 						"WHERE {$this->status} AND {$this->resource_query} {$this->space} (%s < {$this->departure} AND %s > {$this->arrival}) GROUP BY spaces",
 						array( $date_to_check, $date_to_check )
 					)

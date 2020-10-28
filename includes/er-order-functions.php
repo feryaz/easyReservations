@@ -590,6 +590,19 @@ function er_delete_easy_order_transients( $order = 0 ) {
 }
 
 /**
+ * Search orders.
+ *
+ * @param string $term Term to search.
+ *
+ * @return array List of orders ID.
+ */
+function esr_order_search( $term ) {
+	$data_store = ER_Data_Store::load( 'order' );
+
+	return $data_store->search_orders( str_replace( 'Order #', '', er_clean( $term ) ) );
+}
+
+/**
  * Create a new order refund programmatically.
  *
  * Returns a new refund object on success which can then be used to add additional data.

@@ -196,7 +196,7 @@ class ER_Template_Loader {
 	 *
 	 * @return string
 	 */
-	public static function unsupported_theme_title_filter( $title, $id ) {
+	public static function unsupported_theme_title_filter( $title, $id = null ) {
 		if ( self::$theme_support || ! $id !== self::$shop_page_id ) {
 			return $title;
 		}

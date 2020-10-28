@@ -27,7 +27,8 @@
 				price: false,
 			}, options );
 
-		let data = false,
+		let pageLoad = true,
+			data = false,
 			lastRequest = false,
 			done = false,
 			slots = false,
@@ -314,42 +315,47 @@
 				dateFormat = 'dd-mm-yy';
 			}
 
-			calendarContainer.datepicker(
-				$.extend( {
-					minDate: arrival ? arrival : settings.minDate,
-					maxDate: maxDate ? maxDate : null,
-					dateFormat: dateFormat,
-					numberOfMonths: settings.numberOfMonths,
-					beforeShowDay: checkData,
-					onChangeMonthYear: function( year, month, inst ) {
-						if ( ! slots || ( ! arrivalTime && settings.time ) || ( arrival && ! settings.time ) ) {
-							loadData( dateFormat.replace( 'dd', '01' ).replace( 'mm', month ).replace( 'yy', year ) );
-						}
+			calendarContainer
+				.datepicker(
+					$.extend( {
+						minDate: arrival ? arrival : settings.minDate,
+						maxDate: maxDate ? maxDate : null,
+						dateFormat: dateFormat,
+						numberOfMonths: settings.numberOfMonths,
+						beforeShowDay: checkData,
+						onChangeMonthYear: function( year, month, inst ) {
+							if ( ! slots || ( ! arrivalTime && settings.time ) || ( arrival && ! settings.time ) ) {
+								loadData( dateFormat.replace( 'dd', '01' ).replace( 'mm', month ).replace( 'yy', year ) );
+							}
 
-						e.find( 'div.time' ).slideUp( 300 );
+							e.find( 'div.time' ).slideUp( 300 );
 
-						if ( arrival && ( arrivalTime || ! settings.time ) ) {
-							resetDeparture();
-							e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
-						} else {
-							resetArrival();
-							e.find( '.arrival .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
-						}
-					},
-					onSelect: select,
-				}, defaultArgs )
-			).datepicker( 'setDate', null ).slideDown( '300' );
+							if ( arrival && ( arrivalTime || ! settings.time ) ) {
+								resetDeparture();
+								e.find( '.departure .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
+							} else {
+								resetArrival();
+								e.find( '.arrival .text .date' ).addClass( 'important' ).html( er_date_picker_params.wait );
+							}
+						},
+						onSelect: select,
+					}, defaultArgs )
+				)
+				.datepicker( 'setDate', null ).slideDown( '300' );
 
 			const element = calendarContainer.parent().parent();
 
-			if ( resourceQuantity && ! element.isInViewport() ) {
+			if ( ! pageLoad && resourceQuantity && calendarContainer.hasClass( 'hasDatepicker' ) && ! element.isInViewport() ) {
 				$( [ document.documentElement, document.body ] ).animate( {
 					scrollTop: element.offset().top - 30,
 				}, 500 );
 			}
 
+			pageLoad = false;
+
 			calendarContainer.find( '.ui-datepicker' ).removeClass( 'ui-datepicker' ).addClass( 'easy-datepicker' );
 			calendarContainer.find( '.ui-state-active' ).removeClass( 'ui-state-highlight' ).removeClass( 'ui-state-hover' ).removeClass( 'ui-state-active' );
+
 			$.each( er_date_picker_params.datepicker, function( k, v ) {
 				calendarContainer.datepicker( 'option', k, $.parseJSON( v ) );
 			} );
@@ -643,6 +649,11 @@
 
 					data = response;
 					slots = data.hasOwnProperty( 'slots' ) && data.slots;
+
+					const firstPossibleDate = data.first_possible.split( ' ' );
+					if ( arrival ) {
+						calendarContainer.datepicker( 'option', 'minDate', firstPossibleDate[ 0 ] );
+					}
 
 					if ( data.hasOwnProperty( 'max' ) && data.max ) {
 						//TODO: reintroduce feature WEIRD BUG still present as of 02 2020

@@ -917,12 +917,11 @@ class ER_Email extends ER_Settings_API {
 
 					$local_file    = $this->get_theme_template_file( $template );
 					$core_file     = $this->template_base . $template;
-					$template_file = apply_filters( 'easyreservations_locate_core_template', $core_file, $template, $this->template_base, $this->id );
+					$template_file = apply_filters( 'easyreservations_locate_core_template', $this->template_base,  $template, $this->id );
 					$template_dir  = apply_filters( 'easyreservations_template_directory', 'easyReservations', $template );
 					?>
                     <div class="template <?php echo esc_attr( $template_type ); ?>">
                         <h4><?php echo wp_kses_post( $title ); ?></h4>
-
 						<?php if ( file_exists( $local_file ) ) : ?>
                             <p>
                                 <a href="#" class="button toggle_editor"></a>
