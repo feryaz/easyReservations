@@ -127,7 +127,7 @@ class ER_Tracks_Client {
 	 * @return string A string representing a timestamp.
 	 */
 	public static function build_timestamp() {
-		$ts = round( microtime( true ) * 1000 );
+		$ts = ER_Number_Util::round( microtime( true ) * 1000 );
 
 		return number_format( $ts, 0, '', '' );
 	}

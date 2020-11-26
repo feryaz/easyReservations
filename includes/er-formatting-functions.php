@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Converts a string (e.g. 'yes' or 'no') to a bool.
  *
- * @param string $string String to convert.
+ * @param string|bool $string String to convert.
  *
  * @return bool
  */
@@ -15,7 +15,7 @@ function er_string_to_bool( $string ) {
 /**
  * Converts a bool to a 'yes' or 'no'.
  *
- * @param bool $bool String to convert.
+ * @param string|bool $bool String to convert.
  *
  * @return string
  */
@@ -418,7 +418,7 @@ function er_price( $amount = 0, $currency_symbol = false, $ex_tax_label = false 
 	$formatted_price = $negative ? '-' : '';
 
 	if ( $currency_symbol ) {
-		$formatted_price .= sprintf( $price_format, '<span class="easyreservations-Price-currencySymbol">' . er_get_currency_symbol() . '</span>', esc_html( $price ) );
+		$formatted_price .= sprintf( $price_format, '<span class="easyreservations-Price-currencySymbol"><bdi>' . er_get_currency_symbol() . '</bdi></span>', esc_html( $price ) );
 	} else {
 		$formatted_price .= esc_html( $price );
 	}
@@ -445,7 +445,7 @@ function er_round_tax_total( $value, $precision = null ) {
 
 	$tax_rounding = er_prices_include_tax() ? 2 : 1;
 
-	$rounded_tax = round( $value, $precision, $tax_rounding ); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.round_modeFound
+	$rounded_tax = ER_Number_Util::round( $value, $precision, $tax_rounding ); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.round_modeFound
 
 	return apply_filters( 'er_round_tax_total', $rounded_tax, $value, $precision, $tax_rounding );
 }
@@ -513,7 +513,7 @@ function er_hex_darker( $color, $factor = 30 ) {
 
 	foreach ( $base as $k => $v ) {
 		$amount      = $v / 100;
-		$amount      = round( $amount * $factor );
+		$amount      = ER_Number_Util::round( $amount * $factor );
 		$new_decimal = $v - $amount;
 
 		$new_hex_component = dechex( $new_decimal );
@@ -542,7 +542,7 @@ function er_hex_lighter( $color, $factor = 30 ) {
 	foreach ( $base as $k => $v ) {
 		$amount      = 255 - $v;
 		$amount      = $amount / 100;
-		$amount      = round( $amount * $factor );
+		$amount      = ER_Number_Util::round( $amount * $factor );
 		$new_decimal = $v + $amount;
 
 		$new_hex_component = dechex( $new_decimal );
@@ -734,6 +734,11 @@ function er_string_to_datetime( $time_string ) {
  * @return string PHP timezone string for the site
  */
 function er_timezone_string() {
+	// Added in WordPress 5.3 Ref https://developer.wordpress.org/reference/functions/wp_timezone_string/.
+	if ( function_exists( 'wp_timezone_string' ) ) {
+		return wp_timezone_string();
+	}
+
 	// If site timezone string exists, return it.
 	$timezone = get_option( 'timezone_string' );
 	if ( $timezone ) {
@@ -741,13 +746,13 @@ function er_timezone_string() {
 	}
 
 	// Get UTC offset, if it isn't set then return UTC.
-	$utc_offset = intval( get_option( 'gmt_offset', 0 ) );
-	if ( 0 === $utc_offset ) {
+	$utc_offset = floatval( get_option( 'gmt_offset', 0 ) );
+	if ( ! is_numeric( $utc_offset ) || 0.0 === $utc_offset ) {
 		return 'UTC';
 	}
 
 	// Adjust UTC offset from hours to seconds.
-	$utc_offset *= HOUR_IN_SECONDS;
+	$utc_offset = (int) ( $utc_offset * 3600 );
 
 	// Attempt to guess the timezone string from the UTC offset.
 	$timezone = timezone_name_from_abbr( '', $utc_offset );

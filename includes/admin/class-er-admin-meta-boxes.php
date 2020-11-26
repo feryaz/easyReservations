@@ -43,8 +43,8 @@ class ER_Admin_Meta_Boxes {
 		 *      Save order data - also updates status and sends out admin emails if needed. Last to show latest data.
 		 *      Save actions - sends out other emails. Last to show latest data.
 		 */
-		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Receipt_Items::save', 10, 2 );
-		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Order_Data::save', 40, 2 );
+		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Receipt_Items::save', 10 );
+		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Order_Data::save', 40 );
 		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Order_Actions::save', 50, 2 );
 		add_action( 'easyreservations_process_easy_order_meta', 'ER_Meta_Box_Custom_Data::save', 50, 2 );
 

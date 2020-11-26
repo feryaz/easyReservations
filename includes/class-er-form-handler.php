@@ -150,6 +150,7 @@ class ER_Form_Handler {
 			}
 		}
 
+		$cart_items_added = array();
 		if ( ! $done && isset( $_POST['easy_form_hash'] ) ) {
 			//check for custom fields in own form
 			$errors  = new WP_Error();
@@ -157,7 +158,7 @@ class ER_Form_Handler {
 
 			if ( $customs && ! $errors->has_errors() ) {
 				foreach ( $customs as $custom ) {
-					ER()->cart->add_custom_to_cart( $custom );
+					$cart_items_added[] = ER()->cart->add_custom_to_cart( $custom );
 				}
 
 				$done = $do_checkout ? false : $customs;
@@ -201,7 +202,7 @@ class ER_Form_Handler {
 
 		//Checkout
 		if ( $do_checkout ) {
-			$checkout = $submit ? ER()->checkout()->process_checkout( $submit ) : true;
+			$checkout = $submit ? ER()->checkout()->process_checkout( $submit, $cart_items_added ) : true;
 
 			if ( $checkout ) {
 				if ( $done ) {
@@ -403,6 +404,10 @@ class ER_Form_Handler {
 				return;
 			}
 
+			if ( ! apply_filters( 'easyreservations_add_payment_method_form_is_valid', true ) ) {
+				return;
+			}
+
 			// Test rate limit.
 			$current_user_id = get_current_user_id();
 			$rate_limit_id   = 'add_payment_method_' . $current_user_id;
@@ -410,12 +415,15 @@ class ER_Form_Handler {
 
 			if ( ER_Rate_Limiter::retried_too_soon( $rate_limit_id ) ) {
 				er_add_notice(
-				/* translators: %d number of seconds */
-					_n(
-						'You cannot add a new payment method so soon after the previous one. Please wait for %d second.',
-						'You cannot add a new payment method so soon after the previous one. Please wait for %d seconds.',
-						$delay,
-						'easyReservations'
+					sprintf(
+					/* translators: %d number of seconds */
+						_n(
+							'You cannot add a new payment method so soon after the previous one. Please wait for %d second.',
+							'You cannot add a new payment method so soon after the previous one. Please wait for %d seconds.',
+							$delay,
+							'easyReservations'
+						),
+						$delay
 					),
 					'error'
 				);

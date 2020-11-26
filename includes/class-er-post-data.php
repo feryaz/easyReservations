@@ -112,8 +112,10 @@ class ER_Post_Data {
 				$order_title .= ' &ndash; ' . date_i18n( 'F j, Y @ h:i A', strtotime( $data['post_date'] ) );
 			}
 			$data['post_title'] = $order_title;
+		} elseif ( 'easy_coupon' === $data['post_type'] ) {
+			// Coupons should never allow unfiltered HTML.
+			$data['post_title'] = wp_filter_kses( $data['post_title'] );
 		}
-
 		return $data;
 	}
 

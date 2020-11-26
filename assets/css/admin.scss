@@ -30,7 +30,10 @@
 .easyreservations-message {
 	position: relative;
 	overflow: hidden;
-	border-left-color: #6ab3ff !important;
+
+	&.updated {
+		border-left-color: #6ab3ff !important;
+	}
 
 	a.skip,
 	a.docs {
@@ -263,6 +266,7 @@ code {
 /* Order */
 #easyreservations-order-data {
 
+	.postbox-header,
 	.hndle,
 	.handlediv {
 		display: none;
@@ -598,6 +602,7 @@ code {
 		background: #fefefe;
 	}
 
+	.postbox-header,
 	.hndle,
 	.handlediv {
 		display: none;
@@ -1082,6 +1087,10 @@ code {
 			color: $red;
 		}
 
+		.label-highlight {
+			font-weight: bold;
+		}
+
 		.er-receipt-edit-line-item-actions {
 			width: 1.5em;
 			visibility: visible !important;
@@ -1362,6 +1371,10 @@ ul.er_coupon_list {
 		a.complete::after {
 			content: "\f147";
 		}
+
+		a.invoice::after {
+			content: "\f190";
+		}
 	}
 
 	small.meta {
@@ -1376,8 +1389,37 @@ ul.er_coupon_list {
 .post-type-easy_reservation,
 .post-type-easy_order {
 
-	.tablenav .one-page .displaying-num {
+	.tablenav .one-page .displaying-num,
+	.editable {
 		display: none;
+	}
+
+	.er-data-fields {
+		.form-field input {
+			width: auto;
+		}
+
+		.er-invoice-edit-date-number,
+		.er-invoice-delete-document,
+		.er-invoice-regenerate-document,
+		.er-invoice-edit-document-notes {
+			opacity: 0.5;
+		}
+
+		.er-invoice-edit-date-number:hover,
+		.er-invoice-delete-document:hover,
+		.er-invoice-regenerate-document:hover,
+		.er-invoice-edit-document-notes:hover {
+			opacity: 1;
+			cursor: pointer;
+		}
+
+		h4 .er-regenerate-spin {
+			opacity: 1;
+			-webkit-animation: spin 1.6s linear infinite; /* Safari */
+			animation: spin 1.6s linear infinite;
+			pointer-events: none;
+		}
 	}
 
 	.wp-list-table {

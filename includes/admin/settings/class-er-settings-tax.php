@@ -63,7 +63,7 @@ class ER_Settings_Tax extends ER_Settings_Page {
 		);
 		wp_enqueue_script( 'er-settings-tax' );
 
-		include 'views/html-admin-settings-tax.php';
+		include __DIR__ . '/views/html-admin-settings-tax.php';
 	}
 
 	/**

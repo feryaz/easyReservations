@@ -29,6 +29,42 @@
 
 	$( 'body' ).on( 'click', function() {
 		$( '.iris-picker' ).hide();
+	} ).on( 'click', '.easyreservations-upl', function( e ) {
+		// on upload button click
+
+		e.preventDefault();
+
+		const isImage = $( this ).hasClass( 'image' ),
+			button = $( this ),
+			uploader = wp.media( {
+				library: {
+					type: isImage ? 'image' : '',
+				},
+				multiple: false,
+			} ).on( 'select', function() { // it also has "open" and "close" events
+				const attachment = uploader.state().get( 'selection' ).first().toJSON();
+				button.removeClass( 'button' ).css( 'display', 'inline-block' ).blur().next().show().next().val( attachment.id );
+
+				if ( isImage ) {
+					button.html( '<img src="' + attachment.url + '">' );
+				} else {
+					button.children().val( attachment.filename );
+				}
+			} ).open();
+	} ).on( 'click', '.easyreservations-rmv', function( e ) {
+		// on remove button click
+
+		e.preventDefault();
+
+		const button = $( this ),
+			isImage = $( this ).hasClass( 'image' );
+
+		button.next().val( '' ); // emptying the hidden field
+		if ( isImage ) {
+			button.hide().prev().addClass( 'button' ).css( 'display', 'inline-block' ).html( 'Upload image' );
+		} else {
+			button.hide().prev().children().val( '' );
+		}
 	} );
 
 	// Sorting
@@ -61,4 +97,5 @@
 		const txtToAdd = '[' + $( this ).data( 'tag' ) + ']';
 		$txt.val( textAreaTxt.substring( 0, caretPos ) + txtToAdd + textAreaTxt.substring( caretPos ) );
 	} );
+
 }( jQuery, wp ) );

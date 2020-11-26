@@ -15,9 +15,42 @@ class ER_Resources_Tracking {
 	 * Init tracking.
 	 */
 	public function init() {
+		add_action( 'load-edit.php', array( $this, 'track_resource_view' ), 10 );
 		add_action( 'edit_post', array( $this, 'track_resource_updated' ), 10, 2 );
 		add_action( 'transition_post_status', array( $this, 'track_resource_published' ), 10, 3 );
 		add_action( 'created_resource_cat', array( $this, 'track_resource_category_created' ) );
+	}
+
+	/**
+	 * Send a Tracks event when the Products page is viewed.
+	 */
+	public function track_products_view() {
+		// We only record Tracks event when no `_wp_http_referer` query arg is set, since
+		// when searching, the request gets sent from the browser twice,
+		// once with the `_wp_http_referer` and once without it.
+		//
+		// Otherwise, we would double-record the view and search events.
+
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification
+		if (
+			isset( $_GET['post_type'] )
+			&& 'easy-rooms' === wp_unslash( $_GET['post_type'] )
+			&& ! isset( $_GET['_wp_http_referer'] )
+		) {
+			// phpcs:enable
+
+			ER_Tracks::record_event( 'resources_view' );
+
+			// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification
+			if (
+				isset( $_GET['s'] )
+				&& 0 < strlen( sanitize_text_field( wp_unslash( $_GET['s'] ) ) )
+			) {
+				// phpcs:enable
+
+				ER_Tracks::record_event( 'resources_search' );
+			}
+		}
 	}
 
 	/**

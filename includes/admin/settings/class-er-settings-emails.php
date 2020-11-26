@@ -121,7 +121,7 @@ class ER_Settings_Emails extends ER_Settings_Page {
 				array(
 					'title'       => __( 'Footer text', 'easyReservations' ),
 					/* translators: %s: Available placeholders for use */
-					'desc'        => __( 'The text to appear in the footer of all easyReservations emails.', 'easyReservations' ) . ' ' . sprintf( __( 'Available placeholders: %s', 'easyReservations' ), '{site_title} {site_address}' ),
+					'desc'        => __( 'The text to appear in the footer of all easyReservations emails.', 'easyReservations' ) . ' ' . sprintf( __( 'Available placeholders: %s', 'easyReservations' ), '{site_title} {site_url}' ),
 					'id'          => 'reservations_email_footer_text',
 					'option'      => 'reservations_email_footer_text',
 					'css'         => 'width:400px; height: 75px;',

@@ -159,7 +159,7 @@ class ER_Receipt_Item_Reservation extends ER_Receipt_Item_Line {
 					$tax->save();
 				}
 
-				$reservation->set_total( round( $this->get_total() + $this->get_total_tax(), er_get_price_decimals() ) );
+				$reservation->set_total( ER_Number_Util::round( $this->get_total() + $this->get_total_tax(), er_get_price_decimals() ) );
 				$reservation->set_total_tax( $this->get_total_tax() );
 				$reservation->save();
 			}

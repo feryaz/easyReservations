@@ -50,7 +50,7 @@ if ( er_tax_enabled() ) {
 		foreach ( $line_items_reservation as $item_id => $item ) {
 			do_action( 'easyreservations_before_receipt_item_reservation_html', $item_id, $item, $object );
 
-			include 'html-receipt-reservation.php';
+			include __DIR__ . '/html-receipt-reservation.php';
 
 			do_action( 'easyreservations_after_receipt_item_reservation_html', $item_id, $item, $object );
 		}
@@ -61,7 +61,7 @@ if ( er_tax_enabled() ) {
         <tbody id="receipt_resource_line_items">
 		<?php
 		foreach ( $line_items_resource as $item_id => $item ) {
-			include 'html-receipt-resource.php';
+			include __DIR__ . '/html-receipt-resource.php';
 		}
 		do_action( 'easyreservations_admin_' . $object->get_type() . '_items_after_resources', $object->get_id() );
 		?>
@@ -69,7 +69,7 @@ if ( er_tax_enabled() ) {
         <tbody id="receipt_fee_line_items">
 		<?php
 		foreach ( $line_items_fee as $item_id => $item ) {
-			include 'html-receipt-fee.php';
+			include __DIR__ . '/html-receipt-fee.php';
 		}
 		do_action( 'easyreservations_admin_' . $object->get_type() . '_items_after_fees', $object->get_id() );
 		?>
@@ -80,7 +80,7 @@ if ( er_tax_enabled() ) {
 
 		if ( $refunds ) {
 			foreach ( $refunds as $refund ) {
-				include 'html-order-refund.php';
+				include __DIR__ . '/html-order-refund.php';
 			}
 			do_action( 'easyreservations_admin_' . $object->get_type() . '_items_after_refunds', $object->get_id() );
 		}
@@ -151,51 +151,85 @@ if ( er_tax_enabled() ) {
             <td class="label"><?php esc_html_e( 'Total', 'easyReservations' ); ?>:</td>
             <td width="1%"></td>
             <td class="total">
-				<?php echo $object->get_formatted_total(); // WPCS: XSS ok. ?>
+			    <?php echo $object->get_formatted_total(); // WPCS: XSS ok. ?>
             </td>
         </tr>
 
-		<?php if ( $object->get_type() === 'easy_order' && $object->get_paid() > 0 ) : ?>
-            <tr>
-                <td class="label"><?php esc_html_e( 'Paid', 'easyReservations' ); ?>:</td>
-                <td width="1%"></td>
-                <td class="total">
-					<?php echo er_price( $object->get_paid(), true ); // WPCS: XSS ok. ?>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="label"><?php esc_html_e( 'Due', 'easyReservations' ); ?>:</td>
-                <td width="1%"></td>
-                <td class="total">
-					<?php echo er_price( $object->get_amount_due(), true ); // WPCS: XSS ok. ?>
-                </td>
-            </tr>
-		<?php endif; ?>
-
-		<?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_total', $object->get_id() ); ?>
-
-		<?php if ( $object->get_type() === 'easy_order' && $object->get_total_refunded() ) : ?>
-            <tr>
-                <td class="label refunded-total"><?php esc_html_e( 'Refunded', 'easyReservations' ); ?>:</td>
-                <td width="1%"></td>
-                <td class="total refunded-total">-<?php echo er_price( $object->get_total_refunded(), true ); // WPCS: XSS ok. ?></td>
-            </tr>
-		<?php endif; ?>
-
-	    <?php if ( $object->get_type() === 'easy_order' && $amount_to_pay = $object->get_meta( 'amount_to_pay' ) ) : ?>
-            <tr>
-                <td class="label"><?php esc_html_e( 'Deposit to pay', 'easyReservations' ); ?>:</td>
-                <td width="1%"></td>
-                <td class="total">
-				    <?php echo er_price( $amount_to_pay, true ); // WPCS: XSS ok. ?>
-                </td>
-            </tr>
-	    <?php endif; ?>
-
-        <?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_refunded', $object->get_id() ); ?>
-
     </table>
+
+    <div class="clear"></div>
+
+	<?php if ( $object->get_type() === 'easy_order' && ! empty( $object->get_paid() ) ) : ?>
+        <table class="er-receipt-totals" style="border-top: 1px solid #999; margin-top:12px; padding-top:12px">
+            <?php if ( $object->get_paid() > 0 ) : ?>
+                <tr >
+                    <td class="label"><?php esc_html_e( 'Paid', 'easyReservations' ); ?>:</td>
+                    <td width="1%"></td>
+                    <td class="total">
+                        <?php echo er_price( $object->get_paid(), true ); // WPCS: XSS ok. ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        <span class="description">
+                        <?php
+                            $date_paid = $object->get_date_paid() ? $object->get_date_paid()->date_i18n( get_option( 'date_format' ) ) : __( 'Unknown date', 'easyReservations' );
+
+                            if ( $object->get_payment_method_title() ) {
+                                /* translators: 1: payment date. 2: payment method */
+                                echo esc_html( sprintf( __( '%1$s via %2$s', 'easyReservations' ), $date_paid, $object->get_payment_method_title() ) );
+                            } else {
+                                echo esc_html( $date_paid );
+                            }
+                        ?>
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label"><?php esc_html_e( 'Due', 'easyReservations' ); ?>:</td>
+                    <td width="1%"></td>
+                    <td class="total">
+			            <?php echo er_price( $object->get_amount_due(), true ); // WPCS: XSS ok. ?>
+                    </td>
+                </tr>
+
+            <?php endif; ?>
+
+            <?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_total', $object->get_id() ); ?>
+
+            <?php if ( $object->get_total_refunded() ) : ?>
+                <tr>
+                    <td class="label refunded-total"><?php esc_html_e( 'Refunded', 'easyReservations' ); ?>:</td>
+                    <td width="1%"></td>
+                    <td class="total refunded-total">-<?php echo er_price( $object->get_total_refunded(), true ); // WPCS: XSS ok. ?></td>
+                </tr>
+
+                <tr>
+                    <td class="label label-highlight"><?php esc_html_e( 'Net Total', 'easyReservations' ); ?>:</td>
+                    <td width="1%"></td>
+                    <td class="total">
+			            <?php echo er_price( $object->get_total() - $object->get_total_refunded(), true ); // WPCS: XSS ok. ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php if ( $amount_to_pay = $object->get_meta( 'amount_to_pay' ) ) : ?>
+                <tr>
+                    <td class="label"><?php esc_html_e( 'Deposit to pay', 'easyReservations' ); ?>:</td>
+                    <td width="1%"></td>
+                    <td class="total">
+                        <?php echo er_price( $amount_to_pay, true ); // WPCS: XSS ok. ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php do_action( 'easyreservations_admin_' . $object->get_type() . '_totals_after_refunded', $object->get_id() ); ?>
+
+        </table>
+	<?php endif; ?>
+
     <div class="clear"></div>
 </div>
 <div class="er-receipt-data-row er-receipt-bulk-actions er-receipt-data-row-toggle">

@@ -69,7 +69,6 @@ class ER_Admin {
 					break;
 			}
 		}
-
 	}
 
 	/**
@@ -145,7 +144,7 @@ class ER_Admin {
 			case 'dashboard':
 			case 'dashboard-network':
 			case 'update-core':
-			    break;
+				break;
 		}
 	}
 
@@ -262,9 +261,16 @@ class ER_Admin {
 
 		// Register admin styles.
 		wp_register_style( 'er-admin-style', RESERVATIONS_URL . 'assets/css/admin' . $suffix . '.css', array( 'easy-ui' ) );
+		wp_register_style( 'easyreservations_admin_privacy_styles', WC()->plugin_url() . '/assets/css/privacy' . $suffix . '.css', array() );
 
 		// Add RTL support for admin styles.
 		wp_style_add_data( 'er-admin-style', 'rtl', 'replace' );
+		wp_style_add_data( 'easyreservations_admin_privacy_styles', 'rtl', 'replace' );
+
+		// Privacy Policy Guide css for back-compat.
+		if ( isset( $_GET['wp-privacy-policy-guide'] ) || in_array( $screen_id, array( 'privacy-policy-guide' ) ) ) {
+			wp_enqueue_style( 'easyreservations_admin_privacy_styles' );
+		}
 
 		wp_register_script( 'er-enhanced-select', ER()->plugin_url() . '/assets/js/admin/er-enhanced-select' . $suffix . '.js', array( 'jquery' ), RESERVATIONS_VERSION );
 		wp_localize_script(
@@ -442,7 +448,7 @@ class ER_Admin {
 				'calc_totals'                  => __( 'Recalculate totals?', 'easyReservations' ),
 				'load_address'                 => __( "Load the customer's address information? This will remove any currently entered address information.", 'easyReservations' ),
 				'featured_label'               => __( 'Featured', 'easyReservations' ),
-				'onsale_label'                  => __( 'On-sale', 'easyReservations' ),
+				'onsale_label'                 => __( 'On-sale', 'easyReservations' ),
 				'prices_include_tax'           => esc_attr( get_option( 'reservations_prices_include_tax' ) ),
 				'round_at_subtotal'            => esc_attr( get_option( 'reservations_tax_round_at_subtotal' ) ),
 				'no_customer_selected'         => __( 'No customer selected', 'easyReservations' ),
@@ -652,7 +658,7 @@ class ER_Admin {
 	/**
 	 * Output admin fields.
 	 *
-	 * Loops though the easyreservations options array and outputs each field.
+	 * Loops through the easyreservations options array and outputs each field.
 	 *
 	 * @param array[] $options Opens array to output.
 	 */
@@ -780,8 +786,7 @@ class ER_Admin {
 					?>
 					<?php echo $description; // WPCS: XSS ok.
 					?>
-					<?php er_form_get_field( $value ); ?>
-					<?php
+					<?php er_form_get_field( $value );
 					break;
 
 				// Select boxes.
@@ -790,8 +795,7 @@ class ER_Admin {
 					?>
 					<?php er_form_get_field( $value ); ?>
 					<?php echo $description; // WPCS: XSS ok.
-					?>
-					<?php
+
 					break;
 
 				// Radio inputs.
@@ -883,8 +887,47 @@ class ER_Admin {
                     <select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country / region&hellip;', 'easyReservations' ); ?>" aria-label="<?php esc_attr_e( 'Country / Region', 'easyReservations' ); ?>" class="er-enhanced-select">
 						<?php ER()->countries->country_dropdown_options( $country, $state ); ?>
                     </select> <?php echo $description; // WPCS: XSS ok.
-					?>
-					<?php
+
+					break;
+
+				// Media upload.
+				case 'image_upload':
+					$image_id = absint( $value['value'] );
+
+					echo '<div style="padding: 1px">';
+
+					if ( $image = wp_get_attachment_image_src( $image_id ) ) {
+						echo '<a href="#" class="easyreservations-upl image"><img src="' . esc_attr( $image[0] ) . '" /></a> ' .
+						     '<a href="#" class="button easyreservations-rmv image">' . esc_html__( 'Remove image', 'easyReservations' ) . '</a>' .
+						     '<input type="hidden" id="' . esc_attr( $value['id'] ) . '" name="' . esc_attr( $value['id'] ) . '" value="' . esc_attr( $image_id ) . '">';
+					} else {
+						echo '<a href="#" class="button easyreservations-upl image">' . esc_html__( 'Upload image', 'easyReservations' ) . '</a> ' .
+						     '<a href="#" class="button easyreservations-rmv image" style="display:none">' . esc_html__( 'Remove image', 'easyReservations' ) . '</a>' .
+						     '<input type="hidden" id="' . esc_attr( $value['id'] ) . '" name="' . esc_attr( $value['id'] ) . '" value="">';
+					}
+
+					echo $description . '</div>'; // WPCS: XSS ok.
+
+					break;
+
+                // Media upload.
+				case 'media_upload':
+					$image_id = absint( $value['value'] );
+
+					echo '<div style="padding: 1px">';
+
+					if ( $image = get_attached_file( $image_id ) ) {
+						echo '<a href="#" class="easyreservations-upl file"><input type="text" value="' . esc_attr( substr( $image, strrpos( $image, '/' ) + 1 ) ) . '" readonly="readonly"></a> ' .
+						     '<a href="#" class="button easyreservations-rmv file">' . esc_html__( 'Remove file', 'easyReservations' ) . '</a>' .
+						     '<input type="hidden" id="' . esc_attr( $value['id'] ) . '" name="' . esc_attr( $value['id'] ) . '" value="' . esc_attr( $image_id ) . '">';
+					} else {
+						echo '<a href="#" class="easyreservations-upl file"><input type="text" readonly="readonly"></a> ' .
+						     '<a href="#" class="button easyreservations-rmv file" style="display:none">' . esc_html__( 'Remove file', 'easyReservations' ) . '</a>' .
+						     '<input type="hidden" id="' . esc_attr( $value['id'] ) . '" name="' . esc_attr( $value['id'] ) . '" value="">';
+					}
+
+					echo $description . '</div>'; // WPCS: XSS ok.
+
 					break;
 
 				// Days/months/years selector.
@@ -922,6 +965,9 @@ class ER_Admin {
 				// Default: run an action.
 				default:
 					do_action( 'easyreservations_admin_field_' . $value['type'], $value );
+
+					echo $description;
+
 					break;
 			}
 

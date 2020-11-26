@@ -63,15 +63,15 @@ class ER_Admin_Post_Types {
 
 		switch ( $screen_id ) {
 			case 'edit-easy_order':
-				include_once 'list-tables/class-er-admin-list-table-orders.php';
+				include_once __DIR__ . '/list-tables/class-er-admin-list-table-orders.php';
 				$er_list_table = new ER_Admin_List_Table_Orders();
 				break;
 			case 'edit-easy_reservation':
-				include_once 'list-tables/class-er-admin-list-table-reservations.php';
+				include_once __DIR__ . '/list-tables/class-er-admin-list-table-reservations.php';
 				$er_list_table = new ER_Admin_List_Table_Reservations();
 				break;
 			case 'edit-easy-rooms':
-				include_once 'list-tables/class-er-admin-list-table-resources.php';
+				include_once __DIR__ . '/list-tables/class-er-admin-list-table-resources.php';
 				$er_list_table = new ER_Admin_List_Table_Resources();
 				break;
 			case 'edit-easy_coupon':
@@ -128,8 +128,8 @@ class ER_Admin_Post_Types {
 			9  => sprintf(
 			/* translators: 1: date 2: resource url */
 				__( 'Resource scheduled for: %1$s. <a target="_blank" href="%2$s">Preview resource</a>', 'easyReservations' ),
-				'<strong>' . date_i18n( __( 'M j, Y @ G:i', 'easyReservations' ), strtotime( $post->post_date ) ),
-				esc_url( get_permalink( $post->ID ) ) . '</strong>'
+				'<strong>' . date_i18n( __( 'M j, Y @ G:i', 'easyReservations' ), strtotime( $post->post_date ) ) . '</strong>',
+				esc_url( get_permalink( $post->ID ) )
 			),
 			/* translators: %s: resource url */
 			10 => sprintf( __( 'Resource draft updated. <a target="_blank" href="%s">Preview resource</a>', 'easyReservations' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),

@@ -156,7 +156,7 @@ if ( ! class_exists( 'ER_Tax' ) ) :
 		 * @return float
 		 */
 		public static function round( $in ) {
-			return apply_filters( 'easyreservations_tax_round', round( $in, er_get_rounding_precision() ), $in );
+			return apply_filters( 'easyreservations_tax_round', ER_Number_Util::round( $in, er_get_rounding_precision() ), $in );
 		}
 
 		/**

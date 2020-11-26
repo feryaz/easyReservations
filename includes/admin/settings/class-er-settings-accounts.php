@@ -28,12 +28,15 @@ class ER_Settings_Accounts extends ER_Settings_Page {
 	 */
 	public function get_settings() {
 		$erasure_text = esc_html__( 'account erasure request', 'easyReservations' );
+		$privacy_text = esc_html__( 'privacy page', 'easyReservations' );
+
 		if ( current_user_can( 'manage_privacy_options' ) ) {
 			if ( version_compare( get_bloginfo( 'version' ), '5.3', '<' ) ) {
 				$erasure_text = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'tools.php?page=remove_personal_data' ) ), $erasure_text );
 			} else {
 				$erasure_text = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'erase-personal-data.php' ) ), $erasure_text );
 			}
+			$privacy_text = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'options-privacy.php' ) ), $privacy_text );
 		}
 
 		$account_settings = array(
@@ -132,19 +135,8 @@ class ER_Settings_Accounts extends ER_Settings_Page {
 				'title' => __( 'Privacy policy', 'easyReservations' ),
 				'type'  => 'title',
 				'id'    => 'privacy_policy_options',
-				'desc'  => __( 'This section controls the display of your website privacy policy. The privacy notices below will not show up unless a privacy page is first set.', 'easyReservations' ),
-			),
-
-			array(
-				'title'    => __( 'Privacy page', 'easyReservations' ),
-				'desc'     => __( 'Choose a page to act as your privacy policy.', 'easyReservations' ),
-				'id'       => 'wp_page_for_privacy_policy',
-				'option'   => 'wp_page_for_privacy_policy',
-				'type'     => 'single_select_page',
-				'default'  => '',
-				'class'    => 'er-enhanced-select-nostd',
-				'css'      => 'min-width:300px;',
-				'desc_tip' => true,
+				/* translators: %s: privacy page link. */
+				'desc' => sprintf( esc_html__( 'This section controls the display of your website privacy policy. The privacy notices below will not show up unless a %s is set.', 'easyReservations' ), $privacy_text ),
 			),
 
 			array(

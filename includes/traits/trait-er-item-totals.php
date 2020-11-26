@@ -48,7 +48,7 @@ trait ER_Item_Totals {
 	 */
 	public static function round_item_subtotal( $value ) {
 		if ( ! self::round_at_subtotal() ) {
-			$value = round( $value );
+			$value = ER_Number_Util::round( $value );
 		}
 
 		return $value;

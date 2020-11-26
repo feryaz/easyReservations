@@ -265,9 +265,11 @@ add_action( 'body_class', 'er_body_class' );
 function er_no_js() {
 	?>
     <script type="text/javascript">
-		var c = document.body.className;
-		c = c.replace( /easyreservations-no-js/, 'easyreservations-js' );
-		document.body.className = c;
+		( function() {
+			var c = document.body.className;
+			c = c.replace( /easyreservations-no-js/, 'easyreservations-js' );
+		    document.body.className = c;
+		})( )
     </script>
 	<?php
 }
@@ -357,7 +359,7 @@ function er_get_resource_class( $class = '', $resource = null ) {
 	/**
 	 * easyReservations Post Class filter.
 	 *
-	 * @param array       $class Array of CSS classes.
+	 * @param array       $classes Array of CSS classes.
 	 * @param ER_Resource $resource Resource object.
 	 */
 	$classes = apply_filters( 'easyreservations_post_class', $classes, $resource );
@@ -576,7 +578,7 @@ function easyreservations_widget_shopping_cart_proceed_to_checkout() {
  * Output to view cart subtotal.
  */
 function easyreservations_widget_shopping_cart_subtotal() {
-    echo '<strong>' . esc_html__( 'Subtotal', 'easyReservations' ) . ':</strong> ' . ER()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo '<strong>' . esc_html__( 'Subtotal:', 'easyReservations' ) . '</strong> ' . ER()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -709,7 +711,7 @@ function easyreservations_template_loop_resource_link_open() {
 }
 
 /**
- * Insert the opening anchor tag for resources in the loop.
+ * Insert the closing anchor tag for resources in the loop.
  */
 function easyreservations_template_loop_resource_link_close() {
 	echo '</a>';
@@ -1319,7 +1321,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 				$field = '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select default-disabled ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . '><option value="">' . esc_html__( 'Select a country / region&hellip;', 'easyReservations' ) . '</option>';
 
 				foreach ( $countries as $ckey => $cvalue ) {
-					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
+					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . esc_html( $cvalue ) . '</option>';
 				}
 
 				$field .= '</select>';
@@ -1342,7 +1344,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 						<option value="">' . esc_html__( 'Select an option&hellip;', 'easyReservations' ) . '</option>';
 
 				foreach ( $states as $ckey => $cvalue ) {
-					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
+					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . esc_html( $cvalue ) . '</option>';
 				}
 
 				$field .= '</select>';
@@ -1376,6 +1378,10 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 			$field .= '<input type="' . esc_attr( $args['type'] ) . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '"  value="' . esc_attr( $value ) . '" ' . implode( ' ', $custom_attributes ) . ' />';
 
 			break;
+		case 'hidden':
+			$field .= '<input type="' . esc_attr( $args['type'] ) . '" class="input-hidden ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="' . esc_attr( $value ) . '" ' . implode( ' ', $custom_attributes ) . ' />';
+
+			break;
 		case 'select':
 			$field   = '';
 			$options = '';
@@ -1389,7 +1395,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 						}
 						$custom_attributes[] = 'data-allow_clear="true"';
 					}
-					$options .= '<option value="' . esc_attr( $option_key ) . '" ' . selected( $value, $option_key, false ) . '>' . esc_attr( $option_text ) . '</option>';
+					$options .= '<option value="' . esc_attr( $option_key ) . '" ' . selected( $value, $option_key, false ) . '>' . esc_html( $option_text ) . '</option>';
 				}
 
 				$field .= '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="select default-disabled ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">
@@ -1404,7 +1410,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 			if ( ! empty( $args['options'] ) ) {
 				foreach ( $args['options'] as $option_key => $option_text ) {
 					$field .= '<input type="radio" class="input-radio ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" value="' . esc_attr( $option_key ) . '" name="' . esc_attr( $key ) . '" ' . implode( ' ', $custom_attributes ) . ' id="' . esc_attr( $args['id'] ) . '_' . esc_attr( $option_key ) . '"' . checked( $value, $option_key, false ) . ' />';
-					$field .= '<label for="' . esc_attr( $args['id'] ) . '_' . esc_attr( $option_key ) . '" class="radio ' . implode( ' ', $args['label_class'] ) . '">' . $option_text . '</label>';
+					$field .= '<label for="' . esc_attr( $args['id'] ) . '_' . esc_attr( $option_key ) . '" class="radio ' . implode( ' ', $args['label_class'] ) . '">' . esc_html( $option_text ) . '</label>';
 				}
 			}
 
@@ -1415,7 +1421,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 		$field_html = '';
 
 		if ( $args['label'] && 'checkbox' !== $args['type'] ) {
-			$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . $args['label'] . $required . '</label>';
+			$field_html .= '<label for="' . esc_attr( $label_id ) . '" class="' . esc_attr( implode( ' ', $args['label_class'] ) ) . '">' . wp_kses_post( $args['label'] ) . $required . '</label>';
 		}
 
 		$field_html .= '<span class="easyreservations-input-wrapper">' . $field;

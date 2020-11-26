@@ -210,7 +210,8 @@ class ER_Abstract_Order extends ER_Receipt {
 	 * @throws ER_Data_Exception Exception may be thrown if value is invalid.
 	 */
 	public function set_total_tax( $value ) {
-		$this->set_prop( 'total_tax', er_format_decimal( $value ) );
+		// We round here because this is a total entry, as opposed to line items in other setters.
+		$this->set_prop( 'total_tax', er_format_decimal( ER_Number_Util::round( $value, er_get_price_decimals() ) ) );
 	}
 
 	/**
@@ -412,7 +413,7 @@ class ER_Abstract_Order extends ER_Receipt {
 			array_map( 'strtolower', array_map( 'sanitize_email', $emails ) )
 		);
 		$customer_data_store = ER_Data_Store::load( 'customer' );
-		$user_ids            = $customer_data_store->get_user_ids_for_billing_email( $emails );
+		$user_ids            = $customer_data_store->get_user_ids_for_email( $emails );
 
 		return array_merge( $user_ids, $emails );
 	}

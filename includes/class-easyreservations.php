@@ -18,7 +18,14 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.13';
+	public $version = '6.0-alpha.15';
+
+	/**
+	 * easyReservations Schema version.
+	 *
+	 * @var string
+	 */
+	public $db_version = '600';
 
 	/**
 	 * Session instance.

@@ -89,7 +89,7 @@ class ER_Receipt_Item_Data_Store implements ER_Receipt_Item_Data_Store_Interface
 	 * @return bool
 	 */
 	public function update_metadata( $item_id, $meta_key, $meta_value, $prev_value = '' ) {
-		return update_metadata( 'receipt_item', $item_id, $meta_key, is_string( $meta_value ) ? wp_slash( $meta_value ) : $meta_value, $prev_value );
+		return update_metadata( 'receipt_item', $item_id, wp_slash( $meta_key ), is_string( $meta_value ) ? wp_slash( $meta_value ) : $meta_value, $prev_value );
 	}
 
 	/**

@@ -8,6 +8,8 @@
 div.easyreservations-message {
   position: relative;
   overflow: hidden;
+}
+div.easyreservations-message.updated {
   border-left-color: #6ab3ff !important;
 }
 

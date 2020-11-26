@@ -211,7 +211,7 @@ function er_get_currency() {
 /**
  * Get full list of currency codes.
  *
- * Currency Symbols and mames should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
+ * Currency symbols and names should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
  *
  * @return array
  */
@@ -395,9 +395,9 @@ function er_get_currencies() {
 }
 
 /**
- * Get Currency symbol.
+ * Get all available Currency symbols.
  *
- * Currency Symbols and mames should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
+ * Currency symbols and names should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
  *
  * @param string $currency Currency. (default: '').
  *
@@ -497,7 +497,7 @@ function er_get_currency_symbol( $currency = '' ) {
 			'KRW' => '&#8361;',
 			'KWD' => '&#x62f;.&#x643;',
 			'KYD' => '&#36;',
-			'KZT' => 'KZT',
+			'KZT' => '&#8376;',
 			'LAK' => '&#8365;',
 			'LBP' => '&#x644;.&#x644;',
 			'LKR' => '&#xdbb;&#xdd4;',
@@ -536,7 +536,7 @@ function er_get_currency_symbol( $currency = '' ) {
 			'QAR' => '&#x631;.&#x642;',
 			'RMB' => '&yen;',
 			'RON' => 'lei',
-			'RSD' => '&#x434;&#x438;&#x43d;.',
+			'RSD' => '&#1088;&#1089;&#1076;',
 			'RUB' => '&#8381;',
 			'RWF' => 'Fr',
 			'SAR' => '&#x631;.&#x633;',
@@ -592,6 +592,85 @@ function er_get_currency_symbol( $currency = '' ) {
 }
 
 /**
+ * Given a path, this will convert any of the subpaths into their corresponding tokens.
+ *
+ * @param string $path The absolute path to tokenize.
+ * @param array  $path_tokens An array keyed with the token, containing paths that should be replaced.
+ *
+ * @return string The tokenized path.
+ */
+function er_tokenize_path( $path, $path_tokens ) {
+	// Order most to least specific so that the token can encompass as much of the path as possible.
+	uasort(
+		$path_tokens,
+		function ( $a, $b ) {
+			$a = strlen( $a );
+			$b = strlen( $b );
+
+			if ( $a > $b ) {
+				return - 1;
+			}
+
+			if ( $b > $a ) {
+				return 1;
+			}
+
+			return 0;
+		}
+	);
+
+	foreach ( $path_tokens as $token => $token_path ) {
+		if ( 0 !== strpos( $path, $token_path ) ) {
+			continue;
+		}
+
+		$path = str_replace( $token_path, '{{' . $token . '}}', $path );
+	}
+
+	return $path;
+}
+
+/**
+ * Given a tokenized path, this will expand the tokens to their full path.
+ *
+ * @param string $path The absolute path to expand.
+ * @param array  $path_tokens An array keyed with the token, containing paths that should be expanded.
+ *
+ * @return string The absolute path.
+ */
+function er_untokenize_path( $path, $path_tokens ) {
+	foreach ( $path_tokens as $token => $token_path ) {
+		$path = str_replace( '{{' . $token . '}}', $token_path, $path );
+	}
+
+	return $path;
+}
+
+/**
+ * Fetches an array containing all of the configurable path constants to be used in tokenization.
+ *
+ * @return array The key is the define and the path is the constant.
+ */
+function er_get_path_define_tokens() {
+	$defines = array(
+		'ABSPATH',
+		'WP_CONTENT_DIR',
+		'WP_PLUGIN_DIR',
+		'WPMU_PLUGIN_DIR',
+		'PLUGINDIR',
+		'WP_THEME_DIR',
+	);
+
+	$path_tokens = array();
+	foreach ( $defines as $define ) {
+		if ( defined( $define ) ) {
+			$path_tokens[ $define ] = constant( $define );
+		}
+	}
+
+	return apply_filters( 'easyreservations_get_path_define_tokens', $path_tokens );
+}
+/**
  * Get template part (for templates like the shop-loop).
  *
  * RESERVATIONS_TEMPLATE_DEBUG_MODE will prevent overrides in themes from taking priority.
@@ -628,9 +707,14 @@ function er_get_template_part( $slug, $name = '' ) {
 			);
 		}
 
-		wp_cache_set( $cache_key, $template, 'easyreservations' );
-	}
+		// Don't cache the absolute path so that it can be shared between web servers with different paths.
+		$cache_path = er_tokenize_path( $template, er_get_path_define_tokens() );
 
+		er_set_template_cache( $cache_key, $cache_path );
+	} else {
+		// Make sure that the absolute path to the template is resolved.
+		$template = er_untokenize_path( $template, er_get_path_define_tokens() );
+	}
 	// Allow 3rd party plugins to filter template file from their plugin.
 	$template = apply_filters( 'easyreservations_get_template_part', $template, $slug, $name );
 
@@ -648,26 +732,58 @@ function er_get_template_part( $slug, $name = '' ) {
  * @param string $default_path Default path. (default: '').
  */
 function er_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-	if ( ! empty( $args ) && is_array( $args ) ) {
-		extract( $args );
-	}
+	$cache_key = sanitize_key( implode( '-', array( 'template', $template_name, $template_path, $default_path, RESERVATIONS_VERSION ) ) );
+	$template  = (string) wp_cache_get( $cache_key, 'easyreservations' );
 
-	$located = er_locate_template( $template_name, $template_path, $default_path );
+	if ( ! $template ) {
+		$template = er_locate_template( $template_name, $template_path, $default_path );
 
-	if ( ! file_exists( $located ) ) {
-		_doing_it_wrong( __FUNCTION__, sprintf( __( '%s does not exist.', 'easyreservations' ), '<code>' . $located . '</code>' ), '2.1' );
+		// Don't cache the absolute path so that it can be shared between web servers with different paths.
+		$cache_path = er_tokenize_path( $template, er_get_path_define_tokens() );
 
-		return;
+		er_set_template_cache( $cache_key, $cache_path );
+	} else {
+		// Make sure that the absolute path to the template is resolved.
+		$template = er_untokenize_path( $template, er_get_path_define_tokens() );
 	}
 
 	// Allow 3rd party plugin filter template file from their plugin.
-	$located = apply_filters( 'easyreservations_get_template', $located, $template_name, $args, $template_path, $default_path );
+	$filter_template = apply_filters( 'er_get_template', $template, $template_name, $args, $template_path, $default_path );
 
-	do_action( 'easyreservations_before_template_part', $template_name, $template_path, $located, $args );
+	if ( $filter_template !== $template ) {
+		if ( ! file_exists( $filter_template ) ) {
+			/* translators: %s template */
+			_doing_it_wrong( __FUNCTION__, sprintf( __( '%s does not exist.', 'easyReservations' ), '<code>' . $filter_template . '</code>' ), '2.1' );
 
-	include $located;
+			return;
+		}
+		$template = $filter_template;
+	}
 
-	do_action( 'easyreservations_after_template_part', $template_name, $template_path, $located, $args );
+	$action_args = array(
+		'template_name' => $template_name,
+		'template_path' => $template_path,
+		'located'       => $template,
+		'args'          => $args,
+	);
+
+	if ( ! empty( $args ) && is_array( $args ) ) {
+		if ( isset( $args['action_args'] ) ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				__( 'action_args should not be overwritten when calling er_get_template.', 'easyReservations' ),
+				'3.6.0'
+			);
+			unset( $args['action_args'] );
+		}
+		extract( $args ); // @codingStandardsIgnoreLine
+	}
+
+	do_action( 'easyreservations_before_template_part', $action_args['template_name'], $action_args['template_path'], $action_args['located'], $action_args['args'] );
+
+	include $action_args['located'];
+
+	do_action( 'easyreservations_after_template_part', $action_args['template_name'], $action_args['template_path'], $action_args['located'], $action_args['args'] );
 }
 
 /**
@@ -718,20 +834,58 @@ function er_locate_template( $template_name, $template_path = '', $default_path 
 	}
 
 	// Look within passed path within the theme - this is priority.
-	$template = locate_template(
+	$cs_template = str_replace( '_', '-', $template_name );
+	$template    = locate_template(
 		array(
-			trailingslashit( $template_path ) . $template_name,
-			$template_name,
+			trailingslashit( $template_path ) . $cs_template,
+			$cs_template,
 		)
 	);
 
 	// Get default template/.
-	if ( ! $template ) {
-		$template = $default_path . $template_name;
+	if ( ! $template || RESERVATIONS_TEMPLATE_DEBUG_MODE ) {
+		if ( empty( $cs_template ) ) {
+			$template = $default_path . $template_name;
+		} else {
+			$template = $default_path . $cs_template;
+		}
 	}
 
 	// Return what we found.
 	return apply_filters( 'easyreservations_locate_template', $template, $template_name, $template_path );
+}
+
+/**
+ * Add a template to the template cache.
+ *
+ * @param string $cache_key Object cache key.
+ * @param string $template Located template.
+ */
+function er_set_template_cache( $cache_key, $template ) {
+	wp_cache_set( $cache_key, $template, 'easyreservations' );
+
+	$cached_templates = wp_cache_get( 'cached_templates', 'easyreservations' );
+	if ( is_array( $cached_templates ) ) {
+		$cached_templates[] = $cache_key;
+	} else {
+		$cached_templates = array( $cache_key );
+	}
+
+	wp_cache_set( 'cached_templates', $cached_templates, 'easyreservations' );
+}
+
+/**
+ * Clear the template cache.
+ */
+function er_clear_template_cache() {
+	$cached_templates = wp_cache_get( 'cached_templates', 'easyreservations' );
+	if ( is_array( $cached_templates ) ) {
+		foreach ( $cached_templates as $cache_key ) {
+			wp_cache_delete( $cache_key, 'easyreservations' );
+		}
+
+		wp_cache_delete( 'cached_templates', 'easyreservations' );
+	}
 }
 
 /**
@@ -866,13 +1020,13 @@ function er_get_image_size( $image_size ) {
 			} elseif ( 'custom' === $cropping ) {
 				$width          = max( 1, get_option( 'reservations_thumbnail_cropping_custom_width', '4' ) );
 				$height         = max( 1, get_option( 'reservations_thumbnail_cropping_custom_height', '3' ) );
-				$size['height'] = absint( round( ( $size['width'] / $width ) * $height ) );
+				$size['height'] = absint( ER_Number_Util::round( ( $size['width'] / $width ) * $height ) );
 				$size['crop']   = 1;
 			} else {
 				$cropping_split = explode( ':', $cropping );
 				$width          = max( 1, current( $cropping_split ) );
 				$height         = max( 1, end( $cropping_split ) );
-				$size['height'] = absint( round( ( $size['width'] / $width ) * $height ) );
+				$size['height'] = absint( ER_Number_Util::round( ( $size['width'] / $width ) * $height ) );
 				$size['crop']   = 1;
 			}
 		}
@@ -987,7 +1141,7 @@ function er_get_rounding_precision() {
  * @return float
  */
 function er_round_discount( $value, $precision ) {
-	return round( $value, $precision, 2 );
+	return ER_Number_Util::round( $value, $precision, 2 );
 }
 
 /**
@@ -1002,7 +1156,7 @@ function er_add_number_precision( $value, $round = true ) {
 	$cent_precision = pow( 10, er_get_price_decimals() );
 	$value          = $value * $cent_precision;
 
-	return $round ? round( $value, er_get_rounding_precision() - er_get_price_decimals() ) : $value;
+	return $round ? ER_Number_Util::round( $value, er_get_rounding_precision() - er_get_price_decimals() ) : $value;
 }
 
 /**
@@ -1111,8 +1265,8 @@ add_action( 'easyreservations_after_register_order_post_type', 'er_maybe_flush_r
 /**
  * Prints human-readable information about a variable.
  *
- * Some server environments blacklist some debugging functions. This function provides a safe way to
- * turn an expression into a printable, readable form without calling blacklisted functions.
+ * Some server environments block some debugging functions. This function provides a safe way to
+ * turn an expression into a printable, readable form without calling blocked functions.
  *
  * @param mixed $expression The expression to be printed.
  * @param bool  $return Optional. Default false. Set to true to return the human-readable string.

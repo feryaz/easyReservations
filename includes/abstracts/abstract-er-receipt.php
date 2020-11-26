@@ -395,7 +395,7 @@ abstract class ER_Receipt extends ER_Data {
 			$total_discount = $this->get_discount_total() + $this->get_discount_tax();
 		}
 
-		return apply_filters( 'easyreservations_receipt_get_total_discount', round( $total_discount, er_get_rounding_precision() ), $this );
+		return apply_filters( 'easyreservations_receipt_get_total_discount', ER_Number_Util::round( $total_discount, er_get_rounding_precision() ), $this );
 	}
 
 	/**
@@ -404,13 +404,7 @@ abstract class ER_Receipt extends ER_Data {
 	 * @return float
 	 */
 	public function get_subtotal() {
-		$subtotal = 0;
-
-		foreach ( $this->get_items() as $item ) {
-			if ( method_exists( $item, 'get_subtotal' ) ) {
-				$subtotal += $item->get_subtotal();
-			}
-		}
+		$subtotal = ER_Number_Util::round( $this->get_cart_subtotal(), er_get_price_decimals() );
 
 		return apply_filters( 'easyreservations_receipt_get_subtotal', (float) $subtotal, $this );
 	}
@@ -436,7 +430,7 @@ abstract class ER_Receipt extends ER_Data {
 			$tax_totals[ $code ]->is_flat          = $tax->is_flat();
 			$tax_totals[ $code ]->label            = $tax->get_name();
 			$tax_totals[ $code ]->amount           += (float) $tax->get_tax_total();
-			$tax_totals[ $code ]->formatted_amount = er_price( er_round_tax_total( $tax_totals[ $code ]->amount ), true );
+			$tax_totals[ $code ]->formatted_amount = er_price( $tax_totals[ $code ]->amount, true );
 		}
 
 		if ( apply_filters( 'easyreservations_order_hide_zero_taxes', true ) ) {
@@ -450,7 +444,7 @@ abstract class ER_Receipt extends ER_Data {
 	/**
 	 * Get all tax classes for items in the order.
 	 *
-	 * @return array
+	 * @return ER_Receipt_Item_Tax[]
 	 */
 	public function get_items_taxes() {
 		$found_tax_classes = array();
@@ -466,6 +460,23 @@ abstract class ER_Receipt extends ER_Data {
 
 	/**
 	 * Get taxes merged by id
+	 *
+	 * @return array
+	 */
+	public function get_taxes_by_id() {
+		$taxes = array();
+
+		foreach ( $this->get_taxes() as $key => $tax ) {
+			$code = $tax->get_rate_id();
+
+			$taxes[ $code ] = $tax;
+		}
+
+		return apply_filters( 'easyreservations_receipt_get_taxes_by_id', $taxes, $this );
+	}
+
+	/**
+	 * Get tax totals merged by id
 	 *
 	 * @return array
 	 */
@@ -500,7 +511,7 @@ abstract class ER_Receipt extends ER_Data {
 				$subtotal = $item->get_subtotal();
 			}
 
-			$subtotal = $round ? number_format( (float) $subtotal, er_get_price_decimals(), '.', '' ) : $subtotal;
+			$subtotal = $round ? ER_Number_Util::round( (float) $subtotal, er_get_price_decimals() ) : $subtotal;
 		}
 
 		return apply_filters( 'easyreservations_receipt_item_subtotal', $subtotal, $this, $item, $inc_tax, $round );
@@ -525,7 +536,7 @@ abstract class ER_Receipt extends ER_Data {
 				$total = $item->get_total();
 			}
 
-			$total = $round ? round( $total, er_get_price_decimals() ) : $total;
+			$total = $round ? ER_Number_Util::round( $total, er_get_price_decimals() ) : $total;
 		}
 
 		return apply_filters( 'easyreservations_receipt_amount_item_total', $total, $this, $item, $inc_tax, $round );
@@ -542,8 +553,7 @@ abstract class ER_Receipt extends ER_Data {
 	public function get_item_tax( $item, $round = true ) {
 		$tax = 0;
 
-		if ( is_callable( array( $item, 'get_total_tax' ) ) && $item->get_quantity() ) {
-			$tax = $item->get_total_tax() / $item->get_quantity();
+		if ( is_callable( array( $item, 'get_total_tax' ) ) ) {
 			$tax = $round ? er_round_tax_total( $tax ) : $tax;
 		}
 
@@ -921,7 +931,7 @@ abstract class ER_Receipt extends ER_Data {
 			$this->add_item( $item );
 		}
 
-		$this->set_total_tax( er_round_tax_total( array_sum( $total_taxes ) ) );
+		$this->set_total_tax( array_sum( $total_taxes ) );
 
 		if ( $save ) {
 			$this->save();
@@ -950,7 +960,7 @@ abstract class ER_Receipt extends ER_Data {
 			$fee_total = $item->get_total();
 
 			if ( 0 > $fee_total && 0 > $fee_total ) {
-				$max_discount = round( $total + $fees_total, er_get_price_decimals() ) * - 1;
+				$max_discount = ER_Number_Util::round( $total + $fees_total, er_get_price_decimals() ) * - 1;
 
 				if ( $fee_total < $max_discount ) {
 					$item->set_total( $max_discount );
@@ -978,9 +988,9 @@ abstract class ER_Receipt extends ER_Data {
 			}
 		}
 
-		$this->set_discount_total( $subtotal - $total );
+		$this->set_discount_total( ER_Number_Util::round( $subtotal - $total, er_get_price_decimals() ) );
 		$this->set_discount_tax( er_round_tax_total( $subtotal_tax - $total_tax ) );
-		$this->set_total( round( $total + $fees_total + $this->get_total_tax(), er_get_price_decimals() ) );
+		$this->set_total( ER_Number_Util::round( $total + $fees_total + $this->get_total_tax(), er_get_price_decimals() ) );
 
 		do_action( 'easyreservations_after_calculate_totals', $and_taxes, $this );
 

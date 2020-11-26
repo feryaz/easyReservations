@@ -8,6 +8,7 @@ wp_localize_script(
 	'easyreservations_admin_system_status',
 	array(
 		'delete_log_confirmation' => esc_js( __( 'Are you sure you want to delete this log?', 'easyReservations' ) ),
+		'run_tool_confirmation' => esc_js( __( 'Are you sure you want to run this tool?', 'easyReservations' ) ),
 	)
 );
 

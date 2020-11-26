@@ -270,7 +270,7 @@ class ER_Shortcode_Resources {
 	}
 
 	/**
-	 * Set resource as visible when quering for hidden resources.
+	 * Set resource as visible when querying for hidden resources.
 	 *
 	 * @param bool $visibility Resource visibility.
 	 *
@@ -300,7 +300,7 @@ class ER_Shortcode_Resources {
 	/**
 	 * Get wrapper classes.
 	 *
-	 * @param array $columns Number of columns.
+	 * @param int $columns Number of columns.
 	 *
 	 * @return array
 	 */

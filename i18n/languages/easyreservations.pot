@@ -16273,7 +16273,7 @@ msgstr ""
 
 #: easyreservations/includes/emails/class-er-email-customer-invoice.php:116
 #: easyreservations/includes/emails/class-er-email-customer-processing-order.php:140
-msgid "Thanks for using {site_address}!"
+msgid "Thanks for using {site_url}!"
 msgstr ""
 
 #: easyreservations/includes/emails/class-er-email-customer-invoice.php:208

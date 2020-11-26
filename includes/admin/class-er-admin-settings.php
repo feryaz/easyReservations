@@ -47,6 +47,10 @@ class ER_Admin_Settings {
 
 		do_action( 'easyreservations_settings_start' );
 
+		if ( ! did_action( 'wp_enqueue_media' ) ) {
+			wp_enqueue_media();
+		}
+
 		wp_enqueue_script( 'easyreservations_settings', ER()->plugin_url() . '/assets/js/admin/settings' . $suffix . '.js', array(
 			'jquery',
 			'wp-util',
@@ -149,7 +153,7 @@ class ER_Admin_Settings {
 	/**
 	 * Save admin fields.
 	 *
-	 * Loops though the easyReservations options array and outputs each field.
+	 * Loops through the easyReservations options array and outputs each field.
 	 *
 	 * @param array $options Options array to output.
 	 * @param array $data Optional. Data to use for saving. Defaults to $_POST.

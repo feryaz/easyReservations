@@ -75,6 +75,8 @@
 .easyreservations-message {
   position: relative;
   overflow: hidden;
+}
+.easyreservations-message.updated {
   border-left-color: #6ab3ff !important;
 }
 .easyreservations-message a.skip,
@@ -321,6 +323,7 @@ code[data-tag] {
 }
 
 /* Order */
+#easyreservations-order-data .postbox-header,
 #easyreservations-order-data .hndle,
 #easyreservations-order-data .handlediv {
   display: none;
@@ -629,6 +632,7 @@ code[data-tag] {
   margin: 0;
   background: #fefefe;
 }
+#easyreservations-order-items .postbox-header,
 #easyreservations-order-items .hndle,
 #easyreservations-order-items .handlediv {
   display: none;
@@ -1274,6 +1278,9 @@ code[data-tag] {
 #easyreservations-order-items .er-receipt-totals .refunded-total {
   color: #a00;
 }
+#easyreservations-order-items .er-receipt-totals .label-highlight {
+  font-weight: bold;
+}
 #easyreservations-order-items .er-receipt-totals .er-receipt-edit-line-item-actions {
   width: 1.5em;
   visibility: visible !important;
@@ -1558,6 +1565,9 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
 .widefat .column-er_actions a.complete::after {
   content: "";
 }
+.widefat .column-er_actions a.invoice::after {
+  content: "";
+}
 .widefat small.meta {
   display: block;
   margin: 3px 0;
@@ -1566,9 +1576,55 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
 }
 
 .post-type-easy-rooms .tablenav .one-page .displaying-num,
+.post-type-easy-rooms .editable,
 .post-type-easy_reservation .tablenav .one-page .displaying-num,
-.post-type-easy_order .tablenav .one-page .displaying-num {
+.post-type-easy_reservation .editable,
+.post-type-easy_order .tablenav .one-page .displaying-num,
+.post-type-easy_order .editable {
   display: none;
+}
+.post-type-easy-rooms .er-data-fields .form-field input,
+.post-type-easy_reservation .er-data-fields .form-field input,
+.post-type-easy_order .er-data-fields .form-field input {
+  width: auto;
+}
+.post-type-easy-rooms .er-data-fields .er-invoice-edit-date-number,
+.post-type-easy-rooms .er-data-fields .er-invoice-delete-document,
+.post-type-easy-rooms .er-data-fields .er-invoice-regenerate-document,
+.post-type-easy-rooms .er-data-fields .er-invoice-edit-document-notes,
+.post-type-easy_reservation .er-data-fields .er-invoice-edit-date-number,
+.post-type-easy_reservation .er-data-fields .er-invoice-delete-document,
+.post-type-easy_reservation .er-data-fields .er-invoice-regenerate-document,
+.post-type-easy_reservation .er-data-fields .er-invoice-edit-document-notes,
+.post-type-easy_order .er-data-fields .er-invoice-edit-date-number,
+.post-type-easy_order .er-data-fields .er-invoice-delete-document,
+.post-type-easy_order .er-data-fields .er-invoice-regenerate-document,
+.post-type-easy_order .er-data-fields .er-invoice-edit-document-notes {
+  opacity: 0.5;
+}
+.post-type-easy-rooms .er-data-fields .er-invoice-edit-date-number:hover,
+.post-type-easy-rooms .er-data-fields .er-invoice-delete-document:hover,
+.post-type-easy-rooms .er-data-fields .er-invoice-regenerate-document:hover,
+.post-type-easy-rooms .er-data-fields .er-invoice-edit-document-notes:hover,
+.post-type-easy_reservation .er-data-fields .er-invoice-edit-date-number:hover,
+.post-type-easy_reservation .er-data-fields .er-invoice-delete-document:hover,
+.post-type-easy_reservation .er-data-fields .er-invoice-regenerate-document:hover,
+.post-type-easy_reservation .er-data-fields .er-invoice-edit-document-notes:hover,
+.post-type-easy_order .er-data-fields .er-invoice-edit-date-number:hover,
+.post-type-easy_order .er-data-fields .er-invoice-delete-document:hover,
+.post-type-easy_order .er-data-fields .er-invoice-regenerate-document:hover,
+.post-type-easy_order .er-data-fields .er-invoice-edit-document-notes:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+.post-type-easy-rooms .er-data-fields h4 .er-regenerate-spin,
+.post-type-easy_reservation .er-data-fields h4 .er-regenerate-spin,
+.post-type-easy_order .er-data-fields h4 .er-regenerate-spin {
+  opacity: 1;
+  -webkit-animation: spin 1.6s linear infinite;
+  /* Safari */
+  animation: spin 1.6s linear infinite;
+  pointer-events: none;
 }
 .post-type-easy-rooms .wp-list-table,
 .post-type-easy_reservation .wp-list-table,

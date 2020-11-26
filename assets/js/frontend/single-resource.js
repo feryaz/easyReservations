@@ -195,11 +195,13 @@ jQuery( function( $ ) {
 					var large_image_src = img.attr( 'data-large_image' ),
 						large_image_w = img.attr( 'data-large_image_width' ),
 						large_image_h = img.attr( 'data-large_image_height' ),
+						alt = img.attr( 'alt' ),
 						item = {
+							alt: alt,
 							src: large_image_src,
 							w: large_image_w,
 							h: large_image_h,
-							title: img.attr( 'data-caption' ) ? img.attr( 'data-caption' ) : img.attr( 'title' )
+							title: img.attr( 'data-caption' ) ? img.attr( 'data-caption' ) : img.attr( 'title' ),
 						};
 					items.push( item );
 				}

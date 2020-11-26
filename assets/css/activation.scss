@@ -9,7 +9,10 @@
 div.easyreservations-message {
 	position: relative;
 	overflow: hidden;
-	border-left-color: #6ab3ff !important;
+
+	&.updated {
+		border-left-color: #6ab3ff !important;
+	}
 }
 
 p.easyreservations-actions,

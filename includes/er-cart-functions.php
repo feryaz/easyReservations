@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
  * @return void
  */
 function er_load_cart() {
+	include_once RESERVATIONS_ABSPATH . 'includes/er-notice-functions.php';
+
 	ER()->initialize_session();
 	ER()->initialize_cart();
 }

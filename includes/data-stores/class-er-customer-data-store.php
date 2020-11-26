@@ -457,14 +457,14 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 *
 	 * @return array
 	 */
-	public function get_user_ids_for_billing_email( $emails ) {
+	public function get_user_ids_for_email( $emails ) {
 		$emails      = array_unique( array_map( 'strtolower', array_map( 'sanitize_email', $emails ) ) );
 		$users_query = new WP_User_Query(
 			array(
 				'fields'     => 'ID',
 				'meta_query' => array(
 					array(
-						'key'     => 'billing_email',
+						'key'     => 'address_email',
 						'value'   => $emails,
 						'compare' => 'IN',
 					),

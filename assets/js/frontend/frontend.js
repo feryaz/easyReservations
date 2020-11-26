@@ -46,6 +46,8 @@ jQuery( function( $ ) {
 
 	// Show password visiblity hover icon on easyreservations forms
 	$( '.easyreservations form .easyreservations-Input[type="password"]' ).wrap( '<span class="password-input"></span>' );
+	// Add 'password-input' class to the password wrapper in checkout page.
+	$( '.easyreservations form input' ).filter( ':password' ).parent( 'span' ).addClass( 'password-input' );
 	$( '.password-input' ).append( '<span class="show-password-input"></span>' );
 
 	$( '.show-password-input' ).click(
@@ -54,7 +56,7 @@ jQuery( function( $ ) {
 			if ( $( this ).hasClass( 'display-password' ) ) {
 				$( this ).siblings( [ 'input[name="password"]', 'input[type="password"]' ] ).prop( 'type', 'text' );
 			} else {
-				$( this ).siblings( 'input[name="password"]' ).prop( 'type', 'password' );
+				$( this ).siblings( 'input[type="text"]' ).prop( 'type', 'password' );
 			}
 		}
 	);

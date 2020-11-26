@@ -302,6 +302,11 @@ class ER_Reservation extends ER_Receipt {
 		$tags = er_form_template_parser( $reservation_name, true );
 
 		foreach ( $tags as $string ) {
+			//prevent endless loop
+			if ( $string == 'thename' || $string == 'name' ) {
+				continue;
+			}
+
 			$tag              = shortcode_parse_atts( $string );
 			$reservation_name = str_replace( '[' . $string . ']', er_reservation_parse_tag( $tag, $this ), $reservation_name );
 		}
@@ -882,7 +887,7 @@ class ER_Reservation extends ER_Receipt {
 									if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
 										if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && ! empty( $filter['children-price'] ) && ! in_array( $i, $stay_prices_children ) ) {
 											if ( strpos( $filter['children-price'], '%' ) !== false ) {
-												$amount = round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
+												$amount = ER_Number_Util::round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
 											} else {
 												$amount = empty( $filter['children-price'] ) ? 0 : $filter['children-price'];
 											}
@@ -892,7 +897,7 @@ class ER_Reservation extends ER_Receipt {
 
 										if ( ! in_array( $i, $stay_prices_adults ) ) {
 											if ( strpos( $filter['price'], '%' ) !== false ) {
-												$amount = round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
+												$amount = ER_Number_Util::round( $base_price / 100 * str_replace( '%', '', $filter['price'] ), er_get_rounding_precision() );
 											} else {
 												$amount = empty( $filter['price'] ) ? 0 : $filter['price'];
 											}
@@ -989,7 +994,7 @@ class ER_Reservation extends ER_Receipt {
 			}
 		}
 
-		//$total = round( $total, er_get_price_decimals() );
+		//$total = ER_Number_Util::round( $total, er_get_price_decimals() );
 
 		if ( empty( $this->get_items( 'resource' ) ) ) {
 			$item = new ER_Receipt_Item_Resource();

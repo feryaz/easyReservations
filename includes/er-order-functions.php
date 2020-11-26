@@ -202,8 +202,8 @@ function er_get_order( $order = false ) {
 /**
  * Get order data from [tag]
  *
- * @param $tag array
- * @param $order ER_Order
+ * @param array $tag
+ * @param ER_Order $order
  *
  * @return string
  */
@@ -353,10 +353,16 @@ function er_get_payment_gateway_by_order( $order ) {
 /**
  * Generate an order key.
  *
+ * @param string $key Order key without a prefix. By default generates a 13 digit secret.
+ *
  * @return string The order key.
  */
-function er_generate_order_key() {
-	return 'er_' . apply_filters( 'easyreservations_generate_order_key', 'order_' . wp_generate_password( 13, false ) );
+function er_generate_order_key( $key = ''  ) {
+	if ( '' === $key ) {
+		$key = wp_generate_password( 13, false );
+	}
+
+	return 'er_' . apply_filters( 'easyreservations_generate_order_key', 'order_' . $key );
 }
 
 /**
@@ -542,6 +548,14 @@ function er_order_add_note( $order_id, $note, $is_customer_note = 0, $added_by_u
 			)
 		);
 	}
+
+	/**
+	 * Action hook fired after an order note is added.
+	 *
+	 * @param int      $order_note_id Order note ID.
+	 * @param ER_Order $order Order data.
+	 */
+	do_action( 'easyreservations_order_note_added', $comment_id, $this );
 
 	return $comment_id;
 }

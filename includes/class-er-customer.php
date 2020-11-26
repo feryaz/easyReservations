@@ -109,7 +109,7 @@ class ER_Customer extends ER_Data {
 	 * @return string
 	 */
 	protected function get_hook_prefix() {
-		return 'woocommerce_customer_get_';
+		return 'easyreservations_customer_get_';
 	}
 
 	/**

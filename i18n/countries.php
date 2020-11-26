@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 return array(
 	'AF' => __( 'Afghanistan', 'easyReservations' ),
-	'AX' => __( '&#197;land Islands', 'easyReservations' ),
+	'AX' => __( 'Åland Islands', 'easyReservations' ),
 	'AL' => __( 'Albania', 'easyReservations' ),
 	'DZ' => __( 'Algeria', 'easyReservations' ),
 	'AS' => __( 'American Samoa', 'easyReservations' ),

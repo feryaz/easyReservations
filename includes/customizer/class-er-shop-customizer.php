@@ -172,7 +172,7 @@ class ER_Shop_Customizer {
 								'max_rows_error',
 								{
 									type:    'error',
-									message: '<?php echo esc_js( sprintf( $min_notice, $max_rows ) ); ?>'
+									message: '<?php echo esc_js( sprintf( $max_notice, $max_rows ) ); ?>'
 								}
 							) );
 						} else {
@@ -638,10 +638,16 @@ class ER_Shop_Customizer {
 			)
 		);
 
-		$choose_pages = array(
-			'wp_page_for_privacy_policy' => __( 'Privacy policy', 'easyReservations' ),
-			'reservations_terms_page_id' => __( 'Terms and conditions', 'easyReservations' ),
-		);
+		if ( current_user_can( 'manage_privacy_options' ) ) {
+			$choose_pages = array(
+				'wp_page_for_privacy_policy' => __( 'Privacy policy', 'easyReservations' ),
+				'reservations_terms_page_id'  => __( 'Terms and conditions', 'easyReservations' ),
+			);
+		} else {
+			$choose_pages = array(
+				'reservations_terms_page_id' => __( 'Terms and conditions', 'easyReservations' ),
+			);
+		}
 
 		$pages        = get_pages( array(
 			'post_type'   => 'page',

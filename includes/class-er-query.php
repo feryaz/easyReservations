@@ -42,7 +42,7 @@ class ER_Query {
 			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
 			add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
 			add_filter( 'get_pagenum_link', array( $this, 'remove_add_to_cart_pagination' ), 10, 1 );
-			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'check_for_er_endpoint_url' ) );
+			add_filter( 'easyreservations_account_endpoint_page_not_found', array( $this, 'check_for_er_endpoint_url' ) );
 		}
 		$this->init_query_vars();
 	}

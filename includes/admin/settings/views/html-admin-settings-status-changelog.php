@@ -12,7 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     <tbody>
     <tr>
         <td style="width:100%;line-height: 22px" align="left">
-			<?php include( RESERVATIONS_ABSPATH . 'changelog.html' ); ?>
+			<?php
+                $readme  = file_get_contents( RESERVATIONS_ABSPATH . 'readme.txt' );
+                $explode_changelog = explode( '== Changelog ==', $readme );
+                $explode_upgrade = explode( '== Upgrade Notice ==', $explode_changelog[1] );
+
+                echo nl2br( substr( $explode_upgrade[0], 2 ) );
+			?>
         </td>
     </tr>
     </tbody>

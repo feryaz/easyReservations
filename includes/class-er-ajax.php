@@ -722,7 +722,7 @@ class ER_AJAX {
 		$order = er_get_order( absint( $_GET['order_id'] ) ); // WPCS: sanitization ok.
 
 		if ( $order ) {
-			include_once 'admin/list-tables/class-er-admin-list-table-orders.php';
+			include_once __DIR__ . '/admin/list-tables/class-er-admin-list-table-orders.php';
 
 			wp_send_json_success( ER_Admin_List_Table_Orders::order_preview_get_order_details( $order ) );
 		}
@@ -743,7 +743,7 @@ class ER_AJAX {
 		$reservation = er_get_reservation( absint( $_GET['reservation_id'] ) ); // WPCS: sanitization ok.
 
 		if ( $reservation ) {
-			include_once 'admin/list-tables/class-er-admin-list-table-reservations.php';
+			include_once __DIR__ . '/admin/list-tables/class-er-admin-list-table-reservations.php';
 
 			wp_send_json_success( ER_Admin_List_Table_Reservations::reservation_preview_get_reservation_details( $reservation ) );
 		}
@@ -881,7 +881,7 @@ class ER_AJAX {
 			$object->save();
 
 			ob_start();
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 		} catch ( Exception $e ) {
 			wp_send_json_error( array( 'error' => $e->getMessage() ) );
@@ -933,7 +933,7 @@ class ER_AJAX {
 			$item->save();
 
 			ob_start();
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 		} catch ( Exception $e ) {
 			wp_send_json_error( array( 'error' => $e->getMessage() ) );
@@ -993,7 +993,7 @@ class ER_AJAX {
 
 			ob_start();
 			$object = $order;
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 		} catch ( Exception $e ) {
 			wp_send_json_error( array( 'error' => $e->getMessage() ) );
@@ -1037,7 +1037,7 @@ class ER_AJAX {
 
 			ob_start();
 			$object = $order;
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 		} catch ( Exception $e ) {
 			wp_send_json_error( array( 'error' => $e->getMessage() ) );
@@ -1110,14 +1110,14 @@ class ER_AJAX {
 
 			// Get HTML to return.
 			ob_start();
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 			$notes_html       = '';
 
 			if ( $object_type === 'order' ) {
 				ob_start();
 				$notes = er_get_order_notes( array( 'order_id' => $object_id ) );
-				include 'admin/meta-boxes/views/html-order-notes.php';
+				include __DIR__ . '/admin/meta-boxes/views/html-order-notes.php';
 				$response['notes_html'] = ob_get_clean();
 			}
 		} catch ( Exception $e ) {
@@ -1182,14 +1182,14 @@ class ER_AJAX {
 
 			// Get HTML to return.
 			ob_start();
-			include 'admin/meta-boxes/views/html-custom-data.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-custom-data.php';
 			$items_html = ob_get_clean();
 			$notes_html = '';
 
 			if ( $object_type === 'order' ) {
 				ob_start();
 				$notes = er_get_order_notes( array( 'order_id' => $object_id ) );
-				include 'admin/meta-boxes/views/html-order-notes.php';
+				include __DIR__ . '/admin/meta-boxes/views/html-order-notes.php';
 				$notes_html = ob_get_clean();
 			}
 
@@ -1249,7 +1249,7 @@ class ER_AJAX {
 			$object->save();
 
 			ob_start();
-			include 'admin/meta-boxes/views/html-receipt-items.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 			$response['html'] = ob_get_clean();
 		} catch ( Exception $e ) {
 			wp_send_json_error( array( 'error' => $e->getMessage() ) );
@@ -1311,7 +1311,7 @@ class ER_AJAX {
 			$object = er_get_reservation( $object_id );
 		}
 
-		include 'admin/meta-boxes/views/html-receipt-items.php';
+		include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 		wp_die();
 	}
 
@@ -1352,7 +1352,7 @@ class ER_AJAX {
 		$object->calculate_totals( false );
 		$object->save();
 
-		include 'admin/meta-boxes/views/html-receipt-items.php';
+		include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 		wp_die();
 	}
 
@@ -1386,14 +1386,14 @@ class ER_AJAX {
 
 		// Get HTML to return.
 		ob_start();
-		include 'admin/meta-boxes/views/html-receipt-items.php';
+		include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 		$items_html = ob_get_clean();
 		$notes_html = '';
 
 		if ( $object_type === 'order' ) {
 			ob_start();
 			$notes = er_get_order_notes( array( 'order_id' => $object_id ) );
-			include 'admin/meta-boxes/views/html-order-notes.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-order-notes.php';
 			$notes_html = ob_get_clean();
 		}
 
@@ -1458,7 +1458,7 @@ class ER_AJAX {
 			} else {
 				ob_start();
 				$object = $order;
-				include 'admin/meta-boxes/views/html-receipt-items.php';
+				include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 				$response['html'] = ob_get_clean();
 			}
 		} catch ( Exception $e ) {
@@ -1566,7 +1566,7 @@ class ER_AJAX {
 
 				// Get HTML to return.
 				ob_start();
-				include 'admin/meta-boxes/views/html-receipt-items.php';
+				include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 				$items_html = ob_get_clean();
 			}
 
@@ -1575,7 +1575,7 @@ class ER_AJAX {
 			}
 
 			ob_start();
-			include 'admin/meta-boxes/views/html-custom-data.php';
+			include __DIR__ . '/admin/meta-boxes/views/html-custom-data.php';
 			$custom_html = ob_get_clean();
 
 			wp_send_json_success(
@@ -1609,7 +1609,7 @@ class ER_AJAX {
 		} else {
 			$object = er_get_reservation( $object_id );
 		}
-		include 'admin/meta-boxes/views/html-receipt-items.php';
+		include __DIR__ . '/admin/meta-boxes/views/html-receipt-items.php';
 		wp_die();
 	}
 

@@ -322,9 +322,9 @@ abstract class ER_Widget extends WP_Widget {
 		} elseif ( is_easyreservations_shop() ) {
 			$link = get_permalink( er_get_page_id( 'shop' ) );
 		} elseif ( is_easyreservations_resource_category() ) {
-			$link = get_term_link( get_query_var( 'product_cat' ), 'product_cat' );
+			$link = get_term_link( get_query_var( 'resource_cat' ), 'resource_cat' );
 		} elseif ( is_easyreservations_resource_tag() ) {
-			$link = get_term_link( get_query_var( 'product_tag' ), 'product_tag' );
+			$link = get_term_link( get_query_var( 'resource_tag' ), 'resource_tag' );
 		} else {
 			$queried_object = get_queried_object();
 			$link           = get_term_link( $queried_object->slug, $queried_object->taxonomy );

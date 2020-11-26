@@ -18,6 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		case 'logs':
 			include 'html-admin-settings-status-logs.php';
 			break;
+		case 'tools':
+            $tools = $this->get_tools();
+			include 'html-admin-settings-status-tools.php';
+			break;
 		default:
 			if ( array_key_exists( $current_section, $sections ) && has_action( 'easyreservations_admin_status_content_' . $current_section ) ) {
 				do_action( 'easyreservations_admin_status_content_' . $current_section );

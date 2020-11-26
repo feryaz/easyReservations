@@ -81,13 +81,15 @@ class ER_Install {
 
 			ER()->define_tables();
 			self::create_tables();
+			self::verify_base_tables();
 			self::create_options();
 			self::create_roles();
 			self::setup_environment();
 			self::create_terms();
 			self::create_cron_jobs();
 			self::create_files();
-			self::create_pages();
+			self::maybe_create_pages();
+			self::maybe_set_activation_transients();
 			self::update_er_version();
 			self::maybe_update_db_version();
 
@@ -106,6 +108,43 @@ class ER_Install {
 		delete_transient( 'er_' . $plugin . '_installing' );
 	}
 
+	/**
+	 * Check if all the base tables are present.
+	 *
+	 * @param bool $modify_notice Whether to modify notice based on if all tables are present.
+	 * @param bool $execute Whether to execute get_schema queries as well.
+	 *
+	 * @return array List of querues.
+	 */
+	public static function verify_base_tables( $modify_notice = true, $execute = false ) {
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		if ( $execute ) {
+			self::create_tables();
+		}
+		$queries        = dbDelta( self::get_schema(), false );
+		$missing_tables = array();
+		foreach ( $queries as $table_name => $result ) {
+			if ( "Created table $table_name" === $result ) {
+				$missing_tables[] = $table_name;
+			}
+		}
+
+		if ( 0 < count( $missing_tables ) ) {
+			if ( $modify_notice ) {
+				ER_Admin_Notices::add_notice( 'base_tables_missing' );
+			}
+			update_option( 'reservations_schema_missing_tables', $missing_tables );
+		} else {
+			if ( $modify_notice ) {
+				ER_Admin_Notices::remove_notice( 'base_tables_missing' );
+			}
+			update_option( 'reservations_schema_version', ER()->db_version );
+			delete_option( 'reservations_schema_missing_tables' );
+		}
+
+		return $missing_tables;
+	}
 	/**
 	 * Is this a brand new ER install?
 	 *
@@ -142,6 +181,14 @@ class ER_Install {
 	}
 
 	/**
+	 * See if we need to set redirect transients for activation or not.
+	 */
+	private static function maybe_set_activation_transients() {
+		if ( self::is_new_install() ) {
+			set_transient( '_er_activation_redirect', 1, 30 );
+		}
+	}
+	/**
 	 * See if we need to show or run database updates during install.
 	 *
 	 * @param string $plugin Plugin to install
@@ -164,8 +211,7 @@ class ER_Install {
 	 * Update ER version to current.
 	 */
 	private static function update_er_version() {
-		delete_option( 'reservations_version' );
-		add_option( 'reservations_version', ER()->version );
+		update_option( 'reservations_version', ER()->version );
 	}
 
 	/**
@@ -174,8 +220,7 @@ class ER_Install {
 	 * @param string|null $version New easyReservations DB version or null.
 	 */
 	public static function update_db_version( $version = null ) {
-		delete_option( 'reservations_db_version' );
-		add_option( 'reservations_db_version', is_null( $version ) ? ER()->version : $version );
+		update_option( 'reservations_db_version', is_null( $version ) ? ER()->version : $version );
 	}
 
 	/**
@@ -292,6 +337,15 @@ class ER_Install {
 		wp_schedule_event( time() + ( 3 * HOUR_IN_SECONDS ), 'daily', 'easyreservations_cleanup_logs' );
 		wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'easyreservations_cleanup_sessions' );
 		wp_schedule_event( time() + 10, apply_filters( 'easyreservations_tracker_event_recurrence', 'daily' ), 'easyreservations_tracker_send_event' );
+	}
+
+	/**
+	 * Create pages on installation.
+	 */
+	public static function maybe_create_pages() {
+		if ( empty( get_option( 'reservations_db_version' ) ) ) {
+			self::create_pages();
+		}
 	}
 
 	/**
@@ -490,7 +544,7 @@ class ER_Install {
 	 *
 	 * @return array
 	 */
-	private static function get_core_capabilities() {
+	public static function get_core_capabilities() {
 		$capabilities = array(
 			'core' => array(
 				'manage_easyreservations',
@@ -574,6 +628,9 @@ class ER_Install {
 
 	/**
 	 * Set up the database tables which the plugin needs to function.
+	 * WARNING: If you are modifying this method, make sure that its safe to call regardless of the state of database.
+	 *
+	 * This is called from `install` method and is executed in-sync when ER is installed or updated. This can also be called optionally from `verify_base_tables`.
 	 *
 	 * Tables:
 	 *      receipt_items - Receipt line items are stored in a table to make them easily queryable for reports
@@ -636,7 +693,7 @@ class ER_Install {
 		$max_index_length = 191;
 
 		$tables = "
-CREATE TABLE IF NOT EXISTS {$wpdb->prefix}reservations (
+CREATE TABLE {$wpdb->prefix}reservations (
     id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     order_id bigint(20) unsigned NOT NULL,
     arrival DATETIME NOT NULL,

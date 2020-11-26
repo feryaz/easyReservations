@@ -633,7 +633,7 @@
   text-decoration: none;
 }
 .easyreservations form .show-password-input.display-password::after {
-  color: #e8e8e8;
+  color: #585858;
 }
 .easyreservations ul.order_details {
   *zoom: 1;
@@ -841,7 +841,7 @@
 }
 .easyreservations div.resource div.summary {
   float: right;
-  width: 48%;
+  width: 50%;
   margin-bottom: 2em;
   clear: none;
 }

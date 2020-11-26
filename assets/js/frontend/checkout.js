@@ -303,7 +303,7 @@
 							$( document.body ).trigger( 'update_checkout', {} );
 						}
 					},
-					dataType: 'html'
+					dataType: 'html',
 				} );
 
 				return false;
@@ -318,19 +318,22 @@
 					message: null,
 					overlayCSS: {
 						background: '#fff',
-						opacity: 0.6
-					}
+						opacity: 0.6,
+					},
 				} );
 
 				var data = {
 					security: er_checkout_params.remove_coupon_nonce,
-					coupon: coupon
+					coupon: coupon,
 				};
 
 				$.ajax( {
 					type: 'POST',
 					url: er_checkout_params.er_ajax_url.toString().replace( '%%endpoint%%', 'remove_coupon' ),
-					data: data,
+					data: {
+						security: er_checkout_params.remove_coupon_nonce,
+						coupon: coupon,
+					},
 					success: function( code ) {
 						$( '.easyreservations-error, .easyreservations-message' ).remove();
 						container.removeClass( 'processing' ).unblock();
@@ -338,6 +341,7 @@
 						if ( code ) {
 							$( 'form.easyreservations-checkout' ).before( code );
 
+							$( document.body ).trigger( 'removed_coupon_in_checkout', [ data.coupon ] );
 							$( document.body ).trigger( 'update_checkout', {} );
 
 							// Remove coupon code from coupon field
@@ -350,7 +354,7 @@
 							console.log( jqXHR.responseText );
 						}
 					},
-					dataType: 'html'
+					dataType: 'html',
 				} );
 			}
 		};

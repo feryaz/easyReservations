@@ -411,7 +411,7 @@ function er_get_price_including_tax( $resource, $price ) {
 			$taxes_total = array_sum( array_map( 'er_round_tax_total', $taxes ) );
 		}
 
-		$return_price = round( $price + $taxes_total, er_get_price_decimals() );
+		$return_price = ER_Number_Util::round( $price + $taxes_total, er_get_price_decimals() );
 	}
 
 	return apply_filters( 'easyreservations_get_price_including_tax', $return_price, $resource );

@@ -145,9 +145,11 @@ class ER_Countries {
 	/**
 	 * Gets an array of countries in the EU.
 	 *
+	 * @param string $type Type of countries to retrieve. Blank for EU member countries. eu_vat for EU VAT countries.
+	 *
 	 * @return string[]
 	 */
-	public function get_european_union_countries() {
+	public function get_european_union_countries( $type = '' ) {
 		$countries = array(
 			'AT',
 			'BE',
@@ -177,6 +179,13 @@ class ER_Countries {
 			'SI',
 			'SK'
 		);
+
+		if ( 'eu_vat' === $type ) {
+			$countries[] = 'MC';
+			$countries[] = 'IM';
+			// The UK is still part of the EU VAT zone.
+			$countries[] = 'GB';
+		}
 
 		return apply_filters( 'easyreservations_european_union_countries', $countries );
 	}
@@ -300,7 +309,7 @@ class ER_Countries {
 							echo ' selected="selected"';
 						}
 
-						echo '>' . esc_html( $value ) . ' &mdash; ' . ( $escape ? esc_js( $state_value ) : $state_value ) . '</option>'; // WPCS: XSS ok.
+						echo '>' . esc_html( $value ) . ' &mdash; ' . ( $escape ? esc_html( $state_value ) : $state_value ) . '</option>'; // WPCS: XSS ok.
 					}
 					echo '</optgroup>';
 				} else {
@@ -308,7 +317,7 @@ class ER_Countries {
 					if ( $selected_country === $key && '*' === $selected_state ) {
 						echo ' selected="selected"';
 					}
-					echo ' value="' . esc_attr( $key ) . '">' . ( $escape ? esc_js( $value ) : $value ) . '</option>'; // WPCS: XSS ok.
+					echo ' value="' . esc_attr( $key ) . '">' . ( $escape ? esc_html( $value ) : $value ) . '</option>'; // WPCS: XSS ok.
 				}
 			}
 		}
@@ -341,7 +350,7 @@ class ER_Countries {
 					'DK'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'FR'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city_upper}\n{country}",
 					'HK'      => "{company}\n{first_name} {last_name_upper}\n{address_1}\n{address_2}\n{city_upper}\n{state_upper}\n{country}",
-					'HU'      => "{name}\n{company}\n{city}\n{address_1}\n{address_2}\n{postcode}\n{country}",
+					'HU'      => "{last_name} {first_name}\n{company}\n{city}\n{address_1}\n{address_2}\n{postcode}\n{country}",
 					'IN'      => "{company}\n{name}\n{address_1}\n{address_2}\n{city} {postcode}\n{state}, {country}",
 					'IS'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'IT'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode}\n{city}\n{state_upper}\n{country}",
@@ -352,6 +361,7 @@ class ER_Countries {
 					'NZ'      => "{name}\n{company}\n{address_1}\n{address_2}\n{city} {postcode}\n{country}",
 					'NO'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'PL'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
+					'PR'      => "{company}\n{name}\n{address_1} {address_2}\n{state} \n{country} {postcode}",
 					'PT'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'SK'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'RS'      => "{name}\n{company}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
@@ -497,9 +507,9 @@ class ER_Countries {
 	 */
 	public function get_default_address_fields() {
 		if ( 'optional' === get_option( 'reservations_checkout_address_2_field', 'optional' ) ) {
-			$address_2_placeholder = __( 'Apartment, suite, unit etc. (optional)', 'easyReservations' );
+			$address_2_placeholder = __( 'Apartment, suite, unit, etc. (optional)', 'easyReservations' );
 		} else {
-			$address_2_placeholder = __( 'Apartment, suite, unit etc.', 'easyReservations' );
+			$address_2_placeholder = __( 'Apartment, suite, unit, etc.', 'easyReservations' );
 		}
 
 		$fields = array(
@@ -651,6 +661,16 @@ class ER_Countries {
 							'required' => false,
 						),
 					),
+					'BA' => array(
+						'postcode' => array(
+							'priority' => 65,
+						),
+						'state'    => array(
+							'label'    => __( 'Canton', 'easyReservations' ),
+							'required' => false,
+							'hidden'   => true,
+						),
+					),
 					'BD' => array(
 						'postcode' => array(
 							'required' => false,
@@ -742,6 +762,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
+							'hidden' => true,
 						),
 					),
 					'DK' => array(
@@ -750,6 +771,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
+							'hidden' => true,
 						),
 					),
 					'EE' => array(
@@ -774,6 +796,14 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
+						),
+					),
+					'GH' => array(
+						'postcode' => array(
+							'required' => false,
+						),
+						'state'    => array(
+							'label' => __( 'Region', 'easyReservations' ),
 						),
 					),
 					'GP' => array(
@@ -803,6 +833,27 @@ class ER_Countries {
 						),
 					),
 					'HU' => array(
+						'last_name'  => array(
+							'class'    => array( 'form-row-first' ),
+							'priority' => 10,
+						),
+						'first_name' => array(
+							'class'    => array( 'form-row-last' ),
+							'priority' => 20,
+						),
+						'postcode'   => array(
+							'class'    => array( 'form-row-first', 'address-field' ),
+							'priority' => 65,
+						),
+						'city'       => array(
+							'class' => array( 'form-row-last', 'address-field' ),
+						),
+						'address_1'  => array(
+							'priority' => 71,
+						),
+						'address_2'  => array(
+							'priority' => 72,
+						),
 						'state' => array(
 							'label' => __( 'County', 'easyReservations' ),
 						),
@@ -842,6 +893,14 @@ class ER_Countries {
 							'required' => false,
 						),
 					),
+					'IN' => array(
+						'postcode' => array(
+							'label' => __( 'Pin code', 'easyReservations' ),
+						),
+						'state'    => array(
+							'label' => __( 'State', 'easyReservations' ),
+						),
+					),
 					'IT' => array(
 						'postcode' => array(
 							'priority' => 65,
@@ -861,12 +920,12 @@ class ER_Countries {
 							'priority' => 20,
 						),
 						'postcode'   => array(
-							'class'    => array( 'form-row-first' ),
+							'class'    => array( 'form-row-first', 'address-field' ),
 							'priority' => 65,
 						),
 						'state'      => array(
 							'label'    => __( 'Prefecture', 'easyReservations' ),
-							'class'    => array( 'form-row-last' ),
+							'class'    => array( 'form-row-last', 'address-field' ),
 							'priority' => 66,
 						),
 						'city'       => array(
@@ -971,6 +1030,15 @@ class ER_Countries {
 							'required' => false,
 						),
 					),
+					'PR' => array(
+						'city'  => array(
+							'required' => false,
+							'hidden'   => true,
+						),
+						'state' => array(
+							'label' => __( 'Municipality', 'easyReservations' ),
+						),
+					),
 					'PT' => array(
 						'state' => array(
 							'required' => false,
@@ -988,9 +1056,15 @@ class ER_Countries {
 						),
 					),
 					'RS' => array(
-						'state' => array(
+						'city'     => array(
 							'required' => false,
-							'hidden'   => true,
+						),
+						'postcode' => array(
+							'required' => false,
+						),
+						'state'    => array(
+							'label'    => __( 'District', 'easyReservations' ),
+							'required' => false,
 						),
 					),
 					'SG' => array(
@@ -1061,6 +1135,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
+							'hidden' => true,
 						),
 					),
 					'TR' => array(

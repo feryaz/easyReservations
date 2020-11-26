@@ -210,6 +210,7 @@ class ER_Email extends ER_Settings_API {
 		$this->placeholders = array_merge(
 			array(
 				'{site_title}'   => $this->get_blogname(),
+				'{site_url}' => wp_parse_url( home_url(), PHP_URL_HOST ),
 				'{site_address}' => wp_parse_url( home_url(), PHP_URL_HOST ),
 			),
 			$this->placeholders
@@ -532,10 +533,15 @@ class ER_Email extends ER_Settings_API {
 			if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
 				try {
 					$emogrifier = new $emogrifier_class( $content, $css );
+
+					do_action( 'easyreservations_emogrifier', $emogrifier, $this );
+
 					$content    = $emogrifier->emogrify();
+					$html_prune = \Pelago\Emogrifier\HtmlProcessor\HtmlPruner::fromHtml( $content );
+					$html_prune->removeElementsWithDisplayNone();
+					$content = $html_prune->render();				} catch ( Exception $e ) {
 				} catch ( Exception $e ) {
-					$logger = er_get_logger();
-					$logger->error( $e->getMessage(), array( 'source' => 'emogrifier' ) );
+					er_get_logger()->error( $e->getMessage(), array( 'source' => 'emogrifier' ) );
 				}
 			} else {
 				$content = '<style type="text/css">' . $css . '</style>' . $content;

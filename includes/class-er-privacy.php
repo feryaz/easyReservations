@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'ER_Privacy_Background_Process', false ) ) {
-	include_once dirname( __FILE__ ) . '/class-er-privacy-background-process.php';
+	include_once __DIR__ . '/class-er-privacy-background-process.php';
 }
 
 /**
@@ -34,8 +34,8 @@ class ER_Privacy extends ER_Abstract_Privacy {
 		}
 
 		// Include supporting classes.
-		include_once 'class-er-privacy-erasers.php';
-		include_once 'class-er-privacy-exporters.php';
+		include_once __DIR__ . '/class-er-privacy-erasers.php';
+		include_once __DIR__ . '/class-er-privacy-exporters.php';
 
 		// This hook registers easyReservations data exporters.
 		$this->add_exporter( 'easyreservations-customer-data', __( 'easyReservations Customer Data', 'easyReservations' ), array( 'ER_Privacy_Exporters', 'customer_data_exporter' ) );
@@ -61,12 +61,10 @@ class ER_Privacy extends ER_Abstract_Privacy {
 	 * Add privacy policy content for the privacy policy page.
 	 */
 	public function get_privacy_message() {
-		$content = '
-			<div contenteditable="false">' .
-				'<p class="wp-policy-help">' .
-					__( 'This sample language includes the basics around what personal data your store may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'easyReservations' ) .
-				'</p>' .
-			'</div>' .
+		$content = '<div class="wp-suggested-text">' .
+           '<p class="privacy-policy-tutorial">' .
+				__( 'This sample language includes the basics around what personal data your store may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional plugins are used, the specific information shared by your store will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'easyReservations' ) .
+			'</p>' .
 			'<p>' . __( 'We collect information about you during the checkout process on our store.', 'easyReservations' ) . '</p>' .
 			'<h2>' . __( 'What we collect and store', 'easyReservations' ) . '</h2>' .
 			'<p>' . __( 'While you visit our site, we’ll track:', 'easyReservations' ) . '</p>' .
@@ -76,11 +74,11 @@ class ER_Privacy extends ER_Abstract_Privacy {
 				'<li>' . __( 'Shipping address: we’ll ask you to enter this so we can, for instance, estimate shipping before you place an order, and send you the order!', 'easyReservations' ) . '</li>' .
 			'</ul>' .
 			'<p>' . __( 'We’ll also use cookies to keep track of cart contents while you’re browsing our site.', 'easyReservations' ) . '</p>' .
-			'<div contenteditable="false">' .
+			'<p class="privacy-policy-tutorial">' .
 				'<p class="wp-policy-help">' . __( 'Note: you may want to further detail your cookie policy, and link to that section from here.', 'easyReservations' ) . '</p>' .
-			'</div>' .
-			'<p>' . __( 'When you purchase from us, we’ll ask you to provide information including your name, billing address, shipping address, email address, phone number, credit card/payment details and optional account information like username and password. We’ll use this information for purposes, such as, to:', 'easyReservations' ) . '</p>' .
-			'<ul>' .
+            '</p>' .
+		           '<p>' . __( 'When you purchase from us, we’ll ask you to provide information including your name, billing address, shipping address, email address, phone number, credit card/payment details and optional account information like username and password. We’ll use this information for purposes, such as, to:', 'easyReservations' ) . '</p>' .
+           '<ul>' .
 				'<li>' . __( 'Send you information about your account and order', 'easyReservations' ) . '</li>' .
 				'<li>' . __( 'Respond to your requests, including refunds and complaints', 'easyReservations' ) . '</li>' .
 				'<li>' . __( 'Process payments and prevent fraud', 'easyReservations' ) . '</li>' .
@@ -100,16 +98,17 @@ class ER_Privacy extends ER_Abstract_Privacy {
 			'</ul>' .
 			'<p>' . __( 'Our team members have access to this information to help fulfill orders, process refunds and support you.', 'easyReservations' ) . '</p>' .
 			'<h2>' . __( 'What we share with others', 'easyReservations' ) . '</h2>' .
-			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'In this section you should list who you’re sharing data with, and for what purpose. This could include, but may not be limited to, analytics, marketing, payment gateways, shipping providers, and third party embeds.', 'easyReservations' ) . '</p>' .
-			'</div>' .
+           '<p class="privacy-policy-tutorial">' .
+				__( 'In this section you should list who you’re sharing data with, and for what purpose. This could include, but may not be limited to, analytics, marketing, payment gateways, shipping providers, and third party embeds.', 'easyReservations' ) .
+           '</p>' .
 			'<p>' . __( 'We share information with third parties who help us provide our orders and store services to you; for example --', 'easyReservations' ) . '</p>' .
 			'<h3>' . __( 'Payments', 'easyReservations' ) . '</h3>' .
-			'<div contenteditable="false">' .
+           '<p class="privacy-policy-tutorial">' .
 				'<p class="wp-policy-help">' . __( 'In this subsection you should list which third party payment processors you’re using to take payments on your store since these may handle customer data. We’ve included PayPal as an example, but you should remove this if you’re not using PayPal.', 'easyReservations' ) . '</p>' .
-			'</div>' .
+           '</p>' .
 			'<p>' . __( 'We accept payments through PayPal. When processing payments, some of your data will be passed to PayPal, including information required to process or support the payment, such as the purchase total and billing information.', 'easyReservations' ) . '</p>' .
-			'<p>' . __( 'Please see the <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">PayPal Privacy Policy</a> for more details.', 'easyReservations' ) . '</p>';
+			'<p>' . __( 'Please see the <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full">PayPal Privacy Policy</a> for more details.', 'easyReservations' ) . '</p>' .
+			'</div>';
 
 		return apply_filters( 'easyreservations_privacy_policy_content', $content );
 	}

@@ -43,16 +43,18 @@ class ER_Site_Tracking {
 	}
 
 	/**
+	 * Register scripts required to record events from javascript.
+	 */
+	public static function register_scripts() {
+		wp_register_script( 'easy-tracks', 'https://stats.wp.com/w.js', array( 'wp-hooks' ), gmdate( 'YW' ), false );
+	}
+
+	/**
 	 * Add scripts required to record events from javascript.
 	 */
 	public static function enqueue_scripts() {
-
 		// Add w.js to the page.
-		wp_enqueue_script( 'easy-tracks', 'https://stats.wp.com/w.js', array(), gmdate( 'YW' ), true );
-
-		// Expose tracking via a function in the erTracks global namespace directly before er_print_js.
-		add_filter( 'admin_footer', array( __CLASS__, 'add_tracking_function' ), 24 );
-
+		wp_enqueue_script( 'easy-tracks' );
 	}
 
 	/**
@@ -63,11 +65,17 @@ class ER_Site_Tracking {
 		<!-- easyReservations Tracks -->
 		<script type="text/javascript">
 			window.erTracks = window.erTracks || {};
+			window.erTracks.isEnabled = <?php echo self::is_tracking_enabled() ? 'true' : 'false'; ?>;
 			window.erTracks.recordEvent = function( name, properties ) {
 				var eventName = '<?php echo esc_attr( ER_Tracks::PREFIX ); ?>' + name;
 				var eventProperties = properties || {};
-				eventProperties.url = '<?php echo esc_html( home_url() ); ?>'
+				eventProperties.url = '<?php echo esc_html( home_url() ); ?>';
 				eventProperties.products_count = '<?php echo intval( ER_Tracks::get_products_count() ); ?>';
+				if ( window.wp && window.wp.hooks && window.wp.hooks.applyFilters ) {
+					eventProperties = window.wp.hooks.applyFilters( 'easyreservations_tracks_client_event_properties', eventProperties, eventName );
+					delete ( eventProperties._ui );
+					delete ( eventProperties._ut );
+				}
 				window._tkq = window._tkq || [];
 				window._tkq.push( [ 'recordEvent', eventName, eventProperties ] );
 			}
@@ -76,15 +84,48 @@ class ER_Site_Tracking {
 	}
 
 	/**
-	 * Add empty tracking function to admin footer when tracking is disabled in case
-	 * it's called without checking if it's defined beforehand.
+	 * Adds a function to load tracking scripts and enable them client-side on the fly.
+	 * Note that this function does not update `woocommerce_allow_tracking` in the database
+	 * and will not persist enabled tracking across page loads.
 	 */
-	public static function add_empty_tracking_function() {
+	public static function add_enable_tracking_function() {
+		global $wp_scripts;
+
+		if ( ! isset( $wp_scripts->registered['er-tracks'] ) ) {
+			return;
+		}
+
+		$er_tracks_script = $wp_scripts->registered['er-tracks']->src;
+
 		?>
 		<script type="text/javascript">
-			window.erTracks = window.erTracks || {};
-			window.erTracks.recordEvent = function() {};
-		</script>
+			window.erTracks.enable = function( callback = null ) {
+				window.erTracks.isEnabled = true;
+
+				var scriptUrl = '<?php echo esc_url( $er_tracks_script ); ?>';
+				var existingScript = document.querySelector( `script[src="${scriptUrl}"]` );
+				if ( existingScript ) {
+					return;
+				}
+
+				var script = document.createElement( 'script' );
+				script.src = scriptUrl;
+				document.body.append( script );
+
+				// Callback after scripts have loaded.
+				script.onload = function() {
+					if ( 'function' === typeof callback ) {
+						callback( true );
+					}
+				}
+
+				// Callback triggered if the script fails to load.
+				script.onerror = function() {
+					if ( 'function' === typeof callback ) {
+						callback( false );
+					}
+				}
+			}		</script>
 		<?php
 	}
 
@@ -93,24 +134,27 @@ class ER_Site_Tracking {
 	 */
 	public static function init() {
 
-		if ( ! self::is_tracking_enabled() ) {
+		// Define window.wcTracks.recordEvent in case it is enabled client-side.
+		self::register_scripts();
+		add_filter( 'admin_footer', array( __CLASS__, 'add_tracking_function' ), 24 );
 
-			// Define window.erTracks.recordEvent in case there is an attempt to use it when tracking is turned off.
-			add_filter( 'admin_footer', array( __CLASS__, 'add_empty_tracking_function' ), 24 );
+		if ( ! self::is_tracking_enabled() ) {
+			add_filter( 'admin_footer', array( __CLASS__, 'add_enable_tracking_function' ), 24 );
 
 			return;
 		}
 
 		self::enqueue_scripts();
 
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-admin-setup-wizard-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-extensions-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-importer-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-products-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-orders-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-settings-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-status-tracking.php';
-		include_once ER_ABSPATH . 'includes/tracks/events/class-er-coupons-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-admin-setup-wizard-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-extensions-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-importer-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-products-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-orders-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-order-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-settings-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-status-tracking.php';
+		include_once RESERVATIONS_ABSPATH . 'includes/tracks/events/class-er-coupons-tracking.php';
 
 		$tracking_classes = array(
 			'ER_Admin_Setup_Wizard_Tracking',
@@ -118,6 +162,7 @@ class ER_Site_Tracking {
 			'ER_Importer_Tracking',
 			'ER_Products_Tracking',
 			'ER_Orders_Tracking',
+			'ER_Order_Tracking',
 			'ER_Settings_Tracking',
 			'ER_Status_Tracking',
 			'ER_Coupons_Tracking',

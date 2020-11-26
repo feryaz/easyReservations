@@ -70,7 +70,7 @@ function er_create_new_customer( $email, $username = '', $password = '', $args =
 	}
 
 	if ( email_exists( $email ) ) {
-		return new WP_Error( 'registration-error-email-exists', apply_filters( 'easyreservations_registration_error_email_exists', __( 'An account is already registered with your email address. Please log in.', 'easyReservations' ), $email ) );
+		return new WP_Error( 'registration-error-email-exists', apply_filters( 'easyreservations_registration_error_email_exists', __( 'An account is already registered with your email address. <a href="#" class="showlogin">Please log in</a>.', 'easyReservations' ), $email ) );
 	}
 
 	if ( 'yes' === get_option( 'reservations_registration_generate_username', 'yes' ) && empty( $username ) ) {
@@ -347,4 +347,15 @@ add_action( 'update_user_meta', 'er_meta_update_last_update_time', 10, 4 );
  */
 function er_set_user_last_update_time( $user_id ) {
 	update_user_meta( $user_id, 'er_last_update', gmdate( 'U' ) );
+}
+
+/**
+ * Get customer saved payment methods list.
+ *
+ * @param int $customer_id Customer ID.
+ *
+ * @return array
+ */
+function er_get_customer_saved_methods_list( $customer_id ) {
+	return apply_filters( 'easyreservations_saved_payment_methods_list', array(), $customer_id );
 }

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'ER_Admin_List_Table', false ) ) {
-	include_once 'abstract-class-er-admin-list-table.php';
+	include_once __DIR__ . '/abstract-class-er-admin-list-table.php';
 }
 
 /**

@@ -28,7 +28,7 @@ class ER_Meta_Box_Order_Notes {
 
 		$notes = er_get_order_notes( $args );
 
-		include 'views/html-order-notes.php';
+		include __DIR__ . '/views/html-order-notes.php';
 		?>
         <div class="add_note">
             <p>

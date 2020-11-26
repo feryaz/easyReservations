@@ -212,6 +212,7 @@ jQuery( function( $ ) {
 			};
 
 			$.post( easyreservations_admin_meta_boxes.ajax_url, data, function( response ) {
+				$( 'ul.order_notes .no-items' ).remove();
 				$( 'ul.order_notes' ).prepend( response );
 				$( '#easyreservations-order-notes' ).unblock();
 				$( '#add_order_note' ).val( '' );

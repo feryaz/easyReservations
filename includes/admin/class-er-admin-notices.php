@@ -39,12 +39,14 @@ class ER_Admin_Notices {
 	 * @var array
 	 */
 	private static $core_notices = array(
-		'install'                 => 'install_notice',
-		'update_reservations'     => 'update_notice',
-		'update_premium'          => 'update_premium_notice',
-		'template_files'          => 'template_file_check_notice',
-		'no_secure_connection'    => 'secure_connection_notice',
-		'wp_php_min_requirements' => 'wp_php_min_requirements_notice',
+		'install'                          => 'install_notice',
+		'update_reservations'              => 'update_notice',
+		'update_premium'                   => 'update_premium_notice',
+		'template_files'                   => 'template_file_check_notice',
+		'no_secure_connection'             => 'secure_connection_notice',
+		'wp_php_min_requirements'          => 'wp_php_min_requirements_notice',
+		'uploads_directory_is_unprotected' => 'uploads_directory_is_unprotected_notice',
+		'base_tables_missing'              => 'base_tables_missing_notice',
 	);
 
 	/**
@@ -111,6 +113,9 @@ class ER_Admin_Notices {
 	public static function reset_admin_notices() {
 		if ( ! self::is_ssl() ) {
 			self::add_notice( 'no_secure_connection' );
+		}
+		if ( ! self::is_uploads_directory_protected() ) {
+			self::add_notice( 'uploads_directory_is_unprotected' );
 		}
 		self::add_notice( 'template_files' );
 		self::add_min_version_notice();
@@ -180,7 +185,7 @@ class ER_Admin_Notices {
 	 */
 	public static function remove_notice( $name, $force_save = false ) {
 		self::$notices = array_diff( self::get_notices(), array( $name ) );
-		delete_option( 'woocommerce_admin_notice_' . $name );
+		delete_option( 'reservations_admin_notice_' . $name );
 
 		if ( $force_save ) {
 			// Adding early save to prevent more race conditions with notices.
@@ -301,7 +306,7 @@ class ER_Admin_Notices {
 		if ( ! empty( $notices ) ) {
 			foreach ( $notices as $message ) {
 				if ( empty( $type ) || $type == 'all' || $type == $message['type'] ) {
-					echo '<div class="easy-message ' . esc_attr( $message['type'] ) . ' below-h2"><p>' . wp_kses_post( $message['message'] ) . '</p></div>';
+					echo '<div class="easy-message ' . esc_attr( $message['type'] ) . ' inline"><p>' . wp_kses_post( $message['message'] ) . '</p></div>';
 				}
 			}
 		}
@@ -450,6 +455,35 @@ class ER_Admin_Notices {
 	}
 
 	/**
+	 * Notice about uploads directory begin unprotected.
+	 *
+	 */
+	public static function uploads_directory_is_unprotected_notice() {
+		if ( get_user_meta( get_current_user_id(), 'dismissed_uploads_directory_is_unprotected_notice', true ) || self::is_uploads_directory_protected() ) {
+			self::remove_notice( 'uploads_directory_is_unprotected' );
+
+			return;
+		}
+
+		include dirname( __FILE__ ) . '/views/html-notice-uploads-directory-is-unprotected.php';
+	}
+
+	/**
+	 * Notice about base tables missing.
+	 */
+	public static function base_tables_missing_notice() {
+		$notice_dismissed = apply_filters(
+			'easyreservations_hide_base_tables_missing_nag',
+			get_user_meta( get_current_user_id(), 'dismissed_base_tables_missing_notice', true )
+		);
+		if ( $notice_dismissed ) {
+			self::remove_notice( 'base_tables_missing' );
+		}
+
+		include dirname( __FILE__ ) . '/views/html-notice-base-table-missing.php';
+	}
+
+	/**
 	 * Determine if the store is running SSL.
 	 *
 	 * @return bool Flag SSL enabled.
@@ -473,6 +507,42 @@ class ER_Admin_Notices {
 		}
 
 		return is_plugin_active( $plugin );
+	}
+
+	/**
+	 * Check if uploads directory is protected.
+	 *
+	 * @return bool
+	 * @since 4.2.0
+	 */
+	protected static function is_uploads_directory_protected() {
+		$cache_key = '_easyreservations_upload_directory_status';
+		$status    = get_transient( $cache_key );
+
+		// Check for cache.
+		if ( false !== $status ) {
+			return 'protected' === $status;
+		}
+
+		// Get only data from the uploads directory.
+		$uploads = wp_get_upload_dir();
+
+		// Check for the "uploads/easyreservations_uploads" directory.
+		$response         = wp_safe_remote_get(
+			esc_url_raw( $uploads['baseurl'] . '/easyreservations_uploads/' ),
+			array(
+				'redirection' => 0,
+			)
+		);
+		$response_code    = intval( wp_remote_retrieve_response_code( $response ) );
+		$response_content = wp_remote_retrieve_body( $response );
+
+		// Check if returns 200 with empty content in case can open an index.html file,
+		// and check for non-200 codes in case the directory is protected.
+		$is_protected = ( 200 === $response_code && empty( $response_content ) ) || ( 200 !== $response_code );
+		set_transient( $cache_key, $is_protected ? 'protected' : 'unprotected', 1 * DAY_IN_SECONDS );
+
+		return $is_protected;
 	}
 }
 

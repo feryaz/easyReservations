@@ -36,7 +36,7 @@ class ER_Meta_Box_Receipt_Items {
 
 		$object = $theorder;
 
-		include 'views/html-receipt-items.php';
+		include __DIR__ . '/views/html-receipt-items.php';
 	}
 
 	/**

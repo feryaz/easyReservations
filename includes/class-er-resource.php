@@ -102,7 +102,7 @@ class ER_Resource {
 
 		$quantity = get_post_meta( $this->get_id(), 'roomcount', true );
 		if ( is_array( $quantity ) ) {
-			$this->availability_by = sanitize_key( $quantity[1] );
+			$this->availability_by = sanitize_key( isset( $quantity[1] ) ? $quantity[1] : 'unit' );
 			$quantity              = intval( $quantity[0] );
 		}
 
@@ -830,7 +830,7 @@ class ER_Resource {
 						$reserved = er_get_datetime();
 					}
 
-					$days_between = round( ( $arrival->getTimestamp() - $reserved->getTimestamp() ) / $this->get_billing_interval(), 2 );
+					$days_between = ER_Number_Util::round( ( $arrival->getTimestamp() - $reserved->getTimestamp() ) / $this->get_billing_interval(), 2 );
 					if ( $filter[ $cond_cond ] <= $days_between ) {
 						$discount_add = 1;
 					}

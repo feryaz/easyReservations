@@ -61,7 +61,10 @@ class ER_Order_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implement
 	 * @param ER_Order $order Order object.
 	 */
 	public function create( &$order ) {
-		$order->set_order_key( er_generate_order_key() );
+		if ( '' === $order->get_order_key() ) {
+			$order->set_order_key( er_generate_order_key() );
+		}
+
 		parent::create( $order );
 		do_action( 'easyreservations_new_order', $order->get_id(), $order );
 	}

@@ -119,7 +119,7 @@ class ER_Checkout extends ER_Form {
 			foreach ( $fields as $single_field_type => $field ) {
 				if ( empty( $field['label'] ) && ! empty( $field['placeholder'] ) ) {
 					$this->fields[ $field_type ][ $single_field_type ]['label']       = $field['placeholder'];
-					$this->fields[ $field_type ][ $single_field_type ]['label_class'] = 'screen-reader-text';
+					$this->fields[ $field_type ][ $single_field_type ]['label_class'] = array( 'screen-reader-text' );
 				}
 			}
 		}
@@ -252,6 +252,10 @@ class ER_Checkout extends ER_Form {
 			}
 
 			$order->save();
+			/**
+			 * Action hook fired after an order is created used to add custom meta to the order.
+			 */
+			do_action( 'easyreservations_checkout_update_order_meta', $order_id, $data );
 
 			$order->finalize();
 
@@ -259,6 +263,7 @@ class ER_Checkout extends ER_Form {
 		} catch ( Exception $e ) {
 			if ( $order && $order instanceof ER_Order ) {
 				$order->get_data_store()->release_held_coupons( $order );
+				do_action( 'easyreservations_checkout_order_exception', $order );
 			}
 
 			return new WP_Error( 'checkout-error', $e->getMessage() );
@@ -307,16 +312,12 @@ class ER_Checkout extends ER_Form {
 		$skipped = array();
 		$data    = array(
 			'terms'                                   => (int) isset( $_POST['terms'] ),
-			// WPCS: input var ok, CSRF ok.
-			'createaccount'                           => (int) ! empty( $_POST['createaccount'] ),
-			// WPCS: input var ok, CSRF ok.
+			'createaccount'                           => (int) er_is_registration_enabled() ? ! empty( $_POST['createaccount'] ) : false,
 			'direct_checkout'                         => isset( $_POST['direct_checkout'] ) ? $_POST['direct_checkout'] === "1" : false,
-			// WPCS: input var ok, CSRF ok.
 			'payment_method'                          => isset( $_POST['payment_method'] ) ? er_clean( wp_unslash( $_POST['payment_method'] ) ) : '',
-			// WPCS: input var ok, CSRF ok.
 			'easyreservations_checkout_update_totals' => isset( $_POST['easyreservations_checkout_update_totals'] ),
-			// WPCS: input var ok, CSRF ok.
 		);
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		foreach ( $this->get_checkout_fields() as $fieldset_key => $fieldset ) {
 			if ( $this->maybe_skip_fieldset( $fieldset_key, $data ) ) {
@@ -627,8 +628,9 @@ class ER_Checkout extends ER_Form {
 	 * Process the checkout after the confirm order button is pressed.
 	 *
 	 * @param bool $submit
+	 * @param array $cart_items_added Items that got
 	 */
-	public function process_checkout( $submit = false ) {
+	public function process_checkout( $submit = false, $cart_items_added = array() ) {
 		try {
 			$nonce_value = er_get_var( $_REQUEST['easyreservations-process-checkout-nonce'] ); // @codingStandardsIgnoreLine.
 
@@ -696,9 +698,12 @@ class ER_Checkout extends ER_Form {
 				} else {
 					$this->process_order_without_payment( $order_id );
 				}
+			} else {
+				ER()->cart->remove_cart_items( $cart_items_added );
 			}
 		} catch ( Exception $e ) {
 			er_add_notice( $e->getMessage(), 'error' );
+			ER()->cart->remove_cart_items( $cart_items_added );
 		}
 
 		$this->send_ajax_failure_response();

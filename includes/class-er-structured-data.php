@@ -210,7 +210,7 @@ class ER_Structured_Data {
 
 		if ( '' !== $resource->get_price() ) {
 			// Assume prices will be valid until the end of next year, unless on sale and there is an end date.
-			$price_valid_until = date( 'Y-12-31', time() + YEAR_IN_SECONDS );
+			$price_valid_until = gmdate( 'Y-12-31', time() + YEAR_IN_SECONDS );
 
 			$markup_offer = array(
 				'@type'              => 'Offer',

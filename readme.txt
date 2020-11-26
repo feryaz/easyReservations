@@ -2,8 +2,8 @@
 Contributors: feryaz
 Tags: booking, reservations, hotel, reservation form, calendar, reservation, restaurant, booking form, hospitality, events, tours, availability, bookings, booking calendar, availability calendar
 Requires at least: 5.3
-Tested up to: 5.4
-Requires PHP: 5.6
+Tested up to: 5.5.3
+Requires PHP: 7.0
 Stable tag: 5.0.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -53,6 +53,17 @@ Automatic updates should work smoothly and does not delete any data, but we stil
 If you encounter issues with the catalog/category pages after an update, flush the permalinks by going to WordPress > Settings > Permalinks and hitting “Save.” That should return things to normal.
 
 == Changelog ==
+
+= 6.0-alpha.15 - 2020-11-26 =
+* Feature - Invoices
+* Feature - Debug tools
+* Enhancement - Country specific required checkout data and labels
+* Enhancement - Order of resources if no menu order is defined
+* Enhancement - Template system
+* Fix - Rounding in PHP 8.0
+* Fix - Custom fields added to cart of unsuccessful checkout
+* Fix - Prevent endless loop when [name] is in reservation name
+* Fix - My account
 
 = 6.0-alpha.14 - 2020-10-28 =
 * Enhancement - Display of possible departure dates in calendar

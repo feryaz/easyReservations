@@ -86,17 +86,17 @@ class ER_Emails {
 		// Include email classes.
 		include_once dirname( __FILE__ ) . '/emails/class-er-email.php';
 
-		$this->emails['ER_Email_New_Order']                 = include 'emails/class-er-email-new-order.php';
-		$this->emails['ER_Email_Cancelled_Order']           = include 'emails/class-er-email-cancelled-order.php';
-		$this->emails['ER_Email_Failed_Order']              = include 'emails/class-er-email-failed-order.php';
-		$this->emails['ER_Email_Customer_On_Hold_Order']    = include 'emails/class-er-email-customer-on-hold-order.php';
-		$this->emails['ER_Email_Customer_Processing_Order'] = include 'emails/class-er-email-customer-processing-order.php';
-		$this->emails['ER_Email_Customer_Completed_Order']  = include 'emails/class-er-email-customer-completed-order.php';
-		$this->emails['ER_Email_Customer_Refunded_Order']   = include 'emails/class-er-email-customer-refunded-order.php';
-		$this->emails['ER_Email_Customer_Invoice']          = include 'emails/class-er-email-customer-invoice.php';
-		$this->emails['ER_Email_Customer_Note']             = include 'emails/class-er-email-customer-note.php';
-		$this->emails['ER_Email_Customer_Reset_Password']   = include 'emails/class-er-email-customer-reset-password.php';
-		$this->emails['ER_Email_Customer_New_Account']      = include 'emails/class-er-email-customer-new-account.php';
+		$this->emails['ER_Email_New_Order']                 = include __DIR__ . '/emails/class-er-email-new-order.php';
+		$this->emails['ER_Email_Cancelled_Order']           = include __DIR__ . '/emails/class-er-email-cancelled-order.php';
+		$this->emails['ER_Email_Failed_Order']              = include __DIR__ . '/emails/class-er-email-failed-order.php';
+		$this->emails['ER_Email_Customer_On_Hold_Order']    = include __DIR__ . '/emails/class-er-email-customer-on-hold-order.php';
+		$this->emails['ER_Email_Customer_Processing_Order'] = include __DIR__ . '/emails/class-er-email-customer-processing-order.php';
+		$this->emails['ER_Email_Customer_Completed_Order']  = include __DIR__ . '/emails/class-er-email-customer-completed-order.php';
+		$this->emails['ER_Email_Customer_Refunded_Order']   = include __DIR__ . '/emails/class-er-email-customer-refunded-order.php';
+		$this->emails['ER_Email_Customer_Invoice']          = include __DIR__ . '/emails/class-er-email-customer-invoice.php';
+		$this->emails['ER_Email_Customer_Note']             = include __DIR__ . '/emails/class-er-email-customer-note.php';
+		$this->emails['ER_Email_Customer_Reset_Password']   = include __DIR__ . '/emails/class-er-email-customer-reset-password.php';
+		$this->emails['ER_Email_Customer_New_Account']      = include __DIR__ . '/emails/class-er-email-customer-new-account.php';
 
 		$this->emails = apply_filters( 'easyreservations_email_classes', $this->emails );
 	}
@@ -265,12 +265,14 @@ class ER_Emails {
 		return str_replace(
 			array(
 				'{site_title}',
+				'{site_url}',
 				'{site_address}',
 				'{easyreservations}',
 				'{easyReservations}',
 			),
 			array(
 				$this->get_blogname(),
+				$domain,
 				$domain,
 				'<a href="https://easyreservations.org">easyReservations</a>',
 				'<a href="https://easyreservations.org">easyReservations</a>',

@@ -276,6 +276,8 @@ class ER_Meta_Box_Order_Data {
 
 								if ( 'phone' === $key ) {
 									$field_value = er_make_phone_clickable( $field_value );
+								} elseif ( 'email' === $key ) {
+									$field_value = '<a href="' . esc_url( 'mailto:' . $field_value ) . '">' . $field_value . '</a>';
 								} else {
 									$field_value = make_clickable( esc_html( $field_value ) );
 								}
@@ -334,7 +336,7 @@ class ER_Meta_Box_Order_Data {
 									}
 
 									if ( ! $found_method && ! empty( $payment_method ) ) {
-										echo '<option value="' . esc_attr( $payment_method ) . '" selected="selected">' . __( 'Other', 'easyReservations' ) . '</option>';
+										echo '<option value="' . esc_attr( $payment_method ) . '" selected="selected">' . esc_html__( 'Other', 'easyReservations' ) . '</option>';
 									} else {
 										echo '<option value="other">' . esc_html__( 'Other', 'easyReservations' ) . '</option>';
 									}

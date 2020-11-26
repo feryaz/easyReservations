@@ -36,13 +36,6 @@ class ER_Cart {
 	public $applied_coupons = array();
 
 	/**
-	 * Are prices in the cart displayed inc or excl tax?
-	 *
-	 * @var string
-	 */
-	public $tax_display_cart = 'incl';
-
-	/**
 	 * Total defaults used to reset.
 	 *
 	 * @var array
@@ -97,8 +90,6 @@ class ER_Cart {
 	 */
 	public function __construct() {
 		$this->session = new ER_Cart_Session( $this );
-
-		$this->tax_display_cart = get_option( 'reservations_tax_display_cart' );
 
 		// Register hooks for the objects.
 		$this->session->init();
@@ -288,7 +279,7 @@ class ER_Cart {
 	 *
 	 */
 	public function get_cart_contents_taxes() {
-		return apply_filters( 'woocommerce_cart_' . __FUNCTION__, $this->get_totals_var( 'cart_contents_taxes' ) );
+		return apply_filters( 'easyreservations_cart_' . __FUNCTION__, $this->get_totals_var( 'cart_contents_taxes' ) );
 	}
 
 	/**
@@ -318,9 +309,7 @@ class ER_Cart {
 	 * @return bool
 	 */
 	public function display_prices_including_tax() {
-		$customer_exempt = ER()->customer && ER()->customer->get_is_vat_exempt();
-
-		return apply_filters( 'easyreservations_cart_' . __FUNCTION__, 'incl' === $this->tax_display_cart && ! $customer_exempt );
+		return apply_filters( 'easyreservations_cart_' . __FUNCTION__, 'incl' === $this->get_tax_price_display_mode() );
 	}
 
 	/*
@@ -385,7 +374,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_subtotal_tax( $value ) {
-		$this->totals['subtotal_tax'] = er_round_tax_total( $value );
+		$this->totals['subtotal_tax'] = $value;
 	}
 
 	/**
@@ -394,7 +383,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_discount_total( $value ) {
-		$this->totals['discount_total'] = er_round_discount( $value, er_get_price_decimals() );
+		$this->totals['discount_total'] = $value;
 	}
 
 	/**
@@ -403,7 +392,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_discount_tax( $value ) {
-		$this->totals['discount_tax'] = er_round_tax_total( $value );
+		$this->totals['discount_tax'] = $value;
 	}
 
 	/**
@@ -421,7 +410,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_cart_contents_tax( $value ) {
-		$this->totals['cart_contents_tax'] = er_round_tax_total( $value );
+		$this->totals['cart_contents_tax'] = $value;
 	}
 
 	/**
@@ -439,6 +428,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_total_tax( $value ) {
+		// We round here because this is a total entry, as opposed to line items in other setters.
 		$this->totals['total_tax'] = er_round_tax_total( $value );
 	}
 
@@ -457,7 +447,7 @@ class ER_Cart {
 	 * @param string $value Value to set.
 	 */
 	public function set_fee_tax( $value ) {
-		$this->totals['fee_tax'] = er_round_tax_total( $value );
+		$this->totals['fee_tax'] = $value;
 	}
 
 	/**
@@ -759,6 +749,17 @@ class ER_Cart {
 	}
 
 	/**
+	 * Remove multiple cart items
+	 *
+	 * @param array $cart_item_keys
+	 */
+	public function remove_cart_items( $cart_item_keys ){
+		foreach($cart_item_keys as $cart_item_key){
+			$this->remove_cart_item( $cart_item_key );
+		}
+	}
+
+	/**
 	 * Restore a cart item.
 	 *
 	 * @param string $cart_item_key Cart item key to restore to the cart.
@@ -871,7 +872,7 @@ class ER_Cart {
 
 		$cart_content_taxes = array_map( array( $this, 'round_line_tax' ), $cart_content_taxes );
 
-		$this->set_cart_contents_total( round( $cart_content_total ) );
+		$this->set_cart_contents_total( ER_Number_Util::round( $cart_content_total ) );
 		$this->set_cart_contents_tax( array_sum( $cart_content_taxes ) );
 		$this->set_cart_contents_taxes( $cart_content_taxes );
 
@@ -886,7 +887,7 @@ class ER_Cart {
 
 		$fees_taxes = array_map( array( $this, 'round_line_tax' ), $fees_taxes );
 
-		$this->set_fee_total( round( $fees_total ) );
+		$this->set_fee_total( ER_Number_Util::round( $fees_total ) );
 		$this->set_fee_tax( array_sum( $fees_taxes ) );
 		$this->set_fee_taxes( $fees_taxes );
 
@@ -923,7 +924,7 @@ class ER_Cart {
 	 */
 	protected function round_item_subtotal( $value ) {
 		if ( ! $this->round_at_subtotal() ) {
-			$value = round( $value );
+			$value = ER_Number_Util::round( $value );
 		}
 
 		return $value;
@@ -1085,7 +1086,7 @@ class ER_Cart {
 			if ( ! $compound && ER_Tax::is_compound( $key ) ) {
 				continue;
 			}
-			$total += er_round_tax_total( $tax );
+			$total += $tax;
 		}
 		if ( $display ) {
 			$total = er_format_decimal( $total, er_get_price_decimals() );
@@ -1141,6 +1142,19 @@ class ER_Cart {
 	public function reset_totals() {
 		$this->totals = $this->default_totals;
 		do_action( 'easyreservations_cart_reset', $this, false );
+	}
+
+	/**
+	 * Returns 'incl' if tax should be included in cart, otherwise returns 'excl'.
+	 *
+	 * @return string
+	 */
+	public function get_tax_price_display_mode() {
+		if ( ER()->customer && ER()->customer->get_is_vat_exempt() ) {
+			return 'excl';
+		}
+
+		return get_option( 'reservations_tax_display_cart' );
 	}
 
 	/**

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'ER_Admin_List_Table', false ) ) {
-	include_once 'abstract-class-er-admin-list-table.php';
+	include_once __DIR__ . '/abstract-class-er-admin-list-table.php';
 }
 
 /**
@@ -75,6 +75,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	protected function define_hidden_columns() {
 		return array(
 			'address',
+			'order_paid',
 			'er_actions',
 		);
 	}
@@ -90,6 +91,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		$custom = array(
 			'order_number' => 'ID',
 			'order_total'  => 'order_total',
+			'order_paid'  => 'paid',
 			'order_date'   => 'date',
 		);
 		unset( $columns['comments'] );
@@ -113,6 +115,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		$show_columns['order_customer'] = __( 'Customer', 'easyReservations' );
 		$show_columns['address']        = __( 'Address', 'easyReservations' );
 		$show_columns['order_total']    = __( 'Total', 'easyReservations' );
+		$show_columns['order_paid']    = __( 'Paid', 'easyReservations' );
 		$show_columns['er_actions']     = __( 'Actions', 'easyReservations' );
 
 		wp_enqueue_script( 'er-orders' );
@@ -266,7 +269,26 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 	}
 
 	/**
-	 * Render columm: order_total.
+	 * Render columm: order_paid.
+	 */
+	protected function render_order_paid_column() {
+		if ( $this->object->get_payment_method_title() ) {
+			/* translators: %s: method */
+			echo '<span class="tips" data-tip="' . esc_attr( sprintf( __( 'via %s', 'easyReservations' ), $this->object->get_payment_method_title() ) ) . '">' . wp_kses_post( er_price( $this->object->get_paid( 'edit' ), true ) ) . '</span>';
+		} else {
+			echo wp_kses_post( er_price( $this->object->get_paid( 'edit' ), true ) );
+		}
+	}
+
+	/**
+	 * Render columm: address.
+	 */
+	protected function render_address_column() {
+	    echo wp_kses_post( $this->object->get_formatted_address() );
+	}
+
+	/**
+	 * Render columm: customer.
 	 */
 	protected function render_order_customer_column() {
 		if ( $this->object->get_user_id() ) {
@@ -778,7 +800,14 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			if ( 'order_total' === $query_vars['orderby'] ) {
 				// @codingStandardsIgnoreStart
 				$query_vars = array_merge( $query_vars, array(
-					'meta_key' => 'total',
+					'meta_key' => '_order_total',
+					'orderby'  => 'meta_value_num',
+				) );
+				// @codingStandardsIgnoreEnd
+			} elseif ( 'order_paid' === $query_vars['orderby'] ) {
+				// @codingStandardsIgnoreStart
+				$query_vars = array_merge( $query_vars, array(
+					'meta_key' => 'paid',
 					'orderby'  => 'meta_value_num',
 				) );
 				// @codingStandardsIgnoreEnd

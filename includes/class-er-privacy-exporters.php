@@ -15,6 +15,7 @@ class ER_Privacy_Exporters {
 	 * Finds and exports customer data by email address.
 	 *
 	 * @param string $email_address The user email address.
+	 *
 	 * @return array An array of personal data in name value pairs
 	 */
 	public static function customer_data_exporter( $email_address ) {
@@ -45,7 +46,7 @@ class ER_Privacy_Exporters {
 	 * Orders are exported in blocks of 10 to avoid timeouts.
 	 *
 	 * @param string $email_address The user email address.
-	 * @param int    $page  Page.
+	 * @param int    $page Page.
 	 *
 	 * @return array An array of personal data in name value pairs
 	 */
@@ -69,10 +70,11 @@ class ER_Privacy_Exporters {
 		if ( 0 < count( $orders ) ) {
 			foreach ( $orders as $order ) {
 				$data_to_export[] = array(
-					'group_id'    => 'easyreservations_orders',
-					'group_label' => __( 'Orders', 'easyReservations' ),
-					'item_id'     => 'order-' . $order->get_id(),
-					'data'        => self::get_order_personal_data( $order ),
+					'group_id'          => 'easyreservations_orders',
+					'group_label'       => __( 'Orders', 'easyReservations' ),
+					'group_description' => __( 'User&#8217;s easyReservations orders data.', 'easyReservations' ),
+					'item_id'           => 'order-' . $order->get_id(),
+					'data'              => self::get_order_personal_data( $order ),
 				);
 			}
 			$done = 10 > count( $orders );
@@ -88,8 +90,9 @@ class ER_Privacy_Exporters {
 	 * Get personal data (key/value pairs) for a user object.
 	 *
 	 * @param WP_User $user user object.
-	 * @throws Exception If customer cannot be read/found and $data is set to ER_Customer class.
+	 *
 	 * @return array
+	 * @throws Exception If customer cannot be read/found and $data is set to ER_Customer class.
 	 */
 	protected static function get_customer_personal_data( $user ) {
 		$personal_data = array();
@@ -149,6 +152,7 @@ class ER_Privacy_Exporters {
 	 * Get personal data (key/value pairs) for an order object.
 	 *
 	 * @param ER_Order $order Order object.
+	 *
 	 * @return array
 	 */
 	protected static function get_order_personal_data( $order ) {
@@ -242,7 +246,8 @@ class ER_Privacy_Exporters {
 	 * Finds and exports payment tokens by email address for a customer.
 	 *
 	 * @param string $email_address The user email address.
-	 * @param int    $page  Page.
+	 * @param int    $page Page.
+	 *
 	 * @return array An array of personal data in name value pairs
 	 */
 	public static function customer_tokens_exporter( $email_address, $page ) {
@@ -269,6 +274,7 @@ class ER_Privacy_Exporters {
 				$data_to_export[] = array(
 					'group_id'    => 'easyreservations_tokens',
 					'group_label' => __( 'Payment Tokens', 'easyReservations' ),
+					'group_description' => __( 'User&#8217;s easyReservations payment tokens data.', 'easyReservations' ),
 					'item_id'     => 'token-' . $token->get_id(),
 					'data'        => array(
 						array(
