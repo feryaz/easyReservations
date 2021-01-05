@@ -1,0 +1,29 @@
+/**
+ * easyReservations CSS Variables
+ */
+
+$green: #7ad03a !default;
+$red: #a00 !default;
+$orange: #ffba00 !default;
+$blue: #2ea2cc !default;
+
+$primary: #40a0ff !default; // Primary color for buttons (alt)
+$primarytext: desaturate(lighten($primary, 50%), 18%) !default; // Text on primary color bg
+
+$secondary: desaturate(lighten(#a46497, 40%), 21%) !default; // Secondary buttons
+$secondarytext: desaturate(darken($secondary, 60%), 21%) !default; // Text on secondary color bg
+
+$highlight: adjust-hue(#a46497, 150deg) !default; // Prices, In stock labels, sales flash
+$highlightext: desaturate(lighten($highlight, 50%), 18%) !default; // Text on highlight color bg
+
+$contentbg: #fff !default; // Content BG - Tabs (active state)
+$contenth1: #fbfbfb !default;
+$subtext: #777 !default; // small, breadcrumbs etc
+$outerborder: #b9b7b7 !default;
+$innerborder: #ebebeb !default;
+$inputborder: #7e8993 !default;
+
+$selected: #f2f2f2 !default;
+$textcolor: #333 !default;
+$textcolorh1: #232a39 !default;
+$secondarycolor: #9a9a9a !default;

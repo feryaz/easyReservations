@@ -1,0 +1,43 @@
+<?php
+/**
+ * Order Data Store Interface
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * ER Order Data Store Interface
+ *
+ * Functions that must be defined by order store classes.
+ */
+interface ER_Reservation_Data_Store_Interface {
+
+	/**
+	 * Read order items of a specific type from the database for this order.
+	 *
+	 * @param ER_Order $order Order object.
+	 * @param string   $type Order item type.
+	 *
+	 * @return array
+	 */
+	public function read_items( $order, $type );
+
+	/**
+	 * Remove all line items (resources, coupons, shipping, taxes) from the order.
+	 *
+	 * @param ER_Order $order Order object.
+	 * @param string   $type Order item type. Default null.
+	 */
+	public function delete_items( $order, $type = null );
+
+	/**
+	 * Get unpaid orders after a certain date,
+	 *
+	 * @param int $date timestamp.
+	 *
+	 * @return array
+	 */
+	public function get_temporary_reservations( $date );
+}

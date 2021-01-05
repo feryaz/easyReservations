@@ -1,0 +1,69 @@
+/**
+ * activation.scss
+ * Styles applied to elements displayed on activation
+ */
+/**
+ * Styling begins
+ */
+div.easyreservations-message {
+  position: relative;
+  overflow: hidden;
+}
+div.easyreservations-message.updated {
+  border-left-color: #6ab3ff !important;
+}
+
+p.easyreservations-actions .button-primary,
+.easyreservations-message .button-primary {
+  color: #fff;
+  text-shadow: 0 -1px 1px #226bd3, 1px 0 1px #226bd3, 0 1px 1px #226bd3, -1px 0 1px #226bd3;
+  background: #228dff;
+  border-color: #226bd3;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #226bd3;
+}
+p.easyreservations-actions .button-primary:hover, p.easyreservations-actions .button-primary:focus, p.easyreservations-actions .button-primary:active,
+.easyreservations-message .button-primary:hover,
+.easyreservations-message .button-primary:focus,
+.easyreservations-message .button-primary:active {
+  background: #226bd3;
+  border-color: #226bd3;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #226bd3;
+}
+p.easyreservations-actions a.easyreservations-message-close,
+.easyreservations-message a.easyreservations-message-close {
+  position: static;
+  top: 0;
+  right: 0;
+  float: right;
+  padding: 0 15px 10px 28px;
+  margin-top: -10px;
+  font-size: 13px;
+  line-height: 1.23076923;
+  text-decoration: none;
+}
+p.easyreservations-actions a.easyreservations-message-close::before,
+.easyreservations-message a.easyreservations-message-close::before {
+  position: relative;
+  top: 18px;
+  left: -20px;
+  transition: all 0.1s ease-in-out;
+}
+p.easyreservations-actions .button-primary,
+p.easyreservations-actions .button-secondary,
+.easyreservations-message .button-primary,
+.easyreservations-message .button-secondary {
+  text-decoration: none !important;
+}
+p.easyreservations-actions .twitter-share-button,
+.easyreservations-message .twitter-share-button {
+  margin-top: -3px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+p.easyreservations-actions,
+.easyreservations-about-text {
+  margin-bottom: 1em !important;
+}
+
+/*# sourceMappingURL=activation.css.map */

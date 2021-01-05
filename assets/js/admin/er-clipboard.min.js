@@ -1,0 +1,1 @@
+function erSetClipboard(d,b){if("undefined"===typeof b){b=jQuery(document)}const a=jQuery('<textarea style="opacity:0">');jQuery("body").append(a);a.val(d).select();b.trigger("beforecopy");try{document.execCommand("copy");b.trigger("aftercopy")}catch(c){b.trigger("aftercopyfailure")}a.remove()}function erClearClipboard(){erSetClipboard("")};
