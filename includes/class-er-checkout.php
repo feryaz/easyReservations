@@ -523,6 +523,8 @@ class ER_Checkout extends ER_Form {
 
 		er_empty_cart();
 
+		$order->update_status( ER_Order_Status::PENDING );
+
 		if ( ! is_easyreservations_ajax() ) {
 			wp_safe_redirect( $url );
 			exit;

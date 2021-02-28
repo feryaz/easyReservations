@@ -54,7 +54,7 @@
 
 				if ( $payment_methods.length > 1 ) {
 					// Hide open descriptions.
-					$( 'div.payment-box:not(".' + checkedPaymentMethod + '")' ).filter( ':visible' ).slideUp( 0 );
+					$( 'div.payment_box:not(".' + checkedPaymentMethod + '")' ).filter( ':visible' ).slideUp( 0 );
 				}
 
 				// Trigger click event for selected method
@@ -67,18 +67,18 @@
 				e.stopPropagation();
 
 				if ( $( '.payment_methods input.input-radio' ).length > 1 ) {
-					var target_payment_box = $( 'div.payment-box.' + $( this ).attr( 'ID' ) ),
+					var target_payment_box = $( 'div.payment_box.' + $( this ).attr( 'ID' ) ),
 						is_checked = $( this ).is( ':checked' );
 
 					if ( is_checked && ! target_payment_box.is( ':visible' ) ) {
-						$( 'div.payment-box' ).filter( ':visible' ).slideUp( 230 );
+						$( 'div.payment_box' ).filter( ':visible' ).slideUp( 230 );
 
 						if ( is_checked ) {
 							target_payment_box.slideDown( 230 );
 						}
 					}
 				} else {
-					$( 'div.payment-box' ).show();
+					$( 'div.payment_box' ).show();
 				}
 
 				if ( $( this ).data( 'order_button_text' ) ) {
@@ -180,7 +180,7 @@
 
 						// Save payment details to a temporary object
 						const paymentDetails = {};
-						$( '.payment-box :input' ).each( function() {
+						$( '.payment_box :input' ).each( function() {
 							var ID = $( this ).attr( 'id' );
 
 							if ( ID ) {
@@ -210,7 +210,7 @@
 
 						// Fill in the payment details if possible without overwriting data if set.
 						if ( ! $.isEmptyObject( paymentDetails ) ) {
-							$( '.payment-box :input' ).each( function() {
+							$( '.payment_box :input' ).each( function() {
 								const ID = $( this ).attr( 'id' );
 
 								if ( ID ) {

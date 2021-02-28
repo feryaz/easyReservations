@@ -545,7 +545,7 @@ class ER_Admin_Setup_Wizard {
 
 		$user_email   = $this->get_current_user_email();
 		$videos_url   = 'https://docs.woocommerce.com/document/woocommerce-guided-tour-videos/?utm_source=setupwizard&utm_medium=product&utm_content=videos&utm_campaign=woocommerceplugin';
-		$docs_url     = 'https://docs.woocommerce.com/documentation/plugins/woocommerce/getting-started/?utm_source=setupwizard&utm_medium=product&utm_content=docs&utm_campaign=woocommerceplugin';
+		$docs_url     = 'https://easyreservations.org/topic/getting-started/';
 		$help_text    = sprintf(
 			/* translators: %1$s: link to videos, %2$s: link to docs */
 			__( 'Watch our <a href="%1$s" target="_blank">guided tour videos</a> to learn more about easyReservations, and visit easyreservations.org to learn more about <a href="%2$s" target="_blank">getting started</a>.', 'easyReservations' ),

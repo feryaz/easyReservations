@@ -98,8 +98,17 @@ class ER_Admin_Reservation {
 			$now->setTime( 0, 0, 0, 0 );
 			$reservation->set_arrival( $now );
 			$reservation->set_departure( $now );
+			$resources = ER()->resources()->get();
+			$first     = array_key_first( $resources );
+
+			$reservation->set_resource_id( $first );
+
+			$reservation->calculate_price();
+			$reservation->calculate_totals();
+
 			$reservation->save();
 			$reservation_id = $reservation->get_id();
+
 		}
 
 		$reservation = er_get_reservation( $reservation_id );

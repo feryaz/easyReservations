@@ -40,7 +40,7 @@ class ER_Custom_Number extends ER_Custom {
 			}
 		}
 
-		$input .= 'placeholder="' . esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) . '" ';
+		$input .= 'placeholder="' . esc_attr( isset( $field['value'] ) ? $field['value'] : '' ) . '" ';
 		$input .= 'value="' . esc_attr( isset( $data['value'] ) ? $data['value'] : '' ) . '">';
 
 		return $input;

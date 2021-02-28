@@ -4099,6 +4099,22 @@ table.er_emails {
 }
 
 /**
+  * Small screen optimisation
+  */
+@media only screen and (max-width: 1280px) {
+
+	#order_data {
+		.order_data_column {
+			width: 48%;
+
+			&:first-child {
+				width: 100%;
+			}
+		}
+	}
+}
+
+/**
 * Backbone modal dialog
 */
 .er-backbone-modal {

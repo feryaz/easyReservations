@@ -108,6 +108,15 @@ function is_easyreservations_checkout() {
 }
 
 /**
+ * Is_search - Returns true when viewing the checkout page.
+ *
+ * @return bool
+ */
+function is_easyreservations_search() {
+	return (er_post_content_has_shortcode( 'easy_search' ) || apply_filters( 'easyreservations_is_search', false ) );
+}
+
+/**
  * Is_account_page - Returns true when viewing an account page.
  *
  * @return bool

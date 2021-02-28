@@ -112,6 +112,16 @@ class ER_Settings_General extends ER_Settings_Page {
 				),
 
 				array(
+					'title'   => __( 'Strict time', 'easyReservations' ),
+					'desc'    => __( 'Wether to enforce the difference between arrival and departure time.', 'easyReservations' ),
+					'id'      => 'reservations_strict_time',
+					'option'  => 'reservations_strict_time',
+					'default' => 'no',
+					'type'    => 'checkbox',
+					'desc_tip' => __( 'If enabled and a minimum number of required days is defined in the resource, reservations arriving at 14:00 cannot depart before 14:00 on departure day.', 'easyReservations' ),
+				),
+
+				array(
 					'title'   => __( 'Uninstall', 'easyReservations' ),
 					'desc'    => __( 'If enabled all data gets deleted when uninstalling easyReservations.', 'easyReservations' ),
 					'id'      => 'reservations_uninstall',

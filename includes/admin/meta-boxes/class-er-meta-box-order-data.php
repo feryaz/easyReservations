@@ -94,6 +94,8 @@ class ER_Meta_Box_Order_Data {
 
 		self::init_address_fields();
 
+		$reservations_approved_and_existing = er_order_reservations_approved_and_existing( $order );
+
 		$payment_gateways = ER()->payment_gateways()->payment_gateways();
 
 		$payment_method = $order->get_payment_method();
@@ -186,8 +188,13 @@ class ER_Meta_Box_Order_Data {
                             </label>
                             <select id="order_status" name="order_status" class="er-enhanced-select">
 								<?php
+
 								foreach ( ER_Order_Status::get_statuses() as $status => $status_name ) {
-									echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status, $order->get_status(), false ) . '>' . esc_html( $status_name ) . '</option>';
+									$attr = '';
+									if( ! $reservations_approved_and_existing && in_array( $status, er_get_is_accepted_statuses() ) && $status !== $order->get_status() ){
+										$attr = ' disabled="disabled"';
+									}
+									echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status, $order->get_status(), false ) . $attr . '>' . esc_html( $status_name ) . '</option>';
 								}
 								?>
                             </select>

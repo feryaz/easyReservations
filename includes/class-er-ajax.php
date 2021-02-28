@@ -162,15 +162,16 @@ class ER_AJAX {
 	public static function calendar() {
 		check_ajax_referer( 'er-date-selection', 'security' );
 
-		$adults       = isset( $_POST['adults'] ) ? absint( $_POST['adults'] ) : 1;
-		$children     = isset( $_POST['children'] ) ? absint( $_POST['children'] ) : 0;
-		$display_price        = isset( $_POST['price'] ) ? er_string_to_bool( $_POST['price'] ) : false;
-		$resource     = ER()->resources()->get( absint( $_POST['resource'] ) );
-		$req          = $resource->get_requirements();
-		$quantity     = $resource->get_quantity();
-		$availability = new ER_Resource_Availability( $resource, 0, $adults, $children, ER()->cart->get_reservations() );
-		$now          = er_get_datetime();
-		$now_string   = $now->format( er_date_format() );
+		$adults                      = isset( $_POST['adults'] ) ? absint( $_POST['adults'] ) : 1;
+		$children                    = isset( $_POST['children'] ) ? absint( $_POST['children'] ) : 0;
+		$display_price               = isset( $_POST['price'] ) ? er_string_to_bool( $_POST['price'] ) : false;
+		$resource                    = ER()->resources()->get( absint( $_POST['resource'] ) );
+		$req                         = $resource->get_requirements();
+		$quantity                    = $resource->get_quantity();
+		$availability                = new ER_Resource_Availability( $resource, 0, $adults, $children, ER()->cart->get_reservations() );
+		$now                         = er_get_datetime();
+		$now_string                  = $now->format( er_date_format() );
+		$earliest_possible_departure = false;
 
 		if ( ! is_numeric( $_POST['date'] ) ) {
 			$date = new ER_DateTime( sanitize_text_field( $_POST['date'] ) );
@@ -195,6 +196,10 @@ class ER_AJAX {
 				$arrival_time = explode( ':', sanitize_text_field( $_POST['arrivalTime'] ) );
 				$arrival->setTime( $arrival_time[0], $arrival_time[1] );
 			}
+			$earliest_possible_departure = er_date_add_seconds( $arrival, $req['nights-min'] * $resource->get_billing_interval() );
+			if ( ! er_strict_time() ) {
+				$earliest_possible_departure->setTime( 0, 0, 0 );
+			}
 		}
 
 		if ( ! empty( $_POST['minDate'] ) ) {
@@ -214,11 +219,16 @@ class ER_AJAX {
 			$end->modify( '+' . ( absint( $_POST['months'] ) - 1 ) . ' month' );
 		}
 
-		$days                      = array();
-		$occupied_spaces           = array();
-		$was_unavailable           = false;
-		$earliest_possible_arrival = new DateTimeImmutable( wp_date( 'd.m.Y H:i' ) );
-		$earliest_possible_arrival = $earliest_possible_arrival->add( new DateInterval( 'PT' . er_earliest_arrival() . 'S' ) );
+		$days                             = array();
+		$was_unavailable                  = false;
+		$earliest_possible_arrival        = new DateTimeImmutable( wp_date( 'd.m.Y H:i' ) );
+		$earliest_possible_arrival        = $earliest_possible_arrival->add( new DateInterval( 'PT' . er_earliest_arrival() . 'S' ) );
+		$earliest_possible_arrival        = $earliest_possible_arrival->modify( 'next hour' );
+		$earliest_possible_arrival_minute = $earliest_possible_arrival->format( 'i' );
+
+		if ( $earliest_possible_arrival_minute > 0 ) {
+			$earliest_possible_arrival = $earliest_possible_arrival->modify( '-' . $earliest_possible_arrival_minute . ' minutes' );
+		}
 
 		if ( $date < $earliest_possible_arrival ) {
 			$date->setTimestamp( $earliest_possible_arrival->setTime( 0, 0, 0 )->getTimestamp() );
@@ -237,6 +247,8 @@ class ER_AJAX {
 				);
 
 				$date->modify( '+1 day' );
+
+				continue;
 			}
 
 			if ( $resource->get_slots() ) {
@@ -249,7 +261,7 @@ class ER_AJAX {
 				continue;
 			}
 
-			$left = false;
+			$left  = false;
 			$price = 0;
 
 			if ( $arrival && empty( $_POST['arrivalTime'] ) ) {
@@ -269,8 +281,9 @@ class ER_AJAX {
 				}
 			}
 
-			$latest_possible_arrival     = isset( $req['start-h'] ) ? $req['start-h'][1] : 23;
-			$earliest_possible_departure = isset( $req['end-h'] ) ? $req['end-h'][0] : 0;
+			$latest_possible_arrival_time     = isset( $req['start-h'] ) ? $req['start-h'][1] : 23;
+			$earliest_possible_departure_time = isset( $req['end-h'] ) ? $req['end-h'][0] : 0;
+			$latest_possible_departure_time   = isset( $req['end-h'] ) ? $req['end-h'][1] : 23;
 
 			if ( ! $arrival ) {
 				$time = isset( $req['start-h'] ) ? $req['start-h'] : array( 0, 23 );
@@ -281,7 +294,11 @@ class ER_AJAX {
 			if ( $now_string === $date_string ) {
 				$current_hour = $now->format( 'G' );
 				$time[0]      = max( $time[0], $current_hour );
-				$time[1]      = min( $time[1], $current_hour );
+				$time[1]      = max( $time[1], $current_hour );
+
+				if ( er_strict_time() ) {
+					$earliest_possible_departure_time = max( $earliest_possible_departure_time, $current_hour );
+				}
 			}
 
 			//Check for possible arrival
@@ -324,8 +341,8 @@ class ER_AJAX {
 							$date_to_check->add( new DateInterval( 'PT' . $resource->get_frequency() . 'S' ) );
 						}
 					} else {
-						$new_arrival = er_date_add_seconds( $date, $latest_possible_arrival * HOUR_IN_SECONDS );
-						$new_departure = er_date_add_seconds( $date, $earliest_possible_departure * HOUR_IN_SECONDS + $req['nights-min'] * $resource->get_billing_interval() );
+						$new_arrival   = er_date_add_seconds( $date, $latest_possible_arrival_time * HOUR_IN_SECONDS );
+						$new_departure = er_date_add_seconds( $date, $earliest_possible_departure_time * HOUR_IN_SECONDS + $req['nights-min'] * $resource->get_billing_interval() );
 
 						$avail = $availability->check_arrivals_and_departures(
 							$new_arrival,
@@ -333,7 +350,7 @@ class ER_AJAX {
 							'arrival'
 						);
 
-						if( $display_price ){
+						if ( $display_price ) {
 							$reservation = new ER_Reservation( 0 );
 							$reservation->set_arrival( $new_arrival );
 							$reservation->set_departure( $new_departure );
@@ -354,11 +371,18 @@ class ER_AJAX {
 							$avail = is_numeric( $avail ) ? $quantity : $quantity + 1;
 						} else {
 							if ( $avail->count_all >= $quantity ) {
-								$avail->count_all = $avail->count_all + $avail->arrival - $avail->departure;
+								$avail->count_all = $avail->count_all - $avail->departure;
 
 								if ( ! empty( $avail->max_arrival ) ) {
-									$hour    = date( 'G', strtotime( $avail->max_arrival ) );
-									$time[1] = $hour < $time[1] ? $hour : $time[1];
+									$max_arrival_date = strtotime( $avail->max_arrival );
+									$hour             = date( 'G', $max_arrival_date );
+									if ( date( er_date_format(), $max_arrival_date ) === $date_string ) {
+										$time[1] = $hour < $time[1] ? $hour : $time[1];
+									}
+
+									if ( $earliest_possible_departure_time <= $hour && $avail->count_all > 0 ) {
+										$avail->count_all --;
+									}
 								}
 
 								if ( ! empty( $avail->min_departure ) ) {
@@ -371,7 +395,7 @@ class ER_AJAX {
 								}
 							}
 
-							$avail = $avail->count_all;
+							$avail = min( $avail->count_all, $quantity );
 						}
 					}
 				}
@@ -383,7 +407,7 @@ class ER_AJAX {
 				//Check for possible departure
 
 				if ( empty( $_POST['arrivalTime'] ) ) {
-					$arrival->setTime( $latest_possible_arrival, 0 );
+					$arrival->setTime( $latest_possible_arrival_time, 0 );
 				}
 
 				if ( isset( $req['end-on'] ) && $req['end-on'] !== 0 && ( $req['end-on'] == 8 || ! in_array( $date->format( "N" ), $req['end-on'] ) ) ) {
@@ -428,7 +452,8 @@ class ER_AJAX {
 						}
 					} else {
 						//We check latest possible departure on that day as the availability query returns us the latest departure, but only until
-						$departure = er_date_add_seconds( $date, $latest_possible_arrival * HOUR_IN_SECONDS );
+						$departure        = er_date_add_seconds( $date, $earliest_possible_departure_time * HOUR_IN_SECONDS );
+						$latest_departure = er_date_add_seconds( $date, $latest_possible_departure_time * HOUR_IN_SECONDS );
 
 						$billing_units = $resource->get_billing_units(
 							$arrival, $departure
@@ -438,7 +463,7 @@ class ER_AJAX {
 							$was_unavailable = $date_string;
 						}
 
-						if ( ! $was_unavailable && $req['nights-min'] <= $billing_units ) {
+						if ( ! $was_unavailable && $latest_departure >= $earliest_possible_departure ) {
 							$avail = $availability->check_spaces( $resource->availability_by( 'unit' ) ? $arrival : $last_departure, $departure, 'departure' );
 
 							if ( $display_price ) {
@@ -461,20 +486,24 @@ class ER_AJAX {
 								//If numeric day is unavailable else only departure is not possible
 								$avail = is_numeric( $avail ) ? $quantity : $quantity + 1;
 							} else {
-								if ( count($avail->count_all) >= $quantity ) {
+								if ( $avail->count_all >= $quantity ) {
 									//[0] Minimum departure time
 									//[1] Maximum departure time
 									if ( ! empty( $avail->max_arrival ) ) {
+										$avail->count_all --;
+										$was_unavailable = $date_string;
+
 										$hour    = date( 'G', strtotime( $avail->max_arrival ) );
 										$time[1] = $hour < $time[1] ? $hour : $time[1];
 									}
 
 									if ( ! empty( $avail->min_departure ) ) {
+										$avail->count_all --;
 										$hour    = date( 'G', strtotime( $avail->min_departure ) );
 										$time[0] = $hour > $time[0] ? $hour : $time[0];
 									}
 
-									if ( $time[0] === $time[1] ) {
+									if ( $time[0] >= $time[1] ) {
 										$avail->count_all = $quantity;
 									}
 								}
@@ -507,14 +536,16 @@ class ER_AJAX {
 
 		if ( $resource->get_slots() ) {
 			$days['slots'] = true;
-			wp_send_json( $days );
 		} else {
-			$days['max']            = '25.03.2020';
+			$format_ending = ' 00:00';
+
+			$days['max']            = $was_unavailable;
 			$days['first_possible'] =
-				$arrival ? er_date_add_seconds( $arrival, $req['nights-min'] * $resource->get_billing_interval() )->format( er_date_format() . ' H:i' )
+				$arrival ? $earliest_possible_departure->format( er_date_format() . ' H:i' )
 					: $earliest_possible_arrival->format( er_date_format() . ' H:i' );
-			wp_send_json( $days );
 		}
+
+		wp_send_json( $days );
 	}
 
 	/**
@@ -577,13 +608,9 @@ class ER_AJAX {
 			$checkout_payment = ob_get_clean();
 		}
 
-		$checkout_deposit = '';
-		if ( function_exists( 'easyreservations_checkout_deposit_form' ) ) {
-			// Get checkout payment fragment.
-			ob_start();
-			easyreservations_checkout_deposit_form();
-			$checkout_deposit = ob_get_clean();
-		}
+		ob_start();
+		do_action( 'easyreservations_pay_after_order_review', $order );
+		$checkout_deposit = ob_get_clean();
 
 		// Get messages if reload checkout is not true.
 		$reload_checkout = isset( ER()->session->reload_checkout ) ? true : false;
@@ -682,8 +709,14 @@ class ER_AJAX {
 				// Initialize payment gateways in case order has hooked status transition actions.
 				ER()->payment_gateways();
 
-				$order->update_status( $status, '', true );
-				do_action( 'easyreservations_order_edit_status', $order->get_id(), $status );
+				$reservations_approved_and_existing = er_order_reservations_approved_and_existing( $order );
+
+				if ( $reservations_approved_and_existing || !in_array( $status, er_get_is_accepted_statuses() ) ) {
+					$order->update_status( $status, '', true );
+					do_action( 'easyreservations_order_edit_status', $order->get_id(), $status );
+				} else {
+					$order->add_order_note( __( 'At least one reservation could not be approved due to unavailability.', 'easyReservations' ) );
+				}
 			}
 		}
 
@@ -1284,7 +1317,7 @@ class ER_AJAX {
 		if ( $object_type === 'order' ) {
 			$reservation = $item->get_reservation();
 
-			if( $reservation ){
+			if ( $reservation ) {
 				$taxes = $reservation->get_taxes_totals();
 
 				$item->set_total( $reservation->get_subtotal() + $reservation->get_discount_total() );

@@ -167,7 +167,7 @@ class ER_Settings_Advanced extends ER_Settings_Page {
 							'input-group'     => 'start',
 							'show_if_checked' => 'option',
 							/* Translators: %s Docs URL. */
-							'desc_tip'        => sprintf( __( 'Force SSL (HTTPS) on the checkout pages (<a href="%s" target="_blank">an SSL Certificate is required</a>).', 'easyReservations' ), 'https://docs.woocommerce.com/document/ssl-and-https/#section-3' ),
+							'desc_tip'        => sprintf( __( 'Force SSL (HTTPS) on the checkout pages (<a href="%s" target="_blank">an SSL Certificate is required</a>).', 'easyReservations' ), 'https://easyreservations.org/documentation/ssl-and-https/#section-3' ),
 						),
 
 						'unforce_ssl_checkout' => array(

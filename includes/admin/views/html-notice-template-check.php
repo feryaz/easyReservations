@@ -23,7 +23,7 @@ $theme = wp_get_theme();
     </ol>
     </p>
     <p class="submit">
-        <a class="button-primary" href="https://docs.woocommerce.com/document/template-structure/" target="_blank"><?php esc_html_e( 'Learn more about templates', 'easyReservations' ); ?></a>
+        <a class="button-primary" href="https://easyreservation.org/documentation/template-structure/" target="_blank"><?php esc_html_e( 'Learn more about templates', 'easyReservations' ); ?></a>
         <a class="button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=er-settings&tab=status' ) ); ?>" target="_blank"><?php esc_html_e( 'View affected templates', 'easyReservations' ); ?></a>
     </p>
 </div>

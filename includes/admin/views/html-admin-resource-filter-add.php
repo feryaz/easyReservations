@@ -73,7 +73,7 @@ $time_options = er_form_time_options();
 				<td>
 					<label style="margin-left:5px">
 						<input type="checkbox" name="filter_form_usetime_checkbox" id="filter_form_usetime_checkbox" onclick="show_use_time();">
-						<?php echo sprintf( esc_html__( 'Filter by %s', 'easyReservations' ), esc_html__( 'time', 'easyReservations' ) ); ?>
+						<?php echo sprintf( esc_html__( 'Filter by %s', 'easyReservations' ), esc_html_x( 'time', 'time filter label', 'easyReservations' ) ); ?>
 					</label>
 				</td>
 			</tr>
@@ -386,23 +386,23 @@ $time_options = er_form_time_options();
 			<tr>
 				<th>
 					<label>
-						<?php esc_html_e( 'year', 'easyReservations' ); ?>
+						<?php esc_html_e( 'Year', 'easyReservations' ); ?>
 					</label>
 				</th>
 				<td onclick="jQuery('#price_filter_cond_unit').attr('checked', true);" style="line-height: 20px">
 					<div>
-						<label style="width:75px"><input type="checkbox" name="price_filter_unit_year[]" value="2023">2023</label>
-						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2019">2019</label>
-						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2020">2020</label>
+						<label style="width:75px"><input type="checkbox" name="price_filter_unit_year[]" value="2025">2025</label>
 						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2021">2021</label>
 						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2022">2022</label>
+						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2023">2023</label>
+						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2024">2024</label>
 					</div>
 					<div>
-						<label style="width:75px"><input type="checkbox" name="price_filter_unit_year[]" value="2028">2028</label>
-						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2024">2024</label>
-						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2025">2025</label>
+						<label style="width:75px"><input type="checkbox" name="price_filter_unit_year[]" value="2030">2030</label>
 						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2026">2026</label>
 						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2027">2027</label>
+						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2028">2028</label>
+						<label style="width:75px;float:left"><input type="checkbox" name="price_filter_unit_year[]" value="2029">2029</label>
 					</div>
 				</td>
 			</tr>
@@ -543,7 +543,7 @@ $time_options = er_form_time_options();
 					<label style="margin-left:5px">
 						<input type="checkbox" name="filter_form_condition_checkbox" id="filter_form_condition_checkbox"
 							onclick="show_use_condition();">
-						<?php echo sprintf( esc_html__( 'Filter by %s', 'easyReservations' ), esc_html__( 'condition', 'easyReservations' ) ); ?>
+						<?php echo sprintf( esc_html__( 'Filter by %s', 'easyReservations' ), esc_html__( 'logical condition', 'easyReservations' ) ); ?>
 					</label>
 				</td>
 			</tr>
@@ -552,7 +552,7 @@ $time_options = er_form_time_options();
 	</div>
 	<div id="filter_form_discount" class="hide-it">
 		<hr>
-		<h2><?php esc_html_e( 'Condition', 'easyReservations' ); ?></h2>
+		<h2><?php esc_html_e( 'Logical condition', 'easyReservations' ); ?></h2>
 		<table class="form-table">
 			<tbody>
 			<tr>
@@ -562,7 +562,7 @@ $time_options = er_form_time_options();
 				<td>
 					<select name="filter_form_discount_type" id="filter_form_discount_type"
 						onchange="setWord(this.value)">
-						<option value="early"><?php echo esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 0, true ) ); ?><?php echo sprintf( esc_html__( 'between %1$s and %2$s', 'easyReservations' ), esc_html__( 'reservation', 'easyReservations' ), esc_html__( 'arrival', 'easyReservations' ) ); ?></option>
+						<option value="early"><?php echo esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 0, true ) ); ?> <?php echo sprintf( esc_html__( 'between %1$s and %2$s', 'easyReservations' ), esc_html__( 'reservation', 'easyReservations' ), esc_html__( 'arrival', 'easyReservations' ) ); ?></option>
 						<option value="stay"><?php echo esc_html( sprintf( $amount_text, er_date_get_interval_label( $resource->get_billing_interval() ) ) ); ?></option>
 						<option value="pers"><?php echo esc_html( sprintf( $amount_text, __( 'adults and children', 'easyReservations' ) ) ); ?></option>
 						<option value="adul"><?php echo esc_html( sprintf( $amount_text, __( 'adults', 'easyReservations' ) ) ); ?></option>
@@ -585,32 +585,6 @@ $time_options = er_form_time_options();
                         ) );
                         ?>
                         <span id="filter_form_discount_cond_verb"><?php esc_html_e( 'Days', 'easyReservations' ); ?></span>
-                    </span>
-				</td>
-			</tr>
-			<tr>
-				<th>
-					<label for="filter_form_discount_mode"><?php esc_html_e( 'Mode', 'easyReservations' ); ?></label>
-				</th>
-				<td>
-                    <span id="filter-mode-field">
-                        <select name="filter_form_discount_mode" id="filter_form_discount_mode">
-                            <option value="price_res"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'reservation', 'easyReservations' ) ); ?></option>
-                            <option value="price_halfhour"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( 1800, 1 ) ) ); ?></option>
-                            <option value="price_hour"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( HOUR_IN_SECONDS, 1 ) ) ); ?></option>
-                            <option value="price_realday"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( DAY_IN_SECONDS, 1 ) ) ); ?></option>
-                            <option value="price_night"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( 86401, 1 ) ) ); ?></option>
-                            <option value="price_week"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( WEEK_IN_SECONDS, 1 ) ) ); ?></option>
-                            <option value="price_month"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( MONTH_IN_SECONDS, 1 ) ) ); ?></option>
-                            <option value="price_day"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'billing unit', 'easyReservations' ) ); ?></option>
-                            <option value="price_pers"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'person', 'easyReservations' ) ); ?></option>
-                            <option value="price_adul"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'adult', 'easyReservations' ) ); ?></option>
-                            <option value="price_child"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'child', 'easyReservations' ) ); ?></option>
-                            <option value="price_both"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'person', 'easyReservations' ) ); ?></option>
-                            <option value="price_day_adult"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'adult', 'easyReservations' ) ); ?></option>
-                            <option value="price_day_child"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'child', 'easyReservations' ) ); ?></option>
-                            <option value="%"><?php esc_html_e( 'Percent', 'easyReservations' ); ?></option>
-                        </select>
                     </span>
 				</td>
 			</tr>
@@ -637,7 +611,34 @@ $time_options = er_form_time_options();
 					</select>
 				</td>
 			</tr>
-			<tr>
+            <tr id="filter-mode-field">
+                <th>
+                    <label for="filter_form_discount_mode"><?php esc_html_e( 'Mode', 'easyReservations' ); ?></label>
+                </th>
+                <td>
+                    <span>
+                        <select name="filter_form_discount_mode" id="filter_form_discount_mode">
+                            <option value="price_res"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'reservation', 'easyReservations' ) ); ?></option>
+                            <option value="price_halfhour"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( 1800, 1 ) ) ); ?></option>
+                            <option value="price_hour"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( HOUR_IN_SECONDS, 1 ) ) ); ?></option>
+                            <option value="price_realday"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( DAY_IN_SECONDS, 1 ) ) ); ?></option>
+                            <option value="price_night"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( 86401, 1 ) ) ); ?></option>
+                            <option value="price_week"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( WEEK_IN_SECONDS, 1 ) ) ); ?></option>
+                            <option value="price_month"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html( er_date_get_interval_label( MONTH_IN_SECONDS, 1 ) ) ); ?></option>
+                            <option value="price_day"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'billing unit', 'easyReservations' ) ); ?></option>
+                            <option value="price_pers"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'person', 'easyReservations' ) ); ?></option>
+                            <option value="price_adul"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'adult', 'easyReservations' ) ); ?></option>
+                            <option value="price_child"><?php echo sprintf( esc_html__( 'Price per %s', 'easyReservations' ), esc_html__( 'child', 'easyReservations' ) ); ?></option>
+                            <option value="price_both"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'person', 'easyReservations' ) ); ?></option>
+                            <option value="price_day_adult"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'adult', 'easyReservations' ) ); ?></option>
+                            <option value="price_day_child"><?php echo sprintf( esc_html__( 'Price per %s and %s', 'easyReservations' ), esc_html( er_date_get_interval_label( $resource->get_billing_interval(), 1 ) ), esc_html__( 'child', 'easyReservations' ) ); ?></option>
+                            <option value="%"><?php esc_html_e( 'Percent', 'easyReservations' ); ?></option>
+                        </select>
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
 				<th><label for="filter-price-field"><?php esc_html_e( 'Price', 'easyReservations' ); ?></label></th>
 				<td>
                     <span class="input-wrapper">
@@ -991,7 +992,7 @@ $time_options = er_form_time_options();
 
 	function show_add_price() {
 		jQuery( '#filter_form_name,#filter_form_importance,#filter_form_usetime,#filter_form_condition' ).removeClass( 'hidden' ).removeClass( 'hide-it' );
-		jQuery( '#filter_form_time_cond,#filter_form_price,#filter_form_button,#filter_form_discount,#filter_form_requirements' ).addClass( 'hidden' );
+		jQuery( '#filter_form_time_cond,#filter_form_price,#filter_form_button,#filter_form_discount,#filter_form_requirements,#filter_form_unavailable' ).addClass( 'hidden' );
 
 		document.getElementById( 'filter_type' ).value = "price";
 	}

@@ -52,7 +52,6 @@ function custom_field_extras( sel ) {
 	if ( sel && sel[ 'admin' ] ) {
 		selected = ' checked="checked"';
 	}
-	html += '<p><label class="wrapper"><input type="checkbox" id="custom_field_admin" name="custom_field_admin"' + selected + '>Display when adding reservation as admin</label></p>';
 	//if(jQuery('#custom_price_field').prop('checked') )
 	jQuery( '#custom_field_extras' ).html( html );
 }

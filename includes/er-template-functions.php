@@ -252,6 +252,9 @@ function er_body_class( $classes ) {
 	} elseif ( is_easyreservations_cart() ) {
 		$classes[] = 'easyreservations-cart';
 		$classes[] = 'easyreservations-page';
+	} elseif ( is_easyreservations_search() ) {
+		$classes[] = 'easyreservations-search';
+		$classes[] = 'easyreservations-page';
 	} elseif ( is_easyreservations_account_page() ) {
 		$classes[] = 'easyreservations-account';
 		$classes[] = 'easyreservations-page';

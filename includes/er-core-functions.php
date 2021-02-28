@@ -108,6 +108,15 @@ function er_use_time() {
 }
 
 /**
+ * Wether to enforce the difference between arrival and departure time
+ *
+ * @return bool
+ */
+function er_strict_time() {
+	return apply_filters( 'er_strict_time', get_option( 'reservations_strict_time', 'no' ) === 'yes' );
+}
+
+/**
  * How many seconds from now until arrival is possible.
  *
  * @return int
@@ -1733,6 +1742,7 @@ function er_is_active_theme( $theme ) {
 function er_is_wp_default_theme_active() {
 	return er_is_active_theme(
 		array(
+			'twentytwentyone',
 			'twentytwenty',
 			'twentynineteen',
 			'twentyseventeen',

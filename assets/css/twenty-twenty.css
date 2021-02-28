@@ -246,13 +246,6 @@ a.button:hover, a.button:visited {
   margin-top: 0;
 }
 
-.cross-sells .easyreservations-loop-resource__title {
-  font-family: -apple-system, blinkmacsystemfont, "Helvetica Neue", helvetica, sans-serif;
-}
-.cross-sells .star-rating {
-  font-size: 1.4rem;
-}
-
 /* Make thumbnails in the gallery affect parent's height and wrapping */
 .flex-control-nav::after {
   clear: both;
@@ -1012,6 +1005,7 @@ a.reset_variations {
 .easyreservations-cart-form table td {
   border: 0;
 }
+.easyreservations-cart-form table td.entry-thumbnail,
 .easyreservations-cart-form table td.resource-thumbnail {
   padding: 1.4rem;
   width: 10%;
@@ -1257,6 +1251,7 @@ a.reset_variations {
   margin-top: 4rem;
 }
 .easyreservations-checkout form #order_review_heading,
+.easyreservations-checkout form .easyreservations-checkout-deposit,
 .easyreservations-checkout form #order_review {
   width: 50%;
   padding-left: 1.5vw;
@@ -1264,32 +1259,40 @@ a.reset_variations {
   clear: right;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table {
   margin-top: 2.85rem;
   border: 0;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table th,
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table td,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table th,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table td,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table th,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table td {
   border: 0;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table thead,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table thead,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table thead {
   display: none;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table tbody::after,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table tbody::after,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table tbody::after {
   content: "";
   display: block;
   height: 2rem;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table .easyreservations-Price-amount,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table .easyreservations-Price-amount,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table .easyreservations-Price-amount {
   font-weight: bold;
 }
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table .cart-subtotal,
 .easyreservations-checkout form #order_review_heading .easyreservations-checkout-review-order-table .order-total,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table .cart-subtotal,
+.easyreservations-checkout form .easyreservations-checkout-deposit .easyreservations-checkout-review-order-table .order-total,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table .cart-subtotal,
 .easyreservations-checkout form #order_review .easyreservations-checkout-review-order-table .order-total {
   border-top: 1px solid #ddd;
@@ -1632,15 +1635,21 @@ a.reset_variations {
 .easyreservations-page table.shop_table_responsive tr .resource-remove {
     float: right;
   }
-  .easyreservations table.shop_table_responsive tr .resource-thumbnail,
+  .easyreservations table.shop_table_responsive tr .entry-thumbnail,
+.easyreservations table.shop_table_responsive tr .resource-thumbnail,
+.easyreservations-page table.shop_table_responsive tr .entry-thumbnail,
 .easyreservations-page table.shop_table_responsive tr .resource-thumbnail {
     display: block;
   }
-  .easyreservations table.shop_table_responsive tr .resource-thumbnail img,
+  .easyreservations table.shop_table_responsive tr .entry-thumbnail img,
+.easyreservations table.shop_table_responsive tr .resource-thumbnail img,
+.easyreservations-page table.shop_table_responsive tr .entry-thumbnail img,
 .easyreservations-page table.shop_table_responsive tr .resource-thumbnail img {
     width: 70px;
   }
-  .easyreservations table.shop_table_responsive tr .resource-thumbnail::before,
+  .easyreservations table.shop_table_responsive tr .entry-thumbnail::before,
+.easyreservations table.shop_table_responsive tr .resource-thumbnail::before,
+.easyreservations-page table.shop_table_responsive tr .entry-thumbnail::before,
 .easyreservations-page table.shop_table_responsive tr .resource-thumbnail::before {
     content: "";
   }
@@ -1696,6 +1705,7 @@ a.reset_variations {
     margin-top: 4rem;
   }
   .easyreservations-checkout form #order_review_heading,
+.easyreservations-checkout form .easyreservations-checkout-deposit,
 .easyreservations-checkout form #order_review {
     width: 100%;
     padding-left: 0;

@@ -115,7 +115,7 @@ class ER_Privacy_Exporters {
 				'address_state'      => __( 'State', 'easyReservations' ),
 				'address_country'    => __( 'Country / Region', 'easyReservations' ),
 				'address_phone'      => __( 'Phone Number', 'easyReservations' ),
-				'address_email'      => __( 'Email Address', 'easyReservations' ),
+				'email'      => __( 'Email Address', 'easyReservations' ),
 			),
 			$customer
 		);

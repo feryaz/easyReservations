@@ -17,9 +17,9 @@ class ER_Widget_Resources extends ER_Widget {
 	 */
 	public function __construct() {
 		$this->widget_cssclass    = 'easyreservations widget_products';
-		$this->widget_description = __( "A list of your store's products.", 'easyReservations' );
+		$this->widget_description = __( "A list of your store's resources.", 'easyReservations' );
 		$this->widget_id          = 'easyreservations_products';
-		$this->widget_name        = __( 'Resources', 'easyReservations' );
+		$this->widget_name        = __( 'easyReservations Resources', 'easyReservations' );
 		$this->settings           = array(
 			'title'       => array(
 				'type'  => 'text',

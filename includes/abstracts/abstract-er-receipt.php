@@ -1206,7 +1206,11 @@ abstract class ER_Receipt extends ER_Data {
 
 				if ( ! empty( $status_transition['from'] ) ) {
 					/* translators: 1: old order status 2: new order status */
-					$transition_note = sprintf( __( 'Order status changed from %1$s to %2$s.', 'easyReservations' ), ER_Order_Status::get_title( $status_transition['from'] ), ER_Order_Status::get_title( $status_transition['to'] ) );
+					if( $this->object_type == 'order' ){
+						$transition_note = sprintf( __( 'Order status changed from %1$s to %2$s.', 'easyReservations' ), ER_Order_Status::get_title( $status_transition['from'] ), ER_Order_Status::get_title( $status_transition['to'] ) );
+					} else {
+						$transition_note = sprintf( __( 'Reservation #%1$d status changed from %2$s to %3$s.', 'easyReservations' ), $this->get_id(), ER_Reservation_Status::get_title( $status_transition['from'] ), ER_Reservation_Status::get_title( $status_transition['to'] ) );
+					}
 
 					// Note the transition occurred.
 					$this->add_status_transition_note( $transition_note, $status_transition );
@@ -1215,7 +1219,12 @@ abstract class ER_Receipt extends ER_Data {
 					do_action( 'easyreservations_' . $this->object_type . '_status_changed', $this->get_id(), $status_transition['from'], $status_transition['to'], $this );
 				} else {
 					/* translators: %s: new order status */
-					$transition_note = sprintf( __( 'Order status set to %s.', 'easyReservations' ), ER_Order_Status::get_title( $status_transition['to'] ) );
+					if ( $this->object_type == 'order' ) {
+						$transition_note = sprintf( __( 'Order status set to %s.', 'easyReservations' ), ER_Order_Status::get_title( $status_transition['to'] ) );
+					} else {
+						$transition_note = sprintf( __( 'Reservation #%1$d status set to %2$s.', 'easyReservations' ), $this->get_id(), ER_Reservation_Status::get_title( $status_transition['to'] ) );
+					}
+
 					$this->add_status_transition_note( $transition_note, $status_transition );
 				}
 			} catch ( Exception $e ) {
@@ -1268,8 +1277,6 @@ abstract class ER_Receipt extends ER_Data {
 	 */
 	public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false ) {
 		if ( method_exists( $this, 'get_order_id' ) ) {
-			$note .= ' ' . sprintf( __( 'in reservation #%d.', 'easyReservations' ), $this->get_id() );
-
 			return er_order_add_note( $this->get_order_id(), $note, $is_customer_note, $added_by_user );
 		} else {
 			return er_order_add_note( $this->get_id(), $note, $is_customer_note, $added_by_user );

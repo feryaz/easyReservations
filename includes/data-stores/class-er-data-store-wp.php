@@ -618,4 +618,16 @@ class ER_Data_Store_WP {
 		);
 		wp_cache_delete( 'lookup_table', 'object_' . $id );
 	}
+
+	/**
+	 * Converts a WP post date string into a timestamp.
+	 *
+	 * @param string $time_string The WP post date string.
+	 *
+	 * @return int|null The date string converted to a timestamp or null.
+	 *
+	 */
+	protected function string_to_timestamp( $time_string ) {
+		return '0000-00-00 00:00:00' !== $time_string ? er_string_to_timestamp( $time_string ) : null;
+	}
 }

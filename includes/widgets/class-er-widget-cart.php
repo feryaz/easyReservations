@@ -21,7 +21,7 @@ class ER_Widget_Cart extends ER_Widget {
 		$this->widget_cssclass    = 'easyreservations widget_shopping_cart';
 		$this->widget_description = __( 'Display the easyReservations shopping cart.', 'easyReservations' );
 		$this->widget_id          = 'easyreservations_widget_cart';
-		$this->widget_name        = __( 'Cart', 'easyReservations' );
+		$this->widget_name        = __( 'easyReservations Cart', 'easyReservations' );
 		$this->settings           = array(
 			'title'         => array(
 				'type'  => 'text',

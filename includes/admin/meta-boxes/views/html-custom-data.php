@@ -25,6 +25,11 @@ $custom_data = $object->get_items( 'custom' );
 	} else {
 		echo '<p class="none_set">' . esc_html__( 'No custom data set.', 'easyReservations' ) . '</p>';
 	}
+
+	if ( $object->get_type() === 'order' && apply_filters( 'easyreservations_enable_order_notes_field', 'yes' == get_option( 'reservations_enable_order_comments', 'yes' ) ) && $post->post_excerpt ) {
+		echo '<p class="order_note"><strong>' . __( 'Customer provided note:', 'easyReservations' ) . '</strong> ' . nl2br( esc_html( $post->post_excerpt ) ) . '</p>';
+	}
+
 	?>
 </div>
 <div class="edit_custom_data">
@@ -43,7 +48,14 @@ $custom_data = $object->get_items( 'custom' );
             </p><?php
 		}
 	}
-	?>
+
+	if ( $object->get_type() === 'order' && apply_filters( 'easyreservations_enable_order_notes_field', 'yes' == get_option( 'reservations_enable_order_comments', 'yes' ) ) ) :
+		?>
+        <p class="form-field form-field-wide">
+            <label for="excerpt"><?php _e( 'Customer provided note', 'easyReservations' ); ?>:</label>
+            <textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt" placeholder="<?php esc_attr_e( 'Customer notes about the order', 'easyReservations' ); ?>"><?php echo wp_kses_post( $post->post_excerpt ); ?></textarea>
+        </p>
+	<?php endif; ?>
 </div>
 
 <script type="text/template" id="tmpl-er-modal-add-custom">

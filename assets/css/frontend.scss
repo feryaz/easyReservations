@@ -1074,6 +1074,7 @@
 
 	table.cart {
 
+		.entry-thumbnail,
 		.resource-thumbnail {
 			min-width: 50px;
 		}
@@ -1265,7 +1266,7 @@
 			}
 		}
 
-		div.payment-box {
+		div.payment_box {
 			position: relative;
 			width: 100%;
 			box-sizing: border-box;
@@ -1516,7 +1517,6 @@
 		width: 99%;
 		padding: 0 0 10px 0;
 		line-height: 26px;
-		background: $contentbg;
 
 		div {
 			box-sizing: border-box;
@@ -1711,14 +1711,37 @@
 					margin: 5px 0;
 					font-size: 14px;
 					font-weight: 600;
+					border: 0;
 
 					.price {
-						padding-left: 5px;
+						display: block;
+						white-space: normal;
+						color:#fff;
 					}
 
 					span {
 						display: inline-block;
 						padding: 0;
+					}
+
+					&.available {
+						background: #53b796;
+					}
+
+					&.partially {
+						background: #87ccb4;
+					}
+
+					&.available,
+					&.partially {
+						&:hover {
+							background: $primary;
+						}
+					}
+
+					&.unavailable {
+						cursor: default;
+						background: #b75252;
 					}
 				}
 

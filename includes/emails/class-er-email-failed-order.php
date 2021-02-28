@@ -135,7 +135,7 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 		 * @return string
 		 */
 		public function get_default_additional_content() {
-			return __( 'Hopefully they’ll be back. Read more about <a href="https://docs.woocommerce.com/document/managing-orders/#section-10">troubleshooting failed payments</a>.', 'easyReservations' );
+			return __( 'Hopefully they’ll be back. Read more about <a href="https://easyreservations.org/documentation/managing-orders/#section-20">troubleshooting failed payments</a>.', 'easyReservations' );
 		}
 
 		/**
@@ -189,7 +189,7 @@ if ( ! class_exists( 'ER_Email_Failed_Order', false ) ) :
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),
-					'default'     => 'html',
+					'default'     => 'plain',
 					'class'       => 'email_type er-enhanced-select',
 					'options'     => $this->get_email_type_options(),
 					'desc_tip'    => true,

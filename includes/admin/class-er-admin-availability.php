@@ -77,7 +77,10 @@ class ER_Admin_Availability {
 			}
 
 			if ( ! isset( $_POST['price_filter_cond_range'] ) && ! isset( $_POST['price_filter_cond_unit'] ) ) {
-				ER_Admin_Notices::add_temporary_error( sprintf( __( 'Select %s', 'easyReservations' ), __( 'condition', 'easyReservations' ) ) );
+				/*
+				 * translators: One condition
+				 */
+				ER_Admin_Notices::add_temporary_error( sprintf( __( 'Select %s', 'easyReservations' ), _x( 'condition', 'one condition', 'easyReservations' ) ) );
 			}
 
 			if ( isset( $_POST['filter_form_arrival_checkbox'] ) ) {

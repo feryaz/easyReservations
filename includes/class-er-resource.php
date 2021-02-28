@@ -19,7 +19,6 @@ class ER_Resource {
 	protected $base_price = 0;
 	protected $children_price = 0;
 	protected $billing_method = 0;
-	protected $permission = '';
 	protected $per_person = 0;
 	protected $once = 0;
 	protected $requirements = null;
@@ -50,7 +49,6 @@ class ER_Resource {
 		$this->base_price     = floatval( get_post_meta( $this->get_id(), 'reservations_groundprice', true ) );
 		$this->children_price = floatval( get_post_meta( $this->get_id(), 'reservations_child_price', true ) );
 		$this->billing_method = intval( get_post_meta( $this->get_id(), 'easy-resource-billing-method', true ) );
-		$this->permission     = sanitize_key( get_post_meta( $this->get_id(), 'easy-resource-permission', true ) );
 		$this->requirements   = get_post_meta( $this->get_id(), 'easy-resource-req', true );
 		$this->frequency      = intval( get_post_meta( $this->get_id(), 'er_resource_frequency', true ) );
 
@@ -127,7 +125,7 @@ class ER_Resource {
 		$terms           = get_the_terms( $this->get_id(), 'resource_visibility' );
 		$term_names      = is_array( $terms ) ? wp_list_pluck( $terms, 'name' ) : array();
 		$featured        = in_array( 'featured', $term_names );
-		$onsale        = in_array( 'onsale', $term_names );
+		$onsale          = in_array( 'onsale', $term_names );
 		$exclude_search  = in_array( 'exclude-from-search', $term_names );
 		$exclude_catalog = in_array( 'exclude-from-catalog', $term_names );
 
@@ -158,6 +156,7 @@ class ER_Resource {
 			'frequency'       => $this->get_frequency(),
 			'quantity'        => $this->get_quantity(),
 			'spaces'          => $this->get_spaces_options(),
+			'menu_order'      => intval( $this->menu_order ),
 			'slots'           => $this->get_slots(),
 			'availability_by' => $this->availability_by(),
 		);
@@ -230,10 +229,6 @@ class ER_Resource {
 
 	public function get_content() {
 		return $this->post_content;
-	}
-
-	public function get_permission() {
-		return $this->permission;
 	}
 
 	/**
@@ -662,7 +657,6 @@ class ER_Resource {
 			'children_price' => 'reservations_child_price',
 			'billing_method' => 'easy-resource-billing-method',
 			'base_price'     => 'reservations_groundprice',
-			'permission'     => 'easy-resource-permission',
 			'filter'         => 'easy_res_filter',
 			'slots'          => 'easy-resource-slots',
 			'frequency'      => 'er_resource_frequency'

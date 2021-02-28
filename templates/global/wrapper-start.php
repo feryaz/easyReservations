@@ -47,9 +47,10 @@ switch ( $template ) {
 		break;
 	case 'twentynineteen':
 	case 'twentytwenty':
+	case 'twentytwentyone':
 		echo '<section id="primary" class="content-area"><main id="main" class="site-main">';
 		break;
-	default :
+	default:
 		echo '<div id="primary" class="content-area"><main id="main" class="site-main" role="main">';
 		break;
 }

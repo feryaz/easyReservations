@@ -766,7 +766,7 @@ class ER_Reservation extends ER_Receipt {
 		}
 
 		if ( $req['nights-min'] > $billing_units ) {
-			$errors->add( 'departure', sprintf( __( 'At least %1$s %2$s in %3$s', 'easyReservations' ), $req['nights-min'], er_date_get_interval_label( $resource->get_billing_interval(), $req['nights-min'] ), __( $resource->get_title() ) ) . $billing_units );
+			$errors->add( 'departure', sprintf( __( 'At least %1$s %2$s in %3$s', 'easyReservations' ), $req['nights-min'], er_date_get_interval_label( $resource->get_billing_interval(), $req['nights-min'] ), __( $resource->get_title() ) ) );
 		}
 
 		if ( $req['nights-max'] > 0 && $req['nights-max'] < $billing_units ) {
@@ -880,11 +880,11 @@ class ER_Reservation extends ER_Receipt {
 									break;
 								}
 
-								$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
-								$i = $arrival->getTimestamp();
+								$date = er_date_add_seconds( $arrival, $t * $interval );
+								$i    = $date->getTimestamp();
 
 								if ( ! in_array( $i, $stay_prices_adults ) || ( $this->get_children() > 0 && ! in_array( $i, $stay_prices_children ) && isset( $filter['children-price'] ) ) ) {
-									if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $arrival ) ) {
+									if ( ! isset( $filter['cond'] ) || $resource->time_condition( $filter, $date ) ) {
 										if ( $this->get_children() > 0 && isset( $filter['children-price'] ) && ! empty( $filter['children-price'] ) && ! in_array( $i, $stay_prices_children ) ) {
 											if ( strpos( $filter['children-price'], '%' ) !== false ) {
 												$amount = ER_Number_Util::round( $base_price / 100 * str_replace( '%', '', $filter['children-price'] ), er_get_rounding_precision() );
@@ -915,13 +915,10 @@ class ER_Reservation extends ER_Receipt {
 				}
 			}
 
-			$arrival = clone $this->get_arrival();
-
 			//A slot only has one real billing unit
 			for ( $t = 0; $t < $billing_units; $t ++ ) {
-
-				$arrival->add( new DateInterval( 'PT' . ( $t * $interval ) . 'S' ) );
-				$i = $arrival->getTimestamp();
+				$date = er_date_add_seconds( $arrival, $t * $interval );
+				$i    = $date->getTimestamp();
 
 				if ( ( $resource->bill_only_once() || $this->get_slot() > - 1 ) && $t > 0 ) {
 					break;
@@ -967,6 +964,7 @@ class ER_Reservation extends ER_Receipt {
 
 			if ( ! empty( $all_filter ) ) {
 				$full = array();
+
 				foreach ( $all_filter as $filter ) {
 					if ( $resource->filter( $filter, $this->get_arrival(), $billing_units, $this->get_adults(), $this->get_children(), $this->get_date_created(), $full ) ) {
 						$full[] = $filter['type'];

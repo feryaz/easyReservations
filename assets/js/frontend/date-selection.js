@@ -32,6 +32,7 @@
 			lastRequest = false,
 			done = false,
 			slots = false,
+			currentMonth = false,
 			resourceQuantity = false,
 			arrival = false,
 			arrivalTime = false,
@@ -161,10 +162,10 @@
 						let label = easyFormatTime( timeString[ 0 ], timeString[ 1 ], er_both_params.time_format );
 
 						if ( v.price ) {
-							label += '<span class="price">(' + v.price + ')</span>';
+							label += '<span class="price">' + v.price + '</span>';
 						}
 
-						timeOptions += '<li class="easy-button" data-hour="' + timeString[ 0 ] + '" data-minute="' + timeString[ 1 ] + '" data-id="' + v.key + '" class="' + c + '">' + label + '</li>';
+						timeOptions += '<li class="easy-button ' + c + '" data-hour="' + timeString[ 0 ] + '" data-minute="' + timeString[ 1 ] + '" data-id="' + v.key + '">' + label + '</li>';
 					} );
 				} else {
 					$.each( data[ arrival ], function( t, _slots ) {
@@ -187,7 +188,7 @@
 								label += ' ' + easyFormatTime( departureTimeString[ 0 ], departureTimeString[ 1 ], er_both_params.time_format );
 
 								if ( v.price ) {
-									label += '<span class="price">(' + v.price + ')</span>';
+									label += '<span class="price">' + v.price + '</span>';
 								}
 
 								attributes += ' data-departure=" ' + departureDateString[ 0 ] + '"';
@@ -195,7 +196,7 @@
 								attributes += ' data-departure-minute=" ' + departureTimeString[ 1 ] + '"';
 							}
 
-							timeOptions += '<li class="easy-button" data-hour="' + time[ 0 ] + '" data-minute="' + time[ 1 ] + '" data-id="' + v.key + '" class="' + c + '" ' + attributes + '>' + label + '</li>';
+							timeOptions += '<li class="easy-button ' + c + '" data-hour="' + time[ 0 ] + '" data-minute="' + time[ 1 ] + '" data-id="' + v.key + '" ' + attributes + '>' + label + '</li>';
 
 							//Only display one slot with the same arrival time if we allow picking departure
 							if ( settings.departure ) {
@@ -209,7 +210,7 @@
 					e.find( '.time-picker .insert' ).html( '<ul class="option-buttons">' + timeOptions + '</ul>' );
 					e.find( '.time-picker > td > div' ).slideDown( 350 );
 
-					e.find( 'ul.option-buttons li' ).bind( 'click', function() {
+					e.find( 'ul.option-buttons li.available, ul.option-buttons li.partially' ).bind( 'click', function() {
 						if ( arrivalTime !== false ) {
 							e.find( 'input[name=slot]' ).val( $( this ).attr( 'data-id' ) );
 							setDepartureTime( $( this ).attr( 'data-hour' ), $( this ).attr( 'data-minute' ) );
@@ -332,6 +333,7 @@
 						numberOfMonths: settings.numberOfMonths,
 						beforeShowDay: checkData,
 						onChangeMonthYear: function( year, month, inst ) {
+							currentMonth = month;
 							if ( ! slots || ( ! arrivalTime && settings.time ) || ( arrival && ! settings.time ) ) {
 								loadData( dateFormat.replace( 'dd', '01' ).replace( 'mm', month ).replace( 'yy', year ) );
 							}
@@ -584,10 +586,10 @@
 							total;
 
 						if ( slots ) {
-							total = data[ key ][ Object.keys( data[ key ] )[ 0 ] ];
+							total = data[ key ];
 
 							$.each( total, function( k, v ) {
-								if ( v.availability > 0 ) {
+								if ( v[ 0 ].availability > 0 ) {
 									hasAvailableSlot = true;
 									amountAvailable++;
 								}
@@ -658,10 +660,12 @@
 					data = response;
 					slots = data.hasOwnProperty( 'slots' ) && data.slots;
 
-					if ( data.first_possible ) {
-						const firstPossibleDate = data.first_possible.split( ' ' );
-						if ( arrival ) {
-							calendarContainer.datepicker( 'option', 'minDate', firstPossibleDate[ 0 ] );
+					if ( data.hasOwnProperty( 'first_possible' ) && data.first_possible ) {
+						const firstPossibleDateString = data.first_possible.split( ' ' ),
+							firstPossibleDate = easyStringToDate( firstPossibleDateString[ 0 ] );
+
+						if ( arrival && ( ! currentMonth || currentMonth === firstPossibleDate.getMonth() + 1 ) ) {
+							calendarContainer.datepicker( 'option', 'minDate', firstPossibleDate );
 						}
 					}
 

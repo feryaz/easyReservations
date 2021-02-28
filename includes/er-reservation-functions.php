@@ -182,7 +182,7 @@ function er_reservation_parse_tag( $tag, $reservation ) {
 			return $content;
 			break;
 		default:
-			return apply_filters( 'easyreservations_reservation_parse_tag_' . $type, '' );
+			return apply_filters( 'easyreservations_reservation_parse_tag_' . $type, '', $reservation, $tag );
 			break;
 	}
 }
@@ -258,7 +258,7 @@ function er_reservation_multiply_amount( $reservation, $mode, $amount, $full = 0
  * @return array
  */
 function er_reservation_get_approved_statuses() {
-	return apply_filters( 'easyreservations_order_approved_statuses', array( 'approved', 'checked', 'completed' ) );
+	return apply_filters( 'easyreservations_order_approved_statuses', array( ER_Reservation_Status::APPROVED, ER_Reservation_Status::CHECKED, ER_Reservation_Status::COMPLETED ) );
 }
 
 /**
@@ -308,4 +308,3 @@ function er_delete_temporary_reservations() {
 }
 
 add_action( 'easyreservations_delete_temporary_reservations', 'er_delete_temporary_reservations' );
-add_action( 'init', 'er_delete_temporary_reservations' );

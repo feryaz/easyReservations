@@ -24,6 +24,9 @@ $row_class        = apply_filters( 'easyreservations_admin_html_order_item_class
             <a href="#" class="reservation-preview" data-reservation-id="<?php echo esc_attr( $item->get_reservation_id() ); ?>" title="<?php esc_attr_e( 'Preview', 'easyReservations' ); ?>" style="float:right">
 				<?php esc_html_e( 'Preview', 'easyReservations' ); ?>
             </a>
+            <div style="float:right;margin-right:5%">
+				<?php printf( '<mark class="reservation-status %s"><span>%s</span></mark>', esc_attr( sanitize_html_class( 'status-' . $reservation->get_status() ) ), esc_html( ER_Reservation_Status::get_title( $reservation->get_status() ) ) ); ?>
+            </div>
 			<?php if ( $resource && $resource->availability_by( 'unit' ) && ! $reservation->get_space() && $reservation->has_status( 'approved', 'checked', 'completed' ) ): ?>
                 <div class="attention">
 					<?php esc_html_e( 'No resource space selected - reservation does not affect availability.', 'easyReservations' ); ?>

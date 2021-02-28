@@ -2,7 +2,7 @@
 Contributors: feryaz
 Tags: booking, reservations, hotel, reservation form, calendar, reservation, restaurant, booking form, hospitality, events, tours, availability, bookings, booking calendar, availability calendar
 Requires at least: 5.3
-Tested up to: 5.5.3
+Tested up to: 5.6
 Requires PHP: 7.0
 Stable tag: 5.0.11
 License: GPLv3
@@ -53,6 +53,45 @@ Automatic updates should work smoothly and does not delete any data, but we stil
 If you encounter issues with the catalog/category pages after an update, flush the permalinks by going to WordPress > Settings > Permalinks and hitting “Save.” That should return things to normal.
 
 == Changelog ==
+
+= 6.0-alpha.19 - 2020-02-26 =
+* Enhancement - Setting order to processing or completed only possible if all reservations are approved
+* Enhancement - Added option to add a price display suffix in tax settings
+* Enhancement - Added option to edit the order note
+* Enhancement - Admin created reservations have a resource item with the correct price attached now
+* Enhancement - Display reservation status in admin order receipt
+* Enhancement - Updated filter time unit condition years
+* Enhancement - Custom fields default value get's used as placeholder for text fields, text areas and number fields
+* Enhancement - Added email to privacy exports
+* Enhancement - New order action to approve all attached reservations
+* Fix - Reservations got instantly removed from cart on some setups
+* Fix - Without premium emails could be sent empty
+* Fix - Without premium the order status was not updated after submit and remained as draft
+* Fix - Newly added tax rates did not get applied
+* Fix - Order search
+* Fix - Deposit form does not get displayed for free orders
+* Fix - My account orders endpoint
+* Fix - Filter form unavailability part did not get hidden when switching to price filter
+* Fix - Filter names can have big letters and free spaces now
+* Fix - Stylesheet fixes for the themes twenty twenty and twenty twentyone
+* Fix - Stylesheet fixes for search
+* Fix - Error message when departure is too soon
+* Removed - Required permission option in resources settings
+* Removed - Option to display custom field when adding reservations
+
+= 6.0-alpha.18 - 2020-01-28 =
+* Enhancement - Stylesheets for twenty twentyone wordpress theme
+* Enhancement - Improved automatic order notes for changes in reservation
+* Enhancement - New option to enforce difference in time between arrival and departure
+* Enhancement - Handling of multiply countries in checkout form
+* Enhancement - Improved translatability
+* Fix - Timeline display when changing resources menu order
+* Fix - Reservations in cart apply to calendar availability
+* Fix - Display of unavailable departure days in calendar
+* Fix - Selectability of arrival and departure time in calendar
+* Fix - Resource filters in price calculation
+* Fix - Resource archive
+* Fix - Miscellaneous stylesheet fixes
 
 = 6.0-alpha.17 - 2020-01-04 =
 * Enhancement - Default arrival and departure time in date selection

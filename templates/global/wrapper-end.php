@@ -53,6 +53,7 @@ switch ( $template ) {
 		break;
 	case 'twentynineteen':
 	case 'twentytwenty':
+	case 'twentytwentyone':
 		echo '</main>';
 		echo '</section>';
 		break;

@@ -5,22 +5,27 @@ defined( 'ABSPATH' ) || exit;
  * Register resource post type
  */
 function er_resource_register_post_type() {
-	$permalinks = er_get_permalink_structure();
-
-	$has_archive  = false;
+	$permalinks   = er_get_permalink_structure();
 	$shop_page_id = er_get_page_id( 'shop' );
-	if ( $shop_page_id >= 0 ) {
-		$has_archive = get_post( $shop_page_id ) ? urldecode( get_page_uri( $shop_page_id ) ) : 'shop';
+
+	if ( current_theme_supports( 'easyreservations' ) ) {
+		$has_archive = $shop_page_id && get_post( $shop_page_id ) ? urldecode( get_page_uri( $shop_page_id ) ) : 'shop';
+	} else {
+		$has_archive = false;
 	}
 
 	$labels = array(
-		'name'          => __( 'Resources', 'easyReservations' ),
-		'singular_name' => __( 'Resource', 'easyReservations' ),
-		'add_new'       => sprintf( __( 'Add %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
-		'add_new_item'  => sprintf( __( 'Add %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
-		'edit_item'     => sprintf( __( 'Edit %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
-		'new_item'      => sprintf( __( 'New %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
-		'view_item'     => sprintf( __( 'View %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'name'                  => __( 'Resources', 'easyReservations' ),
+		'singular_name'         => __( 'Resource', 'easyReservations' ),
+		'add_new'               => sprintf( __( 'Add %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'add_new_item'          => sprintf( __( 'Add %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'edit_item'             => sprintf( __( 'Edit %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'new_item'              => sprintf( __( 'New %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'view_item'             => sprintf( __( 'View %s', 'easyReservations' ), __( 'resource', 'easyReservations' ) ),
+		'featured_image'        => __( 'Resource image', 'easyReservations' ),
+		'set_featured_image'    => __( 'Set resource image', 'easyReservations' ),
+		'remove_featured_image' => __( 'Remove resource image', 'easyReservations' ),
+		'use_featured_image'    => __( 'Use as resource image', 'easyReservations' ),
 	);
 
 	$args = array(
@@ -217,12 +222,12 @@ function er_get_resource_term_ids( $resource_id, $taxonomy ) {
 /**
  * Get slot matrix
  *
- * @param ER_Resource              $resource
- * @param ER_DateTime              $date
+ * @param ER_Resource                   $resource
+ * @param ER_DateTime                   $date
  * @param ER_Resource_Availability|bool $availability
- * @param bool                     $price
- * @param int                      $adults
- * @param int                      $children
+ * @param bool                          $price
+ * @param int                           $adults
+ * @param int                           $children
  *
  * @return array|bool
  */
@@ -234,8 +239,8 @@ function er_resource_get_slot_matrix( $resource, $date, $availability = false, $
 		foreach ( $resource->get_slots() as $key => $slot ) {
 			if ( $date >= $slot['range-from'] && $date <= $slot['range-to'] ) {
 				if ( in_array( $day, $slot['days'] ) ) {
-					$arrival   = er_date_add_seconds( $date, $slot['from'] * 60 );
-					$duration  = $slot['to'] * 60 + ( $slot['duration'] * DAY_IN_SECONDS ) - $slot['from'] * 60;
+					$arrival  = er_date_add_seconds( $date, $slot['from'] * 60 );
+					$duration = $slot['to'] * 60 + ( $slot['duration'] * DAY_IN_SECONDS ) - $slot['from'] * 60;
 
 					$matrix[ $arrival->format( 'H:i' ) ][] = er_resource_check_slot( $resource, $arrival, $duration, $availability, $key, $price, $adults, $children );
 
@@ -263,14 +268,14 @@ function er_resource_get_slot_matrix( $resource, $date, $availability = false, $
 /**
  * Check a specific slot for availability and/or price
  *
- * @param ER_Resource $resource
- * @param ER_DateTime $arrival
- * @param int $duration
+ * @param ER_Resource                   $resource
+ * @param ER_DateTime                   $arrival
+ * @param int                           $duration
  * @param ER_Resource_Availability|bool $availability
- * @param int $key
- * @param bool $price
- * @param int  $adults
- * @param int  $children
+ * @param int                           $key
+ * @param bool                          $price
+ * @param int                           $adults
+ * @param int                           $children
  *
  * @return array
  */
@@ -283,7 +288,7 @@ function er_resource_check_slot( $resource, $arrival, $duration, $availability, 
 		$avail = is_numeric( $check ) ? $avail - $check : - 1;
 	}
 
-	if( $price ){
+	if ( $price ) {
 		$reservation = new ER_Reservation( 0 );
 		$reservation->set_arrival( $arrival );
 		$reservation->set_departure( $arrival );

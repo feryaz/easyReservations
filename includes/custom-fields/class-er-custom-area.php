@@ -35,7 +35,7 @@ class ER_Custom_Area extends ER_Custom {
 		$input .= 'id="er-custom-' . esc_attr( $id ) . '" ';
 		$input .= 'name="er-custom-' . esc_attr( $id ) . '" ';
 		$input .= 'class="' . esc_attr( $class ) . '" ';
-		$input .= 'placeholder="' . esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) . '">';
+		$input .= 'placeholder="' . esc_attr( isset( $field['value'] ) ? $field['value'] : '' ) . '">';
 		$input .= esc_textarea( isset( $data['value'] ) ? $data['value'] : '' );
 		$input .= '</textarea>';
 

@@ -6,7 +6,7 @@ jQuery( function( $ ) {
 	 */
 	var TokenizationForm = function( $target ) {
 		this.$target = $target;
-		this.$formWrap = $target.closest( '.payment-box' );
+		this.$formWrap = $target.closest( '.payment_box' );
 
 		// Params.
 		this.params = $.extend( {}, {

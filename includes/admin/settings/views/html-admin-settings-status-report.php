@@ -130,6 +130,10 @@ foreach ( $mu_plugins as $plugin => $mu_plugin ) {
 }
 
 $check_pages = array(
+	_x( 'Catalog', 'Page setting', 'easyReservations' )                 => array(
+		'option'    => 'reservations_shop_page_id',
+		'shortcode' => '',
+	),
 	_x( 'Cart', 'Page setting', 'easyReservations' )                 => array(
 		'option'    => 'reservations_cart_page_id',
 		'shortcode' => '[' . apply_filters( 'easyreservations_cart_shortcode_tag', 'easy_cart' ) . ']',
@@ -269,7 +273,7 @@ $active_theme_info = array(
     </p>
     <p class="submit">
         <a href="#" class="button-primary debug-report"><?php esc_html_e( 'Get system report', 'easyReservations' ); ?></a>
-        <a class="button-secondary docs" href="https://docs.woocommerce.com/document/understanding-the-woocommerce-system-status-report/" target="_blank">
+        <a class="button-secondary docs" href="https://easyreservations.org/documentation/understanding-the-easyreservations-system-status-report/" target="_blank">
 			<?php esc_html_e( 'Understanding the status report', 'easyReservations' ); ?>
         </a>
     </p>
@@ -431,7 +435,7 @@ $active_theme_info = array(
 			if ( version_compare( phpversion(), '7.2', '>=' ) ) {
 				echo '<mark class="yes">' . esc_html( phpversion() ) . '</mark>';
 			} else {
-				$update_link = ' <a href="https://docs.woocommerce.com/document/how-to-update-your-php-version/" target="_blank">' . esc_html__( 'How to update your PHP version', 'easyReservations' ) . '</a>';
+				$update_link = ' <a href="https://easyreservations.org/documentation/how-to-update-your-php-version/" target="_blank">' . esc_html__( 'How to update your PHP version', 'easyReservations' ) . '</a>';
 				$class       = 'error';
 
 				if ( version_compare( phpversion(), '5.4', '<' ) ) {
@@ -633,7 +637,7 @@ $active_theme_info = array(
 			<?php
 			if ( strlen( $database['database_prefix'] ) > 20 ) {
 				/* Translators: %1$s: Database prefix, %2$s: Docs link. */
-				echo '<mark class="error"><span class="dashicons dashicons-warning"></span> ' . sprintf( esc_html__( '%1$s - We recommend using a prefix with less than 20 characters. See: %2$s', 'easyReservations' ), esc_html( $database['database_prefix'] ), '<a href="https://docs.woocommerce.com/document/completed-order-email-doesnt-contain-download-links/#section-2" target="_blank">' . esc_html__( 'How to update your database table prefix', 'easyReservations' ) . '</a>' ) . '</mark>';
+				echo '<mark class="error"><span class="dashicons dashicons-warning"></span> ' . sprintf( esc_html__( '%1$s - We recommend using a prefix with less than 20 characters. See: %2$s', 'easyReservations' ), esc_html( $database['database_prefix'] ), '<a href="https://easyreservations.org/documentation/how-to-update-your-database-table-prefix/" target="_blank">' . esc_html__( 'How to update your database table prefix', 'easyReservations' ) . '</a>' ) . '</mark>';
 			} else {
 				echo '<mark class="yes">' . esc_html( $database['database_prefix'] ) . '</mark>';
 			}
@@ -723,7 +727,7 @@ $active_theme_info = array(
                 <mark class="error"><span class="dashicons dashicons-warning"></span>
 					<?php
 					/* Translators: %s: docs link. */
-					echo wp_kses_post( sprintf( __( 'Your store is not using HTTPS. <a href="%s" target="_blank">Learn more about HTTPS and SSL Certificates</a>.', 'easyReservations' ), 'https://docs.woocommerce.com/document/ssl-and-https/' ) );
+					echo wp_kses_post( sprintf( __( 'Your store is not using HTTPS. <a href="%s" target="_blank">Learn more about HTTPS and SSL Certificates</a>.', 'easyReservations' ), 'https://easyreservations.org/documentation/ssl-and-https/' ) );
 					?>
                 </mark>
 			<?php endif; ?>
@@ -1163,7 +1167,7 @@ if ( 0 < count( $dropin_plugins['mu_plugins'] ) ) :
                 <mark class="error">
                     <span class="dashicons dashicons-warning"></span>
                 </mark>
-                <a href="https://docs.woocommerce.com/document/fix-outdated-templates-woocommerce/" target="_blank">
+                <a href="https://easyreservations.org/documentation/fixing-outdated-easyreservations-templates/" target="_blank">
 					<?php esc_html_e( 'Learn how to update', 'easyReservations' ); ?>
                 </a>
             </td>

@@ -85,7 +85,7 @@ class ER_Shop_Customizer {
 		$max_notice = __( 'The maximum allowed setting is %d', 'easyReservations' );
 		?>
         <script type="text/javascript">
-			jQuery( document ).ready( function( $ ) {
+			jQuery( function( $ ) {
 				$( document.body ).on( 'change', '.easyreservations-cropping-control input[type="radio"]', function() {
 					var $wrapper = $( this ).closest( '.easyreservations-cropping-control' ),
 						value    = $wrapper.find( 'input:checked' ).val();

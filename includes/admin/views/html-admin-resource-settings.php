@@ -355,17 +355,6 @@ $time_options = er_form_time_options();
 		),
 
 		array(
-			'title'       => __( 'Required permission', 'easyReservations' ),
-			'desc_tip'    => 'Set the required permission to work with this resource. Affects reservations dashboard, resource settings, statistics and dashboard widget. ',
-			'id'          => 'resource_permission',
-			'type'        => 'select',
-			'class'       => 'er-enhanced-select',
-			'input-group' => 'start',
-			'options'     => er_form_roles_options(),
-			'value'       => get_post_meta( $resource->get_id(), 'easy-resource-permission', true )
-		),
-
-		array(
 			'type' => 'sectionend',
 		),
 

@@ -19,7 +19,8 @@
 		thead = table.find( 'thead:not(.main)' ),
 		tbody = table.find( 'tbody' ),
 		cells = 60,
-		cellDimensions = { height: 32, width: 96 };
+		cellDimensions = { height: 32, width: 96 },
+		resourcesSort = Object.keys( data.resources );
 
 	let reservations = [], //Reservation data
 		selected = false, //Current time
@@ -44,6 +45,10 @@
 		snappingEnabled = data.default_snapping === '1', //If the snapping mode is enabled for dragging and resizing
 		interval = '86400', //Default interval of timeline
 		intervalString = 'days';
+
+	resourcesSort.sort( function( k, v ) {
+		return data.resources[ k ].menu_order - data.resources[ v ].menu_order;
+	} );
 
 	header
 		.on( 'click', '.expand-sidebar', function() {
@@ -629,22 +634,23 @@
 						erTimeline.jump_to_date( reservation.arrival );
 
 						if ( resourceId > 0 ) {
-							resources.find( '.resource-handler:not([data-resource="' + reservation.resource + '"],.retracted),.resource-handler.retracted[data-resource="' + reservation.resource + '"]' ).click();
+							resources.find( '.resource-handler:not([data-resource="' + reservation.resource + '"],.retracted),.resource-handler.retracted[data-resource="' + reservation.resource + '"]' ).trigger( 'click' );
 						}
 
-						$.each( data.resources, function( _, resource ) {
-							if ( ! foundFreeSpace && ( resourceId === 0 || resourceId === resource.ID ) ) {
-								if ( resource.availability_by === 'unit' ) {
-									reservation.resource = resource.ID;
+						$.each( resourcesSort, function( _, currentResourceID ) {
+							if ( ! foundFreeSpace && ( resourceId === 0 || resourceId === parseInt( currentResourceID, 10 ) ) ) {
+								reservation.resource = parseInt( currentResourceID, 10 );
+
+								if ( data.resources[ currentResourceID ].availability_by !== 'unit' ) {
 									reservation.space = 1;
 									foundFreeSpace = true;
 
 									return false;
 								}
-								reservation.resource = resource.ID;
 
-								for ( let i = 1; i <= resource.quantity; i++ ) {
-									reservation.space = 1;
+
+								for ( let i = 1; i <= data.resources[ currentResourceID ].quantity; i++ ) {
+									reservation.space = i;
 
 									//TODO this should happen after reservations are loaded
 									if ( erTimeline.check_availability( reservation ) ) {
@@ -760,7 +766,6 @@
 		 */
 		init: function() {
 			const height = ( $( window ).height() - resourcesVertical.offset().top - 5 ) / ( data.reservation_id > 0 ? 3 : 1 );
-
 			resourcesVertical.css( 'max-height', height );
 			tableVertical.css( 'max-height', height );
 
@@ -789,7 +794,6 @@
 			end = moment( start );
 			lastQueryEnd = moment( start );
 			lastQueryStart = moment( start );
-			var t0 = performance.now();
 
 			for ( let i = 0; i < cells; i++ ) {
 				erTimeline.generate_column( end, false );
@@ -797,8 +801,6 @@
 					end.add( 1, intervalString );
 				}
 			}
-			var t1 = performance.now();
-			console.log( "Call to doSomething took " + ( t1 - t0 ) + " milliseconds." );
 
 			erTimeline.load_remaining();
 
@@ -1374,7 +1376,7 @@
 		 * Draw single reservation
 		 *
 		 * @param {Object} reservation
-		 * @return {boolean}
+		 * @return {boolean} didAdd
 		 */
 		draw_reservation: function( reservation ) {
 			const id = parseInt( reservation.id, 10 ),
@@ -1444,13 +1446,13 @@
 				return true;
 				//delete reservations[ id ];
 			}
+
 			if ( changedAnyReservation ) {
 				//We changed other reservations and begin drawing from the first changed reservation by arrival again
-
 				return false;
 			}
-			//We can draw this reservations now
 
+			//We can draw this reservations now
 			element
 				.html( '<span class="wrapper"><span class="sticky"><span class="id">' + id + '</span><div class="title">' + reservation.title + '</div></span></span>' )
 				.css( 'min-width', width + 'px' )
@@ -1531,8 +1533,8 @@
 		/**
 		 * Checks reservation against other loaded reservations
 		 *
-		 * @param reservationToCheck
-		 * @return {boolean}
+		 * @param {Object} reservationToCheck
+		 * @return {boolean} available
 		 */
 		check_availability: function( reservationToCheck ) {
 			const id = parseInt( reservationToCheck.id, 10 );
@@ -1546,6 +1548,8 @@
 					return false;
 				}
 			} );
+
+			console.log( available );
 
 			return available;
 		},
@@ -1698,7 +1702,7 @@
 				tableHeader.append( headerMain );
 			}
 
-			$.each( data.resources, function( resourceId, resource ) {
+			$.each( resourcesSort, function( _, resourceId ) {
 				const cellHeader = $( '<th><div class="count"></div></th>' )
 					.addClass( headerClass )
 					.attr( 'data-resource', resourceId )
@@ -1710,7 +1714,7 @@
 					$( thead[ tbodyNumber ] ).find( 'tr' ).append( cellHeader );
 				}
 
-				for ( i = 1; i <= ( resource.availability_by === 'unit' ? resource.quantity : 1 ); i++ ) {
+				for ( i = 1; i <= ( data.resources[ resourceId ].availability_by === 'unit' ? data.resources[ resourceId ].quantity : 1 ); i++ ) {
 					const cell = $( '<td class="cell"></td>' )
 						.addClass( headerClass )
 						.attr( 'data-resource', resourceId )

@@ -24,7 +24,7 @@ if ( ! class_exists( 'ER_Tax' ) ) :
 
 			if ( $tax_rates && ! empty( $tax_rates ) ) {
 				foreach ( $tax_rates as $key => $rate ) {
-					if ( in_array( $rate['priority'], $found_priority, true ) || ( $type && $rate['apply'] !== $type && ( ! is_numeric( $type ) || $rate['apply'] !== 'resources' ) ) ) {
+					if ( in_array( $rate['priority'], $found_priority, true ) || ( $type && $rate['apply'] !== $type && $rate['apply'] !== 'all' && ( ! is_numeric( $type ) || $rate['apply'] !== 'resources' ) ) ) {
 						continue;
 					}
 
@@ -45,7 +45,6 @@ if ( ! class_exists( 'ER_Tax' ) ) :
 			if ( empty( self::$tax_rates ) ) {
 				$tax_rates_db = get_option( 'reservations_tax_rates', array() );
 				$tax_rates    = array();
-				$i            = 0;
 
 				foreach ( $tax_rates_db as $rate ) {
 					$id               = isset( $rate['id'] ) ? sanitize_text_field( $rate['id'] ) : '1';
@@ -57,9 +56,7 @@ if ( ! class_exists( 'ER_Tax' ) ) :
 						'flat'     => isset( $rate['flat'] ) ? intval( $rate['flat'] ) : 0,
 						'compound' => isset( $rate['compound'] ) ? intval( $rate['compound'] ) : 0,
 						'priority' => isset( $rate['priority'] ) ? intval( $rate['priority'] ) : 1,
-						'order'    => $i,
 					);
-					$i ++;
 				}
 
 				self::$tax_rates = $tax_rates;

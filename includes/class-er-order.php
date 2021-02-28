@@ -87,7 +87,6 @@ class ER_Order extends ER_Abstract_Order {
 
 	/**
 	 * Log an error about this order is exception is encountered.
-	 *
 	 * @param Exception $e Exception object.
 	 * @param string    $message Message regarding exception thrown.
 	 */

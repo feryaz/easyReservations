@@ -15,6 +15,7 @@ class ER_Resource_Availability {
 	private $arrival = "arrival";
 	private $departure = "departure";
 	private $status = '';
+	private $ids = '';
 	private $resource_query = '';
 	private $interval = 86400;
 	private $quantity = 1;
@@ -92,10 +93,16 @@ class ER_Resource_Availability {
 
 		if ( $ids ) {
 			if ( is_array( $ids ) ) {
-				$this->status .= $wpdb->prepare( ' or id in (%s)', implode( ',', $ids ) );
+				$this->ids    = implode( ',', array_map( function ( $v ) {
+					return "'" . esc_sql( $v ) . "'";
+				}, $ids ) );
+				$this->status .= stripslashes( $wpdb->prepare( ' or id IN (%s)', implode( "', '", $ids ) ) );
 			} else {
+				$this->ids    = "'" . esc_sql( $ids ) . "'";
 				$this->status .= $wpdb->prepare( ' or id = %d', $ids );
 			}
+		} else {
+			$this->ids = "'0'";
 		}
 
 		$this->status = '(' . $this->status . ')';
@@ -268,7 +275,7 @@ class ER_Resource_Availability {
 			}
 		} else {
 			$sql = $wpdb->prepare(
-				"SELECT COUNT(DISTINCT space) FROM {$wpdb->prefix}reservations " .
+				"SELECT COUNT(DISTINCT CASE WHEN id in({$this->ids}) THEN id ELSE space END) FROM {$wpdb->prefix}reservations " .
 				"WHERE {$this->status} AND {$this->resource_query} {$this->space} %s <= {$this->departure} AND %s >= {$this->arrival}",
 				$check_form->format( 'Y-m-d H:i:s' ),
 				$check_until->format( 'Y-m-d H:i:s' )
@@ -319,8 +326,8 @@ class ER_Resource_Availability {
 				$day . ' 23:59:59',
 				$day . ' 00:00:00',
 				$day . ' 23:59:59',
-				$day . ' 00:00:00',
-				$day . ' 23:59:59',
+				$departure->format( "Y-m-d" ) . ' 00:00:00',
+				$departure->format( "Y-m-d" ) . ' 23:59:59',
 				$day . ' 00:00:00',
 				$day . ' 23:59:59',
 				$arrival->format( "Y-m-d" ) . ' 00:00:00',
@@ -332,7 +339,7 @@ class ER_Resource_Availability {
 			$sql = $wpdb->prepare(
 				"SELECT COUNT((CASE WHEN arrival >= %s AND arrival <= %s THEN space END)) AS arrival, " .
 				"COUNT((CASE WHEN departure >= %s AND departure <= %s THEN space END)) AS departure, " .
-				"COUNT(DISTINCT space) AS count_all, " .
+				"COUNT(DISTINCT CASE WHEN id in({$this->ids}) THEN id ELSE space END) AS count_all, " .
 				"MAX(CASE WHEN arrival >= %s AND arrival <= %s THEN arrival END) AS max_arrival, " .
 				"MIN(CASE WHEN departure >= %s AND departure <= %s THEN departure END) as min_departure " .
 				"FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s <= {$this->departure} AND %s >= {$this->arrival}",
@@ -340,12 +347,12 @@ class ER_Resource_Availability {
 				$day . ' 23:59:59',
 				$day . ' 00:00:00',
 				$day . ' 23:59:59',
+				$departure->format( "Y-m-d" ) . ' 00:00:00',
+				$departure->format( "Y-m-d" ) . ' 23:59:59',
 				$day . ' 00:00:00',
 				$day . ' 23:59:59',
-				$day . ' 00:00:00',
-				$day . ' 23:59:59',
-				$arrival->format( "Y-m-d H:i:s" ),
-				$departure->format( "Y-m-d H:i:s" )
+				$arrival->format( "Y-m-d" ) . ' 00:00:00',
+				$departure->format( "Y-m-d" ) . ' 23:59:59'
 			);
 
 			$result = $wpdb->get_row( $sql );
@@ -371,7 +378,6 @@ class ER_Resource_Availability {
 			return $filter;
 		}
 
-		$check_from  = $arrival->format( "Y-m-d H:i:s" );
 		$check_until = $departure->format( "Y-m-d H:i:s" );
 
 		if ( $this->per_person ) {
@@ -395,17 +401,17 @@ class ER_Resource_Availability {
 			$sql = $wpdb->prepare(
 				"SELECT COUNT(DISTINCT(CASE WHEN DATE(arrival) = DATE(%s) THEN space END)) AS arrival, " .
 				"COUNT(DISTINCT(CASE WHEN DATE(departure) = DATE(%s) THEN space END)) AS departure, " .
-				"COUNT(DISTINCT(CASE WHEN DATE(arrival) != DATE(%s) THEN space END)) AS count_all, " .
+				"COUNT(DISTINCT(CASE WHEN DATE(departure) > DATE(%s) THEN ( CASE WHEN id in({$this->ids}) THEN id ELSE space END) END)) AS count_all, " .
 				"MAX(CASE WHEN DATE(arrival) = DATE(%s) THEN arrival END) AS max_arrival, " .
 				"MIN(CASE WHEN DATE(departure) = DATE(%s) THEN departure END) as min_departure " .
 				"FROM {$wpdb->prefix}reservations WHERE {$this->status} AND {$this->resource_query} %s <= {$this->departure} AND %s >= {$this->arrival}",
 				$check_until,
 				$check_until,
+				$arrival->format( "Y-m-d H:i:s" ),
 				$check_until,
 				$check_until,
-				$check_until,
-				$check_from,
-				$check_until
+				$arrival->format( "Y-m-d H:i:s" ),
+				$departure->format( "Y-m-d" ) . ' 23:59:59'
 			);
 
 			$result = $wpdb->get_row( $sql );

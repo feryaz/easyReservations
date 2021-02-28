@@ -56,6 +56,9 @@ class ER_Validation {
 			case 'BA':
 				$valid = (bool) preg_match( '/^([7-8]{1})([0-9]{4})$/', $postcode );
 				break;
+			case 'BE':
+				$valid = (bool) preg_match( '/^([0-9]{4})$/i', $postcode );
+				break;
 			case 'BR':
 				$valid = (bool) preg_match( '/^([0-9]{5})([-])?([0-9]{3})$/', $postcode );
 				break;
@@ -87,6 +90,7 @@ class ER_Validation {
 			case 'PT':
 				$valid = (bool) preg_match( '/^([0-9]{4})([-])([0-9]{3})$/', $postcode );
 				break;
+			case 'PR':
 			case 'US':
 				$valid = (bool) preg_match( '/^([0-9]{5})(-[0-9]{4})?$/i', $postcode );
 				break;

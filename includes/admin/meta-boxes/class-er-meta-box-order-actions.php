@@ -115,7 +115,6 @@ class ER_Meta_Box_Order_Actions {
 				// Change the post saved message.
 				add_filter( 'redirect_post_location', array( __CLASS__, 'set_email_sent_message' ) );
 			} else {
-
 				if ( ! did_action( 'easyreservations_order_action_' . sanitize_title( $action ) ) ) {
 					do_action( 'easyreservations_order_action_' . sanitize_title( $action ), $order );
 				}

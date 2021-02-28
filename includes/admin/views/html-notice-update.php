@@ -40,5 +40,8 @@ $update_url = wp_nonce_url(
         <a href="<?php echo esc_url( $update_url ); ?>" class="er-update-now button-primary">
 			<?php esc_html_e( 'Update easyReservations Database', 'easyReservations' ); ?>
         </a>
+        <a href="https://easyreservations.org/documentation/how-to-update-easyreservations/" class="button-secondary">
+		    <?php esc_html_e( 'Learn more about updates', 'easyReservations' ); ?>
+        </a>
     </p>
 </div>

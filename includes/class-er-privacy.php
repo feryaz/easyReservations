@@ -69,7 +69,7 @@ class ER_Privacy extends ER_Abstract_Privacy {
 			'<h2>' . __( 'What we collect and store', 'easyReservations' ) . '</h2>' .
 			'<p>' . __( 'While you visit our site, we’ll track:', 'easyReservations' ) . '</p>' .
 			'<ul>' .
-				'<li>' . __( 'Products you’ve viewed:  we’ll use this to, for example, show you products you’ve recently viewed', 'easyReservations' ) . '</li>' .
+				'<li>' . __( 'Resources you’ve viewed:  we’ll use this to, for example, show you resources you’ve recently viewed', 'easyReservations' ) . '</li>' .
 				'<li>' . __( 'Location, IP address and browser type: we’ll use this for purposes like estimating taxes and shipping', 'easyReservations' ) . '</li>' .
 				'<li>' . __( 'Shipping address: we’ll ask you to enter this so we can, for instance, estimate shipping before you place an order, and send you the order!', 'easyReservations' ) . '</li>' .
 			'</ul>' .

@@ -618,6 +618,7 @@ function er_format_postcode( $postcode, $country ) {
 		case 'PT':
 			$postcode = substr_replace( $postcode, '-', 4, 0 );
 			break;
+		case 'PR':
 		case 'US':
 			$postcode = rtrim( substr_replace( $postcode, '-', 5, 0 ), '-' );
 			break;

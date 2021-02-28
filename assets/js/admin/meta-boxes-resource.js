@@ -171,5 +171,7 @@ jQuery( function( $ ) {
 		}, 500 );
 	} );
 
-	wp.data.dispatch( 'core/edit-post' ).removeEditorPanel( 'discussion-panel' );
+	if( wp.data.dispatch( 'core/edit-post' ) ){
+		wp.data.dispatch( 'core/edit-post' ).removeEditorPanel( 'discussion-panel' );
+	}
 } );

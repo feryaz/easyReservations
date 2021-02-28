@@ -75,10 +75,6 @@ class ER_Admin_Resources {
 	public static function output_resource_page( $id ) {
 		$resource = ER()->resources()->get( $id );
 
-		if ( ! empty( $resource->get_permission() ) && ! current_user_can( $resource->get_permission() ) ) {
-			die( 'You do not have the required permission to access this reservation' );
-		}
-
 		wp_enqueue_script( 'er-datepicker' );
 		wp_enqueue_script( 'er-enhanced-select' );
 		wp_enqueue_style( 'er-datepicker' );
@@ -330,15 +326,6 @@ class ER_Admin_Resources {
 			) );
 		}
 
-		$permission = sanitize_key( $_POST['resource_permission'] );
-		if ( get_post_meta( $id, 'easy-resource-permission', true ) !== $permission ) {/* SET PRICE SETTINGS */
-			if ( current_user_can( 'manage_options' ) ) {
-				update_post_meta( $id, 'easy-resource-permission', $permission );
-			} else {
-				ER_Admin_Notices::add_temporary_error( __( 'Only admins can change the permissions for', 'easyReservations' ) . ' ' . __( 'Resources', 'easyReservations' ) );
-			}
-		}
-
 		$resource_interval = intval( $_POST['billing_interval'] );
 		if ( $billing_method == 3 ) {
 			$resource_interval = DAY_IN_SECONDS;
@@ -374,7 +361,7 @@ class ER_Admin_Resources {
 		if ( ! empty( $_POST['filter_form_name_field'] ) ) {
 			$type   = sanitize_key( $_POST['filter_type'] );
 			$filter = array(
-				'name' => sanitize_title( $_POST['filter_form_name_field'] )
+				'name' => sanitize_text_field( $_POST['filter_form_name_field'] )
 			);
 
 			if ( $type == 'price' ) {
@@ -479,7 +466,7 @@ class ER_Admin_Resources {
 				}
 
 				if ( ! isset( $_POST['price_filter_cond_range'] ) && ! isset( $_POST['price_filter_cond_unit'] ) ) {
-					ER_Admin_Notices::add_temporary_error( sprintf( __( 'Select %s', 'easyReservations' ), __( 'condition', 'easyReservations' ) ) );
+					ER_Admin_Notices::add_temporary_error( sprintf( __( 'Select %s', 'easyReservations' ), _x( 'condition', 'one condition', 'easyReservations' ) ) );
 				}
 			}
 

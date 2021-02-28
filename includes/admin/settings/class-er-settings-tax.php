@@ -129,6 +129,16 @@ class ER_Settings_Tax extends ER_Settings_Page {
 				),
 
 				array(
+					'title'       => __( 'Price display suffix', 'easyReservations' ),
+					'id'          => 'reservations_price_display_suffix',
+					'option'      => 'reservations_price_display_suffix',
+					'default'     => '',
+					'placeholder' => __( 'N/A', 'easyReservations' ),
+					'type'        => 'text',
+					'desc_tip'    => __( 'Define text to show after your resources prices. This could be, for example, "inc. Vat" to explain your pricing. You can also have prices substituted here using one of the following: {price_including_tax}, {price_excluding_tax}.', 'easyReservations' ),
+				),
+
+				array(
 					'title'   => __( 'Display tax totals', 'easyReservations' ),
 					'id'      => 'reservations_tax_total_display',
 					'option'  => 'reservations_tax_total_display',
@@ -161,20 +171,27 @@ class ER_Settings_Tax extends ER_Settings_Page {
 		ER_Admin_Settings::save_fields( $settings );
 
 		$rates = array();
-		$order = 0;
+		$new_id = 1;
+
 		foreach ( $_POST['tax_rate_name'] as $i => $name ) {
 			$id      = sanitize_key( $i );
-			$rates[] = array(
-				'id'       => $id,
-				'apply'    => 'resources',
+			$new_rate = array(
+				'apply'    => sanitize_key( $_POST['tax_rate_apply'][ $id ] ),
 				'title'    => sanitize_text_field( $_POST['tax_rate_name'][ $id ] ),
 				'rate'     => sanitize_text_field( $_POST['tax_rate'][ $id ] ),
 				'flat'     => isset( $_POST['tax_rate_flat'][ $id ] ) ? 1 : 0,
 				'compound' => isset( $_POST['tax_rate_compound'][ $id ] ) ? 1 : 0,
 				'priority' => intval( $_POST['tax_rate_priority'][ $id ] ),
-				'order'    => $order,
 			);
-			$order ++;
+
+			if ( ! is_numeric( $id ) ) {
+				$id = $new_id;
+			}
+
+			$new_rate['id'] = $id;
+
+			$rates[] = $new_rate;
+			$new_id++;
 		}
 
 		array_multisort( array_column( $rates, 'priority' ), $rates );

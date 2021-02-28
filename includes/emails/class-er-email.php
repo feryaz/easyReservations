@@ -127,6 +127,7 @@ class ER_Email extends ER_Settings_API {
 	 * @var bool
 	 */
 	public $sending;
+
 	/**
 	 *  List of preg* regular expression patterns to search for,
 	 *  used in conjunction with $plain_replace.
@@ -156,6 +157,7 @@ class ER_Email extends ER_Settings_API {
 		'/&[^&\s;]+;/i',                                         // Unknown/unhandled entities.
 		'/[ ]{2,}/',                                             // Runs of spaces, post-handling.
 	);
+
 	/**
 	 *  List of pattern replacements corresponding to patterns searched.
 	 *
@@ -183,18 +185,21 @@ class ER_Email extends ER_Settings_API {
 		'',                                             // Unknown/unhandled entities.
 		' ',                                             // Runs of spaces, post-handling.
 	);
+
 	/**
 	 * True when the email notification is sent manually only.
 	 *
 	 * @var bool
 	 */
 	protected $manual = false;
+
 	/**
 	 * True when the email notification is sent to customers.
 	 *
 	 * @var bool
 	 */
 	protected $customer_email = false;
+
 	/**
 	 * Strings to find/replace in subjects/headings.
 	 *
@@ -327,12 +332,6 @@ class ER_Email extends ER_Settings_API {
 	 */
 	public function get_additional_content() {
 		$content = $this->get_option( 'additional_content', '' );
-		$tags    = er_form_template_parser( $content, true );
-
-		foreach ( $tags as $string ) {
-			$tag     = shortcode_parse_atts( $string );
-			$content = str_replace( '[' . $string . ']', er_reservation_parse_tag( $tag, $this ), $content );
-		}
 
 		return apply_filters( 'easyreservations_email_additional_content_' . $this->id, $this->format_string( $content ), $this->object, $this );
 	}
@@ -674,7 +673,7 @@ class ER_Email extends ER_Settings_API {
 				'title'       => __( 'Email type', 'easyReservations' ),
 				'type'        => 'select',
 				'description' => __( 'Choose which format of email to send.', 'easyReservations' ),
-				'default'     => 'html',
+				'default'     => 'plain',
 				'class'       => 'email_type er-enhanced-select',
 				'options'     => $this->get_email_type_options(),
 				'desc_tip'    => true,
@@ -923,8 +922,9 @@ class ER_Email extends ER_Settings_API {
 
 					$local_file    = $this->get_theme_template_file( $template );
 					$core_file     = $this->template_base . $template;
-					$template_file = apply_filters( 'easyreservations_locate_core_template', $this->template_base,  $template, $this->id );
+					$template_file = apply_filters( 'easyreservations_locate_core_template', $core_file,  $template, $this->id );
 					$template_dir  = apply_filters( 'easyreservations_template_directory', 'easyReservations', $template );
+
 					?>
                     <div class="template <?php echo esc_attr( $template_type ); ?>">
                         <h4><?php echo wp_kses_post( $title ); ?></h4>
@@ -1014,11 +1014,15 @@ class ER_Email extends ER_Settings_API {
 				var view = '" . esc_js( __( 'View template', 'easyReservations' ) ) . "';
 				var hide = '" . esc_js( __( 'Hide template', 'easyReservations' ) ) . "';
 
-				jQuery( 'a.toggle_editor' ).text( view ).toggle( function() {
-					jQuery( this ).text( hide ).closest(' .template' ).find( '.editor' ).slideToggle();
-					return false;
-				}, function() {
-					jQuery( this ).text( view ).closest( '.template' ).find( '.editor' ).slideToggle();
+
+				jQuery( 'a.toggle_editor' ).text( view ).click( function() {
+					var label = hide;
+
+					if ( jQuery( this ).closest(' .template' ).find( '.editor' ).is(':visible') ) {
+						var label = view;
+					}
+
+					jQuery( this ).text( label ).closest(' .template' ).find( '.editor' ).slideToggle();
 					return false;
 				} );
 

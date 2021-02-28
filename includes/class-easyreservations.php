@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.17';
+	public $version = '6.0-alpha.19';
 
 	/**
 	 * easyReservations Schema version.
@@ -632,6 +632,14 @@ final class easyReservations {
 			'twentynineteen'  => array(
 				'thumbnail_image_width' => 300,
 				'single_image_width'    => 450,
+			),
+			'twentytwenty'  => array(
+				'thumbnail_image_width' => 300,
+				'single_image_width'    => 450,
+			),
+			'twentytwentyone'  => array(
+				'thumbnail_image_width' => 450,
+				'single_image_width'    => 600,
 			)
 		) );
 

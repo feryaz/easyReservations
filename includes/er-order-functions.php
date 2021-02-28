@@ -233,7 +233,7 @@ function er_order_parse_tag( $tag, $order ) {
 			return $content;
 			break;
 		default:
-			return apply_filters( 'easyreservations_reservation_parse_tag_' . $type, '' );
+			return apply_filters( 'easyreservations_order_parse_tag_' . $type, '', $order, $tag );
 			break;
 	}
 }
@@ -268,7 +268,16 @@ function er_cancel_unpaid_orders() {
 add_action( 'easyreservations_cancel_unpaid_orders', 'er_cancel_unpaid_orders' );
 
 /**
- * Get list of statuses which are consider 'paid'.
+ * Get list of statuses which are considered 'accepted'.
+ *
+ * @return array
+ */
+function er_get_is_accepted_statuses() {
+	return apply_filters( 'easyreservations_order_is_accepted_statuses', array( 'processing', 'completed' ) );
+}
+
+/**
+ * Get list of statuses which are considered 'paid'.
  *
  * @return array
  */
@@ -277,7 +286,7 @@ function er_get_is_paid_statuses() {
 }
 
 /**
- * Get list of statuses which are consider 'pending payment'.
+ * Get list of statuses which are considered 'pending payment'.
  *
  * @return array
  */
@@ -610,7 +619,7 @@ function er_delete_easy_order_transients( $order = 0 ) {
  *
  * @return array List of orders ID.
  */
-function esr_order_search( $term ) {
+function er_order_search( $term ) {
 	$data_store = ER_Data_Store::load( 'order' );
 
 	return $data_store->search_orders( str_replace( 'Order #', '', er_clean( $term ) ) );
@@ -764,6 +773,32 @@ function er_create_refund( $args = array() ) {
 	}
 
 	return $refund;
+}
+
+/**
+ * Wether the status of the order can be set to an completed status
+ *
+ * @param ER_Order $order
+ *
+ * @return bool
+ */
+function er_order_reservations_approved_and_existing( $order ){
+	$reservation_items = $order->get_reservations();
+
+	if ( $reservation_items ) {
+		foreach ( $reservation_items as $item ) {
+			$reservation_id = $item->get_reservation_id();
+			$reservation    = er_get_reservation( $reservation_id );
+
+			if ( ! $reservation ) {
+				return false;
+			} elseif ( ! in_array( $reservation->get_status(), er_reservation_get_approved_statuses() ) ) {
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 /**

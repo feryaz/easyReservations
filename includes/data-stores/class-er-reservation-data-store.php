@@ -388,7 +388,7 @@ class ER_Reservation_Data_Store extends Abstract_ER_Receipt_Data_Store implement
 				WHERE   reservations.status = 'temporary'
 				AND     meta.meta_value < %s",
 				// @codingStandardsIgnoreEnd
-				date( DATE_ATOM, absint( $date ) )
+				gmdate( 'Y-m-d H:i:s', absint( $date ) )
 			)
 		);
 

@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										echo er_price( $option['price'], true );
 									} ?>
 									<?php if ( isset( $option['clauses'] ) ): ?>
-                                        (<?php echo esc_html( count( $option['clauses'] ) . _n( 'Condition', 'Conditions', count( $option['clauses'] ), 'easyReservations' ) ); ?>)
+                                        (<?php echo esc_html( count( $option['clauses'] ) . _n( 'condition', 'conditions', count( $option['clauses'] ), 'easyReservations' ) ); ?>)
 									<?php endif; ?>
 
                                 </li>

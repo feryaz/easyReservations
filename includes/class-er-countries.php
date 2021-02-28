@@ -354,6 +354,7 @@ class ER_Countries {
 					'IN'      => "{company}\n{name}\n{address_1}\n{address_2}\n{city} {postcode}\n{state}, {country}",
 					'IS'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'IT'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode}\n{city}\n{state_upper}\n{country}",
+					'JM'      => "{name}\n{company}\n{address_1}\n{address_2}\n{city}\n{state}\n{postcode_upper}\n{country}",
 					'JP'      => "{postcode}\n{state} {city} {address_1}\n{address_2}\n{company}\n{last_name} {first_name}\n{country}",
 					'TW'      => "{company}\n{last_name} {first_name}\n{address_1}\n{address_2}\n{state}, {city} {postcode}\n{country}",
 					'LI'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
@@ -361,7 +362,7 @@ class ER_Countries {
 					'NZ'      => "{name}\n{company}\n{address_1}\n{address_2}\n{city} {postcode}\n{country}",
 					'NO'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'PL'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
-					'PR'      => "{company}\n{name}\n{address_1} {address_2}\n{state} \n{country} {postcode}",
+					'PR'      => "{company}\n{name}\n{address_1} {address_2}\n{city} \n{country} {postcode}",
 					'PT'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'SK'      => "{company}\n{name}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
 					'RS'      => "{name}\n{company}\n{address_1}\n{address_2}\n{postcode} {city}\n{country}",
@@ -762,7 +763,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
-							'hidden' => true,
+							'hidden'   => true,
 						),
 					),
 					'DK' => array(
@@ -771,7 +772,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
-							'hidden' => true,
+							'hidden'   => true,
 						),
 					),
 					'EE' => array(
@@ -854,7 +855,7 @@ class ER_Countries {
 						'address_2'  => array(
 							'priority' => 72,
 						),
-						'state' => array(
+						'state'      => array(
 							'label' => __( 'County', 'easyReservations' ),
 						),
 					),
@@ -908,6 +909,19 @@ class ER_Countries {
 						'state'    => array(
 							'required' => true,
 							'label'    => __( 'Province', 'easyReservations' ),
+						),
+					),
+					'JM' => array(
+						'city'     => array(
+							'label' => __( 'Town / City / Post Office', 'easyReservations' ),
+						),
+						'postcode' => array(
+							'required' => false,
+							'label'    => __( 'Postal Code', 'easyReservations' ),
+						),
+						'state'    => array(
+							'required' => true,
+							'label'    => __( 'Parish', 'easyReservations' ),
 						),
 					),
 					'JP' => array(
@@ -1032,11 +1046,11 @@ class ER_Countries {
 					),
 					'PR' => array(
 						'city'  => array(
-							'required' => false,
-							'hidden'   => true,
+							'label' => __( 'Municipality', 'easyReservations' ),
 						),
 						'state' => array(
-							'label' => __( 'Municipality', 'easyReservations' ),
+							'required' => false,
+							'hidden'   => true,
 						),
 					),
 					'PT' => array(
@@ -1135,7 +1149,7 @@ class ER_Countries {
 						),
 						'state'    => array(
 							'required' => false,
-							'hidden' => true,
+							'hidden'   => true,
 						),
 					),
 					'TR' => array(

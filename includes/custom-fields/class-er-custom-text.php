@@ -24,7 +24,7 @@ class ER_Custom_Text extends ER_Custom {
 		$input .= 'id="er-custom-' . esc_attr( $id ) . '" ';
 		$input .= 'name="er-custom-' . esc_attr( $id ) . '" ';
 		$input .= 'class="input-text ' . esc_attr( $class ) . '" ';
-		$input .= 'placeholder="' . esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ) . '" ';
+		$input .= 'placeholder="' . esc_attr( isset( $field['value'] ) ? $field['value'] : '' ) . '" ';
 		$input .= 'value="' . esc_attr( $value ) . '">';
 
 		return $input;

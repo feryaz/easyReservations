@@ -34,7 +34,7 @@ if ( ! class_exists( 'ER_Email_Cancelled_Order', false ) ) :
 			$this->placeholders   = array(
 				'{order_date}'              => '',
 				'{order_number}'            => '',
-				'{order_billing_full_name}' => '',
+				'{order_full_name}' => '',
 			);
 
 			// Triggers for this email.
@@ -83,7 +83,7 @@ if ( ! class_exists( 'ER_Email_Cancelled_Order', false ) ) :
 				$this->object                                    = $order;
 				$this->placeholders['{order_date}']              = er_format_datetime( $this->object->get_date_created() );
 				$this->placeholders['{order_number}']            = $this->object->get_order_number();
-				$this->placeholders['{order_billing_full_name}'] = $this->object->get_formatted_billing_full_name();
+				$this->placeholders['{order_full_name}'] = $this->object->get_formatted_full_name();
 			}
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
@@ -191,7 +191,7 @@ if ( ! class_exists( 'ER_Email_Cancelled_Order', false ) ) :
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),
-					'default'     => 'html',
+					'default'     => 'plain',
 					'class'       => 'email_type er-enhanced-select',
 					'options'     => $this->get_email_type_options(),
 					'desc_tip'    => true,

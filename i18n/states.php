@@ -749,7 +749,22 @@ return array(
 	),
 	'IL' => array(),
 	'IM' => array(),
-
+	'JM' => array( // Jamaica's Parishes. Ref: https://en.wikipedia.org/wiki/ISO_3166-2:JM.
+	               'JM-01' => __( 'Kingston', 'easyReservations' ),
+	               'JM-02' => __( 'Saint Andrew', 'easyReservations' ),
+	               'JM-03' => __( 'Saint Thomas', 'easyReservations' ),
+	               'JM-04' => __( 'Portland', 'easyReservations' ),
+	               'JM-05' => __( 'Saint Mary', 'easyReservations' ),
+	               'JM-06' => __( 'Saint Ann', 'easyReservations' ),
+	               'JM-07' => __( 'Trelawny', 'easyReservations' ),
+	               'JM-08' => __( 'Saint James', 'easyReservations' ),
+	               'JM-09' => __( 'Hanover', 'easyReservations' ),
+	               'JM-10' => __( 'Westmoreland', 'easyReservations' ),
+	               'JM-11' => __( 'Saint Elizabeth', 'easyReservations' ),
+	               'JM-12' => __( 'Manchester', 'easyReservations' ),
+	               'JM-13' => __( 'Clarendon', 'easyReservations' ),
+	               'JM-14' => __( 'Saint Catherine', 'easyReservations' ),
+	),
 	/**
 	 * Japan States.
 	 *
@@ -1217,6 +1232,7 @@ return array(
 	               'SD' => __( 'Sindh', 'easyReservations' ),
 	),
 	'PL' => array(),
+	'PR' => array(),
 	'PT' => array(),
 	'PY' => array( // Paraguay states.
 	               'PY-ASU' => __( 'Asunción', 'easyReservations' ),
@@ -1481,7 +1497,7 @@ return array(
 	               'TZ30' => __( 'Simiyu', 'easyReservations' ),
 	),
 	'LK' => array(),
-	'RS' => array( // Serbia districts. Ref: https://github.com/unicode-org/cldr/blob/release-37/common/subdivisions/en.xml#L4251-L4283
+	'RS' => array( // Serbia districts Ref: https://github.com/unicode-org/cldr/blob/release-37/common/subdivisions/en.xml#L4251-L4283
 	               'RS00' => _x( 'Belgrade', 'district', 'easyReservations' ),
 	               'RS14' => _x( 'Bor', 'district', 'easyReservations' ),
 	               'RS11' => _x( 'Braničevo', 'district', 'easyReservations' ),

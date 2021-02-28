@@ -26,14 +26,14 @@ if ( ! is_a( $resource, 'ER_Resource' ) ) {
 
 ?>
 <li>
-	<?php do_action( 'easyreservations_widget_product_item_start', $args ); ?>
+	<?php do_action( 'easyreservations_widget_resource_item_start', $args ); ?>
 
 	<a href="<?php echo esc_url( $resource->get_permalink() ); ?>">
 		<?php echo $resource->get_image(); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-		<span class="product-title"><?php echo wp_kses_post( $resource->get_title() ); ?></span>
+		<span class="resource-title"><?php echo wp_kses_post( $resource->get_title() ); ?></span>
 	</a>
 
 	<?php echo $resource->get_price_html(); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
-	<?php do_action( 'easyreservations_widget_product_item_end', $args ); ?>
+	<?php do_action( 'easyreservations_widget_resource_item_end', $args ); ?>
 </li>

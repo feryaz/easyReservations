@@ -275,17 +275,6 @@ a.button {
 	}
 }
 
-.cross-sells {
-
-	.easyreservations-loop-resource__title {
-		font-family: $headings;
-	}
-
-	.star-rating {
-		font-size: 1.4rem;
-	}
-}
-
 /* Make thumbnails in the gallery affect parent's height and wrapping */
 .flex-control-nav::after {
 	clear: both;
@@ -1306,6 +1295,7 @@ a.reset_variations {
 			border: 0;
 		}
 
+		td.entry-thumbnail,
 		td.resource-thumbnail {
 			padding: 1.4rem;
 			width: 10%;
@@ -1635,6 +1625,7 @@ a.reset_variations {
 		}
 
 		#order_review_heading,
+		.easyreservations-checkout-deposit,
 		#order_review {
 			width: 50%;
 			padding-left: 1.5vw;
@@ -2163,6 +2154,7 @@ a.reset_variations {
 					float: right;
 				}
 
+				.entry-thumbnail,
 				.resource-thumbnail {
 					display: block;
 
@@ -2246,6 +2238,7 @@ a.reset_variations {
 			}
 
 			#order_review_heading,
+			.easyreservations-checkout-deposit,
 			#order_review {
 				width: 100%;
 				padding-left: 0;

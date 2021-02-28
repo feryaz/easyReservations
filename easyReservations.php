@@ -1,13 +1,18 @@
 <?php
-/*
-Plugin Name: easyReservations
-Plugin URI: http://www.easyreservations.org
-Description: This powerful property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
-Version: 6.0-alpha.17
-Author: Feryaz Beer
-Author URI: http://www.feryaz.de
-License:GPL2
-*/
+/**
+ * Plugin Name: easyReservations
+ * Plugin URI: http://www.easyreservations.org
+ * Description: This powerful property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
+ * Version: 6.0-alpha.19
+ * Author: Feryaz Beer
+ * Author URI: http://www.feryaz.de
+ * Text Domain: easyReservations
+ * Domain Path: /i18n/languages/
+ * Requires at least: 5.3
+ * Requires PHP: 7.0
+ *
+ * @package easyReservations
+ */
 
 //Prevent direct access to file
 if ( ! defined( 'ABSPATH' ) ) {

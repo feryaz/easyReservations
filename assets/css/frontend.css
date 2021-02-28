@@ -1028,8 +1028,11 @@
 /**
  * Cart/checkout page
  */
+.easyreservations-cart table.cart .entry-thumbnail,
 .easyreservations-cart table.cart .resource-thumbnail,
+.easyreservations-checkout table.cart .entry-thumbnail,
 .easyreservations-checkout table.cart .resource-thumbnail,
+#add_payment_method table.cart .entry-thumbnail,
 #add_payment_method table.cart .resource-thumbnail {
   min-width: 50px;
 }
@@ -1287,9 +1290,9 @@
 #add_payment_method #payment ul.payment_methods li:not(.easyreservations-notice)::after {
   clear: both;
 }
-.easyreservations-cart #payment div.payment-box,
-.easyreservations-checkout #payment div.payment-box,
-#add_payment_method #payment div.payment-box {
+.easyreservations-cart #payment div.payment_box,
+.easyreservations-checkout #payment div.payment_box,
+#add_payment_method #payment div.payment_box {
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -1301,199 +1304,199 @@
   background-color: #dfdcde;
   border-radius: 2px;
 }
-.easyreservations-cart #payment div.payment-box input.input-text,
-.easyreservations-cart #payment div.payment-box textarea,
-.easyreservations-checkout #payment div.payment-box input.input-text,
-.easyreservations-checkout #payment div.payment-box textarea,
-#add_payment_method #payment div.payment-box input.input-text,
-#add_payment_method #payment div.payment-box textarea {
+.easyreservations-cart #payment div.payment_box input.input-text,
+.easyreservations-cart #payment div.payment_box textarea,
+.easyreservations-checkout #payment div.payment_box input.input-text,
+.easyreservations-checkout #payment div.payment_box textarea,
+#add_payment_method #payment div.payment_box input.input-text,
+#add_payment_method #payment div.payment_box textarea {
   border-color: #c7c1c6;
   border-top-color: #bbb3b9;
 }
-.easyreservations-cart #payment div.payment-box ::-webkit-input-placeholder,
-.easyreservations-checkout #payment div.payment-box ::-webkit-input-placeholder,
-#add_payment_method #payment div.payment-box ::-webkit-input-placeholder {
+.easyreservations-cart #payment div.payment_box ::-webkit-input-placeholder,
+.easyreservations-checkout #payment div.payment_box ::-webkit-input-placeholder,
+#add_payment_method #payment div.payment_box ::-webkit-input-placeholder {
   color: #bbb3b9;
 }
-.easyreservations-cart #payment div.payment-box :-moz-placeholder,
-.easyreservations-checkout #payment div.payment-box :-moz-placeholder,
-#add_payment_method #payment div.payment-box :-moz-placeholder {
+.easyreservations-cart #payment div.payment_box :-moz-placeholder,
+.easyreservations-checkout #payment div.payment_box :-moz-placeholder,
+#add_payment_method #payment div.payment_box :-moz-placeholder {
   color: #bbb3b9;
 }
-.easyreservations-cart #payment div.payment-box :-ms-input-placeholder,
-.easyreservations-checkout #payment div.payment-box :-ms-input-placeholder,
-#add_payment_method #payment div.payment-box :-ms-input-placeholder {
+.easyreservations-cart #payment div.payment_box :-ms-input-placeholder,
+.easyreservations-checkout #payment div.payment_box :-ms-input-placeholder,
+#add_payment_method #payment div.payment_box :-ms-input-placeholder {
   color: #bbb3b9;
 }
-.easyreservations-cart #payment div.payment-box .ElementsApp input,
-.easyreservations-checkout #payment div.payment-box .ElementsApp input,
-#add_payment_method #payment div.payment-box .ElementsApp input {
+.easyreservations-cart #payment div.payment_box .ElementsApp input,
+.easyreservations-checkout #payment div.payment_box .ElementsApp input,
+#add_payment_method #payment div.payment_box .ElementsApp input {
   background: #fff;
 }
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods {
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods {
   margin: 0;
   list-style: none outside;
 }
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new {
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new {
   margin: 0 0 0.5em;
 }
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label {
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-token label,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-new label {
   cursor: pointer;
 }
-.easyreservations-cart #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
-.easyreservations-checkout #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
-#add_payment_method #payment div.payment-box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput {
+.easyreservations-cart #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
+.easyreservations-checkout #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput,
+#add_payment_method #payment div.payment_box .easyreservations-SavedPaymentMethods .easyreservations-SavedPaymentMethods-tokenInput {
   position: relative;
   margin: -3px 1em 0 0;
   vertical-align: middle;
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form,
-#add_payment_method #payment div.payment-box .er-credit-card-form {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form,
+#add_payment_method #payment div.payment_box .er-credit-card-form {
   padding: 0;
   margin: 1em 0 0;
   border: 0;
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form .InputElement,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form .InputElement,
-#add_payment_method #payment div.payment-box .er-credit-card-form .InputElement {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form .InputElement,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form .InputElement,
+#add_payment_method #payment div.payment_box .er-credit-card-form .InputElement {
   background: #efefef;
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc {
   padding: 8px;
   font-size: 1.5em;
   background-repeat: no-repeat;
   background-position: right 0.618em center;
   background-size: 32px 20px;
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.visa,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.visa,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.visa,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.visa,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.visa,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.visa,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.visa,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.visa,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.visa {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.visa,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.visa,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.visa,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.visa,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.visa,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.visa,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.visa,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.visa,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.visa {
   background-image: url("../images/icons/credit-cards/visa.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.mastercard,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.mastercard,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.mastercard,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.mastercard,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.mastercard,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.mastercard,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.mastercard,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.mastercard,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.mastercard {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.mastercard,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.mastercard,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.mastercard,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.mastercard,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.mastercard,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.mastercard,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.mastercard,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.mastercard,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.mastercard {
   background-image: url("../images/icons/credit-cards/mastercard.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.laser,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.laser,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.laser,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.laser,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.laser,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.laser,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.laser,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.laser,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.laser {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.laser,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.laser,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.laser,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.laser,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.laser,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.laser,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.laser,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.laser,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.laser {
   background-image: url("../images/icons/credit-cards/laser.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.dinersclub,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.dinersclub,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.dinersclub,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.dinersclub,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.dinersclub,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.dinersclub,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.dinersclub,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.dinersclub,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.dinersclub {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.dinersclub,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.dinersclub,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.dinersclub,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.dinersclub,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.dinersclub,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.dinersclub,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.dinersclub,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.dinersclub,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.dinersclub {
   background-image: url("../images/icons/credit-cards/diners.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.maestro,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.maestro,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.maestro,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.maestro,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.maestro,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.maestro,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.maestro,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.maestro,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.maestro {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.maestro,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.maestro,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.maestro,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.maestro,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.maestro,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.maestro,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.maestro,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.maestro,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.maestro {
   background-image: url("../images/icons/credit-cards/maestro.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.jcb,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.jcb,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.jcb,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.jcb,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.jcb,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.jcb,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.jcb,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.jcb,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.jcb {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.jcb,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.jcb,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.jcb,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.jcb,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.jcb,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.jcb,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.jcb,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.jcb,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.jcb {
   background-image: url("../images/icons/credit-cards/jcb.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.amex,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.amex,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.amex,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.amex,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.amex,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.amex,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.amex,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.amex,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.amex {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.amex,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.amex,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.amex,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.amex,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.amex,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.amex,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.amex,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.amex,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.amex {
   background-image: url("../images/icons/credit-cards/amex.svg");
 }
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-number.discover,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-expiry.discover,
-.easyreservations-cart #payment div.payment-box .er-credit-card-form-card-cvc.discover,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-number.discover,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-expiry.discover,
-.easyreservations-checkout #payment div.payment-box .er-credit-card-form-card-cvc.discover,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-number.discover,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-expiry.discover,
-#add_payment_method #payment div.payment-box .er-credit-card-form-card-cvc.discover {
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-number.discover,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-expiry.discover,
+.easyreservations-cart #payment div.payment_box .er-credit-card-form-card-cvc.discover,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-number.discover,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-expiry.discover,
+.easyreservations-checkout #payment div.payment_box .er-credit-card-form-card-cvc.discover,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-number.discover,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-expiry.discover,
+#add_payment_method #payment div.payment_box .er-credit-card-form-card-cvc.discover {
   background-image: url("../images/icons/credit-cards/discover.svg");
 }
-.easyreservations-cart #payment div.payment-box span.help,
-.easyreservations-checkout #payment div.payment-box span.help,
-#add_payment_method #payment div.payment-box span.help {
+.easyreservations-cart #payment div.payment_box span.help,
+.easyreservations-checkout #payment div.payment_box span.help,
+#add_payment_method #payment div.payment_box span.help {
   font-size: 0.857em;
   font-weight: 400;
   color: #777;
 }
-.easyreservations-cart #payment div.payment-box .form-row,
-.easyreservations-checkout #payment div.payment-box .form-row,
-#add_payment_method #payment div.payment-box .form-row {
+.easyreservations-cart #payment div.payment_box .form-row,
+.easyreservations-checkout #payment div.payment_box .form-row,
+#add_payment_method #payment div.payment_box .form-row {
   margin: 0 0 1em;
 }
-.easyreservations-cart #payment div.payment-box p:last-child,
-.easyreservations-checkout #payment div.payment-box p:last-child,
-#add_payment_method #payment div.payment-box p:last-child {
+.easyreservations-cart #payment div.payment_box p:last-child,
+.easyreservations-checkout #payment div.payment_box p:last-child,
+#add_payment_method #payment div.payment_box p:last-child {
   margin-bottom: 0;
 }
-.easyreservations-cart #payment div.payment-box::before,
-.easyreservations-checkout #payment div.payment-box::before,
-#add_payment_method #payment div.payment-box::before {
+.easyreservations-cart #payment div.payment_box::before,
+.easyreservations-checkout #payment div.payment_box::before,
+#add_payment_method #payment div.payment_box::before {
   position: absolute;
   top: -0.75em;
   left: 0;
@@ -1630,7 +1633,6 @@
   width: 99%;
   padding: 0 0 10px 0;
   line-height: 26px;
-  background: #fff;
 }
 .easy-date-selection .header div {
   box-sizing: border-box;
@@ -1785,13 +1787,29 @@
   margin: 5px 0;
   font-size: 14px;
   font-weight: 600;
+  border: 0;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .easy-button .price {
-  padding-left: 5px;
+  display: block;
+  white-space: normal;
+  color: #fff;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .easy-button span {
   display: inline-block;
   padding: 0;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button.available {
+  background: #53b796;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button.partially {
+  background: #87ccb4;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button.available:hover, .easy-date-selection .calendar tr.time-picker > td > div .easy-button.partially:hover {
+  background: #40a0ff;
+}
+.easy-date-selection .calendar tr.time-picker > td > div .easy-button.unavailable {
+  cursor: default;
+  background: #b75252;
 }
 .easy-date-selection .calendar tr.time-picker > td > div .time-option {
   display: inline-block;

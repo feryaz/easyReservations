@@ -283,7 +283,7 @@ if ( ! class_exists( 'ER_Email_Customer_Refunded_Order', false ) ) :
 					'title'       => __( 'Email type', 'easyReservations' ),
 					'type'        => 'select',
 					'description' => __( 'Choose which format of email to send.', 'easyReservations' ),
-					'default'     => 'html',
+					'default'     => 'plain',
 					'class'       => 'email_type er-enhanced-select',
 					'options'     => $this->get_email_type_options(),
 					'desc_tip'    => true,

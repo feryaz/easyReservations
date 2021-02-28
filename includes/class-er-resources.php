@@ -63,8 +63,7 @@ class ER_Resources {
 		$return = array();
 
 		foreach ( $this->get() as $id => $resource ) {
-			$get_role = get_post_meta( $resource->get_id(), 'easy-resource-permission', true );
-			if ( $resource->is_visible() && ( empty( $get_role ) || current_user_can( $get_role ) ) ) {
+			if ( $resource->is_visible() ) {
 				$return[ $id ] = $resource;
 			}
 		}

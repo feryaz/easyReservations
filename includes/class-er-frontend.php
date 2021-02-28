@@ -44,19 +44,23 @@ class ER_Frontend {
 
 		switch( get_template() ){
 			case 'twentyseventeen':
-				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-seventeen' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION ); // widget form style
-
+				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-seventeen' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION );
 
 				break;
-
 			case 'twentynineteen':
-				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-nineteen' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION ); // widget form style
+				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-nineteen' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION );
 
 				remove_action( 'easyreservations_sidebar', 'easyreservations_get_sidebar', 10 );
 
 				break;
 			case 'twentytwenty':
-				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-twenty' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION ); // widget form style
+				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-twenty' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION );
+
+				remove_action( 'easyreservations_sidebar', 'easyreservations_get_sidebar', 10 );
+
+				break;
+			case 'twentytwentyone':
+				wp_enqueue_style( 'er-theme-support', RESERVATIONS_URL . 'assets/css/twenty-twenty-one' . $suffix . '.css', array( 'easy-ui' ), RESERVATIONS_VERSION );
 
 				remove_action( 'easyreservations_sidebar', 'easyreservations_get_sidebar', 10 );
 

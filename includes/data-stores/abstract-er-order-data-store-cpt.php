@@ -99,8 +99,8 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 		$order->set_props(
 			array(
 				'parent_id'     => $post_object->post_parent,
-				'date_created'  => 0 < $post_object->post_date_gmt ? er_string_to_timestamp( $post_object->post_date_gmt ) : null,
-				'date_modified' => 0 < $post_object->post_modified_gmt ? er_string_to_timestamp( $post_object->post_modified_gmt ) : null,
+				'date_created'  => $this->string_to_timestamp( $post_object->post_date_gmt ),
+				'date_modified' => $this->string_to_timestamp( $post_object->post_modified_gmt ),
 				'status'        => $post_object->post_status,
 			)
 		);

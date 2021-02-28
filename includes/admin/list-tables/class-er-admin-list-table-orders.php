@@ -40,7 +40,7 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 		echo '<h2 class="easyreservations-BlankState-message">' . esc_html__( 'When you receive a new order, it will appear here.', 'easyReservations' ) . '</h2>';
 
 		echo '<div class="easyreservations-BlankState-buttons">';
-		echo '<a class="easyreservations-BlankState-cta button-primary button" target="_blank" href="https://docs.woocommerce.com/document/managing-orders/?utm_source=blankslate&utm_medium=product&utm_content=ordersdoc&utm_campaign=woocommerceplugin">' . esc_html__( 'Learn more about orders', 'easyReservations' ) . '</a>';
+		echo '<a class="easyreservations-BlankState-cta button-primary button" target="_blank" href="https://easyreservations.org/documentation/managing-orders/">' . esc_html__( 'Learn more about orders', 'easyReservations' ) . '</a>';
 		echo '</div>';
 
 		echo '</div>';
@@ -663,6 +663,13 @@ class ER_Admin_List_Table_Orders extends ER_Admin_List_Table {
 			if ( isset( $order_statuses[ $new_status ] ) ) {
 				foreach ( $ids as $id ) {
 					$order = er_get_order( $id );
+
+					$reservations_approved_and_existing = er_order_reservations_approved_and_existing( $order );
+
+					if ( ! $reservations_approved_and_existing && in_array( $new_status, er_get_is_accepted_statuses() ) && $new_status !== $order->get_status() ) {
+						continue;
+					}
+
 					$order->update_status( $new_status, __( 'Order status changed by bulk edit:', 'easyReservations' ), true );
 					do_action( 'easyreservations_order_edit_status', $id, $new_status );
 					$changed ++;

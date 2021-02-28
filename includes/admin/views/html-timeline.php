@@ -145,9 +145,7 @@ $resources = ER()->resources()->get_accessible();
                     <div class="horizontal-scroll">
                         <table>
                             <thead class="main">
-                            <tr>
-
-                            </tr>
+                                <tr></tr>
                             </thead>
                         </table>
                     </div>
@@ -155,14 +153,12 @@ $resources = ER()->resources()->get_accessible();
                         <div class="horizontal-scroll">
                             <table>
 								<?php foreach ( $resources as $resource ): ?>
-                                    <thead class="resource">
-                                    <tr>
-                                    </tr>
+                                    <thead class="resource resource-<?php echo $resource->get_id(); ?>">
+                                        <tr></tr>
                                     </thead>
                                     <tbody>
 									<?php for ( $i = 1; $i <= ( $resource->availability_by( 'unit' ) ? $resource->get_quantity() : 1 ); $i ++ ): ?>
-                                        <tr>
-                                        </tr>
+                                        <tr></tr>
 									<?php endfor; ?>
                                     </tbody>
 								<?php endforeach; ?>
