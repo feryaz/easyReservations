@@ -36,12 +36,15 @@ jQuery( function( $ ) {
 
 			er_form.$form.on( 'input validate change', '.input-text, select, input:checkbox, input:text, textarea', this.validate_field );
 		},
+
 		ajaxRequest: function( form, submit ) {
 			if ( form.is( '.processing' ) ) {
 				return false;
 			}
 
 			form.addClass( 'processing' );
+
+			$( document.body ).trigger( 'easyreservations_validate_form' );
 
 			if ( submit ) {
 				form.block( {
@@ -88,7 +91,9 @@ jQuery( function( $ ) {
 							} else {
 								if ( result.price ) {
 									form.find( '.easy-price' ).unblock().css( 'display', 'block' );
-									form.find( '.easy-price-display' ).html( result.price );
+									form.find( '.easy-price-display' ).html( result.price_formatted );
+
+									$( document.body ).trigger( 'easyreservations_price_has_changed', [ result.label, result.price ] );
 								} else {
 									form.find( '.easy-price' ).css( 'display', 'none' );
 								}
@@ -103,7 +108,7 @@ jQuery( function( $ ) {
 									form.html( '<div class="easyreservations-message">' + result.messages + '</div>' );
 									er_form.scroll_to_notices();
 								} else {
-									form.find( '.input-text, select, input:checkbox, input:text, textarea' ).trigger( 'validate' ).blur();
+									form.find( '.input-text, select, input:checkbox, input:text, textarea' ).trigger( 'validate' ).trigger( 'blur' );
 								}
 
 								if ( result.added_to_cart ) {
@@ -141,9 +146,10 @@ jQuery( function( $ ) {
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
 					er_form.submit_error( form, '<div class="easyreservations-error">' + errorThrown + '</div>' );
-				}
+				},
 			} );
 		},
+
 		validate_field: function( e ) {
 			var $this = $( this ),
 				$parent = $this.closest( '.form-row' ),
@@ -195,15 +201,17 @@ jQuery( function( $ ) {
 				}
 			}
 		},
+
 		submit_error: function( form, error_message ) {
 			$( '.easyreservations-NoticeGroup-checkout, .easyreservations-error, .easyreservations-message' ).remove();
 			form.prepend( '<div class="easyreservations-NoticeGroup easyreservations-NoticeGroup-checkout">' + error_message + '</div>' );
 			form.removeClass( 'processing' ).unblock();
-			form.find( '.input-text, select, input:checkbox, input:text, textarea' ).trigger( 'validate' ).blur();
+			form.find( '.input-text, select, input:checkbox, input:text, textarea' ).trigger( 'validate' ).trigger( 'blur' );
 			er_form.scroll_to_notices();
 
 			$( document.body ).trigger( 'form_error' );
 		},
+
 		scroll_to_notices: function() {
 			var scrollElement = $( '.easyreservations-NoticeGroup-updateOrderReview, .easyreservations-NoticeGroup-checkout' );
 
@@ -213,10 +221,11 @@ jQuery( function( $ ) {
 
 			if ( scrollElement.length ) {
 				$( 'html, body' ).animate( {
-					scrollTop: ( scrollElement.offset().top - 100 )
+					scrollTop: ( scrollElement.offset().top - 100 ),
 				}, 1000 );
 			}
 		},
+
 		submit: function( e ) {
 			e.preventDefault();
 			if ( er_form.$form.triggerHandler( 'checkout_place_order' ) !== false && er_form.$form.triggerHandler( 'checkout_place_order_' + er_form.get_payment_method() ) !== false ) {
@@ -226,9 +235,11 @@ jQuery( function( $ ) {
 		get_payment_method: function() {
 			return er_form.$form.find( 'input[name="payment_method"]:checked' ).val();
 		},
+
 		validate: function() {
 			er_form.ajaxRequest( $( this ).closest( 'form' ), false );
 		},
+
 		handleUnloadEvent: function( e ) {
 			// Modern browsers have their own standard generic messages that they will display.
 			// Confirm, alert, prompt or custom message are not allowed during the unload event
@@ -247,7 +258,7 @@ jQuery( function( $ ) {
 			$( window ).on( 'beforeunload', this.handleUnloadEvent );
 		},
 		detachUnloadEventsOnSubmit: function() {
-			$( window ).unbind( 'beforeunload', this.handleUnloadEvent );
+			$( window ).off( 'beforeunload', this.handleUnloadEvent );
 		},
 	};
 

@@ -43,6 +43,8 @@ class ER_Shortcode_Form {
 			$atts['redirect'] = get_permalink( intval( $atts['redirect'] ) );
 		}
 
+		$checkout = ER()->checkout();
+
 		ER()->reservation_form()->get_form( $atts, 'form' );
 	}
 }

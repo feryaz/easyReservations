@@ -37,7 +37,7 @@ abstract class ER_Reservation_Status {
 			'approved'  => _x( 'Approved', 'Reservation status', 'easyReservations' ),
 			'checked'   => _x( 'Checked in', 'Reservation status', 'easyReservations' ),
 			'completed' => _x( 'Completed', 'Reservation status', 'easyReservations' ),
-			'cancelled' => _x( 'Cancelled', 'Reservation status', 'easyReservations' ),
+			'cancelled' => _x( 'Canceled', 'Reservation status', 'easyReservations' ),
 			'trash'     => _x( 'Trashed', 'Reservation status', 'easyReservations' ),
 		) );
 

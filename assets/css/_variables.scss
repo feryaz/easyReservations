@@ -27,3 +27,20 @@ $selected: #f2f2f2 !default;
 $textcolor: #333 !default;
 $textcolorh1: #232a39 !default;
 $secondarycolor: #9a9a9a !default;
+
+// export vars as CSS vars
+:root {
+	--easyreservations: #{$primary};
+	--er-green: #{$green};
+	--er-red: #{$red};
+	--er-orange: #{$orange};
+	--er-blue: #{$blue};
+	--er-primary: #{$primary};
+	--er-primary-text: #{$primarytext};
+	--er-secondary: #{$secondary};
+	--er-secondary-text: #{$secondarytext};
+	--er-highlight: #{$highlight};
+	--er-highligh-text: #{$highlightext};
+	--er-content-bg: #{$contentbg};
+	--er-subtext: #{$subtext};
+}

@@ -53,9 +53,9 @@ class ER_Admin_Reservation {
 		}
 
 		if ( isset( $_POST['arrival'], $_POST['resource'] ) ) {
+			ER_Meta_Box_Receipt_Items::save( $reservation_id, true );
 			ER_Meta_Box_Reservation_Data::save( $reservation_id );
 			ER_Meta_Box_Custom_Data::save( $reservation_id );
-			ER_Meta_Box_Receipt_Items::save( $reservation_id, true );
 		} elseif ( isset( $_POST['reservation_status'] ) ) {
 			$reservation = ER()->reservation_manager()->get( $reservation_id );
 			$new_status  = sanitize_key( $_POST['reservation_status'] );
@@ -89,6 +89,8 @@ class ER_Admin_Reservation {
 	 * Output add/edit reservation page
 	 */
 	public static function output() {
+	    $new = false;
+
 		if ( isset( $_GET['reservation'] ) ) {
 			$reservation_id = absint( $_GET['reservation'] );
 		} else {
@@ -98,8 +100,11 @@ class ER_Admin_Reservation {
 			$now->setTime( 0, 0, 0, 0 );
 			$reservation->set_arrival( $now );
 			$reservation->set_departure( $now );
+			$reservation->add_meta_data( 'new_reservation', true, true );
 			$resources = ER()->resources()->get();
-			$first     = array_key_first( $resources );
+
+			reset( $resources );
+			$first = key( $resources );
 
 			$reservation->set_resource_id( $first );
 
@@ -108,7 +113,6 @@ class ER_Admin_Reservation {
 
 			$reservation->save();
 			$reservation_id = $reservation->get_id();
-
 		}
 
 		$reservation = er_get_reservation( $reservation_id );

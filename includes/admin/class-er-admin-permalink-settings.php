@@ -88,23 +88,23 @@ class ER_Admin_Permalink_Settings {
 		<?php wp_nonce_field( 'er-permalinks', 'er-permalinks-nonce' ); ?>
         <script type="text/javascript">
 			jQuery( function() {
-				jQuery( 'input.ertog' ).change( function() {
+				jQuery( 'input.ertog' ).on( 'change', function() {
 					jQuery( '#easyreservations_permalink_structure' ).val( jQuery( this ).val() );
 				} );
-				jQuery( '.permalink-structure input' ).change( function() {
+				jQuery( '.permalink-structure input' ).on( 'change', function() {
 					jQuery( '.er-permalink-structure' ).find( 'code.non-default-example, code.default-example' ).hide();
 					if ( jQuery( this ).val() ) {
 						jQuery( '.er-permalink-structure code.non-default-example' ).show();
 						jQuery( '.er-permalink-structure input' ).removeAttr( 'disabled' );
 					} else {
 						jQuery( '.er-permalink-structure code.default-example' ).show();
-						jQuery( '.er-permalink-structure input:eq(0)' ).click();
+						jQuery( '.er-permalink-structure input:eq(0)' ).trigger( 'click' );
 						jQuery( '.er-permalink-structure input' ).attr( 'disabled', 'disabled' );
 					}
 				} );
-				jQuery( '.permalink-structure input:checked' ).change();
+				jQuery( '.permalink-structure input:checked' ).trigger( 'change' );
 				jQuery( '#easyreservations_permalink_structure' ).focus( function() {
-					jQuery( '#easyreservations_custom_selection' ).click();
+					jQuery( '#easyreservations_custom_selection' ).trigger( 'click' );
 				} );
 			} );
         </script>

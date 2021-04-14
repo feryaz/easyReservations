@@ -161,9 +161,9 @@ jQuery( document ).ready( function( $ ) {
 		} );
 
 		if ( options.hash && window.location.hash !== '' ) {
-			$( 'a[target="' + window.location.hash.substring( 1 ) + '"]' ).click();
+			$( 'a[target="' + window.location.hash.substring( 1 ) + '"]' ).trigger( 'click' );
 		} else {
-			//$('a[target="' + current_target + '"]').click();
+			//$('a[target="' + current_target + '"]').trigger( 'click' );
 		}
 	};
 } );

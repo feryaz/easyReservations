@@ -1,8 +1,8 @@
 === easyReservations ===
 Contributors: feryaz
 Tags: booking, reservations, hotel, reservation form, calendar, reservation, restaurant, booking form, hospitality, events, tours, availability, bookings, booking calendar, availability calendar
-Requires at least: 5.3
-Tested up to: 5.6
+Requires at least: 5.4
+Tested up to: 5.7
 Requires PHP: 7.0
 Stable tag: 5.0.11
 License: GPLv3
@@ -53,6 +53,43 @@ Automatic updates should work smoothly and does not delete any data, but we stil
 If you encounter issues with the catalog/category pages after an update, flush the permalinks by going to WordPress > Settings > Permalinks and hitting “Save.” That should return things to normal.
 
 == Changelog ==
+
+= 6.0-alpha.21 - 2020-04-14 =
+* Added - Upcoming category in reservation table
+* Added - Check to prevent double bookings when adding a reservation as admin
+* Added - [billing_unit] field in reservation name to to get half hour/hour/day/month
+* Enhancement - Updated and improved stripe gateway
+* Enhancement - Updated and improved invoices
+* Fix - Some reservations in resources with availability per person did not get displayed in timeline
+* Fix - Earliest possible departure for resources with a frequency of less than a day
+* Fix - Calendar availability display
+* Fix - Checkout without address fields
+* Fix - Reservation price in checkout
+* Fix - Billing units field in forms
+* Fix - Adding reservations to WooCommerce cart
+* Fix - Prices in WooCommerce cart
+* Fix - Filter submit
+
+= 6.0-alpha.20 - 2020-03-25 =
+* Added - Apple Pay and Payment Request button with stripe
+* Added - Credit notes for refunds
+* Added - Option to not ask for address in checkout
+* Added - Check if new order mail got sent
+* Added - Dominican Republic and Guatemalan states
+* Enhancement - Updated and improved stripe gateway
+* Enhancement - Manually added reservations automatically recalculate at first update
+* Enhancement - Added date and time to status report
+* Tweak - Cleared up invoice settings
+* Tweak - Updated scripts to jQuery 3.0
+* Tweak - Save date of last order of customer
+* Tweak - Check selected country
+* Tweak - GB is not part of the EU VAT zone anymore
+* Tweak - Ensure statuses are correctly reassigned when restoring orders
+* Fix - Earliest possible departure when departure is on the same day as arrival
+* Fix - Reservations added through timeline now do have a price calculated
+* Fix - Invoices use latest settings when enabled
+* Fix - Invoices modern template
+* Dev - Added new actions and filters
 
 = 6.0-alpha.19 - 2020-02-26 =
 * Enhancement - Setting order to processing or completed only possible if all reservations are approved
@@ -111,8 +148,8 @@ If you encounter issues with the catalog/category pages after an update, flush t
 * Fix - Breaking bug
 
 = 6.0-alpha.15 - 2020-11-26 =
-* Feature - Invoices
-* Feature - Debug tools
+* Added - Invoices
+* Added - Debug tools
 * Enhancement - Country specific required checkout data and labels
 * Enhancement - Order of resources if no menu order is defined
 * Enhancement - Template system
@@ -129,7 +166,7 @@ If you encounter issues with the catalog/category pages after an update, flush t
 * Fix - Wrong month after selecting arrival
 
 = 6.0-alpha.13 - 2020-04-24 =
-* Feature - Direct checkout (option in form block)
+* Added - Direct checkout (option in form block)
 * Enhancement - Admin can now set reservations to not belong to any resource
 * Enhancement - Deposit form on order payment page
 * Enhancement - Display deposit amount to pay in admin edit order
@@ -153,14 +190,14 @@ If you encounter issues with the catalog/category pages after an update, flush t
 * Fix - JS error in filter settings
 
 = 6.0-alpha.9 - 2020-03-22 =
-* Feature - My account
-* Feature - Removal of personal data
+* Added - My account
+* Added - Removal of personal data
 
 = 6.0-alpha.8 - 2020-03-18 =
 * Fix - Tax settings js
 
 = 6.0-alpha.7 - 2020-03-18 =
-* Feature - Reservation timeline
+* Added - Reservation timeline
 * Enhancement - Filters can set the price to 0
 * Tweak - Order of reservations in admin table
 * Fix - Pagination in reservations table

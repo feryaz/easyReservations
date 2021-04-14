@@ -37,7 +37,7 @@ class ER_Status_Tracking {
 			if ( 'status' === $tab ) {
 				er_enqueue_js(
 					"
-					$( 'a.debug-report' ).click( function() {
+					$( 'a.debug-report' ).on( 'click', function() {
 						window.erTracks.recordEvent( 'status_view_reports' );
 					} );
 				"

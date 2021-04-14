@@ -18,7 +18,7 @@ final class easyReservations {
 	 *
 	 * @var string
 	 */
-	public $version = '6.0-alpha.19';
+	public $version = '6.0-alpha.21';
 
 	/**
 	 * easyReservations Schema version.
@@ -306,6 +306,7 @@ final class easyReservations {
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-ajax.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-autoloader.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-background-emailer.php' );
+		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-cache-helper.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-checkout.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-comments.php' );
 		include_once( RESERVATIONS_ABSPATH . 'includes/class-er-customer.php' );

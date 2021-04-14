@@ -33,11 +33,11 @@ jQuery( function( $ ) {
 			$( '.er_status_table thead, .er_status_table tbody' ).each( function() {
 				if ( $( this ).is( 'thead' ) ) {
 					const label = $( this ).find( 'th:eq(0)' ).data( 'export-label' ) || $( this ).text();
-					report = report + '\n### ' + $.trim( label ) + ' ###\n\n';
+					report = report + '\n### ' + label.trim() + ' ###\n\n';
 				} else {
 					$( 'tr', $( this ) ).each( function() {
 						const label = $( this ).find( 'td:eq(0)' ).data( 'export-label' ) || $( this ).find( 'td:eq(0)' ).text();
-						const theName = $.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
+						const theName = label.trim().replace( /(<([^>]+)>)/ig, '' ); // Remove HTML.
 
 						// Find value
 						const valueHTML = $( this ).find( 'td:eq(2)' ).clone();
@@ -46,7 +46,7 @@ jQuery( function( $ ) {
 						valueHTML.find( '.dashicons-no-alt, .dashicons-warning' ).replaceWith( '&#10060;' );
 
 						// Format value
-						let theValue = $.trim( valueHTML.text() );
+						let theValue = valueHTML.text().trim();
 						const valueArray = theValue.split( ', ' );
 
 						if ( valueArray.length > 1 ) {

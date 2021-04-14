@@ -285,7 +285,7 @@ wp_enqueue_script( 'er-settings-form' );
 <script type="text/javascript">
 	function submitForm() {
 		jQuery( '#reservations_form_content' ).val( jQuery( '#form_container' ).html() );
-		jQuery( '#easy_form' ).submit();
+		jQuery( '#easy_form' ).trigger( 'submit' );
 	}
 
 	function resetToDefault() {
@@ -302,10 +302,10 @@ wp_enqueue_script( 'er-settings-form' );
 		jQuery.each( {
 			xxx:                "<?php echo addslashes( esc_html__( 'Type', 'easyReservations' ) ); ?>",
 			resource:           "<?php echo addslashes( esc_html__( 'Resource', 'easyReservations' ) ); ?>",
-			from:               "<?php echo addslashes( esc_html__( 'Arrival date', 'easyReservations' ) ); ?>",
+			arrival:               "<?php echo addslashes( esc_html__( 'Arrival date', 'easyReservations' ) ); ?>",
 			"arrival_hour":     "<?php echo addslashes( esc_html__( 'Arrival hour', 'easyReservations' ) ); ?>",
 			"arrival_minute":   "<?php echo addslashes( __( 'Arrival minute', 'easyReservations' ) ); ?>",
-			to:                 "<?php echo addslashes( esc_html__( 'Departure date', 'easyReservations' ) ); ?>",
+			departure:                 "<?php echo addslashes( esc_html__( 'Departure date', 'easyReservations' ) ); ?>",
 			"departure_hour":   "<?php echo addslashes( esc_html__( 'Departure hour', 'easyReservations' ) ); ?>",
 			"departure_minute": "<?php echo addslashes( esc_html__( 'Departure minute', 'easyReservations' ) ); ?>",
 			units:              "<?php echo addslashes( esc_html__( 'Billing units', 'easyReservations' ) ); ?>",
@@ -337,7 +337,7 @@ wp_enqueue_script( 'er-settings-form' );
 				tag = { 2: '' };
 			}
 			field = generateResourceSelect( tag[ 2 ], '2' );
-		} else if ( type == "from" || type == "to" ) {
+		} else if ( type == "arrival" || type == "departure" ) {
 			if ( !tag || !tag[ 2 ] ) {
 				tag = { 2: '<?php echo esc_html( er_date_format() ); ?>' };
 			}

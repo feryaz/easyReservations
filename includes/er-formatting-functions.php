@@ -405,11 +405,33 @@ function er_price( $amount = 0, $currency_symbol = false, $ex_tax_label = false 
 	$decimal_separator  = er_get_price_decimal_separator();
 	$price_format       = er_get_price_format();
 
-	$unformatted_price = $amount;
-	$negative          = $amount < 0;
+	$original_price = $amount;
 
-	$price = apply_filters( 'raw_easyreservations_price', floatval( $negative ? $amount * - 1 : $amount ) );
-	$price = apply_filters( 'formatted_easyreservations_price', number_format( $price, $decimals, $decimal_separator, $thousand_separator ), $price, $decimals, $decimal_separator, $thousand_separator );
+	// Convert to float to avoid issues on PHP 8.
+	$price = (float) $amount;
+
+	$unformatted_price = $price;
+	$negative          = $price < 0;
+
+	/**
+	 * Filter raw price.
+	 *
+	 * @param float        $raw_price Raw price.
+	 * @param float|string $original_price Original price as float, or empty string.
+	 */
+	$price = apply_filters( 'raw_easyreservations_price', $negative ? $price * - 1 : $price, $original_price );
+
+	/**
+	 * Filter formatted price.
+	 *
+	 * @param float        $formatted_price Formatted price.
+	 * @param float        $price Unformatted price.
+	 * @param int          $decimals Number of decimals.
+	 * @param string       $decimal_separator Decimal separator.
+	 * @param string       $thousand_separator Thousand separator.
+	 * @param float|string $original_price Original price as float, or empty string.
+	 */
+	$price = apply_filters( 'formatted_easyreservations_price', number_format( $price, $decimals, $decimal_separator, $thousand_separator ), $price, $decimals, $decimal_separator, $thousand_separator, $original_price );
 
 	if ( apply_filters( 'easyreservations_price_trim_zeros', false ) && $decimals > 0 ) {
 		$price = er_trim_zeros( $price );
@@ -429,7 +451,15 @@ function er_price( $amount = 0, $currency_symbol = false, $ex_tax_label = false 
 		$return .= ' <small class="easyreservations-Price-taxLabel tax_label">' . ER()->countries->ex_tax_or_vat() . '</small>';
 	}
 
-	return apply_filters( 'easyreservations_price', $return, $price, $unformatted_price );
+	/**
+	 * Filters the string of price markup.
+	 *
+	 * @param string       $return Price HTML markup.
+	 * @param string       $price Formatted price.
+	 * @param float        $unformatted_price Price as float to allow plugins custom formatting.
+	 * @param float|string $original_price Original price as float, or empty string.
+	 */
+	return apply_filters( 'easyreservations_price', $return, $price, $unformatted_price, $original_price );
 }
 
 /**

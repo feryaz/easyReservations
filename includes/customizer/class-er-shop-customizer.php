@@ -100,7 +100,7 @@ class ER_Shop_Customizer {
 				} );
 
 				wp.customize.bind( 'ready', function() { // Ready?
-					$( '.easyreservations-cropping-control' ).find( 'input:checked' ).change();
+					$( '.easyreservations-cropping-control' ).find( 'input:checked' ).trigger( 'change' );
 				} );
 
 				wp.customize.section( 'reservations_resource_catalog', function( section ) {
@@ -557,6 +557,31 @@ class ER_Shop_Customizer {
 			)
 		);
 
+		$wp_customize->add_setting(
+			'reservations_checkout_address_field',
+			array(
+				'default'           => 'required',
+				'type'              => 'option',
+				'capability'        => 'manage_easyreservations',
+				'sanitize_callback' => array( $this, 'sanitize_checkout_field_display' ),
+			)
+		);
+
+		$wp_customize->add_control(
+			'easyreservations_checkout_address_field',
+			array(
+				/* Translators: %s field name. */
+				'label'    => sprintf( __( '%s fields', 'easyReservations' ), __( 'Address', 'easyReservations' ) ),
+				'section'  => 'reservations_checkout',
+				'settings' => 'reservations_checkout_address_field',
+				'type'     => 'select',
+				'choices'  => array(
+					'hidden'   => __( 'Hidden', 'easyReservations' ),
+					'required' => __( 'Required', 'easyReservations' ),
+				),
+			)
+		);
+
 		// Checkout field controls.
 		$fields = array(
 			'company'   => __( 'Company name', 'easyReservations' ),
@@ -693,7 +718,7 @@ class ER_Shop_Customizer {
 				'description'     => __( 'Optionally add some text about your store privacy policy to show during checkout.', 'easyReservations' ),
 				'section'         => 'reservations_checkout',
 				'settings'        => 'reservations_checkout_privacy_policy_text',
-				'active_callback' => 'er_privacy_policy_page_id',
+				'active_callback' => array( $this, 'has_privacy_policy_page_id' ),
 				'type'            => 'textarea',
 			)
 		);
@@ -705,7 +730,7 @@ class ER_Shop_Customizer {
 				'description'     => __( 'Optionally add some text for the terms checkbox that customers must accept.', 'easyReservations' ),
 				'section'         => 'reservations_checkout',
 				'settings'        => 'reservations_checkout_terms_and_conditions_checkbox_text',
-				'active_callback' => 'er_terms_and_conditions_page_id',
+				'active_callback' => array( $this, 'has_terms_and_conditions_page_id' ),
 				'type'            => 'text',
 			)
 		);
@@ -752,6 +777,24 @@ class ER_Shop_Customizer {
 		$options = array( 'hidden', 'optional', 'required' );
 
 		return in_array( $value, $options, true ) ? $value : '';
+	}
+
+	/**
+	 * Whether or not a page has been chose for the privacy policy.
+	 *
+	 * @return bool
+	 */
+	public function has_privacy_policy_page_id() {
+		return er_privacy_policy_page_id() > 0;
+	}
+
+	/**
+	 * Whether or not a page has been chose for the terms and conditions.
+	 *
+	 * @return bool
+	 */
+	public function has_terms_and_conditions_page_id() {
+		return er_terms_and_conditions_page_id() > 0;
 	}
 }
 

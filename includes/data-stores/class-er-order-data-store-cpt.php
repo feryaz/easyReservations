@@ -569,12 +569,12 @@ class ER_Order_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implement
 	/**
 	 * Get the order type based on Order ID.
 	 *
-	 * @param int $order_id Order ID.
+	 * @param int|WP_Post $order Order | Order id.     *
 	 *
 	 * @return string
 	 */
-	public function get_order_type( $order_id ) {
-		return get_post_type( $order_id );
+	public function get_order_type( $order ) {
+		return get_post_type( $order );
 	}
 
 	/**
@@ -696,4 +696,6 @@ class ER_Order_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT implement
 
 		return $orders;
 	}
+
+	//TODO caching from w.c
 }

@@ -321,31 +321,115 @@ class ER_Tracker {
 	}
 
 	/**
-	 * Get order counts
-	 *
-	 * @return array
-	 */
-	private static function get_order_counts() {
-		$order_count      = array();
-		$order_count_data = wp_count_posts( 'easy_order' );
-
-		foreach ( ER_Order_Status::get_statuses() as $status_slug => $status_name ) {
-			$order_count[ $status_slug ] = $order_count_data->{ $status_slug };
-		}
-		return $order_count;
-	}
-
-	/**
-	 * Combine all order data.
+	 * Get all order data.
 	 *
 	 * @return array
 	 */
 	private static function get_orders() {
-		$order_dates  = self::get_order_dates();
-		$order_counts = self::get_order_counts();
-		$order_totals = self::get_order_totals();
+		$args = array(
+			'type'  => array( 'easy_order', 'easy_order_refund' ),
+			'limit' => get_option( 'posts_per_page' ),
+			'paged' => 1,
+		);
 
-		return array_merge( $order_dates, $order_counts, $order_totals );
+		$first            = time();
+		$processing_first = $first;
+		$first_time       = $first;
+		$last             = 0;
+		$processing_last  = 0;
+		$order_data       = array();
+
+		$orders       = er_get_orders( $args );
+		$orders_count = count( $orders );
+
+		while ( $orders_count ) {
+
+			foreach ( $orders as $order ) {
+
+				$date_created = (int) $order->get_date_created()->getTimestamp();
+				$type         = $order->get_type();
+				$status       = $order->get_status();
+
+				if ( 'easy_order' == $type ) {
+
+					// Find the first and last order dates for completed and processing statuses.
+					if ( 'completed' == $status && $date_created < $first ) {
+						$first = $date_created;
+					}
+					if ( 'completed' == $status && $date_created > $last ) {
+						$last = $date_created;
+					}
+					if ( 'processing' == $status && $date_created < $processing_first ) {
+						$processing_first = $date_created;
+					}
+					if ( 'processing' == $status && $date_created > $processing_last ) {
+						$processing_last = $date_created;
+					}
+
+					if ( ! isset( $order_data[ $status ] ) ) {
+						$order_data[ $status ] = 1;
+					} else {
+						$order_data[ $status ] += 1;
+					}
+
+					// Count number of orders by gateway used.
+					$gateway = $order->get_payment_method();
+
+					if ( ! empty( $gateway ) && in_array( $status, array( 'completed', 'refunded', 'processing' ) ) ) {
+						$gateway = 'gateway_' . $gateway;
+
+						if ( ! isset( $order_data[ $gateway ] ) ) {
+							$order_data[ $gateway ] = 1;
+						} else {
+							$order_data[ $gateway ] += 1;
+						}
+					}
+				}
+
+				// Calculate the gross total for 'completed' and 'processing' orders.
+				$total = $order->get_total();
+
+				if ( in_array( $status, array( 'completed', 'refunded' ) ) ) {
+					if ( ! isset( $order_data['gross'] ) ) {
+						$order_data['gross'] = $total;
+					} else {
+						$order_data['gross'] += $total;
+					}
+				} elseif ( 'processing' == $status ) {
+					if ( ! isset( $order_data['processing_gross'] ) ) {
+						$order_data['processing_gross'] = $total;
+					} else {
+						$order_data['processing_gross'] += $total;
+					}
+				}
+			}
+			$args['paged'] ++;
+
+			$orders       = er_get_orders( $args );
+			$orders_count = count( $orders );
+		}
+
+		if ( $first !== $first_time ) {
+			$order_data['first'] = gmdate( 'Y-m-d H:i:s', $first );
+		}
+
+		if ( $processing_first !== $first_time ) {
+			$order_data['processing_first'] = gmdate( 'Y-m-d H:i:s', $processing_first );
+		}
+
+		if ( $last ) {
+			$order_data['last'] = gmdate( 'Y-m-d H:i:s', $last );
+		}
+
+		if ( $processing_last ) {
+			$order_data['processing_last'] = gmdate( 'Y-m-d H:i:s', $processing_last );
+		}
+
+		foreach ( $order_data as $key => $value ) {
+			$order_data[ $key ] = (string) $value;
+		}
+
+		return $order_data;
 	}
 
 	/**
@@ -442,99 +526,6 @@ class ER_Tracker {
 	 */
 	private static function get_admin_user_agents() {
 		return array_filter( (array) get_option( 'reservations_tracker_ua', array() ) );
-	}
-
-	/**
-	 * Get order totals
-	 *
-	 * @return array
-	 */
-	public static function get_order_totals() {
-		global $wpdb;
-
-		$gross_total = $wpdb->get_var(
-			"
-			SELECT
-				SUM( order_meta.meta_value ) AS 'gross_total'
-			FROM {$wpdb->prefix}posts AS orders
-			LEFT JOIN {$wpdb->prefix}postmeta AS order_meta ON order_meta.post_id = orders.ID
-			WHERE order_meta.meta_key =  '_order_total'
-				AND orders.post_status in ( 'completed', 'refunded' )
-			GROUP BY order_meta.meta_key
-		"
-		);
-
-		if ( is_null( $gross_total ) ) {
-			$gross_total = 0;
-		}
-
-		$processing_gross_total = $wpdb->get_var(
-			"
-			SELECT
-				SUM( order_meta.meta_value ) AS 'gross_total'
-			FROM {$wpdb->prefix}posts AS orders
-			LEFT JOIN {$wpdb->prefix}postmeta AS order_meta ON order_meta.post_id = orders.ID
-			WHERE order_meta.meta_key =  '_order_total'
-				AND orders.post_status = 'processing'
-			GROUP BY order_meta.meta_key
-		"
-		);
-
-		if ( is_null( $processing_gross_total ) ) {
-			$processing_gross_total = 0;
-		}
-
-		return array(
-			'gross'            => $gross_total,
-			'processing_gross' => $processing_gross_total,
-		);
-	}
-
-	/**
-	 * Get last order date
-	 *
-	 * @return array
-	 */
-	private static function get_order_dates() {
-		global $wpdb;
-
-		$min_max = $wpdb->get_row(
-			"
-			SELECT
-				MIN( post_date_gmt ) as 'first', MAX( post_date_gmt ) as 'last'
-			FROM {$wpdb->prefix}posts
-			WHERE post_type = 'easy_order'
-			AND post_status = 'completed'
-		",
-			ARRAY_A
-		);
-
-		if ( is_null( $min_max ) ) {
-			$min_max = array(
-				'first' => '-',
-				'last'  => '-',
-			);
-		}
-
-		$processing_min_max = $wpdb->get_row(
-			"
-			SELECT
-				MIN( post_date_gmt ) as 'processing_first', MAX( post_date_gmt ) as 'processing_last'
-			FROM {$wpdb->prefix}posts
-			WHERE post_type = 'easy_order'
-			AND post_status = 'processing'
-		",
-			ARRAY_A
-		);
-
-		if ( is_null( $processing_min_max ) ) {
-			$processing_min_max = array(
-				'processing_first' => '-',
-				'processing_last'  => '-',
-			);
-		}
-
-		return array_merge( $min_max, $processing_min_max );
 	}
 
 	/**

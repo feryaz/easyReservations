@@ -379,7 +379,7 @@ jQuery( function( $ ) {
 			$( this ).closest( 'tr' ).find( '.view' ).hide();
 			$( this ).closest( 'tr' ).find( '.edit' ).show();
 			$( this ).hide();
-			$( 'button.add-line-item' ).click();
+			$( 'button.add-line-item' ).trigger( 'click' );
 			$( 'button.cancel-action' ).attr( 'data-reload', true );
 
 			window.erTracks.recordEvent( 'receipt_edit_edit_item_click', {
@@ -745,7 +745,7 @@ jQuery( function( $ ) {
 						'',
 						er_admin_params.mon_decimal_point
 					) )
-					.change();
+					.trigger( 'change' );
 			},
 
 			amount_changed: function() {

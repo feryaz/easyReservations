@@ -2,6 +2,22 @@
 /**
  * easyReservations CSS Variables
  */
+:root {
+  --easyreservations: #40a0ff;
+  --er-green: #7ad03a;
+  --er-red: #a00;
+  --er-orange: #ffba00;
+  --er-blue: #2ea2cc;
+  --er-primary: #40a0ff;
+  --er-primary-text: white;
+  --er-secondary: #ebe9eb;
+  --er-secondary-text: #515151;
+  --er-highlight: #77a464;
+  --er-highligh-text: white;
+  --er-content-bg: #fff;
+  --er-subtext: #777;
+}
+
 /* Layout helpers
 ----------------------------------*/
 .ui-state-disabled {

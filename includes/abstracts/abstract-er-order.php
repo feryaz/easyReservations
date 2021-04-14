@@ -456,4 +456,178 @@ class ER_Abstract_Order extends ER_Receipt {
 	public function get_payment_tokens() {
 		return array_map( 'intval', $this->get_meta( 'payment_tokens' ) );
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Calculations.
+	|--------------------------------------------------------------------------
+	|
+	| These methods calculate order totals and taxes based on the current data.
+	|
+	*/
+	/**
+	 * Gets order total - formatted for display.
+	 *
+	 * @return string
+	 */
+	public function get_formatted_order_total() {
+		$formatted_total = er_price( $this->get_total(), true );
+
+		return apply_filters( 'easyreservations_get_formatted_order_total', $formatted_total, $this );
+	}
+
+	/**
+	 * Gets subtotal - subtotal is shown before discounts, but with localised taxes.
+	 *
+	 * @param string $tax_display (default: the tax_display_cart value).
+	 *
+	 * @return string
+	 */
+	public function get_subtotal_to_display( $tax_display = '' ) {
+		$tax_display = $tax_display ? $tax_display : get_option( 'reservations_tax_display_cart' );
+		$subtotal    = $this->get_cart_subtotal();
+
+		if ( 'incl' === $tax_display ) {
+			$subtotal_taxes = 0;
+			foreach ( $this->get_items() as $item ) {
+				$subtotal_taxes += self::round_line_tax( $item->get_subtotal_tax(), false );
+			}
+			$subtotal += er_round_tax_total( $subtotal_taxes );
+		}
+
+		$subtotal = er_price( $subtotal, true );
+
+		if ( 'excl' === $tax_display && $this->get_prices_include_tax() && er_tax_enabled() ) {
+			$subtotal .= ' <small class="tax_label">' . ER()->countries->ex_tax_or_vat() . '</small>';
+		}
+
+		return apply_filters( 'easyreservations_order_subtotal_to_display', $subtotal, $this );
+	}
+
+	/**
+	 * Get the discount amount (formatted).
+	 *
+	 * @param string $tax_display Excl or incl tax display mode.
+	 *
+	 * @return string
+	 */
+	public function get_discount_to_display( $tax_display = '' ) {
+		$tax_display = $tax_display ? $tax_display : get_option( 'reservations_tax_display_cart' );
+
+		return apply_filters( 'easyreservations_order_discount_to_display', er_price( $this->get_total_discount( 'excl' === $tax_display && 'excl' === get_option( 'reservations_tax_display_cart' ) ), true ), $this );
+	}
+
+	/**
+	 * Add total row for subtotal.
+	 *
+	 * @param array  $total_rows Reference to total rows array.
+	 * @param string $tax_display Excl or incl tax display mode.
+	 */
+	protected function add_order_item_totals_subtotal_row( &$total_rows, $tax_display ) {
+		$subtotal = $this->get_subtotal_to_display( $tax_display );
+
+		if ( $subtotal ) {
+			$total_rows['cart_subtotal'] = array(
+				'label' => __( 'Subtotal:', 'easyReservations' ),
+				'value' => $subtotal,
+			);
+		}
+	}
+
+	/**
+	 * Add total row for discounts.
+	 *
+	 * @param array  $total_rows Reference to total rows array.
+	 * @param string $tax_display Excl or incl tax display mode.
+	 */
+	protected function add_order_item_totals_discount_row( &$total_rows, $tax_display ) {
+		if ( $this->get_total_discount() > 0 ) {
+			$total_rows['discount'] = array(
+				'label' => __( 'Discount:', 'easyReservations' ),
+				'value' => '-' . $this->get_discount_to_display( $tax_display ),
+			);
+		}
+	}
+
+	/**
+	 * Add total row for fees.
+	 *
+	 * @param array  $total_rows Reference to total rows array.
+	 * @param string $tax_display Excl or incl tax display mode.
+	 */
+	protected function add_order_item_totals_fee_rows( &$total_rows, $tax_display ) {
+		$fees = $this->get_fees();
+
+		if ( $fees ) {
+			foreach ( $fees as $id => $fee ) {
+				if ( apply_filters( 'easyreservations_get_order_item_totals_excl_free_fees', empty( $fee->get_total() ) && empty( $fee->get_total_tax() ), $id ) ) {
+					continue;
+				}
+
+				$total_rows[ 'fee_' . $fee->get_id() ] = array(
+					'label' => $fee->get_name() . ':',
+					'value' => er_price( 'excl' === $tax_display ? $fee->get_total() : $fee->get_total() + $fee->get_total_tax(), true ),
+				);
+			}
+		}
+	}
+
+	/**
+	 * Add total row for taxes.
+	 *
+	 * @param array  $total_rows Reference to total rows array.
+	 * @param string $tax_display Excl or incl tax display mode.
+	 */
+	protected function add_order_item_totals_tax_rows( &$total_rows, $tax_display ) {
+		// Tax for tax exclusive prices.
+		if ( 'excl' === $tax_display && er_tax_enabled() ) {
+			if ( 'itemized' === get_option( 'reservations_tax_total_display' ) ) {
+				foreach ( $this->get_tax_totals() as $code => $tax ) {
+					$total_rows[ sanitize_title( $code ) ] = array(
+						'label' => $tax->label . ':',
+						'value' => $tax->formatted_amount,
+					);
+				}
+			} else {
+				$total_rows['tax'] = array(
+					'label' => ER()->countries->tax_or_vat() . ':',
+					'value' => er_price( $this->get_total_tax(), true ),
+				);
+			}
+		}
+	}
+
+	/**
+	 * Add total row for grand total.
+	 *
+	 * @param array  $total_rows Reference to total rows array.
+	 * @param string $tax_display Excl or incl tax display mode.
+	 */
+	protected function add_order_item_totals_total_row( &$total_rows, $tax_display ) {
+		$total_rows['order_total'] = array(
+			'label' => __( 'Total:', 'easy' ),
+			'value' => $this->get_formatted_order_total( $tax_display ),
+		);
+	}
+
+	/**
+	 * Get totals for display on pages and in emails.
+	 *
+	 * @param mixed $tax_display Excl or incl tax display mode.
+	 *
+	 * @return array
+	 */
+	public function get_order_item_totals( $tax_display = '' ) {
+		$tax_display = $tax_display ? $tax_display : get_option( 'reservations_tax_display_cart' );
+		$total_rows  = array();
+
+		$this->add_order_item_totals_subtotal_row( $total_rows, $tax_display );
+		$this->add_order_item_totals_discount_row( $total_rows, $tax_display );
+		$this->add_order_item_totals_fee_rows( $total_rows, $tax_display );
+		$this->add_order_item_totals_tax_rows( $total_rows, $tax_display );
+		$this->add_order_item_totals_total_row( $total_rows, $tax_display );
+
+		return apply_filters( 'easyreservations_get_order_item_totals', $total_rows, $this, $tax_display );
+	}
+
 }

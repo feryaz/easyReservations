@@ -3,12 +3,12 @@
  * Plugin Name: easyReservations
  * Plugin URI: http://www.easyreservations.org
  * Description: This powerful property and reservation management plugin allows you to receive, schedule and handle your bookings easily!
- * Version: 6.0-alpha.19
+ * Version: 6.0-alpha.21
  * Author: Feryaz Beer
  * Author URI: http://www.feryaz.de
  * Text Domain: easyReservations
  * Domain Path: /i18n/languages/
- * Requires at least: 5.3
+ * Requires at least: 5.4
  * Requires PHP: 7.0
  *
  * @package easyReservations

@@ -254,13 +254,13 @@ a.remove:hover {
 }
 
 dl.variation,
-.wc-item-meta {
+.er-item-meta {
   list-style: none outside;
 }
 dl.variation dt,
-dl.variation .wc-item-meta-label,
-.wc-item-meta dt,
-.wc-item-meta .wc-item-meta-label {
+dl.variation .er-item-meta-label,
+.er-item-meta dt,
+.er-item-meta .er-item-meta-label {
   float: left;
   clear: both;
   margin-right: 0.25em;
@@ -268,12 +268,12 @@ dl.variation .wc-item-meta-label,
   list-style: none outside;
 }
 dl.variation dd,
-.wc-item-meta dd {
+.er-item-meta dd {
   margin: 0;
 }
 dl.variation p, dl.variation:last-child,
-.wc-item-meta p,
-.wc-item-meta:last-child {
+.er-item-meta p,
+.er-item-meta:last-child {
   margin-bottom: 0;
 }
 

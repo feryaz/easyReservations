@@ -49,11 +49,11 @@
 			resourceQuantity = er_both_params.resources[ settings.resource ].quantity;
 		}
 
-		e.find( 'div.arrival' ).bind( 'click', function() {
+		e.find( 'div.arrival' ).on( 'click', function() {
 			init();
 		} );
 
-		e.find( 'div.departure' ).bind( 'click', function() {
+		e.find( 'div.departure' ).on( 'click', function() {
 			if ( arrival && ( arrivalTime || ! settings.time ) ) {
 				resetDeparture();
 
@@ -70,7 +70,7 @@
 			}
 		} );
 
-		$( '*[name=resource]' ).bind( 'change', function() {
+		$( '*[name=resource]' ).on( 'change', function() {
 			resetArrival();
 			resetDeparture();
 
@@ -210,7 +210,7 @@
 					e.find( '.time-picker .insert' ).html( '<ul class="option-buttons">' + timeOptions + '</ul>' );
 					e.find( '.time-picker > td > div' ).slideDown( 350 );
 
-					e.find( 'ul.option-buttons li.available, ul.option-buttons li.partially' ).bind( 'click', function() {
+					e.find( 'ul.option-buttons li.available, ul.option-buttons li.partially' ).on( 'click', function() {
 						if ( arrivalTime !== false ) {
 							e.find( 'input[name=slot]' ).val( $( this ).attr( 'data-id' ) );
 							setDepartureTime( $( this ).attr( 'data-hour' ), $( this ).attr( 'data-minute' ) );
@@ -262,7 +262,7 @@
 						e.find( '.time-picker select[name=time_hour]' ).val( settings.arrivalHour );
 					}
 
-					e.find( '.time-picker .apply-time' ).bind( 'click', function() {
+					e.find( '.time-picker .apply-time' ).on( 'click', function() {
 						const time = e.find( '.time-picker select[name=time_hour]' );
 
 						if ( time.length > 0 ) {
@@ -293,7 +293,7 @@
 
 					e.find( '.time-picker .insert' ).html( '<div class="option-buttons">' + timeOptions + '</div>' );
 
-					e.find( '.time-picker .time-option.available, .time-picker .time-option.partially' ).bind( 'click', function() {
+					e.find( '.time-picker .time-option.available, .time-picker .time-option.partially' ).on( 'click', function() {
 						if ( arrivalTime !== false ) {
 							setDepartureTime( $( this ).attr( 'data-hour' ), $( this ).attr( 'data-minute' ) );
 						} else {
@@ -589,7 +589,7 @@
 							total = data[ key ];
 
 							$.each( total, function( k, v ) {
-								if ( v[ 0 ].availability > 0 ) {
+								if ( v[ 0 ] && v[ 0 ].availability > 0 ) {
 									hasAvailableSlot = true;
 									amountAvailable++;
 								}

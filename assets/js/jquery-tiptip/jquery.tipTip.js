@@ -85,7 +85,7 @@
 						deactive_tiptip();
 					} );
 				} else if ( opts.activation == "click" ) {
-					org_elem.click( function() {
+					org_elem.on( 'click', function() {
 						active_tiptip();
 						return false;
 					} ).hover( function() {

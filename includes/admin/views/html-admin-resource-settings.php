@@ -383,7 +383,7 @@ $time_options = er_form_time_options();
 	<?php wp_nonce_field( 'easyreservations-resource-settings' ); ?>
 </form>
 <script language="javascript" type="text/javascript">
-	jQuery( '#billing_interval' ).bind( 'change', checkBillingUnit );
+	jQuery( '#billing_interval' ).on( 'change', checkBillingUnit );
 
 	function checkBillingUnit() {
 		var interval             = jQuery( '#billing_interval' ),

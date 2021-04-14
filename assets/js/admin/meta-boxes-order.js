@@ -13,13 +13,13 @@ jQuery( function( $ ) {
 		init: function() {
 			this.states = JSON.parse( er_admin_meta_boxes_order_params.countries.replace( /&quot;/g, '"' ) );
 
-			$( '.js_field-country' ).selectWoo().change( this.change_country );
+			$( '.js_field-country' ).selectWoo().on( 'change', this.change_country );
 			$( '.js_field-country' ).trigger( 'change', [ true ] );
 			$( document.body ).on( 'change', 'select.js_field-state', this.change_state );
-			$( '#easyreservations-order-actions input, #easyreservations-order-actions a' ).click( function() {
+			$( '#easyreservations-order-actions input, #easyreservations-order-actions a' ).on( 'click', function() {
 				window.onbeforeunload = '';
 			} );
-			$( 'a.edit_address' ).click( this.edit_address );
+			$( 'a.edit_address' ).on( 'click', this.edit_address );
 			$( 'a.load_customer' ).on( 'click', this.load_address );
 			$( '#customer_user' ).on( 'change', this.change_customer_user );
 		},
@@ -81,7 +81,7 @@ jQuery( function( $ ) {
 
 				$state.replaceWith( $newstate );
 
-				$newstate.show().selectWoo().hide().change();
+				$newstate.show().selectWoo().hide().trigger( 'change' );
 			} else {
 				$newstate = $( '<input type="text" />' )
 					.prop( 'id', inputId )
@@ -119,8 +119,8 @@ jQuery( function( $ ) {
 			$this.parent().find( 'a' ).toggle();
 
 			if ( ! $countryInput.val() ) {
-				$countryInput.val( er_admin_meta_boxes_order_params.default_country ).change();
-				$stateInput.val( er_admin_meta_boxes_order_params.default_state ).change();
+				$countryInput.val( er_admin_meta_boxes_order_params.default_country ).trigger( 'change' );
+				$stateInput.val( er_admin_meta_boxes_order_params.default_state ).trigger( 'change' );
 			}
 
 			$editAddress.show();
@@ -133,7 +133,7 @@ jQuery( function( $ ) {
 
 		change_customer_user: function() {
 			if ( ! $( '#_billing_country' ).val() ) {
-				$( 'a.edit_address' ).click();
+				$( 'a.edit_address' ).trigger( 'click' );
 				erMetaBoxesOrder.load_address( true );
 			}
 		},
@@ -169,7 +169,7 @@ jQuery( function( $ ) {
 					success: function( response ) {
 						if ( response && response.billing ) {
 							$.each( response.billing, function( key, value ) {
-								$( ':input#_' + key ).val( value ).change();
+								$( ':input#_' + key ).val( value ).trigger( 'change' );
 							} );
 						}
 						$( 'div.edit_address' ).unblock();

@@ -108,7 +108,9 @@ class ER_Meta_Box_Order_Actions {
 				do_action( 'easyreservations_before_resend_order_emails', $order, 'new_order' );
 
 				ER()->payment_gateways();
+				add_filter( 'easyreservations_new_order_email_allows_resend', '__return_true' );
 				ER()->mailer()->emails['ER_Email_New_Order']->trigger( $order->get_id(), $order );
+				remove_filter( 'easyreservations_new_order_email_allows_resend', '__return_true' );
 
 				do_action( 'easyreservations_after_resend_order_email', $order, 'new_order' );
 

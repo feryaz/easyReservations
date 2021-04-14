@@ -342,21 +342,21 @@ function check_checkboxes( e ) {
 	} );
 }
 
-jQuery( '#custom_field_type' ).bind( 'change', function() {
+jQuery( '#custom_field_type' ).on( 'change', function() {
 	custom_field_value( false )
 } );
 
-jQuery( '#custom_price_field' ).bind( 'click', function() {
+jQuery( '#custom_price_field' ).on( 'click', function() {
 	custom_type_select( false );
 	custom_field_extras( false );
 	custom_generate_option( false );
 	custom_field_value( false );
 } );
 
-jQuery( '#custom_cancel' ).bind( 'click', function() {
+jQuery( '#custom_cancel' ).on( 'click', function() {
 	jQuery( '#custom_id' ).remove();
 } );
 
-jQuery( '#mainform' ).bind( 'submit', function() {
+jQuery( '#mainform' ).on( 'submit', function() {
 	jQuery( 'input[type=checkbox][name="checked[]"]:not(:checked)' ).prop( "value", "0" ).prop( "type", "hidden" );
 } );

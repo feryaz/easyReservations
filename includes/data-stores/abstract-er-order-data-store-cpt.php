@@ -50,6 +50,12 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 			$order->set_date_created( time() );
 		}
 
+		$order_status = $order->get_status( 'edit' );
+
+		if ( ! $order_status ) {
+			$order_status = apply_filters( 'easyreservations_default_order_status', 'pending' );
+		}
+
 		$id = wp_insert_post(
 			apply_filters(
 				'easyreservations_new_order_data',
@@ -57,7 +63,7 @@ abstract class Abstract_ER_Order_Data_Store_CPT extends Abstract_ER_Receipt_Data
 					'post_date'     => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getOffsetTimestamp() ),
 					'post_date_gmt' => gmdate( 'Y-m-d H:i:s', $order->get_date_created( 'edit' )->getTimestamp() ),
 					'post_type'     => $order->get_type(),
-					'post_status'   => $order->get_status( 'edit' ),
+					'post_status'   => $order_status,
 					'ping_status'   => 'closed',
 					'post_parent'   => $order->get_parent_id() ? $order->get_parent_id() : 0,
 					'post_author'   => $order->get_user_id() ? $order->get_user_id() : 1,

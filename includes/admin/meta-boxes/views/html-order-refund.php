@@ -73,6 +73,7 @@ $who_refunded = new WP_User( $refund->get_refunded_by() );
     <td class="er-receipt-edit-line-item">
         <div class="er-receipt-edit-line-item-actions">
             <a class="delete_refund" href="#"></a>
+	        <?php do_action( 'easyreservations_admin_order_item_refund_action', $refund, $refund->get_id() ); ?>
         </div>
     </td>
 </tr>

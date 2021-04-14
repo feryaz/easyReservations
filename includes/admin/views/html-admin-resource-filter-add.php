@@ -726,7 +726,7 @@ $time_options = er_form_time_options();
 		}
 	}
 
-	jQuery( '.paste-input' ).bind( 'input', function( e ) {
+	jQuery( '.paste-input' ).on( 'input', function( e ) {
 		let isJson = true;
 		try {
 			var json = JSON.parse( jQuery( this ).val() );
@@ -1080,13 +1080,13 @@ $time_options = er_form_time_options();
 			$( '.filter-navigation' ).easyNavigation( false );
 		}
 
-		$( '#filter_form_unavailable_checkbox' ).bind( 'click', function() {
+		$( '#filter_form_unavailable_checkbox' ).on( 'click', function() {
 			if ( this.checked ) {
 				$( '#filter_form_arrival_checkbox, #filter_form_departure_checkbox' ).prop( 'checked', false );
 			}
 		} );
 
-		$( '#filter_form_arrival_checkbox, #filter_form_departure_checkbox' ).bind( 'click', function() {
+		$( '#filter_form_arrival_checkbox, #filter_form_departure_checkbox' ).on( 'click', function() {
 			if ( this.checked ) {
 				$( '#filter_form_unavailable_checkbox' ).prop( 'checked', false );
 			}

@@ -23,7 +23,7 @@ do_action( 'easyreservations_before_cart' ); ?>
         <thead>
         <tr>
             <th class="remove">&nbsp;</th>
-            <th class="thumbnail">&nbsp;</th>
+            <th class="resource-thumbnail">&nbsp;</th>
             <th class="name"><?php esc_html_e( 'Item', 'easyReservations' ); ?></th>
             <th class="amount"><?php esc_html_e( 'Subtotal', 'easyReservations' ); ?></th>
         </tr>

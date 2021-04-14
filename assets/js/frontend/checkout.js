@@ -100,7 +100,7 @@
 
 				if ( $( this ).is( ':checked' ) ) {
 					// Ensure password is not pre-populated.
-					$( '#account_password' ).val( '' ).change();
+					$( '#account_password' ).val( '' ).trigger( 'change' );
 					$( 'div.create-account' ).slideDown();
 				}
 			},
@@ -215,11 +215,11 @@
 
 								if ( ID ) {
 									if ( $.inArray( $( this ).attr( 'type' ), [ 'checkbox', 'radio' ] ) !== -1 ) {
-										$( this ).prop( 'checked', paymentDetails[ ID ] ).change();
+										$( this ).prop( 'checked', paymentDetails[ ID ] ).trigger( 'change' );
 									} else if ( $.inArray( $( this ).attr( 'type' ), [ 'select' ] ) !== -1 ) {
-										$( this ).val( paymentDetails[ ID ] ).change();
+										$( this ).val( paymentDetails[ ID ] ).trigger( 'change' );
 									} else if ( null !== $( this ).val() && 0 === $( this ).val().length ) {
-										$( this ).val( paymentDetails[ ID ] ).change();
+										$( this ).val( paymentDetails[ ID ] ).trigger( 'change' );
 									}
 								}
 							} );
@@ -240,7 +240,7 @@
 							}
 
 							// Lose focus for all fields
-							$form.find( '.input-text, select, input:checkbox' ).trigger( 'validate' ).blur();
+							$form.find( '.input-text, select, input:checkbox' ).trigger( 'validate' ).trigger( 'blur' );
 
 							er_checkout_form.scroll_to_notices();
 						}

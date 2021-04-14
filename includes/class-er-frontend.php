@@ -27,13 +27,13 @@ class ER_Frontend {
 
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		wp_enqueue_script( 'er-frontend', RESERVATIONS_URL . 'assets/js/frontend/frontend' . $suffix . '.js', array( 'jquery' ), RESERVATIONS_VERSION );
-		wp_enqueue_script( 'er-cart-fragments', RESERVATIONS_URL . 'assets/js/frontend/cart-fragments' . $suffix . '.js', array( 'jquery', 'js-cookie' ), RESERVATIONS_VERSION );
-
 		wp_register_script( 'jquery-payment', RESERVATIONS_URL . 'assets/js/jquery-payment/jquery.payment' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
 		wp_register_script( 'er-country-select', RESERVATIONS_URL . 'assets/js/frontend/country-select' . $suffix . '.js', array( 'jquery' ), '3.0.0' );
 		wp_register_script( 'er-form', RESERVATIONS_URL . 'assets/js/frontend/form' . $suffix . '.js', array( 'jquery-blockui', 'jquery-ui-slider', 'easy-ui' ), RESERVATIONS_VERSION );
 		wp_register_script( 'js-cookie', RESERVATIONS_URL . 'assets/js/js-cookie/js.cookie' . $suffix . '.js', array(), '2.1.4', true );
+
+		wp_enqueue_script( 'er-frontend', RESERVATIONS_URL . 'assets/js/frontend/frontend' . $suffix . '.js', array( 'jquery', 'js-cookie' ), RESERVATIONS_VERSION );
+		wp_enqueue_script( 'er-cart-fragments', RESERVATIONS_URL . 'assets/js/frontend/cart-fragments' . $suffix . '.js', array( 'jquery', 'js-cookie' ), RESERVATIONS_VERSION );
 
 		wp_register_script( 'er-checkout', RESERVATIONS_URL . 'assets/js/frontend/checkout' . $suffix . '.js', array( 'jquery', 'easy-ui', 'er-country-select', 'er-address-i18n', 'er-form'), RESERVATIONS_VERSION );
 
@@ -68,13 +68,24 @@ class ER_Frontend {
 		}
 
 		wp_register_script( 'er-date-selection', RESERVATIONS_URL . 'assets/js/frontend/date-selection' . $suffix . '.js', array(), RESERVATIONS_VERSION );
+		wp_register_script( 'er-add-payment-method', RESERVATIONS_URL . 'assets/js/frontend/add-payment-method' . $suffix . '.js', array( 'jquery', 'er-frontend' ), RESERVATIONS_VERSION );
 		wp_register_script( 'er-address-i18n', RESERVATIONS_URL . 'assets/js/frontend/address-i18n' . $suffix . '.js', array( 'er-country-select' ), RESERVATIONS_VERSION );
+		wp_register_script( 'er-credit-card-form', RESERVATIONS_URL . 'assets/js/frontend/credit-card-form' . $suffix . '.js', array( 'jquery', 'jquery-payment' ), RESERVATIONS_VERSION );
+		wp_register_script( 'er-lost-password', RESERVATIONS_URL . 'assets/js/frontend/lost-password' . $suffix . '.js', array( 'jquery', 'er-frontend' ), RESERVATIONS_VERSION );
 		wp_register_script( 'zoom', RESERVATIONS_URL . 'assets/js/zoom/jquery.zoom' . $suffix . '.js', array( 'jquery' ), '1.7.21' );
 		wp_register_script( 'flexslider', RESERVATIONS_URL . 'assets/js/flexslider/jquery.flexslider' . $suffix . '.js', array(), '2.7.2' );
 		wp_register_script( 'photoswipe', RESERVATIONS_URL . 'assets/js/photoswipe/photoswipe' . $suffix . '.js', array(), '4.1.1' );
 		wp_register_script( 'photoswipe-ui-default', RESERVATIONS_URL . 'assets/js/photoswipe/photoswipe-ui-default' . $suffix . '.js', array( 'photoswipe' ), '4.1.1' );
 		wp_register_style( 'photoswipe', RESERVATIONS_URL . 'assets/css/photoswipe/photoswipe' . $suffix . '.css', array(), RESERVATIONS_VERSION );
 		wp_register_style( 'photoswipe-default-skin', RESERVATIONS_URL . 'assets/css/photoswipe/default-skin/default-skin' . $suffix . '.css', array( 'photoswipe' ), RESERVATIONS_VERSION );
+
+		if ( is_easyreservations_add_payment_method_page() ) {
+			wp_enqueue_script( 'er-add-payment-method' );
+		}
+
+		if ( is_easyreservations_lost_password_page() ) {
+			wp_enqueue_script( 'er-lost-password' );
+		}
 
 		// Load gallery scripts on resource pages only if supported.
 		if ( is_easyreservations_resource() || ( ! empty( $post->post_content ) && strstr( $post->post_content, '[resource_page' ) ) ) {

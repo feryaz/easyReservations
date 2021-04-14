@@ -27,6 +27,22 @@
 /**
  * easyReservations CSS Variables
  */
+:root {
+  --easyreservations: #40a0ff;
+  --er-green: #7ad03a;
+  --er-red: #a00;
+  --er-orange: #ffba00;
+  --er-blue: #2ea2cc;
+  --er-primary: #40a0ff;
+  --er-primary-text: white;
+  --er-secondary: #ebe9eb;
+  --er-secondary-text: #515151;
+  --er-highlight: #77a464;
+  --er-highligh-text: white;
+  --er-content-bg: #fff;
+  --er-subtext: #777;
+}
+
 .blockUI.blockOverlay::before {
   height: 1em;
   width: 1em;
@@ -1332,22 +1348,22 @@ code[data-tag] {
 }
 #easyreservations-order-items .er-receipt-edit-line-item-actions a {
   display: inline-block;
-  width: 16px;
+  width: 18px;
   padding: 0 0 0.5em;
   margin: 0 0 0 12px;
   overflow: hidden;
-  line-height: 16px;
+  line-height: 18px;
   color: #ccc;
   text-decoration: none;
   vertical-align: middle;
   cursor: pointer;
 }
 #easyreservations-order-items .er-receipt-edit-line-item-actions a::before {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
 }
 #easyreservations-order-items .er-receipt-edit-line-item-actions a:hover::before {
   color: #999;
@@ -1415,6 +1431,28 @@ code[data-tag] {
 }
 #easyreservations-order-items .er-receipt-edit-line-item-actions .delete-receipt-item:hover::before,
 #easyreservations-order-items .er-receipt-edit-line-item-actions .delete_refund:hover::before {
+  color: #a00;
+}
+#easyreservations-order-items .er-receipt-edit-line-item-actions .invoice::before {
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "";
+  position: relative;
+}
+#easyreservations-order-items .er-receipt-edit-line-item-actions .invoice:hover::before {
   color: #a00;
 }
 #easyreservations-order-items tbody tr .er-receipt-edit-line-item-actions {
@@ -1537,7 +1575,7 @@ ul.er_coupon_list li.code .remove-coupon:hover::before {
   text-align: center;
   text-indent: 0;
   text-transform: none;
-  speak: none;
+  speak: never;
 }
 .widefat .column-er_actions a.button img {
   display: block;

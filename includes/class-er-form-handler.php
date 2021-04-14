@@ -116,7 +116,7 @@ class ER_Form_Handler {
 	 * Process the checkout form.
 	 */
 	public static function reservation_and_checkout_action() {
-		if ( ! ER()->is_request( 'ajax' ) && isset( $_POST['easy_form_id'] ) && ( isset( $_POST['email'], $_POST['first_name'] ) || isset( $_POST['email'], $_POST['first_name'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+		if ( ! ER()->is_request( 'ajax' ) && isset( $_POST['easy_form_id'] ) && ( isset( $_POST['email'], $_POST['easyreservations-process-checkout-nonce'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 			nocache_headers();
 
 			if ( ER()->cart->is_empty() ) {
@@ -132,7 +132,7 @@ class ER_Form_Handler {
 	 * Process reservation form and checkout submit as they happen at the same time
 	 */
 	public static function process_reservation_and_checkout() {
-		$do_checkout = isset( $_POST['email'], $_POST['first_name'] );
+		$do_checkout = isset( $_POST['email'], $_POST['easyreservations-process-checkout-nonce'] );
 		$submit      = isset( $_POST['submit'] ) || ! is_easyreservations_ajax();
 		$done        = false;
 
@@ -142,8 +142,10 @@ class ER_Form_Handler {
 
 			if ( $done && ! $do_checkout && ! $submit ) {
 				wp_send_json( array(
-					'result' => 'success',
-					'price'  => $done->get_formatted_total()
+					'result'          => 'success',
+					'label'           => $done->get_name(),
+					'price'           => $done->get_total(),
+					'price_formatted' => $done->get_formatted_total()
 				) );
 
 				exit;
@@ -183,9 +185,9 @@ class ER_Form_Handler {
 					$messages = er_add_to_cart_message( $done, true );
 
 					wp_send_json( array(
-						'result'   => 'success',
-						'added_to_cart'   => true,
-						'messages' => $messages,
+						'result'        => 'success',
+						'added_to_cart' => true,
+						'messages'      => $messages,
 					) );
 
 					exit;
@@ -214,7 +216,7 @@ class ER_Form_Handler {
 
 					$order_review = ob_get_clean();
 
-					if( isset( $_POST['direct_checkout'] ) && $_POST['direct_checkout'] === '1' ){
+					if ( isset( $_POST['direct_checkout'] ) && $_POST['direct_checkout'] === '1' ) {
 						ER()->cart->reset_totals();
 					}
 
@@ -320,7 +322,6 @@ class ER_Form_Handler {
 			$order_key = wp_unslash( $_GET['key'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			$order_id  = absint( $wp->query_vars['order-payment'] );
 			$order     = er_get_order( $order_id );
-
 
 			if ( $order_id === $order->get_id() && hash_equals( $order->get_order_key(), $order_key ) && $order->needs_payment() ) {
 

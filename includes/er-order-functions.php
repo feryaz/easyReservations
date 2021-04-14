@@ -79,6 +79,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Pending payment', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -88,6 +89,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Processing', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -97,6 +99,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'On hold', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -106,6 +109,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Completed', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -115,6 +119,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Cancelled', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -124,6 +129,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Refunded', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -133,6 +139,7 @@ function er_order_register_post_status() {
 				'label'                     => _x( 'Failed', 'Order status', 'easyReservations' ),
 				'public'                    => false,
 				'exclude_from_search'       => false,
+				'post_type' => array( 'easy_order' ),
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				/* translators: %s: number of orders */
@@ -262,7 +269,8 @@ function er_cancel_unpaid_orders() {
 	}
 
 	wp_clear_scheduled_hook( 'easyreservations_cancel_unpaid_orders' );
-	wp_schedule_single_event( time() + ( absint( $held_duration ) * 60 ), 'easyreservations_cancel_unpaid_orders' );
+	$cancel_unpaid_interval = apply_filters( 'easyreservations_cancel_unpaid_orders_interval_minutes', absint( $held_duration ) );
+	wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'easyreservations_cancel_unpaid_orders' );
 }
 
 add_action( 'easyreservations_cancel_unpaid_orders', 'er_cancel_unpaid_orders' );
@@ -594,11 +602,12 @@ function er_delete_easy_order_transients( $order = 0 ) {
 		delete_transient( $transient );
 	}
 
-	// Clear money spent for user associated with order.
+	// Clear customer's order related caches.
 	if ( is_a( $order, 'ER_Order' ) ) {
 		$order_id = $order->get_id();
 		delete_user_meta( $order->get_customer_id(), '_money_spent' );
 		delete_user_meta( $order->get_customer_id(), '_order_count' );
+		delete_user_meta( $order->get_customer_id(), '_last_order' );
 	} else {
 		$order_id = 0;
 	}

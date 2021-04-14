@@ -1,0 +1,2768 @@
+@import "mixins";
+
+/**
+ * Sass variables
+ */
+
+$headings: -apple-system, blinkmacsystemfont, "Helvetica Neue", helvetica, sans-serif;
+$body: nonbreakingspaceoverride, "Hoefler Text", garamond, "Times New Roman", serif;
+
+$body-color: currentColor;
+$highlights-color: #88a171;
+
+/**
+ * Global elements
+ */
+a.button {
+	display: inline-block;
+	text-align: center;
+	box-sizing: border-box;
+	word-break: break-word;
+	text-decoration: none !important;
+
+	&:hover,
+	&:visited {
+		text-decoration: underline !important;
+	}
+}
+
+.easyreservations {
+
+	form .form-row {
+
+		.required {
+			color: #b22222;
+			text-decoration: none;
+			visibility: hidden; // Only show optional by default.
+
+			&[title] {
+				border: 0 !important;
+			}
+		}
+
+		.optional {
+			visibility: visible;
+		}
+	}
+
+	form.easyreservations-form-login,
+	form.easyreservations-form-register {
+
+		p,
+		label {
+			font-family: $headings;
+		}
+
+		input {
+			border: 1px solid #ddd;
+		}
+	}
+
+	.easyreservations-form-login__rememberme {
+		margin: 1rem 0 3rem 0;
+	}
+}
+
+.easyreservations-notices-wrapper:empty {
+	margin: 0 auto;
+}
+
+.easyreservations-view-order {
+
+	.easyreservations-MyAccount-content {
+
+		table {
+
+			border: 0;
+
+			tbody {
+				border-bottom: 1px solid $body-color;
+			}
+
+			tfoot {
+
+				tr:last-of-type {
+					border-top: 1px solid $body-color;
+
+					.easyreservations-Price-amount {
+						font-weight: 700;
+					}
+				}
+			}
+
+			td,
+			tr,
+			th {
+				border: 0;
+			}
+		}
+	}
+}
+
+.easyreservations-breadcrumb {
+	margin-bottom: 5rem;
+	font-size: 0.88889em;
+	font-family: $headings;
+}
+
+.easyreservations-pagination {
+	font-family: $headings;
+	font-size: 0.88889em;
+
+	ul.page-numbers {
+		margin: 0;
+		padding: 0;
+		display: block;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+	}
+
+	span.page-numbers,
+	a.page-numbers,
+	.next.page-numbers,
+	.prev.page-numbers {
+		padding: 0 calc(0.5 * 1rem);
+		display: inline-block;
+	}
+}
+
+.easyreservations span.onsale {
+	position: absolute;
+	background: $highlights-color;
+	color: #fff;
+	font-family: $headings;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	z-index: 1;
+	border-radius: 50%;
+	text-align: center;
+	padding: 0.8rem;
+	margin: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+
+	&::before {
+		content: "";
+		float: left;
+		padding-top: 100%;
+	}
+}
+
+.onsale + .easyreservations-product-gallery .easyreservations-product-gallery__trigger {
+	top: 2.2em;
+	right: 2.2em;
+}
+
+.single-product .type-product.sale > .onsale {
+	right: calc(52% - 0.7rem);
+}
+
+.price {
+	font-family: $headings;
+	font-size: 1rem;
+
+	del {
+		opacity: 0.5;
+		display: inline-block;
+	}
+
+	ins {
+		display: inline-block;
+		text-decoration: none;
+	}
+}
+
+.easyreservations-message,
+.easyreservations-error,
+.easyreservations-info {
+	margin-bottom: 2rem;
+	margin-left: 0;
+	background: var(--global--color-background);
+	font-size: 0.88889em;
+	font-family: $headings;
+	list-style: none;
+	overflow: hidden;
+}
+
+.easyreservations-message,
+.easyreservations-error li,
+.easyreservations-info {
+	padding: 1rem 3rem;
+	justify-content: space-between;
+	align-items: center;
+
+	.button {
+		order: 2;
+	}
+}
+
+.easyreservations-error {
+	color: #fff;
+	background: #b22222;
+
+	a {
+		color: #fff;
+
+		&:hover {
+			color: #fff;
+		}
+
+		&.button {
+			background: #111;
+		}
+	}
+
+	> li {
+		margin: 0;
+	}
+}
+
+#main {
+
+	.easyreservations-error,
+	.easyreservations-info {
+		font-family: $headings;
+	}
+}
+
+.easyreservations-message,
+.easyreservations-info {
+	background: #eee;
+	color: #000;
+	border-top: 2px solid $highlights-color;
+
+	a {
+		color: #444;
+
+		&:hover {
+			color: #000;
+		}
+
+		&.button {
+			background: $highlights-color;
+			color: #f5efe0;
+		}
+	}
+}
+
+.easyreservations-store-notice {
+	background: #eee;
+	color: #000;
+	border-top: 2px solid $highlights-color;
+	padding: 2rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 999;
+}
+
+.admin-bar .easyreservations-store-notice {
+	top: 32px;
+}
+
+.easyreservations-store-notice__dismiss-link {
+	float: right;
+	color: #fff;
+
+	&:hover {
+		text-decoration: underline;
+		color: #fff;
+	}
+}
+
+.flex-viewport {
+	margin-bottom: 1.5em;
+}
+
+#main {
+
+	.post-inner {
+		padding-top: 0;
+	}
+
+	.wp-block-cover {
+		margin-top: 0;
+	}
+}
+
+/* Make thumbnails in the gallery affect parent's height and wrapping */
+.flex-control-nav::after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+/**
+* Tables
+*/
+.easyreservations,
+.easyreservations-page {
+
+	table.shop_table {
+
+		td,
+		th {
+			word-break: normal;
+			border-left: none;
+			border-right: none;
+		}
+
+		.resource-thumbnail {
+			max-width: 120px;
+		}
+	}
+}
+
+/**
+ * Shop page
+ */
+.easyreservations-result-count,
+.easyreservations-ordering {
+	margin: 0 0 1rem;
+	padding: 0.75rem 0;
+}
+
+/**
+ * Products
+ */
+ul.resources {
+	margin: 0;
+	padding: 0;
+
+	li.resource {
+		list-style: none;
+
+		.easyreservations-loop-resource__link {
+			display: block;
+			text-decoration: none;
+		}
+
+		.easyreservations-loop-resource__title {
+			margin: 0.5rem 0 0.5rem;
+			font-size: 1.5rem;
+			font-weight: 400;
+
+			&::before {
+				content: none;
+			}
+		}
+
+		.easyreservations-loop-resource__title,
+		.price,
+		.star-rating {
+			color: $body-color;
+		}
+
+		.star-rating {
+			margin-bottom: 0.8rem;
+		}
+
+		.price {
+			margin-bottom: 1rem;
+		}
+
+		.price,
+		.star-rating {
+			display: block;
+		}
+
+		.easyreservations-placeholder {
+			border: 1px solid #f2f2f2;
+		}
+
+		.button {
+			vertical-align: middle;
+			background-color: transparent;
+			color: var(--button--color-text-hover);
+			text-decoration: none !important;
+
+			&.loading {
+				opacity: 0.5;
+			}
+
+			&:hover {
+				background-color: var(--button--color-background);
+				color: var(--button--color-text);
+			}
+		}
+
+		.added_to_cart {
+			margin: 0.5rem;
+		}
+	}
+}
+
+.star-rating {
+	overflow: hidden;
+	position: relative;
+	height: 1em;
+	line-height: 1;
+	font-size: 1em;
+	width: 5.4em;
+	font-family: star;
+	margin-bottom: 0.7rem;
+
+	&::before {
+		content: "\73\73\73\73\73";
+		float: left;
+		top: 0;
+		left: 0;
+		position: absolute;
+	}
+
+	span {
+		overflow: hidden;
+		float: left;
+		top: 0;
+		left: 0;
+		position: absolute;
+		padding-top: 1.5em;
+	}
+
+	span::before {
+		content: "\53\53\53\53\53";
+		top: 0;
+		position: absolute;
+		left: 0;
+	}
+}
+
+a.remove {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 18px;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	border-radius: 100%;
+	text-decoration: none !important;
+	background: #fff;
+	color: #000;
+
+	&:hover {
+		background: $highlights-color;
+		color: #fff !important;
+	}
+}
+
+dl.variation,
+.er-item-meta {
+	list-style: none outside;
+
+	dt,
+	.er-item-meta-label {
+		float: left;
+		clear: both;
+		margin-right: 0.25rem;
+		margin-top: 0;
+		list-style: none outside;
+		font-weight: 400;
+	}
+
+	dd {
+		margin: 0;
+	}
+
+	p,
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+/**
+ * Single resource
+ */
+.single-resource {
+
+	div.resource {
+		position: relative;
+
+		.resource_meta {
+			clear: both;
+			font-size: 0.7em;
+			padding-top: 0.5em;
+			margin-top: 3rem;
+		}
+	}
+
+	.single_add_to_cart_button {
+		line-height: var(--global--line-height-body) !important;
+		padding-top: var(--form--spacing-unit) !important;
+		padding-bottom: var(--form--spacing-unit) !important;
+		font-size: 1.6rem;
+	}
+
+	.single-featured-image-header {
+		display: none;
+	}
+
+	&.singular { // Needed for higher specificity to target the entry title font size
+		.entry-title {
+			font-size: var(--global--font-size-xl);
+			font-weight: normal;
+			margin: 0 0 2.5rem;
+
+			&::before {
+				margin-top: 0;
+			}
+		}
+	}
+
+	.summary {
+		margin-bottom: 8rem;
+
+		p.price {
+			margin-bottom: 2rem;
+		}
+
+		.easyreservations-resource-details__short-description {
+			margin-bottom: 1rem;
+		}
+	}
+
+	.easyreservations-variation-price {
+		margin: 2rem 0;
+	}
+
+	.easyreservations-resource-rating {
+		margin: -1rem 0 4rem;
+		line-height: 1;
+		font-size: 1.4rem;
+
+		.star-rating {
+			float: left;
+			margin-right: 0.25rem;
+		}
+	}
+
+	form.cart {
+
+		.quantity {
+			float: left;
+			margin-right: 0.5rem;
+		}
+
+		input {
+			width: 5em;
+		}
+	}
+
+	.easyreservations-variation-add-to-cart {
+
+		.button {
+			padding-top: 1.55rem;
+			padding-bottom: 1.59rem;
+			font-size: 1.6rem;
+		}
+
+		.button.disabled {
+			opacity: 0.2;
+		}
+	}
+
+	.easyreservations-message {
+		flex-direction: row-reverse;
+	}
+
+	.easyreservations-Tabs-panel--additional_information,
+	.easyreservations-Tabs-panel--reviews {
+
+		table {
+			border: 1px solid #ddd;
+
+			tr,
+			td,
+			th {
+				border: 1px solid #ddd;
+			}
+		}
+
+		p {
+			font-family: $headings;
+		}
+
+		input {
+			border: 1px solid #ddd;
+		}
+	}
+
+	.easyreservations-resource-attributes-item__value {
+
+		p {
+			margin-bottom: 0;
+		}
+	}
+}
+
+table.variations {
+	margin: 1rem 0;
+
+	label {
+		margin: 0;
+		padding: 6px 0;
+	}
+
+	select {
+		margin-right: 0.5rem;
+	}
+}
+
+a.reset_variations {
+	margin-left: 0.5em;
+}
+
+.easyreservations-resource-gallery {
+	max-width: 600px;
+	position: relative;
+	margin-bottom: 2rem;
+
+	figure {
+		margin: 0;
+		padding: 0;
+	}
+
+	.easyreservations-resource-gallery__wrapper {
+		margin: 0;
+		padding: 0;
+	}
+
+	.zoomImg {
+		background-color: #fff;
+		opacity: 0;
+	}
+
+	.easyreservations-resource-gallery__image--placeholder {
+		border: 1px solid #f2f2f2;
+	}
+
+	.easyreservations-resource-gallery__image:nth-child(n+2) {
+		width: 25%;
+		display: inline-block;
+	}
+
+	.flex-control-thumbs {
+
+		li {
+			list-style: none;
+			cursor: pointer;
+			float: left;
+		}
+
+		img {
+			opacity: 0.5;
+
+			&:hover,
+			&.flex-active {
+				opacity: 1;
+			}
+		}
+	}
+
+	img {
+		display: block;
+		height: auto;
+	}
+}
+
+.easyreservations-resource-gallery--columns-3 {
+
+	.flex-control-thumbs li {
+		width: 33.3333%;
+	}
+
+	.flex-control-thumbs li:nth-child(3n+1) {
+		clear: left;
+	}
+}
+
+.easyreservations-resource-gallery--columns-4 {
+
+	ol {
+		margin-left: 0;
+		margin-bottom: 0;
+	}
+
+	.flex-control-thumbs li {
+		width: 14.2857142857%;
+		margin: 0 14.2857142857% 1.6em 0;
+	}
+
+	.flex-control-thumbs li:nth-child(4n) {
+		margin-right: 0;
+	}
+
+	.flex-control-thumbs li:nth-child(4n+1) {
+		clear: left;
+	}
+}
+
+.easyreservations-resource-gallery--columns-5 {
+
+	.flex-control-thumbs li {
+		width: 20%;
+	}
+
+	.flex-control-thumbs li:nth-child(5n+1) {
+		clear: left;
+	}
+}
+
+.easyreservations-resource-gallery__trigger {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	z-index: 99;
+}
+
+.easyreservations-tabs {
+	margin: 4rem 0 2rem;
+
+	/* reset description tab width to full width */
+	#tab-description {
+
+		h2,
+		p {
+			max-width: 100vw;
+			width: 100%;
+		}
+	}
+
+	/* reset additional info tab width to full width */
+	#tab-additional_information {
+
+		.easyreservations-resource-attributes {
+			max-width: 100vw;
+			width: 100%;
+		}
+	}
+
+	#tab-reviews {
+
+		/* reset reviews tab width to full width */
+		.easyreservations-Reviews {
+			max-width: 100vw;
+			width: 100%;
+		}
+
+		#submit {
+			float: right;
+		}
+	}
+
+
+	ul {
+		margin: 0 0 1.5rem;
+		padding: 0;
+		font-family: $headings;
+		border-bottom: var(--button--border-width) solid var(--button--color-background);
+
+		li {
+			display: inline-flex !important;
+
+			a {
+				color: $body-color;
+				text-decoration: none;
+				font-weight: 700;
+				padding: var(--button--padding-vertical) var(--button--padding-horizontal);
+			}
+
+			&.active {
+
+				a {
+					color: var(--button--color-text);
+					background-color: var(--button--color-background);
+					border: var(--button--border-width) solid var(--button--color-background);
+				}
+			}
+		}
+	}
+
+	.panel {
+
+		> * {
+			margin-top: 0 !important;
+		}
+
+		h1,
+		h2 {
+
+			&::before {
+				content: none;
+			}
+		}
+
+		h2:first-of-type {
+			font-size: var(--global--font-size-lg);
+			margin: 0 0 2rem !important;
+		}
+	}
+
+	#comments {
+		padding-top: 0;
+	}
+
+	.comment-reply-title {
+		font-family: $headings;
+		font-size: 1em;
+		font-weight: 700;
+		display: block;
+	}
+
+	#reviews {
+
+		ol.commentlist {
+			padding: 0;
+			margin: 0;
+		}
+
+		li.review,
+		li.comment {
+			list-style: none;
+			margin: 0.5rem 0 2.5rem 0;
+
+			.avatar {
+				max-height: 36px;
+				width: auto;
+				float: right;
+			}
+
+			p.meta {
+				margin-bottom: 0.5em;
+			}
+		}
+
+		.comment-form-rating {
+
+			label {
+				max-width: 58rem;
+				margin: 0 auto;
+			}
+		}
+
+		p.stars {
+			margin-top: 0;
+
+			a {
+				position: relative;
+				height: 1em;
+				width: 1em;
+				text-indent: -999em;
+				display: inline-block;
+				text-decoration: none;
+				box-shadow: none;
+
+				&::before {
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 1em;
+					height: 1em;
+					line-height: 1;
+					font-family: WooCommerce;
+					content: "\e021";
+					text-indent: 0;
+				}
+
+				&:hover {
+
+					~ a::before {
+						content: "\e021";
+					}
+				}
+			}
+
+			&:hover {
+
+				a {
+
+					&::before {
+						content: "\e020";
+					}
+				}
+			}
+
+			&.selected {
+
+				a.active {
+
+					&::before {
+						content: "\e020";
+					}
+
+					~ a::before {
+						content: "\e021";
+					}
+				}
+
+				a:not(.active) {
+
+					&::before {
+						content: "\e020";
+					}
+				}
+			}
+		}
+
+		.comment-form-author,
+		.comment-form-email {
+			float: none;
+			margin-left: auto;
+		}
+	}
+}
+
+/**
+ * Widgets
+ */
+.widget.easyreservations {
+
+	ul {
+		padding-left: 0;
+
+		li {
+			list-style: none;
+		}
+	}
+}
+
+.widget .resource_list_widget,
+.site-footer .widget .resource_list_widget {
+	margin-bottom: 1.5rem;
+
+	a {
+		display: block;
+		box-shadow: none;
+
+		&:hover {
+			box-shadow: none;
+		}
+	}
+
+	li {
+		padding: 0.5rem 0;
+
+		a.remove {
+			float: left;
+			margin-top: 7px;
+			line-height: 20px;
+			color: #fff;
+			margin-right: 0.5rem;
+		}
+	}
+
+	img {
+		display: none;
+	}
+}
+
+.widget_shopping_cart {
+
+	.buttons {
+
+		a {
+			display: inline-block;
+			margin: 0 0.5rem 0 0;
+		}
+	}
+}
+
+.easyreservations-shopping-totals {
+	vertical-align: text-top;
+}
+
+.widget_layered_nav {
+
+	.chosen {
+
+		&::before {
+			content: "×";
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			line-height: 16px;
+			font-size: 16px;
+			text-align: center;
+			border-radius: 100%;
+			border: 1px solid #000;
+			margin-right: 0.25rem;
+		}
+	}
+}
+
+.widget_price_filter {
+
+	.price_slider {
+		margin-bottom: 1rem;
+	}
+
+	.price_slider_amount {
+		text-align: right;
+		line-height: 2.4;
+		font-size: 0.8751em;
+
+		.button {
+			float: left;
+			padding: 0.4rem 1rem;
+		}
+	}
+
+	.ui-slider {
+		position: relative;
+		text-align: left;
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+	}
+
+	.ui-slider .ui-slider-handle {
+		position: absolute;
+		z-index: 2;
+		width: 1em;
+		height: 1em;
+		background-color: #000;
+		border-radius: 1em;
+		cursor: ew-resize;
+		outline: none;
+		top: -0.3em;
+		margin-left: -0.5em;
+	}
+
+	.ui-slider .ui-slider-range {
+		position: absolute;
+		z-index: 1;
+		font-size: 0.7em;
+		display: block;
+		border: 0;
+		border-radius: 1em;
+		background-color: #000;
+	}
+
+	.price_slider_wrapper .ui-widget-content {
+		border-radius: 1em;
+		background-color: #666;
+		border: 0;
+	}
+
+	.ui-slider-horizontal {
+		height: 0.5em;
+	}
+
+	.ui-slider-horizontal .ui-slider-range {
+		top: 0;
+		height: 100%;
+	}
+
+	.ui-slider-horizontal .ui-slider-range-min {
+		left: -1px;
+	}
+
+	.ui-slider-horizontal .ui-slider-range-max {
+		right: -1px;
+	}
+}
+
+.widget_rating_filter {
+
+	li {
+		text-align: right;
+
+		.star-rating {
+			float: left;
+			margin-top: 0.3rem;
+		}
+	}
+}
+
+.widget_resource_search {
+
+	form {
+		position: relative;
+	}
+
+	.search-field {
+		padding-right: 100px;
+	}
+
+	input[type="submit"] {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
+
+/**
+ * Account section
+ */
+.easyreservations-account {
+
+	.post-inner {
+		padding-top: 0;
+	}
+
+	#main {
+
+		.entry-header {
+			padding: 3vw 0 1.5vw;
+		}
+
+		.easyreservations {
+			max-width: 1600px;
+			padding: 0 6vw;
+			margin: 0 auto;
+		}
+	}
+
+	.easyreservations-MyAccount-navigation {
+		font-family: $headings;
+		margin: 0 0 2rem;
+
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+
+		li {
+			list-style: none;
+			padding: 0.5rem 0;
+			font-family: $headings;
+			font-size: 2rem;
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			a {
+				box-shadow: none;
+				text-decoration: none;
+				font-weight: 600;
+				color: #aaa;
+
+				&:hover {
+					color: #000;
+					text-decoration: underline;
+				}
+			}
+
+			&.is-active {
+
+				a {
+					text-decoration: underline;
+					color: $highlights-color;
+				}
+			}
+		}
+	}
+
+	.easyreservations-MyAccount-content {
+
+		p {
+			font-family: $headings;
+			font-size: 2rem;
+		}
+
+		form {
+
+			h3 {
+				margin-top: 0;
+			}
+		}
+
+		.easyreservations-Addresses {
+			margin-top: -1rem;
+
+			.easyreservations-Address-title {
+
+				h3 {
+					display: inline-block;
+					margin-right: 1rem;
+					font-size: 1.8rem;
+					margin-top: 2rem;
+				}
+			}
+
+			address {
+				line-height: 1.8rem;
+			}
+		}
+
+		.easyreservations-address-fields {
+
+			label {
+				font-size: 1.5rem;
+				margin-bottom: 0.1rem;
+			}
+
+			input,
+			.selection {
+				font-size: 1.5rem;
+				padding-top: 0.3rem;
+				padding-bottom: 0.3rem;
+			}
+
+			input {
+				border: 3px solid black;
+			}
+
+			.form-row {
+				margin-top: 1.5rem !important;
+				margin-bottom: 0 !important;
+			}
+
+			#company {
+				padding-top: 1.5rem !important;
+			}
+
+			.easyreservations-address-fields__field-wrapper {
+				margin-bottom: 2rem;
+			}
+		}
+	}
+
+	table.account-orders-table {
+		margin-top: 0;
+		border: 0;
+
+		tr,
+		td,
+		th {
+			border: 0;
+		}
+
+		td {
+			padding-left: 1.5rem;
+		}
+
+		thead {
+			border-bottom: 1px solid #ddd;
+		}
+
+		.button {
+			margin: 0 0.35rem 0.35rem 0;
+			width: 80%;
+		}
+	}
+
+	table.account-orders-table:not(.has-background) {
+
+		tbody {
+
+			tr:nth-child(2n+1) {
+
+				td {
+					background: var(--global--color-background);
+					filter: brightness(88%);
+
+					.is-dark-theme & {
+						filter: brightness(112%);
+					}
+				}
+			}
+		}
+	}
+
+	.easyreservations-EditAccountForm {
+
+		label {
+			font-size: 1.5rem;
+		}
+
+		input {
+			border: var(--form--border-width) solid var(--form--border-color);
+			font-size: 1.5rem;
+		}
+
+		fieldset {
+			border: none;
+			padding-left: 0;
+			padding-right: 0;
+			margin-top: 30px;
+
+			legend {
+				display: contents;
+				font-size: 2rem;
+			}
+
+			p {
+				margin-top: 20px;
+				margin-bottom: 0 !important;
+			}
+
+			.show-password-input {
+				display: inherit;
+			}
+		}
+
+		button {
+			margin-top: 0;
+		}
+
+		#account_display_name + span {
+			font-size: 1.5rem;
+		}
+
+		p {
+			margin-top: 20px;
+
+			&:nth-of-type(4) {
+				margin-top: 30px;
+			}
+		}
+	}
+}
+
+.logged-in.easyreservations-account {
+
+	#main {
+
+		.easyreservations {
+			display: flex;
+			flex-direction: row;
+		}
+	}
+}
+
+.checkout-button {
+	display: block;
+	padding: 1rem 2rem;
+	border: 2px solid #000;
+	text-align: center;
+	font-weight: 800;
+
+	&:hover {
+		border-color: #999;
+	}
+
+	&::after {
+		content: "→";
+		margin-left: 0.5rem;
+	}
+}
+
+.easyreservations-cart {
+
+	.post-inner {
+		padding-top: 0;
+	}
+
+	#main {
+
+		.entry-header {
+			padding: 3vw 0 1.5vw;
+		}
+
+		.easyreservations {
+			max-width: var(--responsive--alignwide-width);
+			margin: 0 auto;
+
+		}
+	}
+
+	p.form-row {
+
+		input {
+			border: 1px solid #ddd;
+		}
+	}
+
+	table.cart img.easyreservations-placeholder {
+		height: auto !important;
+	}
+}
+
+/**
+ * Checkout
+ */
+.easyreservations-form-coupon-toggle .easyreservations-info {
+	display: block;
+	margin-bottom: 2rem;
+	padding: 1rem 3rem;
+}
+
+.easyreservations-form-coupon {
+	padding: 1rem;
+	font-size: 0.88889em;
+	color: var(--form--color-text);
+
+	#coupon_code {
+		border: var(--form--border-width) solid var(--form--border-color);
+	}
+
+	button[name="apply_coupon"] {
+		.is-dark-theme & {
+			border-color: var(--global--color-background);
+
+			&:hover,
+			&:active {
+				background: var(--global--color-background);
+			}
+		}
+	}
+}
+
+#ship-to-different-address {
+	font-size: 1em;
+	display: inline-block;
+	margin: 1.42em 0;
+
+	label {
+		font-weight: 400;
+		cursor: pointer;
+
+		span {
+			position: relative;
+			display: block;
+			text-align: right;
+			padding-right: 45px;
+
+			&::before {
+				content: "";
+				display: block;
+				height: 16px;
+				width: 30px;
+				border: 2px solid var(--form--border-color);
+				background: var(--global--color-primary);
+				border-radius: 13rem;
+				box-sizing: content-box;
+				transition: all ease-in-out 0.3s;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+
+			&::after {
+				content: "";
+				display: block;
+				width: 14px;
+				height: 14px;
+				background: var(--global--color-background);
+				position: absolute;
+				top: 3px;
+				right: 17px;
+				border-radius: 13rem;
+				transition: all ease-in-out 0.3s;
+			}
+		}
+
+		input[type="checkbox"] {
+			display: none;
+		}
+
+		input[type="checkbox"]:checked + span::after {
+			right: 3px;
+			background: var(--global--color-primary);
+		}
+
+		input[type="checkbox"]:checked + span::before {
+			background: var(--global--color-background);
+		}
+	}
+}
+
+.easyreservations-no-js {
+
+	form.easyreservations-form-login,
+	form.easyreservations-form-coupon {
+		display: block !important;
+	}
+
+	.easyreservations-form-login-toggle,
+	.easyreservations-form-coupon-toggle,
+	.showcoupon {
+		display: none !important;
+	}
+}
+
+.easyreservations-terms-and-conditions {
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.easyreservations-terms-and-conditions-link {
+	display: inline-block;
+
+	&::after {
+		content: "";
+		display: inline-block;
+		border-style: solid;
+		margin-bottom: 2px;
+		margin-left: 0.25rem;
+		border-width: 6px 6px 0 6px;
+		border-color: $body-color transparent transparent transparent;
+	}
+
+	&.easyreservations-terms-and-conditions-link--open::after {
+		border-width: 0 6px 6px 6px;
+		border-color: transparent transparent $body-color transparent;
+	}
+}
+
+.easyreservations-checkout {
+
+	.easyreservations {
+		max-width: var(--responsive--alignwide-width);
+		margin: 0 auto;
+	}
+
+	ul.easyreservations-error {
+		flex-direction: column;
+		align-items: flex-start;
+
+		li {
+			font-family: $headings;
+			margin: 0.5rem 0 0.5rem;
+		}
+	}
+
+	.post-inner {
+		padding-top: 0;
+	}
+
+	.easyreservations-address-fields {
+
+		h3 {
+			margin: 2rem 0;
+		}
+	}
+
+	form[name="checkout"] {
+		display: table;
+	}
+
+	.blockUI.blockOverlay {
+		position: relative;
+
+		@include loader();
+	}
+
+	form {
+
+		.col2-set {
+			width: 50%;
+			float: left;
+			padding-right: 1.5vw;
+
+			.col-1,
+			.col-2 {
+				float: none;
+				width: 100%;
+			}
+
+			label {
+				font-family: $headings;
+				letter-spacing: normal;
+			}
+
+			p {
+				margin-bottom: 1.15em;
+			}
+		}
+
+		#order_review_heading {
+			margin-top: 2rem;
+		}
+
+		#order_review_heading,
+		.easyreservations-checkout-deposit,
+		#order_review {
+			width: 50%;
+			padding-left: 1.5vw;
+			float: right;
+			clear: right;
+
+			.easyreservations-checkout-review-order-table {
+				margin-top: 2rem;
+				border: 0;
+
+				th,
+				td {
+					border: 0;
+				}
+
+				thead {
+					display: none;
+				}
+
+				.easyreservations-Price-amount {
+					font-weight: bold;
+				}
+
+				.cart-subtotal,
+				.order-total {
+					border-top: 2px solid var(--form--border-color);
+				}
+			}
+		}
+
+		#order_submit {
+			width: 50%;
+			padding-left: 1.5vw;
+			float: right;
+			clear: right;
+			background: transparent;
+		}
+
+		.form-row.easyreservations-invalid {
+
+			input.input-text {
+				border: 2px solid $highlights-color;
+			}
+		}
+
+	}
+
+	.easyreservations-input-wrapper {
+
+		.description {
+			background: #4169e1;
+			color: #fff;
+			border-radius: 3px;
+			padding: 1rem;
+			margin: 0.5rem 0 0;
+			clear: both;
+			display: none;
+			position: relative;
+
+			a {
+				color: #fff;
+				text-decoration: underline;
+				border: 0;
+				box-shadow: none;
+			}
+
+			&::before {
+				left: 50%;
+				top: 0;
+				margin-top: -4px;
+				transform: translateX(-50%) rotate(180deg);
+				content: "";
+				position: absolute;
+				border-width: 4px 6px 0 6px;
+				border-style: solid;
+				border-color: #4169e1 transparent transparent transparent;
+				z-index: 100;
+				display: block;
+			}
+		}
+	}
+
+	.easyreservations-form-login {
+
+		p.form-row.form-row-first,
+		p.form-row.form-row-last {
+			float: none;
+		}
+	}
+}
+
+.easyreservations-checkout-review-order-table {
+
+	ul li {
+		list-style-type: none;
+	}
+
+	td {
+		padding: 1rem 0.5em;
+	}
+
+	tfoot {
+		text-align: left;
+	}
+}
+
+.easyreservations-order-received {
+
+	.easyreservations-order {
+
+		p,
+		li {
+			font-family: $headings;
+		}
+	}
+
+	table {
+		border: 0;
+
+		td,
+		th,
+		tr {
+			border: 0;
+		}
+
+		tr {
+			height: 5rem;
+		}
+
+		tfoot {
+			border-top: 1px solid #ddd;
+
+			/* Targeting total */
+			tr:last-of-type {
+				border-top: 1px solid #ddd;
+
+				.easyreservations-Price-amount {
+					font-weight: 700;
+				}
+			}
+		}
+
+	}
+}
+
+.easyreservations-checkout-review-order {
+
+	ul {
+		margin: 2rem 0 3rem;
+		padding-left: 0;
+	}
+
+	#place_order {
+		width: 100%;
+	}
+}
+
+.er_payment_method {
+	list-style: none;
+
+	.payment_box {
+		padding: 1rem;
+		background: #eee;
+		color: var(--global--color-dark-gray);
+
+		a,
+		a:hover,
+		a:visited {
+			color: var(--global--color-dark-gray);
+		}
+
+		ul,
+		ol {
+
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+		}
+
+		fieldset {
+			padding: 1.5rem;
+			padding-bottom: 0;
+			border: 0;
+			background: #f6f6f6;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		p {
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		input[type=checkbox] {
+			width: 25px !important;
+		}
+
+		input[type=radio] {
+			& + label::before {
+				background: #fff !important;
+				border: var(--form--border-width) solid #000 !important;
+			}
+
+			&:checked + label::before {
+				background: #000 !important;
+			}
+		}
+	}
+
+	> label:first-of-type {
+		display: block;
+		margin: 1rem 0;
+
+		img {
+			max-height: 24px;
+			max-width: 200px;
+			float: right;
+		}
+	}
+
+	label {
+		cursor: pointer;
+	}
+
+	input[type="radio"] {
+		display: none;
+
+		& + label {
+			font-family: $headings;
+
+			&::before {
+				content: "";
+				display: inline-block;
+				width: 14px;
+				height: 14px;
+				border: var(--form--border-width) solid var(--form--border-color);
+				background: var(--global--color-white);
+				margin-left: 4px;
+				margin-right: 1.2rem;
+				border-radius: 100%;
+				transform: translateY(2px);
+			}
+
+		}
+
+		&:checked + label {
+			&::before {
+				background: var(--global--color-border);
+			}
+
+			.is-dark-theme &::before {
+				background: var(--global--color-background);
+			}
+		}
+	}
+}
+
+.er_payment_methods {
+
+	.payment_box {
+
+		p {
+			font-family: $headings;
+		}
+	}
+}
+
+.account-payment-methods-table {
+	padding-top: 0 !important;
+	margin-bottom: 1rem;
+
+	table,
+	tr {
+		border-style: hidden;
+	}
+
+	tr:nth-child(2n) {
+
+		td {
+			background: transparent !important;
+		}
+	}
+
+	tr:nth-child(2n+1) {
+
+		td {
+			background: var(--global--color-background);
+			filter: brightness(88%);
+
+			.is-dark-theme & {
+				filter: brightness(112%);
+			}
+		}
+	}
+
+	td.payment-method-actions {
+		padding-right: 0.5rem;
+		padding-left: 0.5rem;
+		padding-top: 0.3rem;
+		padding-bottom: 0.3rem;
+
+		display: grid;
+		border: none;
+
+		font-size: 0;
+
+		a {
+			width: 100%;
+			padding-top: 0.3rem !important;
+			padding-bottom: 0.3rem !important;
+			margin-top: 0.5rem !important;
+			margin-bottom: 0.5rem !important;
+
+			@include inversebuttoncolors();
+		}
+	}
+}
+
+
+.easyreservations-terms-and-conditions-wrapper {
+	margin-bottom: 5rem;
+
+	.easyreservations-privacy-policy-text {
+
+		p {
+			font-family: $headings;
+			font-size: 1.6rem;
+		}
+	}
+}
+
+.easyreservations-order-overview {
+	margin-bottom: 2rem;
+}
+
+.easyreservations-table--order-details {
+	margin-bottom: 2rem;
+}
+
+/**
+ * Layout stuff
+ */
+.easyreservations {
+
+	section {
+		padding-top: 2rem;
+		padding-bottom: 0;
+	}
+
+	.content-area {
+
+		.site-main {
+			margin: 0 5vw;
+		}
+	}
+
+	/* Shop layout */
+	ul.resources {
+		display: flex;
+		align-items: stretch;
+		flex-direction: row;
+		flex-wrap: wrap;
+		box-sizing: border-box;
+		word-break: break-word;
+		min-width: 12vw;
+
+		&.columns-2 {
+
+			li.resource {
+				width: calc(100% / 2 - 16px) !important;
+			}
+		}
+
+		&.columns-3 {
+
+			li.resource {
+				width: calc(100% / 3 - 16px) !important;
+			}
+		}
+
+		&.columns-4 {
+
+			li.resource {
+				width: calc(100% / 4 - 16px) !important;
+			}
+		}
+
+		&.columns-5 {
+
+			li.resource {
+				width: calc(100% / 5 - 16px) !important;
+			}
+		}
+
+		&.columns-6 {
+
+			li.resource {
+				width: calc(100% / 6 - 16px) !important;
+			}
+		}
+
+		li.resource {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+			margin: 0 8px 16px 8px;
+			box-sizing: border-box;
+
+			img.attachment-easyreservations_thumbnail,
+			img.easyreservations-placeholder {
+				height: auto !important;
+			}
+		}
+
+		li.resource-category {
+
+			a {
+				text-align: left;
+				text-decoration: none;
+
+				h2.easyreservations-loop-category__title {
+					margin-top: 0.4rem;
+					font-family: $headings;
+					font-size: 1.5rem;
+
+					.count {
+						background-color: transparent;
+						color: $body-color;
+					}
+				}
+			}
+
+			mark {
+				background-color: initial;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 600px) {
+
+	.easyreservations {
+
+		.easyreservations-ordering {
+			float: left;
+			clear: both;
+			margin-top: 0;
+		}
+
+		.easyreservations-result-count {
+			margin-top: 0;
+			margin-bottom: 20px;
+		}
+	}
+}
+
+@media only screen and (max-width: 667px) {
+
+	.easyreservations,
+	.easyreservations-page {
+
+		ul.resources[class*=columns-] {
+
+			li.resource {
+				width: auto !important;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: 668px) and (max-width: 768px) {
+
+	.easyreservations,
+	.easyreservations-page {
+
+		.related.resources {
+
+			ul.resources[class*=columns-] {
+
+				li.resource {
+					padding: 0 2vw 3em 0 !important;
+					margin-bottom: 2em;
+				}
+			}
+		}
+
+		ul.resources[class*=columns-] {
+			justify-content: center;
+
+			li.resource {
+				width: 50%;
+				padding: 0 2vw 3em 0;
+			}
+
+		}
+
+		.onsale {
+			font-size: 1rem;
+		}
+
+		.onsale + .easyreservations-resource-gallery .easyreservations-resource-gallery__trigger {
+			top: 1.8em;
+			right: 1.8em;
+		}
+
+	}
+}
+
+@media only screen and (max-width: 768px) {
+
+	.easyreservations section.content-area {
+		padding-top: 0;
+	}
+
+	#main {
+
+		.easyreservations {
+
+			.easyreservations-cart-form {
+
+				.actions {
+
+					.coupon {
+						margin-bottom: 2rem;
+
+						button {
+							width: 100%;
+						}
+					}
+				}
+
+				#coupon_code {
+					width: 100% !important;
+				}
+			}
+		}
+
+		#shipping_method {
+
+			li {
+				display: flex;
+				justify-content: flex-end;
+			}
+		}
+	}
+
+	.easyreservations,
+	.easyreservations-page {
+
+		.onsale {
+			right: -0.7rem !important;
+		}
+
+		.easyreservations-tabs {
+
+			ul {
+
+				li {
+					font-size: 1rem;
+
+					a {
+						padding: calc(0.75 * var(--button--padding-vertical)) calc(0.75 * var(--button--padding-horizontal));
+					}
+				}
+			}
+		}
+
+		table.shop_table_responsive {
+
+			.button {
+
+				@include inversebuttoncolors();
+			}
+
+			tr {
+				margin: 0 0 1.5rem;
+
+				&:first-child {
+					border-top: 1px solid;
+				}
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				&:nth-child(2n) {
+
+					td {
+						background: transparent;
+					}
+				}
+
+				&:nth-child(2n+1) {
+
+					td {
+						background: var(--global--color-background);
+						filter: brightness(88%);
+
+						.is-dark-theme & {
+							filter: brightness(112%);
+						}
+					}
+				}
+
+				td {
+					border-bottom-width: 0;
+
+					&:last-child {
+						border-bottom-width: 1px;
+					}
+				}
+
+				td.resource-quantity::before {
+					padding-top: 0.9rem;
+				}
+
+				.resource-remove {
+					float: right;
+				}
+
+				.entry-thumbnail,
+				.resource-thumbnail {
+					display: block;
+
+					img {
+						width: 70px;
+					}
+
+					&::before {
+						content: "";
+					}
+				}
+			}
+
+		}
+
+		.easyreservations-breadcrumb {
+			margin-bottom: 4rem;
+			font-size: 0.8em;
+			font-family: $headings;
+		}
+
+		.related.resources {
+
+			ul.resources {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+
+				li.resource {
+					margin-bottom: 5em;
+				}
+			}
+		}
+
+		.easyreservations-resources-header__title.page-title {
+			margin: 3rem auto 4rem;
+		}
+
+		.easyreservations-result-count,
+		.easyreservations-ordering {
+			font-size: 0.8em;
+		}
+
+		.easyreservations-ordering {
+			margin-bottom: 3rem;
+		}
+	}
+
+	.easyreservations-cart-form {
+
+		table {
+
+			td.resource-name {
+				padding-left: 0.5em;
+			}
+		}
+	}
+
+	.easyreservations-checkout {
+
+		form {
+
+			.col2-set {
+				width: 100%;
+				float: none;
+				padding-right: 0;
+
+				.col-1,
+				.col-2 {
+					float: none;
+					width: 100%;
+				}
+			}
+
+			#order_review_heading {
+				margin-top: 2rem;
+			}
+
+			#order_review_heading,
+			#order_review {
+				width: 100%;
+				padding-left: 0;
+				float: none;
+			}
+
+			table {
+
+				tbody {
+
+					td.resource-total {
+						text-align: end;
+					}
+				}
+
+				tfoot {
+
+					.cart-subtotal,
+					.order-total {
+
+						td {
+							text-align: end;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.logged-in.easyreservations-account {
+
+		#main {
+
+			.easyreservations {
+				flex-direction: column;
+			}
+
+			.easyreservations-MyAccount-navigation,
+			.easyreservations-MyAccount-content {
+				width: 100%;
+			}
+
+			table.account-orders-table {
+
+				.button {
+					padding-left: 0.5em;
+					padding-right: 0.5em;
+					width: 100%;
+					margin: 2rem 0;
+				}
+			}
+		}
+
+		table.account-orders-table {
+
+			td {
+				padding-bottom: 1.5rem;
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: 768px) {
+
+	/**
+	* Tables
+	*/
+	.easyreservations,
+	.easyreservations-page {
+
+		table.shop_table {
+
+			tbody {
+
+				tr {
+					font-size: 0.88889em;
+				}
+			}
+		}
+
+		.onsale {
+			font-size: 1rem;
+		}
+
+	}
+
+	/**
+     * Home page
+     */
+	.home #main {
+
+		[class*="easyreservations columns-"] {
+			word-break: break-word;
+			max-width: var(--responsive--aligndefault-width);
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	/**
+	* Shop page
+	*/
+
+	.easyreservations-pagination {
+
+		span.page-numbers,
+		a.page-numbers,
+		.next.page-numbers,
+		.prev.page-numbers {
+			padding: 1rem;
+		}
+	}
+
+	/**
+	* Account section
+	*/
+	.easyreservations-account {
+
+		.easyreservations-MyAccount-navigation {
+			float: none;
+			width: 20%;
+			margin-bottom: 1.5rem;
+			margin-right: 3rem;
+
+			li {
+				margin: 0 1rem 3rem 0;
+				padding: 0;
+				border-bottom: 0;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.easyreservations-MyAccount-content {
+			float: none;
+			width: 75%;
+		}
+
+		table.account-orders-table {
+			margin-top: 0;
+			border: 0;
+			margin-bottom: 1rem;
+
+			tr,
+			td,
+			th {
+				border: 0;
+				padding: 0;
+			}
+
+			th,
+			td,
+			td.easyreservations-orders-table__cell-order-actions {
+				width: 1%;
+				padding-right: 0.5rem;
+				padding-left: 0.5rem;
+
+				a {
+					padding-top: 0.3rem !important;
+					padding-bottom: 0.3rem !important;
+					margin-top: 0.5rem !important;
+					margin-bottom: 0.5rem !important;
+				}
+			}
+
+			td.easyreservations-orders-table__cell-order-date {
+				padding-right: 0;
+			}
+
+			thead {
+				border-bottom: 1px solid $body-color;
+			}
+
+			.button {
+				padding-left: 0.5em;
+				padding-right: 0.5em;
+				width: 100%;
+				margin: 1.5rem 0;
+
+				@include inversebuttoncolors();
+			}
+		}
+	}
+
+	/**
+	* Layout stuff
+	*/
+	.easyreservations {
+
+		.content-area {
+			margin: 0 auto;
+			padding: 0 6vw;
+
+			.site-main {
+				margin: 0;
+			}
+		}
+	}
+
+	.easyreservations-search .entry-content > .easyreservations {
+		max-width: unset !important;
+		margin: 0 auto;
+		padding: 0 6vw;
+	}
+
+	.single-resource {
+
+		.entry {
+
+			.entry-content,
+			.entry-summary {
+				max-width: none;
+				margin: 0 0 3rem;
+				padding: 0;
+
+				> * {
+					max-width: none;
+				}
+			}
+		}
+	}
+
+	.easyreservations-breadcrumb {
+		margin-bottom: 5rem;
+		font-size: 0.88889em;
+		font-family: $headings;
+	}
+
+	.easyreservations-resource-gallery {
+		margin-bottom: 8rem;
+	}
+
+	.easyreservations-checkout {
+
+		#main {
+
+			.easyreservations {
+
+				max-width: 1600px;
+				padding: 0 6vw;
+				margin: 0 auto;
+			}
+		}
+	}
+
+}
+
+@media only screen and (min-width: 1168px) {
+
+	.easyreservations {
+
+		.content-area {
+			max-width: 1600px;
+			margin: 0 auto;
+			padding: 0 6vw;
+
+			.site-main {
+
+			}
+		}
+
+		.onsale {
+			font-size: 1.2rem;
+		}
+	}
+	.easyreservations-search {
+
+		.content-area {
+			max-width: 1600px;
+			margin: 0 auto;
+			padding: 0 6vw;
+		}
+	}
+
+	.easyreservations-breadcrumb {
+		margin-bottom: 5rem;
+		font-size: 0.88889em;
+		font-family: $headings;
+	}
+
+	.easyreservations-resource-gallery {
+		margin-bottom: 8rem;
+	}
+
+	.easyreservations-account {
+
+		table.account-orders-table {
+
+			th,
+			td,
+			td.easyreservations-orders-table__cell-order-actions {
+				padding-right: 1.5rem;
+				padding-left: 1.5rem;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 768px) {
+
+	.easyreservations-resources-header {
+		border-bottom: none !important;
+		padding-bottom: 0;
+		margin-bottom: 0 !important;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+
+	.easyreservations-resources-header {
+		padding-bottom: 1.5vw;
+	}
+
+	.easyreservations-ordering,
+	.easyreservations-result-count {
+		margin-top: 0 !important;
+	}
+}
+
+@media only screen and (min-width: 690px) {
+
+	.easyreservations-resources-header {
+		border-bottom: 3px solid var(--global--color-border);
+	}
+}
+
+.easyreservations-account {
+
+	.easyreservations-MyAccount-content {
+
+		p:first-of-type {
+			margin-bottom: 2rem;
+		}
+
+		#add_payment_method {
+
+			ul {
+				list-style-type: none !important;
+			}
+
+			.easyreservations-PaymentMethod {
+				margin-bottom: 1.5rem;
+			}
+		}
+
+		input[type=radio] {
+			float: left;
+			margin-top: 0.5rem;
+			margin-right: 0.5rem;
+		}
+
+		label {
+			font-size: 1.5rem;
+			display: flex;
+			justify-content: flex-end;
+
+			img {
+				margin-left: 10px !important;
+			}
+
+			img:first-child {
+				margin-left: auto !important;
+			}
+
+			img:last-child {
+				margin-right: 5px !important;
+			}
+		}
+
+		.easyreservations-PaymentBox {
+
+			p,
+			label {
+				font-size: 1.3rem;
+			}
+
+			p {
+				margin-bottom: 1.5rem;
+			}
+
+			br {
+				display: none;
+			}
+
+			.easyreservations_error {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.easyreservations-MyAccount-navigation-link {
+
+		margin-bottom: 20px !important;
+
+		a {
+			color: $body-color !important;
+			font-weight: normal !important;
+			font-size: 1.8rem;
+
+			&:hover {
+				color: $body-color !important;
+				text-decoration: underline solid $body-color 1px !important;
+			}
+		}
+	}
+}
+
+.alignwide .easyreservations {
+
+	& > * {
+		max-width: var(--responsive--alignwide-width);
+		display: block;
+		margin: var(--global--spacing-vertical) auto;
+	}
+}
+
+.easyreservations {
+
+	.easyreservations-notices-wrapper {
+
+		& > * {
+			padding: 1rem 3rem;
+			list-style: none;
+		}
+	}
+
+	.return-to-shop,
+	.er-proceed-to-checkout {
+
+		a.button {
+			margin-top: var(--global--spacing-vertical);
+			float: left;
+			display: inline-block;
+			width: 100%;
+		}
+	}
+
+	.easyreservations-cart-form {
+
+		.shop_table_responsive {
+			margin-top: var(--global--spacing-vertical);
+			margin-bottom: var(--global--spacing-vertical);
+
+			th {
+				border: none;
+			}
+
+			#coupon_code {
+				min-width: 9rem;
+			}
+		}
+
+		button[name="update_cart"],
+		button[name="apply_coupon"] {
+			padding: 0.5rem;
+			color: var(--global--color-primary);
+			background: var(--global--color-background);
+			border: var(--form--border-width) solid var(--global--color-primary);
+
+			&:hover,
+			&:active {
+				color: var(--global--color-background);
+				background: var(--global--color-primary);
+			}
+		}
+
+		.entry-thumbnail,
+		.resource-thumbnail {
+
+			.attachment-easyreservations_thumbnail {
+				height: auto !important;
+			}
+		}
+	}
+
+	.cart-collaterals {
+		h2 {
+			margin-bottom: var(--global--spacing-vertical);
+		}
+	}
+}

@@ -89,6 +89,18 @@ class ER_Data_Store_WP {
 			)
 		);
 
+		return $this->filter_raw_meta_data( $object, $raw_meta_data );
+	}
+
+	/**
+	 * Helper method to filter internal meta keys from all meta data rows for the object.
+	 *
+	 * @param ER_Data $object WC_Data object.
+	 * @param array   $raw_meta_data Array of std object of meta data to be filtered.
+	 *
+	 * @return mixed|void
+	 */
+	public function filter_raw_meta_data( &$object, $raw_meta_data ) {
 		$this->internal_meta_keys = array_merge( array_map( array( $this, 'prefix_key' ), $object->get_data_keys() ), $this->internal_meta_keys );
 		$meta_data                = array_filter( $raw_meta_data, array( $this, 'exclude_internal_meta_keys' ) );
 

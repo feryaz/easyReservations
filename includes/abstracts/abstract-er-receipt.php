@@ -687,10 +687,10 @@ abstract class ER_Receipt extends ER_Data {
 
 			if ( get_option( 'reservations_tax_total_display' ) === 'itemized' ) {
 				foreach ( $tax_totals as $tax_item ) {
-					$tax_string_array[] = sprintf( '%s %s', er_price( $tax_item->get_tax_total() ), esc_html( $tax_item->get_name() ) );
+					$tax_string_array[] = sprintf( '%s %s', er_price( $tax_item->amount, true ), esc_html( $tax_item->label ) );
 				}
 			} elseif ( ! empty( $tax_totals ) ) {
-				$tax_string_array[] = sprintf( '%s %s', er_price( $this->get_total_tax() ), ER()->countries->tax_or_vat() );
+				$tax_string_array[] = sprintf( '%s %s', er_price( $this->get_total_tax(), true ), ER()->countries->tax_or_vat() );
 			}
 
 			if ( ! empty( $tax_string_array ) ) {
@@ -900,13 +900,9 @@ abstract class ER_Receipt extends ER_Data {
 			$taxes = $item->get_taxes();
 
 			foreach ( $taxes['total'] as $tax_rate_id => $tax ) {
-				$tax_amount = (float) $tax;
+				$tax_amount = (float) $this->round_line_tax( $tax, false );
 
-				if ( 'yes' !== get_option( 'reservations_tax_round_at_subtotal' ) ) {
-					$tax_amount = er_round_tax_total( $tax_amount );
-				}
-
-				$total_taxes[ $tax_rate_id ] = isset( $total_taxes[ $tax_rate_id ] ) ? $total_taxes[ $tax_rate_id ] + $tax_amount : $tax_amount;
+				$total_taxes[ $tax_rate_id ] = isset( $total_taxes[ $tax_rate_id ] ) ? (float) $total_taxes[ $tax_rate_id ] + $tax_amount : $tax_amount;
 			}
 		}
 
@@ -918,7 +914,13 @@ abstract class ER_Receipt extends ER_Data {
 			}
 
 			$saved_rate_ids[] = $tax->get_rate_id();
+
+			$tax->set_name( ER_Tax::get_rate_label( $tax->get_rate_id() ) );
 			$tax->set_tax_total( isset( $total_taxes[ $tax->get_rate_id() ] ) ? $total_taxes[ $tax->get_rate_id() ] : 0 );
+
+			if ( $save ) {
+				$tax->save();
+			}
 		}
 
 		$new_rate_ids = wp_parse_id_list( array_diff( array_keys( $total_taxes ), $saved_rate_ids ) );

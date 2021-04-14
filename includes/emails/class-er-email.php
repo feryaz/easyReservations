@@ -995,7 +995,7 @@ class ER_Email extends ER_Settings_API {
 
 			<?php
 			er_enqueue_js(
-				"jQuery( 'select.email_type' ).change( function() {
+				"jQuery( 'select.email_type' ).on( 'change',  function() {
 
 					var val = jQuery( this ).val();
 
@@ -1009,13 +1009,13 @@ class ER_Email extends ER_Settings_API {
 						jQuery('.template_plain').hide();
 					}
 
-				}).change();
+				}).trigger( 'change' );
 
 				var view = '" . esc_js( __( 'View template', 'easyReservations' ) ) . "';
 				var hide = '" . esc_js( __( 'Hide template', 'easyReservations' ) ) . "';
 
 
-				jQuery( 'a.toggle_editor' ).text( view ).click( function() {
+				jQuery( 'a.toggle_editor' ).text( view ).on( 'click', function() {
 					var label = hide;
 
 					if ( jQuery( this ).closest(' .template' ).find( '.editor' ).is(':visible') ) {
@@ -1026,7 +1026,7 @@ class ER_Email extends ER_Settings_API {
 					return false;
 				} );
 
-				jQuery( 'a.delete_template' ).click( function() {
+				jQuery( 'a.delete_template' ).on( 'click', function() {
 					if ( window.confirm('" . esc_js( __( 'Are you sure you want to delete this template file?', 'easyReservations' ) ) . "') ) {
 						return true;
 					}
@@ -1034,7 +1034,7 @@ class ER_Email extends ER_Settings_API {
 					return false;
 				});
 
-				jQuery( '.editor textarea' ).change( function() {
+				jQuery( '.editor textarea' ).on( 'change',  function() {
 					var name = jQuery( this ).attr( 'data-name' );
 
 					if ( name ) {

@@ -75,7 +75,7 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 	}
 
 	/**
-	 * Manipulate query as reservations are no posts
+	 * Manipulate query as reservations are not posts
 	 *
 	 * @param $where
 	 * @param $wp_query
@@ -100,7 +100,19 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 		}
 
 		if ( isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] !== 'all' ) {
-			$where .= $wpdb->prepare( ' AND status = %s', sanitize_key( $_REQUEST['post_status'] ) );
+			$post_status = sanitize_key( $_REQUEST['post_status'] );
+
+			if ( $post_status === 'upcoming' ) {
+				$post_status = 'approved';
+				$where       .= ' AND NOW() < arrival';
+
+				if ( ! isset( $_REQUEST['orderby'] ) ) {
+					$_REQUEST['orderby'] = 'date';
+					$_REQUEST['order']   = 'ASC';
+				}
+			}
+
+			$where .= $wpdb->prepare( ' AND status = %s', $post_status );
 		} else {
 			$where .= " AND status not in ( 'trash', 'temporary' )";
 		}
@@ -187,12 +199,15 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 		if ( false === $counts ) {
 			global $wpdb;
 
-			$query   = "SELECT status, COUNT( * ) AS num_posts FROM {$wpdb->prefix}reservations GROUP BY status";
+			$query   = "SELECT status, COUNT( * ) AS num_posts, COUNT( CASE WHEN ( NOW() < arrival ) then 1 ELSE NULL END ) as upcoming FROM {$wpdb->prefix}reservations GROUP BY status";
 			$results = (array) $wpdb->get_results( $query, ARRAY_A );
+			$counts  = array();
 
-			$counts = array();
 			foreach ( $results as $row ) {
 				$counts[ $row['status'] ] = $row['num_posts'];
+				if ( $row['status'] === 'approved' && $row['upcoming'] > 0 ) {
+					$counts['upcoming'] = $row['upcoming'];
+				}
 			}
 
 			wp_cache_set( $cache_key, $counts, 'counts' );
@@ -219,7 +234,15 @@ class ER_Admin_List_Table_Reservations extends ER_Admin_List_Table {
 
 		$views = array( 'all' => $this->get_edit_link( array( 'post_type' => 'easy_reservation' ), $all_inner_html, $class ) );
 
-		foreach ( ER_Reservation_Status::get_statuses() as $status => $label ) {
+		$statuses = ER_Reservation_Status::get_statuses();
+
+		if ( isset( $counts['upcoming'] ) ) {
+			$statuses['upcoming'] = __( 'Upcoming', 'easyReservations' );
+		}
+
+		ksort( $statuses );
+
+		foreach ( $statuses as $status => $label ) {
 			if ( ! isset( $counts[ $status ] ) ) {
 				continue;
 			}

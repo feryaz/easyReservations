@@ -23,6 +23,7 @@ class ER_Post_Data {
 		add_filter( 'update_post_metadata', array( __CLASS__, 'update_post_metadata' ), 10, 5 );
 		add_filter( 'wp_insert_post_data', array( __CLASS__, 'wp_insert_post_data' ) );
 		add_filter( 'oembed_response_data', array( __CLASS__, 'filter_oembed_response_data' ), 10, 2 );
+		add_filter( 'wp_untrash_post_status', array( __CLASS__, 'wp_untrash_post_status' ), 10, 3 );
 
 		// Status transitions.
 		add_action( 'delete_post', array( __CLASS__, 'delete_post' ) );
@@ -269,8 +270,9 @@ class ER_Post_Data {
 					$customer->save();
 				}
 
-				// Delete order count meta.
+				// Delete order count and last order meta.
 				delete_user_meta( $customer_id, '_order_count' );
+				delete_user_meta( $customer_id, '_last_order' );
 			}
 
 			if ( 'easy_order' === $order->get_type() ) {
@@ -322,6 +324,25 @@ class ER_Post_Data {
 	 */
 	public static function flush_object_meta_cache( $meta_id, $object_id, $meta_key, $meta_value ) {
 		er_invalidate_cache_group( 'object_' . $object_id );
+	}
+
+	/**
+	 * Ensure statuses are correctly reassigned when restoring orders and products.
+	 *
+	 * @param string $new_status The new status of the post being restored.
+	 * @param int    $post_id The ID of the post being restored.
+	 * @param string $previous_status The status of the post at the point where it was trashed.
+	 *
+	 * @return string
+	 */
+	public static function wp_untrash_post_status( $new_status, $post_id, $previous_status ) {
+		$post_types = array( 'easy_order', 'easy_coupon', 'easy-rooms' );
+
+		if ( in_array( get_post_type( $post_id ), $post_types, true ) ) {
+			$new_status = $previous_status;
+		}
+
+		return $new_status;
 	}
 
 	/**

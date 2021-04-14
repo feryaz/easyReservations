@@ -1158,22 +1158,22 @@ code {
 
 		a {
 			display: inline-block;
-			width: 16px;
+			width: 18px;
 			padding: 0 0 0.5em;
 			margin: 0 0 0 12px;
 			overflow: hidden;
-			line-height: 16px;
+			line-height: 18px;
 			color: #ccc;
 			text-decoration: none;
 			vertical-align: middle;
 			cursor: pointer;
 
 			&::before {
-				width: 16px;
-				height: 16px;
+				width: 18px;
+				height: 18px;
 				padding: 0;
 				margin: 0;
-				font-size: 16px;
+				font-size: 18px;
 			}
 
 			&:hover {
@@ -1203,6 +1203,18 @@ code {
 
 			&::before {
 				@include icon_dashicons("\f158");
+				position: relative;
+			}
+
+			&:hover::before {
+				color: $red;
+			}
+		}
+
+		.invoice {
+
+			&::before {
+				@include icon_dashicons("\f190");
 				position: relative;
 			}
 
@@ -1334,7 +1346,7 @@ ul.er_coupon_list {
 				text-align: center;
 				text-indent: 0;
 				text-transform: none;
-				speak: none;
+				speak: never;
 			}
 
 			img {

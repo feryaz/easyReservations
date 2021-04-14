@@ -109,6 +109,7 @@ class ER_Checkout extends ER_Form {
 				'placeholder' => esc_attr__( 'Password', 'easyReservations' ),
 			);
 		}
+
 		$this->fields = apply_filters( 'easyreservations_checkout_fields', $this->fields );
 
 		foreach ( $this->fields as $field_type => $fields ) {
@@ -374,6 +375,13 @@ class ER_Checkout extends ER_Form {
 				$format      = array_filter( isset( $field['validate'] ) ? (array) $field['validate'] : array() );
 				$field_label = isset( $field['label'] ) ? $field['label'] : '';
 
+				if ( $validate_fieldset &&
+				     ( isset( $field['type'] ) && 'country' === $field['type'] ) &&
+				     ! ER()->countries->country_exists( $data[ $key ] ) ) {
+					/* translators: ISO 3166-1 alpha-2 country code */
+					$errors->add( $key . '_validation', sprintf( __( "'%s' is not a valid country code.", 'easyReservations' ), $data[ $key ] ) );
+				}
+
 				if ( in_array( 'postcode', $format, true ) ) {
 					$country      = isset( $data[ $fieldset_key . '_country' ] ) ? $data[ $fieldset_key . '_country' ] : ER()->customer->get_address_country();
 					$data[ $key ] = er_format_postcode( $data[ $key ], $country );
@@ -523,7 +531,7 @@ class ER_Checkout extends ER_Form {
 
 		er_empty_cart();
 
-		$order->update_status( ER_Order_Status::PENDING );
+		$order->update_status( ER_Order_Status::ONHOLD );
 
 		if ( ! is_easyreservations_ajax() ) {
 			wp_safe_redirect( $url );

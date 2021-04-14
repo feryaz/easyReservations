@@ -22,6 +22,7 @@ class ER_Tracks {
 	 */
 	public static function get_products_count() {
 		$product_counts = ER_Tracker::get_product_counts();
+
 		return $product_counts['total'];
 	}
 
@@ -29,6 +30,7 @@ class ER_Tracks {
 	 * Gather blog related properties.
 	 *
 	 * @param int $user_id User id.
+	 *
 	 * @return array Blog details.
 	 */
 	public static function get_blog_details( $user_id ) {
@@ -39,9 +41,11 @@ class ER_Tracks {
 				'blog_lang'      => get_user_locale( $user_id ),
 				'blog_id'        => class_exists( 'Jetpack_Options' ) ? Jetpack_Options::get_option( 'id' ) : null,
 				'products_count' => self::get_products_count(),
+				'er_version'     => ER()->version,
 			);
 			set_transient( 'er_tracks_blog_details', $blog_details, DAY_IN_SECONDS );
 		}
+
 		return $blog_details;
 	}
 
@@ -70,6 +74,7 @@ class ER_Tracks {
 	 *
 	 * @param string $event_name The name of the event.
 	 * @param array  $properties Custom properties to send with the event.
+	 *
 	 * @return bool|WP_Error True for success or WP_Error if the event pixel could not be fired.
 	 */
 	public static function record_event( $event_name, $properties = array() ) {

@@ -107,6 +107,17 @@
 	}
 }
 
+@mixin inversebuttoncolors {
+	background-color: transparent !important;
+	color: var(--button--color-text-hover) !important;
+
+	&:hover {
+		background-color: var(--button--color-background) !important;
+		color: var(--button--color-text) !important;
+		text-decoration: none !important;
+	}
+}
+
 @keyframes spin {
 	100% {
 		transform: rotate(360deg);

@@ -165,7 +165,7 @@
 			$( this ).focus();
 		} );
 
-		$( '.er_input_table .remove_rows' ).click( function() {
+		$( '.er_input_table .remove_rows' ).on( 'click', function() {
 			const current = $( this ).closest( '.er_input_table' ).find( 'tbody' ).find( 'tr.current' );
 
 			if ( current.length > 0 ) {
@@ -196,7 +196,7 @@
 			shifted = false,
 			hasFocus = false;
 
-		$( document.body ).bind( 'keyup keydown', function( e ) {
+		$( document.body ).on( 'keyup keydown', function( e ) {
 			shifted = e.shiftKey;
 			controlled = e.ctrlKey || e.metaKey;
 		} );

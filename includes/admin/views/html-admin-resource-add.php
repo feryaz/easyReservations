@@ -53,7 +53,7 @@ if ( isset( $_GET['dopy'] ) ) {
 </form>
 <script>
 	jQuery( document ).ready( function( $ ) {
-		$( '#upload_image_button' ).click( function() {
+		$( '#upload_image_button' ).on( 'click', function() {
 			tb_show( '', 'media-upload.php?type=image&amp;TB_iframe=true' );
 			return false;
 		} );

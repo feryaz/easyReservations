@@ -504,6 +504,46 @@ abstract class ER_Data {
 	}
 
 	/**
+	 * Helper method to compute meta cache key. Different from WP Meta cache key in that meta data cached using this key also contains meta_id column.
+	 *
+	 * @return string
+	 */
+	public function get_meta_cache_key() {
+		if ( ! $this->get_id() ) {
+			_doing_it_wrong( 'get_meta_cache_key', 'ID needs to be set before fetching a cache key.', '4.7.0' );
+
+			return false;
+		}
+
+		return self::generate_meta_cache_key( $this->get_id(), $this->cache_group );
+	}
+
+	/**
+	 * Generate cache key from id and group.
+	 *
+	 * @param int|string $id Object ID.
+	 * @param string     $cache_group Group name use to store cache. Whole group cache can be invalidated in one go.
+	 *
+	 * @return string Meta cache key.
+	 */
+	public static function generate_meta_cache_key( $id, $cache_group ) {
+		return ER_Cache_Helper::get_cache_prefix( $cache_group ) . ER_Cache_Helper::get_cache_prefix( 'object_' . $id ) . 'object_meta_' . $id;
+	}
+
+	/**
+	 * Prime caches for raw meta data. This includes meta_id column as well, which is not included by default in WP meta data.
+	 *
+	 * @param array  $raw_meta_data_collection Array of objects of { object_id => array( meta_row_1, meta_row_2, ... }.
+	 * @param string $cache_group Name of cache group.
+	 */
+	public static function prime_raw_meta_data_cache( $raw_meta_data_collection, $cache_group ) {
+		foreach ( $raw_meta_data_collection as $object_id => $raw_meta_data_array ) {
+			$cache_key = self::generate_meta_cache_key( $object_id, $cache_group );
+			wp_cache_set( $cache_key, $raw_meta_data_array, $cache_group );
+		}
+	}
+
+	/**
 	 * Read Meta Data from the database. Ignore any internal properties.
 	 * Uses it's own caches because get_metadata does not provide meta_ids.
 	 *

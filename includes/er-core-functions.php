@@ -69,7 +69,14 @@ function er_is_registration_enabled() {
  * @return string
  */
 function er_date_format() {
-	return apply_filters( 'er_date_format', get_option( 'reservations_date_format', 'd.m.Y' ) );
+	$date_format = get_option( 'reservations_date_format' );
+
+	if ( empty( $date_format ) ) {
+		// Return default date format if the option is empty.
+		$date_format = 'd.m.Y';
+	}
+
+	return apply_filters( 'er_date_format', $date_format );
 }
 
 /**
@@ -78,9 +85,15 @@ function er_date_format() {
  * @return string
  */
 function er_time_format() {
-	return apply_filters( 'er_time_format', get_option( 'reservations_time_format', 'H:i' ) );
-}
+	$time_format = get_option( 'reservations_time_format' );
 
+	if ( empty( $time_format ) ) {
+		// Return default time format if the option is empty.
+		$time_format = 'H:i';
+	}
+
+	return apply_filters( 'er_time_format', $time_format );
+}
 /**
  * Time Format - Allows to change time format.
  *

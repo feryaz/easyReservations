@@ -196,8 +196,10 @@ class ER_AJAX {
 				$arrival_time = explode( ':', sanitize_text_field( $_POST['arrivalTime'] ) );
 				$arrival->setTime( $arrival_time[0], $arrival_time[1] );
 			}
+
 			$earliest_possible_departure = er_date_add_seconds( $arrival, $req['nights-min'] * $resource->get_billing_interval() );
-			if ( ! er_strict_time() ) {
+
+			if ( ! er_strict_time() && $arrival->format( 'd.m.Y' ) !== $earliest_possible_departure->format( 'd.m.Y' ) && $resource->get_frequency() >= DAY_IN_SECONDS ) {
 				$earliest_possible_departure->setTime( 0, 0, 0 );
 			}
 		}
@@ -371,17 +373,17 @@ class ER_AJAX {
 							$avail = is_numeric( $avail ) ? $quantity : $quantity + 1;
 						} else {
 							if ( $avail->count_all >= $quantity ) {
-								$avail->count_all = $avail->count_all - $avail->departure;
+								$avail->count_all = $avail->count_all - $avail->departure + $avail->arrival;
 
 								if ( ! empty( $avail->max_arrival ) ) {
 									$max_arrival_date = strtotime( $avail->max_arrival );
 									$hour             = date( 'G', $max_arrival_date );
 									if ( date( er_date_format(), $max_arrival_date ) === $date_string ) {
 										$time[1] = $hour < $time[1] ? $hour : $time[1];
-									}
 
-									if ( $earliest_possible_departure_time <= $hour && $avail->count_all > 0 ) {
-										$avail->count_all --;
+										if ( $earliest_possible_departure_time <= $hour && $avail->count_all > 0 ) {
+											$avail->count_all --;
+										}
 									}
 								}
 
@@ -421,11 +423,11 @@ class ER_AJAX {
 						while ( $departure < $until ) {
 							$billing_units = $resource->get_billing_units( $arrival, $departure );
 
-							if ( ! $was_unavailable && $req['nights-min'] <= $billing_units ) {
-								if ( ( $req['nights-max'] > 0 && $req['nights-max'] < $billing_units ) && ! $was_unavailable ) {
-									$was_unavailable = $date_string;
-								}
+							if ( ( $req['nights-max'] > 0 && $req['nights-max'] < $billing_units ) && ! $was_unavailable ) {
+								$was_unavailable = $date_string;
+							}
 
+							if ( ! $was_unavailable && $departure >= $earliest_possible_departure ) {
 								$avail = $quantity;
 
 								if ( ! $was_unavailable && $departure >= $now && $departure > $arrival ) {
@@ -527,7 +529,7 @@ class ER_AJAX {
 
 			$days[ $date_string ] = array(
 				'availability' => $left,
-				'price'        => $display_price ? $price : false,
+				'price'        => $display_price ? html_entity_decode( $price ) : false,
 				'time'         => $time,
 			);
 
@@ -613,7 +615,7 @@ class ER_AJAX {
 		$checkout_deposit = ob_get_clean();
 
 		// Get messages if reload checkout is not true.
-		$reload_checkout = isset( ER()->session->reload_checkout ) ? true : false;
+		$reload_checkout = isset( ER()->session->reload_checkout );
 		if ( ! $reload_checkout ) {
 			$messages = er_print_notices( true );
 		} else {
@@ -711,7 +713,7 @@ class ER_AJAX {
 
 				$reservations_approved_and_existing = er_order_reservations_approved_and_existing( $order );
 
-				if ( $reservations_approved_and_existing || !in_array( $status, er_get_is_accepted_statuses() ) ) {
+				if ( $reservations_approved_and_existing || ! in_array( $status, er_get_is_accepted_statuses() ) ) {
 					$order->update_status( $status, '', true );
 					do_action( 'easyreservations_order_edit_status', $order->get_id(), $status );
 				} else {
@@ -1628,7 +1630,7 @@ class ER_AJAX {
 	public static function load_receipt_items() {
 		check_ajax_referer( 'receipt-item', 'security' );
 
-		if ( ! current_user_can( 'edit_easy_orders' ) || ! isset( $_POST['order_id'] ) ) {
+		if ( ! current_user_can( 'edit_easy_orders' ) || ! isset( $_POST['object_id'] ) ) {
 			wp_die( - 1 );
 		}
 
@@ -1749,6 +1751,7 @@ class ER_AJAX {
 				$availability = $reservation->check_availability();
 
 				if ( ! $availability ) {
+					$reservation->calculate_price( false );
 					$reservation->calculate_taxes( false );
 					$reservation->calculate_totals( false );
 
@@ -1838,7 +1841,7 @@ class ER_AJAX {
 
 		$reservations = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT r.id as id, r.arrival arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
+				"SELECT r.id as id, r.arrival as arrival, r.departure as departure, r.resource as resource, r.space as space, r.adults as adults, r.children as children, r.status as status, r.order_id as order_id, m.meta_value as title " .
 				"FROM {$wpdb->prefix}reservations as r " .
 				"LEFT JOIN {$wpdb->prefix}reservationmeta as m ON m.reservation_id = r.id AND m.meta_key = %s " .
 				"WHERE %s <= r.departure AND %s >= r.arrival AND status IN ('" . implode( "', '", er_reservation_get_approved_statuses() ) . "') " .

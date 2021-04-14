@@ -48,6 +48,18 @@ class ER_Countries {
 		return $this->countries;
 	}
 
+	/**
+	 * Check if a given code represents a valid ISO 3166-1 alpha-2 code for a country known to us.
+	 *
+	 * @param string $country_code The country code to check as a ISO 3166-1 alpha-2 code.
+	 *
+	 * @return bool True if the country is known to us, false otherwise.
+	 * @since 5.1.0
+	 */
+	public function country_exists( $country_code ) {
+		return isset( $this->get_countries()[ $country_code ] );
+	}
+
 	public function sort_countries( $a, $b ) {
 		if ( function_exists( 'iconv' ) && defined( 'ICONV_IMPL' ) && @strcasecmp( ICONV_IMPL, 'unknown' ) !== 0 ) {
 			$a = @iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $a );
@@ -182,9 +194,6 @@ class ER_Countries {
 
 		if ( 'eu_vat' === $type ) {
 			$countries[] = 'MC';
-			$countries[] = 'IM';
-			// The UK is still part of the EU VAT zone.
-			$countries[] = 'GB';
 		}
 
 		return apply_filters( 'easyreservations_european_union_countries', $countries );
@@ -507,6 +516,10 @@ class ER_Countries {
 	 * @return array
 	 */
 	public function get_default_address_fields() {
+		if( get_option( 'reservations_checkout_address_field', 'required' ) !== 'required' ){
+			return array();
+		}
+
 		if ( 'optional' === get_option( 'reservations_checkout_address_2_field', 'optional' ) ) {
 			$address_2_placeholder = __( 'Apartment, suite, unit, etc. (optional)', 'easyReservations' );
 		} else {
@@ -822,6 +835,15 @@ class ER_Countries {
 							'required' => false,
 						),
 					),
+					'GT' => array(
+						'postcode' => array(
+							'required' => false,
+							'hidden'   => true,
+						),
+						'state'    => array(
+							'label' => __( 'Department', 'easyReservations' ),
+						),
+					),
 					'HK' => array(
 						'postcode' => array(
 							'required' => false,
@@ -1071,10 +1093,10 @@ class ER_Countries {
 					),
 					'RS' => array(
 						'city'     => array(
-							'required' => false,
+							'required' => true,
 						),
 						'postcode' => array(
-							'required' => false,
+							'required' => true,
 						),
 						'state'    => array(
 							'label'    => __( 'District', 'easyReservations' ),

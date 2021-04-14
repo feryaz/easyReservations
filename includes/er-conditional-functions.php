@@ -86,6 +86,19 @@ function is_easyreservations_add_payment_method_page() {
 }
 
 /**
+ * is_easyreservations_password_page - Returns true when viewing the lost password page.
+ *
+ * @return bool
+ */
+function is_easyreservations_lost_password_page() {
+	global $wp;
+
+	$page_id = er_get_page_id( 'myaccount' );
+
+	return ( $page_id && is_page( $page_id ) && isset( $wp->query_vars['lost-password'] ) );
+}
+
+/**
  * Is_cart - Returns true when viewing the cart page.
  *
  * @return bool

@@ -1177,3 +1177,20 @@ if ( 0 < count( $dropin_plugins['mu_plugins'] ) ) :
 </table>
 
 <?php do_action( 'easyreservations_system_status_report' ); ?>
+
+<table class="er_status_table widefat" cellspacing="0">
+	<thead>
+	<tr>
+		<th colspan="3" data-export-label="Status report information">
+			<h2><?php esc_html_e( 'Status report information', 'easyReservations' ); ?><?php echo wc_help_tip( esc_html__( 'This section shows information about this status report.', 'easyReservations' ) ); ?></h2>
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td data-export-label="Generated at"><?php esc_html_e( 'Generated at', 'easyReservations' ); ?>:</td>
+		<td class="help">&nbsp;</td>
+		<td><?php echo esc_html( current_time( 'Y-m-d H:i:s P' ) ); ?></td>
+	</tr>
+	</tbody>
+</table>

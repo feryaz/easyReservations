@@ -2,7 +2,7 @@
 jQuery( function( $ ) {
 	// Orderby
 	$( '.easyreservations-ordering' ).on( 'change', 'select.orderby', function() {
-		$( this ).closest( 'form' ).submit();
+		$( this ).closest( 'form' ).trigger( 'submit' );
 	} );
 
 	// Make form field descriptions toggle on focus.

@@ -39,6 +39,8 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 	 */
 	public function delete( &$order, $args = array() ) {
 		$id = $order->get_id();
+		$parent_order_id = $order->get_parent_id();
+		$refund_cache_key = ER_Cache_Helper::get_cache_prefix( 'orders' ) . 'refunds' . $parent_order_id;
 
 		if ( ! $id ) {
 			return;
@@ -46,6 +48,7 @@ class ER_Order_Refund_Data_Store_CPT extends Abstract_ER_Order_Data_Store_CPT im
 
 		$this->delete_items( $order );
 		wp_delete_post( $id, true );
+		wp_cache_delete( $refund_cache_key, 'orders' );
 		$order->set_id( 0 );
 		do_action( 'easyreservations_delete_order_refund', $id );
 	}

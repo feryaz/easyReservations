@@ -25,7 +25,7 @@ jQuery( function( $ ) {
 		this.$target.on( 'click change', ':input.easyreservations-SavedPaymentMethods-tokenInput', { tokenizationForm: this }, this.onTokenChange );
 
 		// OR if create account is checked.
-		$( 'input#createaccount' ).change( { tokenizationForm: this }, this.onCreateAccountChange );
+		$( 'input#createaccount' ).on( 'change', { tokenizationForm: this }, this.onCreateAccountChange );
 
 		// First display.
 		this.onDisplay();

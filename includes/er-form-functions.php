@@ -545,11 +545,11 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
 				'arrivalMinute'   => isset( $tag['arrivalminute'] ) ? intval( $tag['arrivalminute'] ) : 0,
 				'departureHour'   => isset( $tag['departurehour'] ) ? intval( $tag['departurehour'] ) : false,
 				'departureMinute' => isset( $tag['departureminute'] ) ? intval( $tag['departureminute'] ) : 0,
-				'departure'       => isset( $tag['departure'] ) ? true : false,
-				'init'            => isset( $_POST['arrival'] ) ? false : true,
+				'departure'       => isset( $tag['departure'] ) ? 1 : 0,
+				'init'            => isset( $_POST['arrival'] ) ? 0 : 1,
 				'form'            => $form_hash,
-				'time'            => isset( $tag['time'] ) ? true : false,
-				'price'           => isset( $tag['price'] ) ? true : false,
+				'time'            => isset( $tag['time'] ) ? 1 : 0,
+				'price'           => isset( $tag['price'] ) ? 1 : 0,
 			);
 
 			wp_enqueue_script( 'er-date-selection' );
@@ -776,9 +776,9 @@ function er_form_generate_reservation_field( $line, $input_id_prefix, $form_hash
 					$form_element .= '<strong>' . sanitize_text_field( isset( $_POST['to'] ) ? $_POST['to'] : $tag[2] ) . '</strong>';
 				}
 			} elseif ( $tag[1] == "units" || $tag[1] == "times" ) {
-				$form_element = '<input type="hidden" id="' . esc_attr( $input_id_prefix ) . 'units" name="nights" class="validate" value="' . esc_attr( $tag[2] ) . '">';
+				$form_element = '<input type="hidden" id="' . esc_attr( $input_id_prefix ) . 'units" name="units" class="validate" value="' . esc_attr( $tag[2] ) . '">';
 				if ( isset( $tag['display'] ) ) {
-					$form_element .= '<strong>' . floatval( isset( $_POST['nights'] ) ? $_POST['nights'] : $tag[2] ) . '</strong>';
+					$form_element .= '<strong>' . floatval( isset( $_POST['units'] ) ? $_POST['units'] : $tag[2] ) . '</strong>';
 				}
 			} elseif ( $tag[1] == "persons" || $tag[1] == "adults" ) {
 				$form_element = '<input type="hidden" name="adults" class="validate" value="' . esc_attr( $tag[2] ) . '">';

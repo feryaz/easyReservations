@@ -156,6 +156,14 @@ function er_reservation_parse_tag( $tag, $reservation ) {
 		case 'billing_units':
 			return esc_html( $reservation->get_billing_units() );
 			break;
+		case 'billing_unit':
+			$interval = 86400;
+			if ( $reservation->get_resource() ) {
+				$interval = $reservation->get_resource()->get_billing_interval();
+			}
+
+			return esc_html( er_date_get_interval_label( $interval ) );
+			break;
 		case 'date':
 			$format = isset( $tag['format'] ) ? $tag['format'] : ( isset( $tag[1] ) ? $tag[1] : er_date_format() );
 

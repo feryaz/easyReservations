@@ -6,7 +6,7 @@ jQuery( function( $ ) {
 	const erMetaBoxesCustom = {
 
 		init: function() {
-			$( 'a.edit_custom' ).click( this.edit_custom_data );
+			$( 'a.edit_custom' ).on( 'click', this.edit_custom_data );
 			$( 'a.add_custom' ).on( 'click', this.display_modal );
 
 			$( document.body )

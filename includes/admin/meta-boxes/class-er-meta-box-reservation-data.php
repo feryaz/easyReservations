@@ -268,12 +268,13 @@ class ER_Meta_Box_Reservation_Data {
 
 		$reservation->set_props( array(
 			'title'       => sanitize_text_field( $_POST['title'] ),
-			'resource_id' => absint( $_POST['resource'] ),
 			'arrival'     => $arrival,
 			'departure'   => $departure,
 			'adults'      => intval( $_POST['adults'] ),
 			'children'    => intval( $_POST['children'] ),
 		) );
+
+		$reservation->set_resource_id( absint( $_POST['resource'] ) );
 
 		if ( isset( $_POST['space'] ) ) {
 			$reservation->set_space( $_POST['space'] );
@@ -290,15 +291,41 @@ class ER_Meta_Box_Reservation_Data {
 
 		//Update status
 		$new_status = er_clean( wp_unslash( $_POST['reservation_status'] ) );
-        if( $new_status !== $reservation->get_status() ){
-            if( $reservation->get_resource() || in_array( $new_status, array(ER_Reservation_Status::PENDING, ER_Reservation_Status::TEMPORARY, ER_Reservation_Status::TRASH)) ){
-	            $reservation->set_status( $new_status, '', true );
-            } else {
-	            ER_Admin_Notices::add_temporary_error( __( 'Set a resource before approving the reservation.', 'easyReservations' ) );
-            }
-        }
+		if ( $new_status !== $reservation->get_status() ) {
+			if (
+				$reservation->get_resource() &&
+				in_array( $new_status, array( ER_Reservation_Status::APPROVED, ER_Reservation_Status::CHECKED, ER_Reservation_Status::COMPLETED ) ) &&
+				is_a( $reservation->check_availability(), 'WP_Error' )
+			){
+				ER_Admin_Notices::add_temporary_error( __( 'Selected time is occupied.', 'easyReservations' ) );
+			} else {
+				if ( $reservation->get_resource() || in_array( $new_status, array( ER_Reservation_Status::PENDING, ER_Reservation_Status::TEMPORARY, ER_Reservation_Status::TRASH ) ) ) {
+					$reservation->set_status( $new_status, '', true );
+				} else {
+					ER_Admin_Notices::add_temporary_error( __( 'Set a resource before approving the reservation.', 'easyReservations' ) );
+				}
+			}
+		}
 
         if( ! ER_Admin_Notices::has_errors() ){
+	        if ( $reservation->get_meta( 'new_reservation' ) ) {
+		        $price = $reservation->calculate_price();
+
+		        $items = $reservation->get_items( 'resource' );
+
+		        foreach ( $items as $item ) {
+			        $item->set_resource_id( $reservation->get_resource_id() );
+			        $item->set_subtotal( $price );
+			        $item->set_total( $price );
+			        $item->calculate_taxes( ER_Tax::get_rates( $reservation->get_resource_id() ) );
+			        $item->save();
+		        }
+
+		        $reservation->calculate_taxes( false );
+		        $reservation->calculate_totals( false );
+		        $reservation->delete_meta_data( 'new_reservation' );
+	        }
+
 	        if ( ! $reservation->get_id() ) {
 		        ER_Admin_Notices::add_temporary_success( __( 'Reservation added', 'easyReservations' ) );
 	        } else {

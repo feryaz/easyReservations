@@ -4,7 +4,7 @@ var tag_before = '',
 	insert_began = [];
 
 function bindFormtag() {
-	jQuery( 'formtag' ).unbind( 'click' ).bind( 'click', function() {
+	jQuery( 'formtag' ).off( 'click' ).on( 'click', function() {
 		tag_before = this;
 		var text = jQuery( this ).html().replace( '[', '' ).replace( ']', '' );
 		var tag_final = {},
@@ -36,7 +36,7 @@ function bindFormtag() {
 bindFormtag();
 
 jQuery( 'table.formtable tbody tr' )
-	.bind( 'click', function() {
+	.on( 'click', function() {
 		if ( jQuery( this ).attr( 'attr' ) ) {
 			generateTagEdit( jQuery( this ).attr( 'attr' ) );
 		} else if ( jQuery( this ).attr( 'bttr' ) ) {
@@ -59,16 +59,16 @@ jQuery( 'table.formtable tbody tr' )
 				insertTag( type, list[ type ][ 0 ], end )
 			}
 		}
-	} ).bind( 'mouseenter mouseleave', function() {
+	} ).on( 'mouseenter mouseleave', function() {
 	var type = jQuery( this ).attr( 'attr' );
 	jQuery( 'formtag[attr="' + type + '"]' ).toggleClass( 'taghover' );
 } );
 
 jQuery( '#form_container' )
-	.bind( 'click', function() {
+	.on( 'click', function() {
 		savedSelection = saveSelection();
 	} )
-	.bind( "keydown", function( e ) {
+	.on( "keydown", function( e ) {
 		if ( e.which === 13 ) {
 			if ( window.getSelection ) {
 				var selection = window.getSelection(),

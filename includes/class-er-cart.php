@@ -1082,12 +1082,14 @@ class ER_Cart {
 	public function get_taxes_total( $compound = true, $display = true ) {
 		$total = 0;
 		$taxes = $this->get_taxes();
+
 		foreach ( $taxes as $key => $tax ) {
 			if ( ! $compound && ER_Tax::is_compound( $key ) ) {
 				continue;
 			}
 			$total += $tax;
 		}
+
 		if ( $display ) {
 			$total = er_format_decimal( $total, er_get_price_decimals() );
 		}

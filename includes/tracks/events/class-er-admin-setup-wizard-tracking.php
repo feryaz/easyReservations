@@ -93,10 +93,10 @@ class ER_Admin_Setup_Wizard_Tracking {
 
 		er_enqueue_js(
 			"
-			jQuery( '#mc-embedded-subscribe' ).click( function() {
+			jQuery( '#mc-embedded-subscribe' ).on( 'click', function() {
 				window.erTracks.recordEvent( 'obw_marketing_signup' );
 			} );
-			jQuery( '.er-setup-content a' ).click( function trackNextScreen( e ) {
+			jQuery( '.er-setup-content a' ).on( 'click', function trackNextScreen( e ) {
 				var properties = {
 					next_url: e.target.href,
 					button: e.target.textContent && e.target.textContent.trim()

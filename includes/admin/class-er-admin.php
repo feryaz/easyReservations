@@ -260,7 +260,7 @@ class ER_Admin {
 		$user_id   = get_current_user_id();
 
 		// Register admin styles.
-		wp_register_style( 'er-admin-style', RESERVATIONS_URL . 'assets/css/admin' . $suffix . '.css', array( 'easy-ui' ) );
+		wp_register_style( 'er-admin-style', ER()->plugin_url() . '/assets/css/admin' . $suffix . '.css', array( 'easy-ui' ) );
 		wp_register_style( 'easyreservations_admin_privacy_styles', ER()->plugin_url() . '/assets/css/privacy' . $suffix . '.css', array() );
 
 		// Add RTL support for admin styles.
@@ -554,7 +554,7 @@ class ER_Admin {
 
 		add_menu_page(
 			'easyReservations',
-			__( 'Reservations', 'easyReservations' ),
+			'Reservations',
 			'manage_easyreservations',
 			'reservations',
 			'easyreservations_main_page',

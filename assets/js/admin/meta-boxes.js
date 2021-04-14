@@ -17,7 +17,7 @@ jQuery( function( $ ) {
 	// Tabbed Panels
 	$( document.body ).on( 'er-init-tabbed-panels', function() {
 		$( 'ul.er-tabs' ).show();
-		$( 'ul.er-tabs a' ).click( function( e ) {
+		$( 'ul.er-tabs a' ).on( 'click', function( e ) {
 			e.preventDefault();
 			const panelWrap = $( this ).closest( 'div.panel-wrap' );
 			$( 'ul.er-tabs li', panelWrap ).removeClass( 'active' );
@@ -26,7 +26,7 @@ jQuery( function( $ ) {
 			$( $( this ).attr( 'href' ) ).show();
 		} );
 		$( 'div.panel-wrap' ).each( function() {
-			$( this ).find( 'ul.er-tabs li' ).eq( 0 ).find( 'a' ).click();
+			$( this ).find( 'ul.er-tabs li' ).eq( 0 ).find( 'a' ).trigger( 'click' );
 		} );
 	} ).trigger( 'er-init-tabbed-panels' );
 } );

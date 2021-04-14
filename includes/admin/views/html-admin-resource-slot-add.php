@@ -221,7 +221,7 @@ $minute_options = er_form_number_options( "00", 59 );
 </form>
 <script>
 	jQuery( document ).ready( function() {
-		jQuery( '#slot-from-hour, #slot-from-minute, #slot-to-hour, #slot-to-minute, #slot_duration, #slot_repeat_break, #slot_repeat_amount' ).bind( 'change', function() {
+		jQuery( '#slot-from-hour, #slot-from-minute, #slot-to-hour, #slot-to-minute, #slot_duration, #slot_repeat_break, #slot_repeat_amount' ).on( 'change', function() {
 			setDuration();
 		} );
 
@@ -270,12 +270,12 @@ $minute_options = er_form_number_options( "00", 59 );
 
 		setDuration();
 
-		jQuery( '.slot-edit' ).bind( 'click', function( e ) {
+		jQuery( '.slot-edit' ).on( 'click', function( e ) {
 			var slot = jQuery( this ).attr( 'data-slot' );
 			slot_edit( slot );
 		} );
 
-		jQuery( '.slot-copy' ).bind( 'click', function( e ) {
+		jQuery( '.slot-copy' ).on( 'click', function( e ) {
 			var slot = slots[ jQuery( this ).attr( 'data-slot' ) ],
 				aux  = document.createElement( "input" );
 			aux.setAttribute( "value", JSON.stringify( slot ) );
@@ -285,7 +285,7 @@ $minute_options = er_form_number_options( "00", 59 );
 			document.body.removeChild( aux );
 		} );
 
-		jQuery( '.paste-slot-input' ).bind( 'input', function( e ) {
+		jQuery( '.paste-slot-input' ).on( 'input', function( e ) {
 			var json = true;
 			try {
 				json = JSON.parse( jQuery( this ).val() );

@@ -285,7 +285,7 @@ function er_no_js() {
 			var c = document.body.className;
 			c = c.replace( /easyreservations-no-js/, 'easyreservations-js' );
 		    document.body.className = c;
-		})( )
+		})();
     </script>
 	<?php
 }
@@ -1334,7 +1334,7 @@ function easyreservations_form_field( $key, $args, $value = null ) {
 				$field .= '<input type="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="' . current( array_keys( $countries ) ) . '" ' . implode( ' ', $custom_attributes ) . ' class="country_to_state" readonly="readonly" />';
 			} else {
 
-				$field = '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select default-disabled ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . '><option value="">' . esc_html__( 'Select a country / region&hellip;', 'easyReservations' ) . '</option>';
+				$field = '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select default-disabled ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . ' data-placeholder="' . esc_attr( $args['placeholder'] ? $args['placeholder'] : esc_attr__( 'Select a country / region&hellip;', 'easyReservations' ) ) . '"><option value="">' . esc_html__( 'Select a country / region&hellip;', 'easyReservations' ) . '</option>';
 
 				foreach ( $countries as $ckey => $cvalue ) {
 					$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . esc_html( $cvalue ) . '</option>';
@@ -1553,3 +1553,21 @@ function er_display_meta( $data, $args = array() ) {
 		return $html;
 	}
 }
+
+/**
+ * Disable search engines indexing core, dynamic, cart/checkout pages.
+ * Uses "wp_robots" filter introduced in WP 5.7.
+ *
+ * @param array $robots Associative array of robots directives.
+ *
+ * @return array Filtered robots directives.
+ */
+function er_page_no_robots( $robots ) {
+	if ( is_page( er_get_page_id( 'cart' ) ) || is_page( er_get_page_id( 'checkout' ) ) || is_page( er_get_page_id( 'myaccount' ) ) ) {
+		return wp_robots_no_robots( $robots );
+	}
+
+	return $robots;
+}
+
+add_filter( 'wp_robots', 'er_page_no_robots' );

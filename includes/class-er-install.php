@@ -330,7 +330,8 @@ class ER_Install {
 		wp_schedule_single_event( time() + ( absint( $wait_for_order_duration ) * 60 ), 'easyreservations_delete_temporary_reservations' );
 
 		if ( '' !== $held_duration ) {
-			wp_schedule_single_event( time() + ( absint( $held_duration ) * 60 ), 'easyreservations_cancel_unpaid_orders' );
+			$cancel_unpaid_interval = apply_filters( 'easyreservations_cancel_unpaid_orders_interval_minutes', absint( $held_duration ) );
+			wp_schedule_single_event( time() + ( absint( $cancel_unpaid_interval ) * 60 ), 'easyreservations_cancel_unpaid_orders' );
 		}
 
 		wp_schedule_event( time(), 'daily', 'easyreservations_cleanup_personal_data' );

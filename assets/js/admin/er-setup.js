@@ -34,7 +34,7 @@ jQuery( function( $ ) {
 		} );
 
 		$( document.body ).on( 'er_backbone_modal_response', function() {
-			form.unbind( 'submit' ).submit();
+			form.unbind( 'submit' ).trigger( 'submit' );
 		} );
 
 		$( '#er_tracker_checkbox_dialog' ).on( 'change', function( e ) {
@@ -43,7 +43,7 @@ jQuery( function( $ ) {
 		} );
 
 		$( '#er_tracker_submit' ).on( 'click', function () {
-			form.unbind( 'submit' ).submit();
+			form.unbind( 'submit' ).trigger( 'submit' );
 		} );
 
 		return true;
@@ -69,13 +69,13 @@ jQuery( function( $ ) {
 			} );
 
 			$( '.store-state-container' ).show();
-			$state_select.selectWoo().val( er_base_state ).change().prop( 'required', true );
+			$state_select.selectWoo().val( er_base_state ).trigger( 'change' ).prop( 'required', true );
 		} else {
 			$( '.store-state-container' ).hide();
-			$state_select.empty().val( '' ).change().prop( 'required', false );
+			$state_select.empty().val( '' ).trigger( 'change' ).prop( 'required', false );
 		}
 
-		$( '#currency_code' ).val( er_setup_currencies[ country ] ).change();
+		$( '#currency_code' ).val( er_setup_currencies[ country ] ).trigger( 'change' );
 	} );
 
 	/* Setup postcode field and validations */
@@ -97,7 +97,7 @@ jQuery( function( $ ) {
 		}
 	} );
 
-	$( '#store_country' ).change();
+	$( '#store_country' ).trigger( 'change' );
 
 	$( document.body ).on( 'init_tooltips', function() {
 		$( '.help_tip' ).tipTip( {

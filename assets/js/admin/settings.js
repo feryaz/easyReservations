@@ -20,9 +20,9 @@
 		.on( 'change', function() {
 			if ( $( this ).is( '.iris-error' ) ) {
 				if ( $( this ).data( 'original-value' ).match( /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/ ) ) {
-					$( this ).val( $( this ).data( 'original-value' ) ).change();
+					$( this ).val( $( this ).data( 'original-value' ) ).trigger( 'change' );
 				} else {
-					$( this ).val( '' ).change();
+					$( this ).val( '' ).trigger( 'change' );
 				}
 			}
 		} );
@@ -43,7 +43,7 @@
 				multiple: false,
 			} ).on( 'select', function() { // it also has "open" and "close" events
 				const attachment = uploader.state().get( 'selection' ).first().toJSON();
-				button.removeClass( 'button' ).css( 'display', 'inline-block' ).blur().next().show().next().val( attachment.id );
+				button.removeClass( 'button' ).css( 'display', 'inline-block' ).trigger( 'blur' ).next().show().next().val( attachment.id );
 
 				if ( isImage ) {
 					button.html( '<img src="' + attachment.url + '">' );

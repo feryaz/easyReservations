@@ -101,7 +101,7 @@
 			addMode = false;
 		} );
 
-	datepicker.bind( 'change', function( e ) {
+	datepicker.on( 'change', function( e ) {
 		erTimeline.jump_to_date( moment( $( this ).datepicker( 'getDate' ) ) );
 	} );
 
@@ -352,7 +352,7 @@
 			if ( e.keyCode === 13 ) {
 				const id = $( this ).parents( '.reservation' ).attr( 'data-id' );
 				reservations[ id ].title = $( this ).html();
-				$( this ).blur();
+				$( this ).trigger( 'blur' );
 				erSidebar.draw_reservation( reservations[ id ] );
 				return false;
 			}
@@ -437,7 +437,7 @@
 		 */
 		open: function() {
 			if ( ! erSidebar.is_open() ) {
-				header.find( '.expand-sidebar' ).click();
+				header.find( '.expand-sidebar' ).trigger( 'click' );
 			}
 		},
 
@@ -446,7 +446,7 @@
 		 */
 		close: function() {
 			if ( erSidebar.is_open() ) {
-				header.find( '.contract-sidebar' ).click();
+				header.find( '.contract-sidebar' ).trigger( 'click' );
 			}
 		},
 
@@ -457,10 +457,10 @@
 		 */
 		toggle: function() {
 			if ( erSidebar.is_open() ) {
-				header.find( '.contract-sidebar' ).click();
+				header.find( '.contract-sidebar' ).trigger( 'click' );
 				return false;
 			}
-			header.find( '.expand-sidebar' ).click();
+			header.find( '.expand-sidebar' ).trigger( 'click' );
 			return true;
 		},
 
@@ -575,7 +575,7 @@
 								'<div class="date"><span class="' + add + '"></span>' + ( same ? easyFormatTime( reservation.departure ) : easyFormatDate( add === 'arrival' ? reservation.departure : reservation.arrival, 'full' ) ) + '</div>' +
 								'</div>'
 							)
-							.bind( 'click', function() {
+							.on( 'click', function() {
 								const id = parseInt( $( this ).attr( 'data-id' ), 10 );
 								table.find( '.reservation[data-id="' + id + '"]' ).trigger( 'click' );
 							} );
@@ -630,7 +630,7 @@
 							'</div>'
 						);
 
-					element.bind( 'click', function() {
+					element.on( 'click', function() {
 						erTimeline.jump_to_date( reservation.arrival );
 
 						if ( resourceId > 0 ) {
@@ -1518,6 +1518,10 @@
 			reservation.resource = parseInt( reservation.resource, 10 );
 			reservation.space = parseInt( reservation.space, 10 );
 
+			if ( data.resources[ reservation.resource ] && data.resources[ reservation.resource ].availability_by !== 'unit' ) {
+				reservation.space = 1;
+			}
+
 			//TODO add check if it needs to be redrawn
 			if ( typeof reservations[ id ] === 'undefined' ) {
 				reservation.changed = true;
@@ -1786,6 +1790,6 @@
 	}, 0 );
 
 	if ( data.reservation_resource > 0 ) {
-		resources.find( '.resource-handler:not([data-resource="' + data.reservation_resource + '"],.retracted),.resource-handler.retracted[data-resource="' + data.reservation_resource + '"]' ).click();
+		resources.find( '.resource-handler:not([data-resource="' + data.reservation_resource + '"],.retracted),.resource-handler.retracted[data-resource="' + data.reservation_resource + '"]' ).trigger( 'click' );
 	}
 }( jQuery, er_timeline_params ) );

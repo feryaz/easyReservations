@@ -141,13 +141,13 @@ class ER_Reservation_Form extends ER_Form {
 			$departure_hour   = isset( $_POST['departure_hour'] ) && ! empty( $_POST['departure_hour'] ) ? intval( $_POST['departure_hour'] ) : false;
 			$departure_minute = isset( $_POST['departure_minute'] ) && ! empty( $_POST['departure_minute'] ) ? intval( $_POST['departure_minute'] ) : false;
 
-			if ( $arrival_hour || $arrival_minute ) {
+			if ( $arrival_hour !== false || $arrival_minute !== false ) {
 				$arrival->setTime( $arrival_hour ? $arrival_hour : 0, $arrival_minute ? $arrival_minute : 0 );
 			} else {
 				$arrival->setTime( $resource->get_default_arrival_time(), 0 );
 			}
 
-			if ( isset( $_POST['departure'] ) ) {
+			if ( isset( $_POST['departure'] ) && !empty( $_POST['departure'] ) ) {
 				if ( empty( $_POST['departure'] ) ) {
 					$departure = er_date_add_seconds( $arrival, $resource->get_frequency() );
 				} else {
@@ -157,14 +157,14 @@ class ER_Reservation_Form extends ER_Form {
 				$departure = clone $arrival;
 
 				if ( isset( $_POST['units'] ) && ! empty( $_POST['units'] ) ) {
-					$interval = isset( $_POST['interval'] ) && $_POST['interval'] > 0 ? intval( $_POST['interval'] ) : $resource->get_frequency();
+					$interval = isset( $_POST['interval'] ) && $_POST['interval'] > 0 ? intval( $_POST['interval'] ) : $resource->get_billing_interval();
 					$departure->add( new DateInterval( 'PT' . absint( floatval( $_POST['units'] ) * $interval ) . 'S' ) );
 				} elseif ( ! isset( $_POST['departure_hour'] ) || empty( $_POST['departure_hour'] ) ) {
 					$departure->add( new DateInterval( 'PT' . $resource->get_frequency() . 'S' ) );
 				}
 			}
 
-			if ( $departure_hour || $departure_minute ) {
+			if ( $departure_hour !== false || $departure_minute !== false ) {
 				$departure->setTime( $departure_hour ? $departure_hour : 0, $departure_minute ? $departure_minute : 0 );
 			} elseif ( ! isset( $_POST['units'] ) ) {
 				$departure->setTime( $resource->get_default_departure_time(), 0 );

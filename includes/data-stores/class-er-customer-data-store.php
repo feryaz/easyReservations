@@ -52,6 +52,7 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 		'syntax_highlighting',
 		'_order_count',
 		'_money_spent',
+		'_last_order',
 	);
 
 	/**
@@ -138,10 +139,11 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 
 		$customer_id = $customer->get_id();
 
-		// Load meta but exclude deprecated props.
+		// Load meta but exclude deprecated props and parent keys.
 		$user_meta = array_diff_key(
 			array_change_key_case( array_map( 'er_flatten_meta_callback', get_user_meta( $customer_id ) ) ),
-			array_flip( array( 'country', 'state', 'postcode', 'city', 'address', 'address_2', 'default', 'location' ) )
+			array_flip( array( 'country', 'state', 'postcode', 'city', 'address', 'address_2', 'default', 'location' ) ),
+			array_change_key_case( (array) $user_object->data )
 		);
 
 		$customer->set_props( $user_meta );
@@ -283,11 +285,18 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * @return ER_Order|false
 	 */
 	public function get_last_order( &$customer ) {
-		global $wpdb;
+		$last_order = apply_filters(
+			'easyreservations_customer_get_last_order',
+			get_user_meta( $customer->get_id(), '_last_order', true ),
+			$customer
+		);
 
-		$last_order = $wpdb->get_var(
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-			"SELECT posts.ID
+		if ( '' === $last_order ) {
+			global $wpdb;
+
+			$last_order = $wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+				"SELECT posts.ID
 			FROM $wpdb->posts AS posts
 			LEFT JOIN {$wpdb->postmeta} AS meta on posts.ID = meta.post_id
 			WHERE meta.meta_key = '_customer_user'
@@ -295,8 +304,9 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 			AND   posts.post_type = 'easy_order'
 			AND   posts.post_status IN ( '" . implode( "','", array_map( 'esc_sql', array_keys( er_get_order_statuses() ) ) ) . "' )
 			ORDER BY posts.ID DESC"
-		// phpcs:enable
-		);
+			// phpcs:enable
+			);
+		}
 
 		if ( ! $last_order ) {
 			return false;
@@ -313,7 +323,11 @@ class ER_Customer_Data_Store extends ER_Data_Store_WP implements ER_Customer_Dat
 	 * @return integer
 	 */
 	public function get_order_count( &$customer ) {
-		$count = get_user_meta( $customer->get_id(), '_order_count', true );
+		$count = apply_filters(
+			'easyreservations_customer_get_order_count',
+			get_user_meta( $customer->get_id(), '_order_count', true ),
+			$customer
+		);
 
 		if ( '' === $count ) {
 			global $wpdb;
